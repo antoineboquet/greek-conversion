@@ -1,6 +1,6 @@
 {
   "name": "greek-conversion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
   "description": "Converts an ancient greek string from/into various representations.",
