@@ -1,35 +1,36 @@
 # greek-conversion
 
-A small library to convert an ancient greek string from/into various representations. This is full featured to deal with unaccentued greek strings (a good choice for search purposes), and work in progress to convert polytonic greek in a non-destructive manner.
+A small library to convert an ancient greek string from/into various representations. This is full featured to deal with unaccentued greek strings (a good choice for search purposes), and work in progress to convert polytonic greek in a non-destructive manner (see [limitations](#limitations)).
 
 ## Installation
 
-In order to use this library into your project, simply type `npm i --save greek-conversion`.
-
-You can also use the package that's available on this repository. Built files are stored into the `dist` folder.
-
+In order to use this library for your project, simply type `npm i --save greek-conversion`.
 
 ## Usage
 
-Import the library's methods as needed and use it:
+Import the library's functions as needed and use it:
 
 ```js
 import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
-console.log(toBetaCode('ανθρωπος', keyType.GREEK)) // anqrwpos
-console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)) // ανθρωπος
-console.log(toTransliteration('anqrwpos', keyType.BETA_CODE)) // anthrôpos
+toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
+toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
+toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
 ```
 
-Methods signature is consistently `str: string, from: keyType`, where the keyType enumeration can be set to `BETA_CODE`, `GREEK` and `TRANSLITERATION`.
+Functions signature is consistently `str: string, from: keyType`, where the keyType enumeration can be set to `BETA_CODE`, `GREEK` and `TRANSLITERATION`.
+
+There is also an utility function `isMappedKey (key: string, type: keyType)` that can be useful to check if a sequence exists in the mapping.
 
 ## Limitations
 
 This library was first developped to let people type greek on a latin keyboard. So, for simplicity, diactrics weren't a real concern. This is what you should know before using this library:
 
-- Currently, the `beta code` representation doesn't implement any greek diacritics. So, the beta code conversion is *destructive* and will turn a polytonic greek string into a totally unaccented one (`ἵππος` becomes `ippos`);
-- the `transliterated` representation doesn't implement greek accents but preserves rough breathings (`ἵππος` becomes `hippos`);
-- little work has been done to detect multiple words (which is necessary to apply greek variants, like the sigma in word-final position). At present, a word is one or more chars delimited by a space.
+- Currently, the `beta code` representation doesn't implement any greek diacritics. So, the beta code conversion will turn a polytonic greek string into a totally unaccented one (for example `ἵππος` becomes `ippos`);
+- `Transliteration` doesn't implement greek accents but preserves rough breathings (`ἵππος` becomes `hippos`);
+- Converting a transliterated string into `greek` doesn't keep the remaining diacritics;
+- Little work has been done to detect multiple words (which is necessary to apply greek variants, like the sigma in word-final position). At present, a word is one or more characters delimited by a space;
+- Moreover, some thoughts are necessary to take care of the iota subscript which is either omitted (the actual behaviour) or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily.
 
 This should evolve in the future. Contributions are welcome.
 
