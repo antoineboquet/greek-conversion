@@ -1,0 +1,26 @@
+{
+  "name": "greek-conversion",
+  "version": "0.1.0",
+  "author": "Antoine Boquet",
+  "license": "agpl-3.0",
+  "description": "Converts an ancient greek string from/into various representations.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.2.4"
+  }
+}
