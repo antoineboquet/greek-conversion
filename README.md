@@ -4,7 +4,7 @@ A small library to convert an ancient greek string from/into various representat
 
 ## Installation
 
-In order to use this library for your project, simply type `npm i --save greek-conversion`.
+In order to use this library for your project, simply type `npm install --save greek-conversion`.
 
 ## Usage
 
@@ -18,9 +18,17 @@ toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
 toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
 ```
 
+You can also import the library using the old CommonJS syntax:
+
+```js
+const greekConversion = require('greek-conversion')
+```
+
 Functions signature is consistently `str: string, from: keyType`, where the keyType enumeration can be set to `BETA_CODE`, `GREEK` and `TRANSLITERATION`.
 
-There is also an utility function `isMappedKey (key: string, type: keyType)` that can be useful to check if a sequence exists in the mapping.
+Note that if you write plain javascript, you can fill the second parameter with string literals (`"beta_code"`, `"greek"`, `"transliteration"`) and avoid importing the keyType enumeration.
+
+There is also an utility function `isMappedKey (key: string, type: keyType): boolean` that can be useful to check if a sequence exists in the mapping.
 
 ## Limitations
 
