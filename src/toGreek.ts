@@ -53,11 +53,20 @@ function fromTransliterationToGreek (str: string): string {
     // Facultative `h` character: ignore if its position is credible
 
     // A `h` but no consecutive `h`
-    const rule1 = (/h/i.test(str[i]) && !/h/i.test(str[i+1]))
+    const rule1 = (/h/i.test(str[i]) && !/h/i.test(str[i + 1]))
     // A `h` may appear behind a `r`
-    const rule2 = (/[r]/i.test(str[i-1]))
+    const rule2 = (/[r]/i.test(str[i - 1]))
     // A `h` may appear in first place (of a string or a word) when it precedes a wovel
-    const rule3 = ((str[i-1] === undefined || str[i-1] === ' ') && /[aeioy]/i.test(str[i+1]))
+    const rule3 = (
+      (str[i - 1] === undefined || str[i-1] === ' ')
+      && /[aeêioôu]/i.test(str[i + 1])
+    )
+
+    // When the transliterated breathing is uppercase,
+    // the greek word must start with a capital letter.
+    if (rule3 && str[i] === 'H') {
+      str = str.slice(0, i + 1) + str[i + 1].toUpperCase() + str.slice(i + 2)
+    }
 
     if (rule1 && (rule2 || rule3)) continue
 

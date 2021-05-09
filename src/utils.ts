@@ -8,9 +8,13 @@ export function applyTransliteratedBreathings (str: string, from: keyType): stri
     case keyType.GREEK:
       str = str.normalize('NFD')
 
-      str = str.replace(/([α-ω]+)\u0314/gi, (match, p1) => {
-        if (p1 === p1.toLowerCase()) return 'h' + p1
-        else return 'H' + p1.toLowerCase()
+      str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
+        if (match.toLowerCase() === 'ῥ') {
+          return group + 'h'
+        } else {
+          if (group === group.toLowerCase()) return 'h' + group
+          else return 'H' + group.toLowerCase()
+        }
       })
 
       str = str.normalize('NFC')
