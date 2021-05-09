@@ -8,7 +8,15 @@ test('Testing `toGreek` function', () => {
   // Transliteration
   expect(toGreek('anthrôpos', keyType.TRANSLITERATION)).toBe('ανθρωπος')
   expect(toGreek('horaô', keyType.TRANSLITERATION)).toBe('οραω')
+  expect(toGreek('Hoiai', keyType.TRANSLITERATION)).toBe('Οιαι')
   expect(toGreek('ha ha', keyType.TRANSLITERATION)).toBe('α α')
+
+  const sentence = {
+    trans: 'Hellêsin egeneto kai merei tini tôn barbarôn, hôs de eipein kai epi pleiston anthrôpôn.',
+    greek: 'Ελλησιν εγενετο και μερει τινι των βαρϐαρων, ως δε ειπειν και επι πλειστον ανθρωπων.'
+  }
+
+  expect(toGreek(sentence.trans, keyType.TRANSLITERATION)).toBe(sentence.greek)
 
   // Transliteration: preserve misplaced `h`
   expect(toGreek('anthrôpohs', keyType.TRANSLITERATION)).toBe('ανθρωποhς')
@@ -34,11 +42,15 @@ test('Testing `toTransliteration` function', () => {
 
   // Greek (without diacritics)
   expect(toTransliteration('ανθρωπος', keyType.GREEK)).toBe('anthrôpos')
+  expect(toTransliteration('οραω', keyType.GREEK)).toBe('oraô')
   expect(toTransliteration('α α', keyType.GREEK)).toBe('a a')
 
   // Greek (with diacritics)
   expect(toTransliteration('ἄνθρωπος', keyType.GREEK)).toBe('anthrôpos')
   expect(toTransliteration('ἵππος', keyType.GREEK)).toBe('hippos')
+  expect(toTransliteration('ὁράω', keyType.GREEK)).toBe('horaô')
+  expect(toTransliteration('Οἷαι', keyType.GREEK)).toBe('Hoiai')
+  expect(toTransliteration('ῥυθμός', keyType.GREEK)).toBe('rhuthmos')
   expect(toTransliteration('οἷος', keyType.GREEK)).toBe('hoios')
   expect(toTransliteration('ὄ, ὄ, ὄ', keyType.GREEK)).toBe('o, o, o')
 
