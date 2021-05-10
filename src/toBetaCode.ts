@@ -2,7 +2,11 @@ import { keyType } from './enums'
 import { mapping } from './mapping'
 import { removeDiacritics, removeGreekVariants } from './utils'
 
-export function toBetaCode (str: string, from: keyType): string {
+export function toBetaCode (
+  str: string,
+  from: keyType,
+  options: { removeDiacritics?: boolean } = {} // Not implemented yet.
+): string {
   switch (from) {
     case keyType.GREEK:
       str = removeDiacritics(str)
