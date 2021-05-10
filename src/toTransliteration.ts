@@ -7,7 +7,11 @@ import {
   removeGreekVariants
 } from './utils'
 
-export function toTransliteration (str: string, from: keyType): string {
+export function toTransliteration (
+  str: string,
+  from: keyType,
+  options: { removeDiacritics?: boolean } = {}
+): string {
   switch (from) {
     case keyType.BETA_CODE:
       str = fromBetaCodeToTransliteration(str)
@@ -15,7 +19,7 @@ export function toTransliteration (str: string, from: keyType): string {
 
     case keyType.GREEK:
       str = applyTransliteratedBreathings(str, keyType.GREEK)
-      str = removeDiacritics(str)
+      if (options.removeDiacritics) str = removeDiacritics(str)
       str = removeGreekVariants(str)
       str = fromGreekToTransliteration(str)
       break
@@ -51,8 +55,13 @@ function fromGreekToTransliteration (str: string): string {
     let tmp = undefined
 
     for (const key of mapping) {
+      const decomposedChar = str[i].normalize('NFD')
+
       if (key.greek === str[i]) {
         tmp = key.trans
+      } else if (key.greek === decomposedChar.charAt(0)) {
+        tmp = key.trans.normalize('NFD') + decomposedChar.slice(1)
+        tmp = tmp.normalize('NFC')
       }
     }
 

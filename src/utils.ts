@@ -8,6 +8,10 @@ export function applyTransliteratedBreathings (str: string, from: keyType): stri
     case keyType.GREEK:
       str = str.normalize('NFD')
 
+      // Remove smooth breathings.
+      str = str.replace(/\u0313/g, '')
+
+      // Transliterate rough breathings with an `h`.
       str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
         if (match.toLowerCase() === 'ῥ') {
           return group + 'h'
