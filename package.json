@@ -13,12 +13,19 @@
     "/dist"
   ],
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true
+      }
+    }
   },
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
-    "test": "jest --coverage"
+    "test": "jest",
+    "test --coverage": "jest --coverage"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
