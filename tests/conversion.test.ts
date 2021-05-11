@@ -79,6 +79,7 @@ test('Testing `toTransliteration` function preserving diacritics', () => {
   expect(toTransliteration('Ἡράκλειος', keyType.GREEK)).toBe('Hêrákleios')
   expect(toTransliteration('ὠστιῶ', keyType.GREEK)).toBe('ôstiỗ')
   expect(toTransliteration('οἷος', keyType.GREEK)).toBe('hoĩos')
+  expect(toTransliteration('ἀΐδαλος', keyType.GREEK)).toBe('aḯdalos')
   expect(toTransliteration('ὄ, ὄ, ὄ', keyType.GREEK)).toBe('ó, ó, ó')
 
   const sentence = {
