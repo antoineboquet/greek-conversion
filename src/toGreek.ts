@@ -54,7 +54,7 @@ function fromTransliterationToGreek (str: string): string {
   let newStr = ''
 
   for (let i = 0; i < str.length; i++) {
-    const tmp = { trans: '', greek: '', greekAlt: '' }
+    const tmp = { trans: '', greek: '' }
 
     let  pair = str.slice(i, i + 2)
     if (pair.length !== 2) pair = ''
@@ -80,28 +80,34 @@ function fromTransliterationToGreek (str: string): string {
     if (rule1 && (rule2 || rule3)) continue
 
     for (let j = 0; j < mapping.length; j++) {
-      const trans = mapping[j].trans.normalize('NFD')
-      const decomposedChar = str[i].normalize('NFD')
+      // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
+      // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
+      let decomposedChar = str[i].normalize('NFD').replace(/\u0303/g, '\u0342')
+      // Isolate the character with its potential circumflex (as this diacritical
+      // mark is used to represent long wovels in transliterated form).
+      let recomposedChar = decomposedChar.charAt(0)
 
-      pair = pair.normalize('NFD')
+      // \u0302 = circumflex.
+      if (decomposedChar.includes('\u0302')) {
+        recomposedChar += '\u0302'
+        decomposedChar = decomposedChar.replace(/\u0302/g, '')
+      }
 
-      if (trans === decomposedChar || trans === pair) {
-        tmp.trans = trans
-        tmp.greek = mapping[j].greek
+      recomposedChar = recomposedChar.normalize('NFC')
+
+      if (mapping[j].trans === recomposedChar || mapping[j].trans === pair) {
+        tmp.trans = mapping[j].trans
+        // Char + potential remaining diacritics.
+        tmp.greek = mapping[j].greek + decomposedChar.slice(1)
 
         // If a pair has been found, increase the index (because
         // two letters have been processed) and stop the search.
-        if (trans === pair) i++; break
-
-      // Alternatively, if `decomposedChar` has more than one character,
-      // check the first one then add the others (diacritics) to the matched greek.
-      } else if (trans === decomposedChar.charAt(0)) {
-        tmp.greekAlt = mapping[j].greek + decomposedChar.slice(1)
+        if (mapping[j].trans === pair) i++; break
       }
     }
 
-    newStr += tmp.greek || tmp.greekAlt || str[i]
+    newStr += tmp.greek.normalize('NFC') || str[i]
   }
 
-  return newStr.normalize('NFC')
+  return newStr
 }
