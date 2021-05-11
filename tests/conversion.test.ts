@@ -28,7 +28,7 @@ test('Testing `toGreek` function omitting diactrics', () => {
 
 test('Testing `toGreek` function preserving diactrics', () => {
   expect(toGreek('ánthrôpos', keyType.TRANSLITERATION)).toBe('άνθρωπος')
-  //expect(toGreek('prosêlthon', keyType.TRANSLITERATION)).toBe('προσῆλθον')
+  expect(toGreek('prosễlthon', keyType.TRANSLITERATION)).toBe('προσῆλθον')
   expect(toGreek('aḯdalos', keyType.TRANSLITERATION)).toBe('αΐδαλος')
   expect(toGreek('Áïda', keyType.TRANSLITERATION)).toBe('Άϊδα')
 })
