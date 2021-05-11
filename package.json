@@ -2,7 +2,7 @@
   "name": "greek-conversion",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Converts an ancient greek string from/into various representations.",
   "keywords": ["greek", "betacode", "transliteration", "conversion"],
   "homepage": "https://github.com/antoineboquet/greek-conversion#readme",
