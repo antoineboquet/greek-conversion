@@ -31,6 +31,14 @@ toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
 
 toTransliteration('ἄϋλος', keyType.GREEK) // áülos
 toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
+
+// Let's transliterate some Thucydides
+
+toTransliteration(                                   // Héllêsin egéneto
+  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // kaì mérei tinì tỗn
+  'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // barbárôn, hôs dè
+  keyType.GREEK)                                     // eipeĩn kaì epì
+)                                                    // pleĩston anthrốpôn.
 ```
 
 Functions signature is consistently `str: string, from: keyType, options: { removeDiacritics?: boolean }`
