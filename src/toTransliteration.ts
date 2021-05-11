@@ -55,7 +55,9 @@ function fromGreekToTransliteration (str: string): string {
     let tmp = undefined
 
     for (const key of mapping) {
-      const decomposedChar = str[i].normalize('NFD')
+      // `Combining Greek Perispomeni` (\u0342) diacritic is greek-only and must
+      // be converted to the latin diacritical mark `Combining Tilde` (\u0303).
+      const decomposedChar = str[i].normalize('NFD').replace(/\u0342/g, '\u0303')
 
       if (key.greek === str[i]) {
         tmp = key.trans
