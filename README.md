@@ -11,7 +11,7 @@ In order to use this library for your project, simply type `npm install --save g
 First import the library's functions as needed:
 
 ```js
-// ES6 modules syntax
+// With ES6 modules syntax
 import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
 // OR CommonJS syntax
