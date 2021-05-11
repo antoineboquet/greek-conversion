@@ -14,7 +14,7 @@ First import the library's functions as needed:
 // ES6 modules syntax
 import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
-// OR old CommonJS syntax
+// OR CommonJS syntax
 const gc = require('greek-conversion')
 ```
 
