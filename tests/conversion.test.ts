@@ -76,12 +76,14 @@ test('Testing `toTransliteration` function omitting diacritics', () => {
 test('Testing `toTransliteration` function preserving diacritics', () => {
   // Greek (with diacritics)
   expect(toTransliteration('ἄνθρωπος', keyType.GREEK)).toBe('ánthrôpos')
+  expect(toTransliteration('Ἡράκλειος', keyType.GREEK)).toBe('Hêrákleios')
+  expect(toTransliteration('ὠστιῶ', keyType.GREEK)).toBe('ôstiỗ')
   expect(toTransliteration('οἷος', keyType.GREEK)).toBe('hoĩos')
   expect(toTransliteration('ὄ, ὄ, ὄ', keyType.GREEK)).toBe('ó, ó, ó')
 
   const sentence = {
     greek: 'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',
-    trans: 'Héllêsin egéneto kaì mérei tinì tôn barbárôn, hôs dè eipeîn kaì epì pleîston anthrốpôn.'
+    trans: 'Héllêsin egéneto kaì mérei tinì tỗn barbárôn, hôs dè eipeĩn kaì epì pleĩston anthrốpôn.'
   }
 
   expect(toTransliteration(sentence.greek, keyType.GREEK)).toBe(sentence.trans)
