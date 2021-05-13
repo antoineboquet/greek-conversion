@@ -69,22 +69,28 @@ export function applyGammaDiphthongs (str: string, type: keyType): string {
 }
 
 export function applyGreekVariants (str: string): string {
-  str = str.replace(/[βϐ]/g, 'ϐ')
-  str = str.replace(/[σς]/g, 'σ')
+  str = str.replace(/β/g, 'ϐ')
+  str = str.replace(/ς/g, 'σ')
 
   str = str.replace(/ΠΣ/g, 'Ψ').replace(/Πσ/g, 'Ψ').replace(/πσ/g, 'ψ')
 
   const words = toWords(str)
 
-  for (let i = 0; i < words.length; i++) {
-    if (words[i].charAt(0) === 'ϐ') {
-      words[i] = 'β' + words[i].slice(1)
+  words.forEach((el, i) => {
+    const lastSigmaIndex: number = el.lastIndexOf('σ')
+
+    const lastSigmaSlice: string = (lastSigmaIndex)
+      ? removeDiacritics(el.slice(lastSigmaIndex))
+      : undefined
+
+    if (el.charAt(0) === 'ϐ') {
+      words[i] = 'β' + el.slice(1)
     }
 
-    if (words[i].slice(-1) === 'σ' && words[i].length > 1) {
-      words[i] = words[i].slice(0, -1) + 'ς'
+    if (el.length > 1 && /σ(?![α-ω])/.test(lastSigmaSlice)) {
+      words[i] = el.slice(0, lastSigmaIndex) + 'ς' + el.slice((lastSigmaIndex + 1))
     }
-  }
+  })
 
   return words.join(' ')
 }
