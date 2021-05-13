@@ -119,6 +119,13 @@ export function isMappedKey (key: string, type: keyType): boolean {
   return keys.includes(key)
 }
 
+export function normalizeGreek (str: string): string {
+  // Normalize `middle dot` (\u00B7) to `greek ano teleia` (\u0387).
+  str = str.replace(/\u00B7/g, '\u0387')
+
+  return str
+}
+
 export function removeDiacritics (str: string): string {
   str = str.normalize('NFD')
 

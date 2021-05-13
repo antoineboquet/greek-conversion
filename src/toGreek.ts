@@ -9,7 +9,7 @@ import {
 export function toGreek (
   str: string,
   from: keyType,
-  options: { removeDiacritics?: boolean } = {}
+  options: ConversionOptions = {}
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
@@ -24,8 +24,6 @@ export function toGreek (
       // Normalize `middle dot` (\u00B7) to `greek ano teleia` (\u0387).
       str = str.replace(/\u00B7/g, '\u0387')
       break
-
-    default: break
   }
 
   str = applyGreekVariants(str)
@@ -35,7 +33,7 @@ export function toGreek (
 }
 
 function fromBetaCodeToGreek (str: string): string {
-  let newStr = ''
+  let greekStr = ''
 
   for (let i = 0; i < str.length; i++) {
     let tmp: string = undefined
@@ -46,14 +44,14 @@ function fromBetaCodeToGreek (str: string): string {
       }
     }
 
-    newStr += (tmp !== undefined) ? tmp : str[i]
+    greekStr += (tmp !== undefined) ? tmp : str[i]
   }
 
-  return newStr
+  return greekStr
 }
 
 function fromTransliterationToGreek (str: string): string {
-  let newStr = ''
+  let greekStr = ''
 
   for (let i = 0; i < str.length; i++) {
     const tmp = { trans: '', greek: '' }
@@ -110,8 +108,8 @@ function fromTransliterationToGreek (str: string): string {
       }
     }
 
-    newStr += tmp.greek.normalize('NFC') || str[i]
+    greekStr += tmp.greek.normalize('NFC') || str[i]
   }
 
-  return newStr
+  return greekStr
 }
