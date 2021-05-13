@@ -55,7 +55,7 @@ This library was first developped to let people type greek on a latin keyboard. 
 
 - Currently, the `beta code` representation doesn't implement any greek diacritics. So, the beta code conversion will turn a polytonic greek string into a totally unaccented one (for example `ἵππος` becomes `ippos`);
 - Converting from `greek` to `transliteration` is now fully implemented, BUT converting a transliterated string into `greek` will currently lose rough spirits;
-- Accents should be normalized when converting to greek (because they can be either encoded `tonos` [= modern greek] or `oxia` [= ancient greek]);
+- Accents should be normalized when converting to greek (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
 - Moreover, some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
 
 This should evolve in the future. Contributions are welcome.
