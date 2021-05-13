@@ -1,51 +1,8 @@
-import { keyType, toBetaCode, toGreek, toTransliteration } from '../src/index'
+import { keyType, toTransliteration } from '../src/index'
 
 const removeDiacritics = {
   removeDiacritics: true
 }
-
-test('Testing `toGreek` function omitting diactrics', () => {
-  // Beta code
-  expect(toGreek('anqrwpos', keyType.BETA_CODE, removeDiacritics)).toBe('ανθρωπος')
-  expect(toGreek('a a', keyType.BETA_CODE, removeDiacritics)).toBe('α α')
-
-  // Transliteration
-  expect(toGreek('anthrôpos', keyType.TRANSLITERATION, removeDiacritics)).toBe('ανθρωπος')
-  expect(toGreek('horaô', keyType.TRANSLITERATION, removeDiacritics)).toBe('οραω')
-  expect(toGreek('Hoiai', keyType.TRANSLITERATION, removeDiacritics)).toBe('Οιαι')
-  expect(toGreek('ha ha', keyType.TRANSLITERATION, removeDiacritics)).toBe('α α')
-
-  const sentence = {
-    trans: 'Hellêsin egeneto kai merei tini tôn barbarôn, hôs de eipein kai epi pleiston anthrôpôn.',
-    greek: 'Ελλησιν εγενετο και μερει τινι των βαρϐαρων, ως δε ειπειν και επι πλειστον ανθρωπων.'
-  }
-
-  expect(toGreek(sentence.trans, keyType.TRANSLITERATION, removeDiacritics)).toBe(sentence.greek)
-
-  // Transliteration: preserve misplaced `h`
-  expect(toGreek('anthrôpohs', keyType.TRANSLITERATION, removeDiacritics)).toBe('ανθρωποhς')
-})
-
-test('Testing `toGreek` function preserving diactrics', () => {
-  expect(toGreek('ánthrôpos', keyType.TRANSLITERATION)).toBe('άνθρωπος')
-  expect(toGreek('prosễlthon', keyType.TRANSLITERATION)).toBe('προσῆλθον')
-  expect(toGreek('aḯdalos', keyType.TRANSLITERATION)).toBe('αΐδαλος')
-  expect(toGreek('Áïda', keyType.TRANSLITERATION)).toBe('Άϊδα')
-})
-
-test('Testing `toBetaCode` function', () => {
-  // Greek (without diacritics)
-  expect(toBetaCode('ανθρωπος', keyType.GREEK)).toBe('anqrwpos')
-  expect(toBetaCode('α α', keyType.GREEK)).toBe('a a')
-
-  // Greek (with diacritics)
-  expect(toBetaCode('ἄνθρωπος', keyType.GREEK)).toBe('anqrwpos')
-  expect(toBetaCode('ἵππος', keyType.GREEK)).toBe('ippos')
-
-  // Transliteration
-  expect(toBetaCode('anthrôpos', keyType.TRANSLITERATION)).toBe('anqrwpos')
-  expect(toBetaCode('hippos', keyType.TRANSLITERATION)).toBe('ippos')
-})
 
 test('Testing `toTransliteration` function omitting diacritics', () => {
   // Beta code
@@ -63,6 +20,7 @@ test('Testing `toTransliteration` function omitting diacritics', () => {
   expect(toTransliteration('Οἷαι', keyType.GREEK, removeDiacritics)).toBe('Hoiai')
   expect(toTransliteration('ῥυθμός', keyType.GREEK, removeDiacritics)).toBe('rhuthmos')
   expect(toTransliteration('οἷος', keyType.GREEK, removeDiacritics)).toBe('hoios')
+  expect(toTransliteration('ποιῇ', keyType.GREEK, removeDiacritics)).toBe('poiê')
   expect(toTransliteration('ὄ, ὄ, ὄ', keyType.GREEK, removeDiacritics)).toBe('o, o, o')
 
   const sentence = {
@@ -80,6 +38,7 @@ test('Testing `toTransliteration` function preserving diacritics', () => {
   expect(toTransliteration('ὠστιῶ', keyType.GREEK)).toBe('ôstiỗ')
   expect(toTransliteration('οἷος', keyType.GREEK)).toBe('hoĩos')
   expect(toTransliteration('ἀΐδαλος', keyType.GREEK)).toBe('aḯdalos')
+  expect(toTransliteration('ποιῇ', keyType.GREEK)).toBe('poiễͅ')
   expect(toTransliteration('ὄ, ὄ, ὄ', keyType.GREEK)).toBe('ó, ó, ó')
 
   const sentence = {
@@ -88,4 +47,11 @@ test('Testing `toTransliteration` function preserving diacritics', () => {
   }
 
   expect(toTransliteration(sentence.greek, keyType.GREEK)).toBe(sentence.trans)
+
+  const sentence2 = {
+    greek: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κἂν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις;',
+    trans: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elénxeien hóti ouk alêthễ légeis?'
+  }
+
+  expect(toTransliteration(sentence2.greek, keyType.GREEK)).toBe(sentence2.trans)
 })
