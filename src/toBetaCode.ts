@@ -28,7 +28,7 @@ function fromGreekToBetaCode (str: string): string {
   let newStr = ''
 
   for (let i = 0; i < str.length; i++) {
-    let tmp = undefined
+    let tmp: string = undefined
 
     for (const key of mapping) {
       if (key.greek === str[i]) {
