@@ -1,15 +1,20 @@
 import { keyType, toBetaCode } from '../src/index'
 
-test('Testing `toBetaCode` function', () => {
-  // Greek (without diacritics)
-  expect(toBetaCode('ανθρωπος', keyType.GREEK)).toBe('anqrwpos')
-  expect(toBetaCode('α α', keyType.GREEK)).toBe('a a')
+test.each`
+  str           | expected
+  ${'ανθρωπος'} | ${'anqrwpos'}
+  ${'α α'}      | ${'a a'}
+  ${'ἄνθρωπος'} | ${'anqrwpos'}
+  ${'ἵππος'}    | ${'ippos'}
+`('Testing `toBetaCode` function w/ greek input, omitting diactrics', ({ str, expected }) => {
+  expect(toBetaCode(str, keyType.GREEK, { removeDiacritics: true })).toBe(expected)
+})
 
-  // Greek (with diacritics)
-  expect(toBetaCode('ἄνθρωπος', keyType.GREEK)).toBe('anqrwpos')
-  expect(toBetaCode('ἵππος', keyType.GREEK)).toBe('ippos')
-
-  // Transliteration
-  expect(toBetaCode('anthrôpos', keyType.TRANSLITERATION)).toBe('anqrwpos')
-  expect(toBetaCode('hippos', keyType.TRANSLITERATION)).toBe('ippos')
+test.each`
+  str            | expected
+  ${'anthrôpos'} | ${'anqrwpos'}
+  ${'hippos'}    | ${'ippos'}
+  ${'aḯdalos'}   | ${'aidalos'}
+`('Testing `toBetaCode` function w/ transliterated input, omitting diactrics', ({ str, expected }) => {
+  expect(toBetaCode(str, keyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected)
 })
