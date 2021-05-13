@@ -5,16 +5,18 @@ import { removeDiacritics, removeGreekVariants } from './utils'
 export function toBetaCode (
   str: string,
   from: keyType,
-  options: { removeDiacritics?: boolean } = {} // Not implemented yet.
+  options: ConversionOptions = {} // Not implemented yet.
 ): string {
   switch (from) {
     case keyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str)
       str = removeDiacritics(str)
       str = removeGreekVariants(str)
       str = fromGreekToBetaCode(str)
       break
 
     case keyType.TRANSLITERATION:
+      if (options.removeDiacritics) str = removeDiacritics(str)
       str = fromTransliterationToBetaCode(str)
       break
 
