@@ -5,7 +5,7 @@ import { removeDiacritics, removeGreekVariants } from './utils'
 export function toBetaCode (
   str: string,
   from: keyType,
-  options: ConversionOptions = {} // Not implemented yet.
+  options: ConversionOptions = {}
 ): string {
   switch (from) {
     case keyType.GREEK:
@@ -19,51 +19,47 @@ export function toBetaCode (
       if (options.removeDiacritics) str = removeDiacritics(str)
       str = fromTransliterationToBetaCode(str)
       break
-
-    default: break
   }
 
   return str
 }
 
 function fromGreekToBetaCode (str: string): string {
-  let newStr = ''
+  let betaCodeStr = ''
 
-  for (let i = 0; i < str.length; i++) {
+  for (const ch of str) {
     let tmp: string = undefined
 
     for (const key of mapping) {
-      if (key.greek === str[i]) {
-        tmp = key.latin
-      }
+      if (key.greek === ch) tmp = key.latin
     }
 
-    newStr += (tmp !== undefined) ? tmp : str[i]
+    betaCodeStr += tmp ?? ch
   }
 
-  return newStr
+  return betaCodeStr
 }
 
 function fromTransliterationToBetaCode (str: string): string {
-  let newStr = ''
+  let betaCodeStr = ''
 
   for (let i = 0; i < str.length; i++) {
-    const tmp = { trans: '', latin: '' }
+    const tmp = { trans: undefined, latin: undefined }
 
     let  pair = str.slice(i, i + 2)
     if (pair.length !== 2) pair = undefined
 
-    for (let j = 0; j < mapping.length; j++) {
-      if (mapping[j].trans === str[i] || mapping[j].trans === pair) {
-        tmp.trans = mapping[j].trans
-        tmp.latin = mapping[j].latin
+    for (const key of mapping) {
+      if ([str[i], pair].includes(key.trans)) {
+        tmp.trans = key.trans
+        tmp.latin = key.latin
 
-        if (mapping[j].trans === pair) i++; break
+        if (key.trans === pair) i++; break
       }
     }
 
-    newStr += tmp.latin || ((!/h/i.test(str[i])) ? str[i] : '')
+    betaCodeStr += tmp.latin || ((!/h/i.test(str[i])) ? str[i] : '')
   }
 
-  return newStr
+  return betaCodeStr
 }
