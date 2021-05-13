@@ -298,5 +298,17 @@ export const mapping = [
     greek: 'ϝ',
     latin: 'v',
     trans: 'w'
+  },
+  {
+    // Interrogation
+    greek: ';',
+    latin: '?',
+    trans: '?'
+  },
+  {
+    // Ano teleia
+    greek: '·',
+    latin: ';',
+    trans: ';'
   }
 ]
