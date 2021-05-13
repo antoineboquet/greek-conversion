@@ -21,6 +21,8 @@ export function toGreek (
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) str = removeDiacritics(str)
       str = fromTransliterationToGreek(str)
+      // Normalize `middle dot` (\u00B7) to `greek ano teleia` (\u0387).
+      str = str.replace(/\u00B7/g, '\u0387')
       break
 
     default: break
@@ -36,7 +38,7 @@ function fromBetaCodeToGreek (str: string): string {
   let newStr = ''
 
   for (let i = 0; i < str.length; i++) {
-    let tmp = undefined
+    let tmp: string = undefined
 
     for (const key of mapping) {
       if (key.latin === str[i]) {
@@ -65,7 +67,7 @@ function fromTransliterationToGreek (str: string): string {
     const rule1 = (/h/i.test(str[i]) && !/h/i.test(str[i + 1]))
     // A `h` may appear behind a `r`
     const rule2 = (/[r]/i.test(str[i - 1]))
-    // A `h` may appear in first place (of a string or a word) when it precedes a wovel
+    // A `h` may appear in first place (of a string or a word) when it precedes a vowel
     const rule3 = (
       (str[i - 1] === undefined || str[i - 1] === ' ')
       && /[aeêioôu]/i.test(str[i + 1])
@@ -77,14 +79,16 @@ function fromTransliterationToGreek (str: string): string {
       str = str.slice(0, (i + 1)) + str[i + 1].toUpperCase() + str.slice(i + 2)
     }
 
-    if (rule1 && (rule2 || rule3)) continue
+    //if (rule1 && (rule2 || rule3)) continue
+    if (/h/i.test(str[i])) continue
 
     for (let j = 0; j < mapping.length; j++) {
       // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
       // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
       let decomposedChar = str[i].normalize('NFD').replace(/\u0303/g, '\u0342')
+
       // Isolate the character with its potential circumflex (as this diacritical
-      // mark is used to represent long wovels in transliterated form).
+      // mark is used to represent long vowels in transliterated form).
       let recomposedChar = decomposedChar.charAt(0)
 
       // \u0302 = circumflex.
