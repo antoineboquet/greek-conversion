@@ -23,8 +23,6 @@ export function applyTransliteratedBreathings (str: string, from: keyType): stri
 
       str = str.normalize('NFC')
       break
-
-    default: break
   }
 
   return str
@@ -61,8 +59,6 @@ export function applyGammaDiphthongs (str: string, type: keyType): string {
                .replace(/gk/g,  'nk' )
                .replace(/gch/g, 'nch')
       break
-
-    default: break
   }
 
   return str
@@ -111,8 +107,6 @@ export function isMappedKey (key: string, type: keyType): boolean {
       case keyType.TRANSLITERATION:
         keys.push(el.trans)
         break
-
-      default: break
     }
   }
 
