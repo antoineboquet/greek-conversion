@@ -1,0 +1,3 @@
+interface ConversionOptions {
+  removeDiacritics?: boolean
+}
