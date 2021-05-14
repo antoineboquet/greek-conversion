@@ -1,4 +1,4 @@
-export const mapping = [
+export const greekMapping = [
   {
     // Alpha
     greek: 'Α',
@@ -294,7 +294,7 @@ export const mapping = [
     trans: 'ô'
   },
   {
-    // Digamma
+    // digamma
     greek: 'ϝ',
     latin: 'v',
     trans: 'w'
@@ -310,5 +310,50 @@ export const mapping = [
     greek: '·',
     latin: ';',
     trans: ';'
+  }
+]
+
+export const diacriticsMapping = [
+  {
+    // Smooth breathing
+    greek: '\u0313',
+    latin: ')',
+    trans: ''
+  },
+  {
+    // Rough breathing
+    greek: '\u0314',
+    latin: '(',
+    trans: ''
+  },
+  {
+    // Accute accent
+    greek: '\u0341',
+    latin: '/',
+    trans: '\u0341'
+  },
+  {
+    // Circumflex accent
+    greek: '\u0342', // `Combining Greek Perispomeni`
+    latin: '=',
+    trans: '\u0303'  // `Combining Tilde`
+  },
+  {
+    // Grave accent
+    greek: '\u0300',
+    latin: '\\',
+    trans: '\u0300'
+  },
+  {
+    // Diaeresis
+    greek: '\u0308',
+    latin: '+',
+    trans: '\u0308'
+  },
+  {
+    // Iota subscript
+    greek: '\u0345',
+    latin: '|',
+    trans: '\u0345'
   }
 ]
