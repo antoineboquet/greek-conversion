@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { mapping } from './mapping'
+import { greekMapping } from './mapping'
 
 export function applyGammaDiphthongs (str: string, type: keyType): string {
   switch (type) {
@@ -67,7 +67,7 @@ export function applyGreekVariants (str: string): string {
 export function isMappedKey (key: string, type: keyType): boolean {
   const keys = []
 
-  for (const el of mapping) {
+  for (const el of greekMapping) {
     switch (type) {
       case keyType.GREEK:
         keys.push(el.greek)
