@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { mapping } from './mapping'
+import { diacriticsMapping, greekMapping } from './mapping'
 import {
   applyGammaDiphthongs,
   normalizeGreek,
@@ -14,7 +14,8 @@ export function toTransliteration (
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
-      str = fromBetaCodeToTransliteration(str)
+      str = applyBreathings(str, keyType.BETA_CODE)
+      str = fromBetaCodeToTransliteration(str, options.removeDiacritics)
       break
 
     case keyType.GREEK:
@@ -31,12 +32,27 @@ export function toTransliteration (
 
 export function applyBreathings (str: string, from: keyType): string {
   switch (from) {
-    case keyType.BETA_CODE: break
+    case keyType.BETA_CODE:
+      // Remove smooth breathings.
+      str = str.replace(/\)/g, '')
+
+      // Flag rough breathings with unambiguous characters ($ = h, £ = H)
+      // They need to be transliterated in fromBetaCodeToTransliteration()
+      // as the `h` is already used to represent `ê` during the conversion.
+      str = str.replace(/([aehiowu]+)\(/gi, (match, group) => {
+        if (match.toLowerCase() === 'r(') {
+          return group + '$'
+        } else {
+          if (group === group.toLowerCase()) return '$' + group
+          else return '£' + group.toLowerCase()
+        }
+      })
+      break
 
     case keyType.GREEK:
       str = str.normalize('NFD')
 
-      // Remove smooth breathings.
+      // Remove smooth breathings (\u0313).
       str = str.replace(/\u0313/g, '')
 
       // Transliterate rough breathings with an `h`.
@@ -56,8 +72,17 @@ export function applyBreathings (str: string, from: keyType): string {
   return str
 }
 
-function fromBetaCodeToTransliteration (betaCodeStr: string): string {
+function fromBetaCodeToTransliteration (
+  betaCodeStr: string,
+  removeDiacritics: boolean
+): string {
   let transliteratedStr = ''
+
+  const mapping = (!removeDiacritics)
+    ? [...greekMapping, ...diacriticsMapping]
+    : greekMapping
+
+  const diacritics = diacriticsMapping.map((el) => el.latin)
 
   for (const char of betaCodeStr) {
     let tmp: string
@@ -69,8 +94,14 @@ function fromBetaCodeToTransliteration (betaCodeStr: string): string {
       }
     }
 
-    transliteratedStr += tmp ?? char
+    if (!removeDiacritics || (removeDiacritics && !diacritics.includes(char))) {
+      transliteratedStr += tmp ?? char
+    }
   }
+
+  transliteratedStr = transliteratedStr.replace(/\$/, 'h').replace(/£/, 'H')
+
+  if (!removeDiacritics) transliteratedStr = transliteratedStr.normalize('NFC')
 
   return transliteratedStr
 }
@@ -81,7 +112,7 @@ function fromGreekToTransliteration (greekStr: string): string {
   for (const char of greekStr) {
     let tmp: string
 
-    for (const key of mapping) {
+    for (const key of greekMapping) {
       // `Combining Greek Perispomeni` (\u0342) diacritic is greek-only and must
       // be converted to the latin diacritical mark `Combining Tilde` (\u0303).
       const decomposedChar = char.normalize('NFD').replace(/\u0342/g, '\u0303')

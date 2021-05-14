@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { mapping } from './mapping'
+import { diacriticsMapping, greekMapping } from './mapping'
 import {
   applyGammaDiphthongs,
   applyGreekVariants,
@@ -14,9 +14,7 @@ export function toGreek (
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
-      // Diacritics aren't implemented, so always remove them.
-      str = removeDiacritics(str)
-      str = fromBetaCodeToGreek(str)
+      str = fromBetaCodeToGreek(str, options.removeDiacritics)
       break
 
     case keyType.TRANSLITERATION:
@@ -49,8 +47,17 @@ function applyBreathings (str: string) {
   return str
 }
 
-function fromBetaCodeToGreek (betaCodeStr: string): string {
+function fromBetaCodeToGreek (
+  betaCodeStr: string,
+  removeDiacritics: boolean
+): string {
   let greekStr = ''
+
+  const mapping = (!removeDiacritics)
+    ? [...greekMapping, ...diacriticsMapping]
+    : greekMapping
+
+  const diacritics = diacriticsMapping.map((el) => el.latin)
 
   for (const char of betaCodeStr) {
     let tmp: string
@@ -62,8 +69,12 @@ function fromBetaCodeToGreek (betaCodeStr: string): string {
       }
     }
 
-    greekStr += tmp ?? char
+    if (!removeDiacritics || (removeDiacritics && !diacritics.includes(char))) {
+      greekStr += tmp ?? char
+    }
   }
+
+  if (!removeDiacritics) greekStr = greekStr.normalize('NFC')
 
   return greekStr
 }
@@ -77,7 +88,7 @@ function fromTransliterationToGreek (transliteratedStr: string): string {
     let pair = transliteratedStr.slice(i, (i + 2))
     if (pair.length !== 2) pair = ''
 
-    for (const key of mapping) {
+    for (const key of greekMapping) {
       // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
       // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
       let decomposedChar = transliteratedStr[i].normalize('NFD').replace(/\u0303/g, '\u0342')
