@@ -2,10 +2,27 @@ import { keyType, toTransliteration } from '../src/index'
 
 describe('toTransliteration', () => {
   test.each`
-    str           | expected
-    ${'anqrwpos'} | ${'anthrôpos'}
+    str              | expected
+    ${'anqrwpos'}    | ${'anthrôpos'}
+    ${'H(ra/kleios'} | ${'Hêrakleios'}
+    ${'w)stiw='}     | ${'ôstiô'}
+    ${'oi(=os'}      | ${'hoios'}
+    ${'a)i/+dalos'}  | ${'aidalos'}
+    ${'poih=|'}      | ${'poiê'}
   `('Testing `toTransliteration` function w/ beta code input, omitting diactrics', ({ str, expected }) => {
     expect(toTransliteration(str, keyType.BETA_CODE, { removeDiacritics: true })).toBe(expected);
+  })
+
+  test.each`
+    str              | expected
+    ${'a)/nqrwpos'}  | ${'ánthrôpos'}
+    ${'H(ra/kleios'} | ${'Hêrákleios'}
+    ${'w)stiw='}     | ${'ôstiỗ'}
+    ${'oi(=os'}      | ${'hoĩos'}
+    ${'a)i+/dalos'}  | ${'aḯdalos'}
+    ${'poih=|'}      | ${'poiễͅ'}
+  `('Testing `toTransliteration` function w/ beta code input, preserving diactrics', ({ str, expected }) => {
+    expect(toTransliteration(str, keyType.BETA_CODE)).toBe(expected);
   })
 
   const thucydides = {
