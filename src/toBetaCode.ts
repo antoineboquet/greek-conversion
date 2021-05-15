@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { greekMapping } from './mapping'
+import { diacriticsMapping, greekMapping } from './mapping'
 import { removeDiacritics, removeGreekVariants } from './utils'
 
 export function toBetaCode (
@@ -10,9 +10,8 @@ export function toBetaCode (
   switch (from) {
     case keyType.GREEK:
       if (options.removeDiacritics) str = removeDiacritics(str)
-      str = removeDiacritics(str)
       str = removeGreekVariants(str)
-      str = fromGreekToBetaCode(str)
+      str = fromGreekToBetaCode(str, options.removeDiacritics)
       break
 
     case keyType.TRANSLITERATION:
@@ -24,17 +23,29 @@ export function toBetaCode (
   return str
 }
 
-function fromGreekToBetaCode (str: string): string {
+function fromGreekToBetaCode (
+  greekStr: string,
+  removeDiacritics: boolean
+): string {
   let betaCodeStr = ''
 
-  for (const ch of str) {
-    let tmp: string = undefined
+  const mapping = (!removeDiacritics)
+    ? [...greekMapping, ...diacriticsMapping]
+    : greekMapping
 
-    for (const key of greekMapping) {
-      if (key.greek === ch) tmp = key.latin
+  if (!removeDiacritics) greekStr = greekStr.normalize('NFD')
+
+  for (const char of greekStr) {
+    let tmp: string
+
+    for (const key of mapping) {
+      if (key.greek === char) {
+        tmp = key.latin
+        break
+      }
     }
 
-    betaCodeStr += tmp ?? ch
+    betaCodeStr += tmp ?? char
   }
 
   return betaCodeStr
