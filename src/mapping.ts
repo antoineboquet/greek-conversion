@@ -327,16 +327,24 @@ export const diacriticsMapping = [
     trans: ''
   },
   {
-    // Accute accent
+    // Accute accent (`Combining Acute Tone Mark`)
     greek: '\u0341',
     latin: '/',
     trans: '\u0341'
   },
   {
-    // Circumflex accent
-    greek: '\u0342', // `Combining Greek Perispomeni`
+    // Accute accent (`Combining Acute Accent`)
+    greek: '\u0301',
+    latin: '/',
+    trans: '\u0301'
+  },
+  {
+    // Circumflex accent:
+    //   `Combining Greek Perispomeni` (\u0342)
+    //   `Combining Tilde` (\u0303)
+    greek: '\u0342',
     latin: '=',
-    trans: '\u0303'  // `Combining Tilde`
+    trans: '\u0303'
   },
   {
     // Grave accent
