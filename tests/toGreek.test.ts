@@ -1,10 +1,10 @@
 import { keyType, toGreek } from '../src/index'
 
 describe('toGreek', () => {
-  const aristotle = {
-    betacode: 'E)kei=nai me\\n dh\\ fusikh=s (meta\\ kinh/sews ga/r), au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.',
-    greekAccented: 'Ἐκεῖναι μὲν δὴ φυσικῆς (μετὰ κινήσεως γάρ), αὕτη δὲ ἑτέρας, εἰ μηδεμία αὐτοῖς ἀρχὴ κοινή.',
-    greekUnaccented: 'Εκειναι μεν δη φυσικης (μετα κινησεως γαρ), αυτη δε ετερας, ει μηδεμια αυτοις αρχη κοινη.'
+  const aristotle = { // challenge: `(meta\\ kinh/sews ga/r)`
+    betacode: 'E)kei=nai me\\n dh\\ fusikh=s meta\\ kinh/sews ga/r, au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.',
+    greekAccented: 'Ἐκεῖναι μὲν δὴ φυσικῆς μετὰ κινήσεως γάρ, αὕτη δὲ ἑτέρας, εἰ μηδεμία αὐτοῖς ἀρχὴ κοινή.',
+    greekUnaccented: 'Εκειναι μεν δη φυσικης μετα κινησεως γαρ, αυτη δε ετερας, ει μηδεμια αυτοις αρχη κοινη.'
   }
 
   test.each`
