@@ -327,12 +327,6 @@ export const diacriticsMapping = [
     trans: ''
   },
   {
-    // Accute accent (`Combining Acute Tone Mark`)
-    greek: '\u0341',
-    latin: '/',
-    trans: '\u0341'
-  },
-  {
     // Accute accent (`Combining Acute Accent`)
     greek: '\u0301',
     latin: '/',
