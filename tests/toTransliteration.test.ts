@@ -1,26 +1,34 @@
 import { keyType, toTransliteration } from '../src/index'
 
 describe('toTransliteration', () => {
+  const aristotle = { // challenge: `(meta\\ kinh/sews ga/r)`
+    betacode: 'E)kei=nai me\\n dh\\ fusikh=s meta\\ kinh/sews ga/r, au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.',
+    transAccented: 'Ekeĩnai mèn dề phusikễs metà kinếseôs gár, haútê dè hetéras, ei mêdemía autoĩs archề koinế.',
+    transUnaccented: 'Ekeinai men dê phusikês meta kinêseôs gar, hautê de heteras, ei mêdemia autois archê koinê.'
+  }
+
   test.each`
-    str              | expected
-    ${'anqrwpos'}    | ${'anthrôpos'}
-    ${'H(ra/kleios'} | ${'Hêrakleios'}
-    ${'w)stiw='}     | ${'ôstiô'}
-    ${'oi(=os'}      | ${'hoios'}
-    ${'a)i/+dalos'}  | ${'aidalos'}
-    ${'poih=|'}      | ${'poiê'}
+    str                   | expected
+    ${'anqrwpos'}         | ${'anthrôpos'}
+    ${'H(ra/kleios'}      | ${'Hêrakleios'}
+    ${'w)stiw='}          | ${'ôstiô'}
+    ${'oi(=os'}           | ${'hoios'}
+    ${'a)i/+dalos'}       | ${'aidalos'}
+    ${'poih=|'}           | ${'poiê'}
+    ${aristotle.betacode} | ${aristotle.transUnaccented}
   `('Testing `toTransliteration` function w/ beta code input, omitting diactrics', ({ str, expected }) => {
     expect(toTransliteration(str, keyType.BETA_CODE, { removeDiacritics: true })).toBe(expected);
   })
 
   test.each`
-    str              | expected
-    ${'a)/nqrwpos'}  | ${'ánthrôpos'}
-    ${'H(ra/kleios'} | ${'Hêrákleios'}
-    ${'w)stiw='}     | ${'ôstiỗ'}
-    ${'oi(=os'}      | ${'hoĩos'}
-    ${'a)i+/dalos'}  | ${'aḯdalos'}
-    ${'poih=|'}      | ${'poiễͅ'}
+    str                   | expected
+    ${'a)/nqrwpos'}       | ${'ánthrôpos'}
+    ${'H(ra/kleios'}      | ${'Hêrákleios'}
+    ${'w)stiw='}          | ${'ôstiỗ'}
+    ${'oi(=os'}           | ${'hoĩos'}
+    ${'a)i+/dalos'}       | ${'aḯdalos'}
+    ${'poih=|'}           | ${'poiễͅ'}
+    ${aristotle.betacode} | ${aristotle.transAccented}
   `('Testing `toTransliteration` function w/ beta code input, preserving diactrics', ({ str, expected }) => {
     expect(toTransliteration(str, keyType.BETA_CODE)).toBe(expected);
   })
@@ -64,7 +72,7 @@ describe('toTransliteration', () => {
     ${'ποιῇ'}           | ${'poiễͅ'}
     ${'ὄ, ὄ, ὄ'}        | ${'ó, ó, ó'}
     ${thucydides.greek} | ${thucydides.transAccented}
-    ${plato.greek}  | ${plato.trans}
+    ${plato.greek}      | ${plato.trans}
   `('Testing `toTransliteration` function w/ greek input, preserving diacritics', ({ str, expected }) => {
     expect(toTransliteration(str, keyType.GREEK)).toBe(expected)
   })
