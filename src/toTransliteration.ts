@@ -14,12 +14,14 @@ export function toTransliteration (
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
-      str = applyBreathings(str, keyType.BETA_CODE)
+      str = removeSmoothBreathings(str, keyType.BETA_CODE)
+      str = flagRoughBreathings(str)
       str = fromBetaCodeToTransliteration(str, options.removeDiacritics)
       break
 
     case keyType.GREEK:
-      str = applyBreathings(str, keyType.GREEK)
+      str = removeSmoothBreathings(str, keyType.GREEK)
+      str = applyRoughBreathings(str)
       if (options.removeDiacritics) str = removeDiacritics(str)
       str = removeGreekVariants(str)
       str = normalizeGreek(str)
@@ -30,44 +32,36 @@ export function toTransliteration (
   return applyGammaDiphthongs(str, keyType.TRANSLITERATION)
 }
 
-export function applyBreathings (str: string, from: keyType): string {
-  switch (from) {
-    case keyType.BETA_CODE:
-      // Remove smooth breathings.
-      str = str.replace(/\)/g, '')
+function applyRoughBreathings (str: string): string {
+  str = str.normalize('NFD')
 
-      // Flag rough breathings with unambiguous characters ($ = h, £ = H)
-      // They need to be transliterated in fromBetaCodeToTransliteration()
-      // as the `h` is already used to represent `ê` during the conversion.
-      str = str.replace(/([aehiowu]+)\(/gi, (match, group) => {
-        if (match.toLowerCase() === 'r(') {
-          return group + '$'
-        } else {
-          if (group === group.toLowerCase()) return '$' + group
-          else return '£' + group.toLowerCase()
-        }
-      })
-      break
+  // Transliterate rough breathings with an `h`.
+  str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
+    if (match.toLowerCase() === 'ῥ') {
+      return group + 'h'
+    } else {
+      if (group === group.toLowerCase()) return 'h' + group
+      else return 'H' + group.toLowerCase()
+    }
+  })
 
-    case keyType.GREEK:
-      str = str.normalize('NFD')
+  str = str.normalize('NFC')
 
-      // Remove smooth breathings (\u0313).
-      str = str.replace(/\u0313/g, '')
+  return str
+}
 
-      // Transliterate rough breathings with an `h`.
-      str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
-        if (match.toLowerCase() === 'ῥ') {
-          return group + 'h'
-        } else {
-          if (group === group.toLowerCase()) return 'h' + group
-          else return 'H' + group.toLowerCase()
-        }
-      })
-
-      str = str.normalize('NFC')
-      break
-  }
+function flagRoughBreathings (str: string): string {
+  // Rough breathings are ambiguous as `h` converts to `ê`.
+  // This transforms rough breathings to unambiguous flags ($ = h, £ = H)
+  // that need to be transliterated in fromBetaCodeToTransliteration().
+  str = str.replace(/([aehiowu]+)\(/gi, (match, group) => {
+    if (match.toLowerCase() === 'r(') {
+      return group + '$'
+    } else {
+      if (group === group.toLowerCase()) return '$' + group
+      else return '£' + group.toLowerCase()
+    }
+  })
 
   return str
 }
@@ -99,7 +93,7 @@ function fromBetaCodeToTransliteration (
     }
   }
 
-  transliteratedStr = transliteratedStr.replace(/\$/, 'h').replace(/£/, 'H')
+  transliteratedStr = transliteratedStr.replace(/\$/g, 'h').replace(/£/g, 'H')
 
   if (!removeDiacritics) transliteratedStr = transliteratedStr.normalize('NFC')
 
@@ -135,4 +129,20 @@ function fromGreekToTransliteration (greekStr: string): string {
   }
 
   return transliteratedStr
+}
+
+function removeSmoothBreathings (str: string, type: keyType): string {
+  switch (type) {
+    case keyType.BETA_CODE:
+      str = str.replace(/\)/g, '')
+      break
+
+    case keyType.GREEK:
+      str = str.normalize('NFD')
+      str = str.replace(/\u0313/g, '')
+      str = str.normalize('NFC')
+      break
+  }
+
+  return str
 }
