@@ -88,16 +88,16 @@ function fromTransliterationToGreek (transliteratedStr: string): string {
     let pair = transliteratedStr.slice(i, (i + 2))
     if (pair.length !== 2) pair = ''
 
+    // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
+    // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
+    let decomposedChar = transliteratedStr[i].normalize('NFD').replace(/\u0303/g, '\u0342')
+    // Isolate the character with its potential circumflex (as this diacritical
+    // mark is used to represent long vowels in transliterated form).
+    let recomposedChar = recomposeChar(decomposedChar)
+
+    decomposedChar = decomposedChar.replace(/\u0302/g, '') // \u0302 = circumflex.
+
     for (const key of greekMapping) {
-      // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
-      // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
-      let decomposedChar = transliteratedStr[i].normalize('NFD').replace(/\u0303/g, '\u0342')
-      // Isolate the character with its potential circumflex (as this diacritical
-      // mark is used to represent long vowels in transliterated form).
-      let recomposedChar = recomposeChar(decomposedChar)
-
-      decomposedChar = decomposedChar.replace(/\u0302/g, '') // \u0302 = circumflex.
-
       if ([recomposedChar, pair].includes(key.trans)) {
         tmp.trans = key.trans
         // Char + potential remaining diacritics.
