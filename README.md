@@ -53,9 +53,9 @@ There is also an utility function `isMappedKey (key: string, type: keyType): boo
 
 This library was first developped to let people type greek on a latin keyboard. So, for simplicity, diactrics weren't a real concern. This is what you should know before using this library:
 
-- Currently, the `beta code` representation doesn't implement any greek diacritics. So, the beta code conversion will turn a polytonic greek string into a totally unaccented one (for example `ἵππος` becomes `ippos`);
-- Converting from `greek` to `transliteration` is now fully implemented, BUT converting a transliterated string into `greek` will currently lose rough spirits;
-- Accents should be normalized when converting to greek (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
+- Converting from `transliteration` to `beta code` or `greek` will currently lose rough spirits;
+- Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
+- To `beta code`, some characters that represent diacritics can't be use as autonomous characters (`), (, /, \, +, =, |`);
 - Moreover, some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
 
 This should evolve in the future. Contributions are welcome.
