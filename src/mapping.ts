@@ -333,18 +333,18 @@ export const diacriticsMapping = [
     trans: '\u0301'
   },
   {
-    // Circumflex accent:
+    // Grave accent
+    greek: '\u0300',
+    latin: '\\',
+    trans: '\u0300'
+  },
+  {
+    // Tilde:
     //   `Combining Greek Perispomeni` (\u0342)
     //   `Combining Tilde` (\u0303)
     greek: '\u0342',
     latin: '=',
     trans: '\u0303'
-  },
-  {
-    // Grave accent
-    greek: '\u0300',
-    latin: '\\',
-    trans: '\u0300'
   },
   {
     // Diaeresis
