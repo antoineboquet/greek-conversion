@@ -37,4 +37,14 @@ describe('toBetaCode', () => {
   `('Testing `toBetaCode` function w/ transliterated input, omitting diactrics', ({ str, expected }) => {
     expect(toBetaCode(str, keyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected)
   })
+
+  test.each`
+    str             | expected
+    ${'ánthrôpos'}  | ${'a/nqrwpos'}
+    ${'prosễlthon'} | ${'prosh=lqon'}
+    ${'aḯdalos'}    | ${'ai/+dalos'}
+    ${'Áïda'}       | ${'A/i+da'}
+  `('Testing `toBetaCode` function w/ transliterated input, preserving diactrics', ({ str, expected }) => {
+    expect(toBetaCode(str, keyType.TRANSLITERATION)).toBe(expected)
+  })
 })
