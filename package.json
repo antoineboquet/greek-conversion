@@ -30,7 +30,7 @@
     "build": "tsc",
     "prepare": "npm run build",
     "test": "jest",
-    "test --coverage": "jest --coverage"
+    "test-coverage": "jest --coverage"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
