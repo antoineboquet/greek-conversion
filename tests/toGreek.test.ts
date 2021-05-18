@@ -45,18 +45,22 @@ describe('toGreek', () => {
     expect(toGreek(str, keyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected);
   })
 
-  const plato = {
+  const plato = { // Notice that in the greek output, `κὰν` currently doesn't have the coronis (κἂν).
     trans: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elénxeien hóti ouk alêthễ légeis?',
-    greek: 'Χαλεπόν γέ σε ελέγξαι, ῶ Σώκρατες· αλλ\' ουχὶ κὰν παῖς σε ελέγξειεν ότι ουκ αληθῆ λέγεις;'
+    greek: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κὰν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις;'
   }
 
   test.each`
     str             | expected
-    ${'ánthrôpos'}  | ${'άνθρωπος'}
+    ${'ánthrôpos'}  | ${'ἄνθρωπος'}
+    ${'rhuthmós'}   | ${'ῥυθμός'}
     ${'prosễlthon'} | ${'προσῆλθον'}
-    ${'aḯdalos'}    | ${'αΐδαλος'}
-    ${'Áïda'}       | ${'Άϊδα'}
+    ${'aḯdalos'}    | ${'ἀΐδαλος'}
+    ${'Áïda'}       | ${'Ἄϊδα'}
+    ${'hoplítês'}   | ${'ὁπλίτης'}
+    ${'Húsiris'}    | ${'Ὕσιρις'}
     ${plato.trans}  | ${plato.greek}
+
   `('Testing `toGreek` function w/ transliterated input, preserving diactrics', ({ str, expected }) => {
     expect(toGreek(str, keyType.TRANSLITERATION)).toBe(expected);
   })
