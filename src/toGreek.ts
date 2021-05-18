@@ -19,8 +19,13 @@ export function toGreek (
 
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) str = removeDiacritics(str)
+
       str = fromTransliterationToGreek(str)
-      str = applyBreathings(str)
+      str = applyUppercaseLetters(str)
+
+      if (options.removeDiacritics) str = str.replace(/h/gi, '')
+      else str = applyBreathings(str)
+
       str = normalizeGreek(str)
       break
   }
@@ -31,20 +36,50 @@ export function toGreek (
   return str
 }
 
-function applyBreathings (str: string) {
+function applyBreathings (str: string): string {
+  str = str.normalize('NFD')
+
+  const pattern = new RegExp(
+    // (start or space) (rough breathing?) (accented vowels) (diaeresis?)
+    /(^|\s)(h)?([αεηιοωυ\u0301\u0300\u0303\u0345]+)(\u0308)?/, 'gi'
+  )
+
+  // Apply breathings on vowels.
+  str = str.replace(pattern, (match, start, roughBreathing, group, diaeresis) => {
+    // Smooth breathing (\u0313) or rough breathing (\u3014).
+    const breathing = (roughBreathing) ? '\u0314' : '\u0313'
+
+    if (diaeresis) {
+      match = match.normalize('NFC')
+
+      const vowelsGroup = match.slice(0, match.length - 1).normalize('NFD')
+      const vowelWithDiaeresis = match.slice(match.length - 1).normalize('NFD')
+
+      return start + vowelsGroup + breathing + vowelWithDiaeresis
+    }
+
+    return start + group + breathing
+  })
+
+  // Apply rough breathings on `rho`.
+  str = str.replace(/(ρ)h/gi, '$1\u0314')
+
+  // Reorder diacritics.
+  str = str.replace(/([\u0301\u0300\u0303\u0345])([\u0313\u0314])/g, '$2$1')
+
+  return str.normalize('NFC')
+}
+
+function applyUppercaseLetters (str: string): string {
   const words = str.split(' ')
 
   words.forEach((el, i) => {
     if (el.charAt(0) === 'H') {
-      el = el.slice(1)
-      words[i] = el.charAt(0).toUpperCase() + el.slice(1)
+      words[i] = el.charAt(0) + el.charAt(1).toUpperCase() + el.slice(2)
     }
   })
 
-  str = words.join(' ')
-  str = str.replace(/h/gi, '')
-
-  return str
+  return words.join(' ')
 }
 
 function fromBetaCodeToGreek (
