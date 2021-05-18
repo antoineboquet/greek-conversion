@@ -3,6 +3,7 @@ import { diacriticsMapping, greekMapping } from './mapping'
 import {
   applyGammaDiphthongs,
   applyGreekVariants,
+  applyUppercaseChars,
   normalizeGreek,
   removeDiacritics
 } from './utils'
@@ -21,7 +22,7 @@ export function toGreek (
       if (options.removeDiacritics) str = removeDiacritics(str)
 
       str = fromTransliterationToGreek(str)
-      str = applyUppercaseLetters(str)
+      str = applyUppercaseChars(str)
 
       if (options.removeDiacritics) str = str.replace(/h/gi, '')
       else str = applyBreathings(str)
@@ -68,18 +69,6 @@ function applyBreathings (str: string): string {
   str = str.replace(/([\u0301\u0300\u0303\u0345])([\u0313\u0314])/g, '$2$1')
 
   return str.normalize('NFC')
-}
-
-function applyUppercaseLetters (str: string): string {
-  const words = str.split(' ')
-
-  words.forEach((el, i) => {
-    if (el.charAt(0) === 'H') {
-      words[i] = el.charAt(0) + el.charAt(1).toUpperCase() + el.slice(2)
-    }
-  })
-
-  return words.join(' ')
 }
 
 function fromBetaCodeToGreek (
@@ -140,7 +129,9 @@ function fromTransliterationToGreek (transliteratedStr: string): string {
 
         // If a pair has been found, increase the index (because
         // two letters have been processed) and stop the search.
-        if (key.trans === pair) i++; break
+        if (key.trans === pair) {
+          i++; break
+        }
       }
     }
 
