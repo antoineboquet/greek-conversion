@@ -1,26 +1,69 @@
 import { keyType } from './enums'
 import { diacriticsMapping, greekMapping } from './mapping'
-import { removeDiacritics, removeGreekVariants } from './utils'
+import { applyUppercaseChars, removeDiacritics, removeGreekVariants } from './utils'
 
 export function toBetaCode (
   str: string,
   from: keyType,
   options: ConversionOptions = {}
 ): string {
-  if (options.removeDiacritics) str = removeDiacritics(str)
-
   switch (from) {
     case keyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str)
+
       str = removeGreekVariants(str)
       str = fromGreekToBetaCode(str, options.removeDiacritics)
       break
 
     case keyType.TRANSLITERATION:
+      if (options.removeDiacritics) str = removeDiacritics(str)
+
+      str = applyUppercaseChars(str)
       str = fromTransliterationToBetaCode(str)
+
+      if (options.removeDiacritics) str = str.replace(/(^|\s)h/gi, '$1')
+      else str = applyBreathings(str)
       break
   }
 
   return str
+}
+
+/**
+ * @FIXME Could be merged with `src/toGreek.ts` homonym function.
+*/
+function applyBreathings (str: string): string {
+  str = str.normalize('NFD')
+
+  const pattern = new RegExp(
+    // (start or space) (rough breathing?) (accented vowels) (diaeresis?)
+    /(^|\s)(h)?([aehiowu\u0301\u0300\u0303\u0345]+)(\u0308)?/, 'gi'
+  )
+
+  // Apply breathings on vowels.
+  str = str.replace(pattern, (match, start, roughBreathing, group, diaeresis) => {
+    // Smooth breathing `(` or rough breathing `)`.
+    const breathing = (roughBreathing) ? '(' : ')'
+
+    if (diaeresis) {
+      match = match.normalize('NFC')
+
+      const vowelsGroup = match.slice(0, match.length - 1).normalize('NFD')
+      const vowelWithDiaeresis = match.slice(match.length - 1).normalize('NFD')
+
+      return start + vowelsGroup + breathing + vowelWithDiaeresis
+    }
+
+    return start + group + breathing
+  })
+
+  // Apply rough breathings on `rho`.
+  str = str.replace(/(r)h/gi, '$1(')
+
+  // Reorder diacritics.
+  str = str.replace(/([\u0301\u0300\u0303\u0345])([\u0313\u0314])/g, '$2$1')
+
+  return str.normalize('NFC')
 }
 
 function convertTransliteratedDiacritics (decomposedDiacritics: string): string {
@@ -91,7 +134,9 @@ function fromTransliterationToBetaCode (transliteratedStr: string): string {
         tmp.trans = key.trans
         tmp.latin = key.latin
 
-        if (key.trans === pair) i++; break
+        if (key.trans === pair) {
+          i++; break
+        }
       }
     }
 
@@ -100,11 +145,7 @@ function fromTransliterationToBetaCode (transliteratedStr: string): string {
 
     tmp.latin += convertTransliteratedDiacritics(decomposedDiacritics)
 
-    betaCodeStr += tmp.latin || (
-      !/h/i.test(transliteratedStr[i]) // rough breathings aren't converted yet.
-        ? transliteratedStr[i]
-        : ''
-      )
+    betaCodeStr += tmp.latin || transliteratedStr[i]
   }
 
   return betaCodeStr
