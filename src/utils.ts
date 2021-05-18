@@ -43,7 +43,7 @@ export function applyGreekVariants (str: string): string {
 
   str = str.replace(/ΠΣ/g, 'Ψ').replace(/Πσ/g, 'Ψ').replace(/πσ/g, 'ψ')
 
-  const words = toWords(str)
+  const words = str.split(' ')
 
   words.forEach((el, i) => {
     const lastSigmaIndex: number = el.lastIndexOf('σ')
@@ -58,6 +58,18 @@ export function applyGreekVariants (str: string): string {
 
     if (el.length > 1 && /σ(?![α-ω])/.test(lastSigmaSlice)) {
       words[i] = el.slice(0, lastSigmaIndex) + 'ς' + el.slice((lastSigmaIndex + 1))
+    }
+  })
+
+  return words.join(' ')
+}
+
+export function applyUppercaseChars (str: string): string {
+  const words = str.split(' ')
+
+  words.forEach((el, i) => {
+    if (el.charAt(0) === 'H') {
+      words[i] = el.charAt(0) + el.charAt(1).toUpperCase() + el.slice(2)
     }
   })
 
@@ -111,11 +123,4 @@ export function removeGreekVariants (str: string): string {
   }
 
   return str
-}
-
-function toWords (str: string): string[] {
-  const separator = ' '
-  const re = new RegExp(separator, 'g')
-
-  return str.split(re)
 }
