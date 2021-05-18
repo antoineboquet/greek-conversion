@@ -53,7 +53,8 @@ There is also an utility function `isMappedKey (key: string, type: keyType): boo
 
 This library was first developped to let people type greek on a latin keyboard. So, for simplicity, diactrics weren't a real concern. This is what you should know before using this library:
 
-- Converting from `transliteration` to `beta code` or `greek` will currently lose rough spirits;
+- Converting from `transliteration` to `greek` keeps breathings but lose coronis (when crasis occurs like in κἂν *= καὶ ἄν*);
+- Converting from `transliteration` to `beta code` currently loses breathings;
 - Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
 - To `beta code`, some characters that represent diacritics can't be use as autonomous characters (`), (, /, \, +, =, |`);
 - Moreover, some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
