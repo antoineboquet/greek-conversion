@@ -43,7 +43,6 @@ describe('toTransliteration', () => {
     str                 | expected
     ${'ανθρωπος'}       | ${'anthrôpos'}
     ${'οραω'}           | ${'oraô'}
-    ${'α α'}            | ${'a a'}
     ${'ἄνθρωπος'}       | ${'anthrôpos'}
     ${'ἵππος'}          | ${'ippos'}
     ${'ὁράω'}           | ${'oraô'}
@@ -75,5 +74,12 @@ describe('toTransliteration', () => {
     ${plato.greek}      | ${plato.trans}
   `('Testing `toTransliteration` function w/ greek input, preserving diacritics', ({ str, expected }) => {
     expect(toTransliteration(str, keyType.GREEK)).toBe(expected)
+  })
+
+  test.each`
+    str              | expected
+    ${'αἴξ   κριός'} | ${'aíx   kriós'}
+  `('Testing `toTransliteration` function w/ greek input, preserving whitespace', ({ str, expected }) => {
+    expect(toTransliteration(str, keyType.GREEK, { preserveWhitespace: true })).toBe(expected);
   })
 })

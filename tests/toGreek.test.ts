@@ -64,4 +64,11 @@ describe('toGreek', () => {
   `('Testing `toGreek` function w/ transliterated input, preserving diactrics', ({ str, expected }) => {
     expect(toGreek(str, keyType.TRANSLITERATION)).toBe(expected);
   })
+
+  test.each`
+    str              | expected
+    ${'aíx   kriós'} | ${'αἴξ   κριός'}
+  `('Testing `toGreek` function w/ transliterated input, preserving whitespace', ({ str, expected }) => {
+    expect(toGreek(str, keyType.TRANSLITERATION, { preserveWhitespace: true })).toBe(expected);
+  })
 })

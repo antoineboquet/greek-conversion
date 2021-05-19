@@ -54,4 +54,11 @@ describe('toBetaCode', () => {
   `('Testing `toBetaCode` function w/ transliterated input, preserving diactrics', ({ str, expected }) => {
     expect(toBetaCode(str, keyType.TRANSLITERATION)).toBe(expected)
   })
+
+  test.each`
+    str              | expected
+    ${'aíx   kriós'} | ${'ai)/c   krio/s'}
+  `('Testing `toBetaCode` function w/ transliterated input, preserving whitespace', ({ str, expected }) => {
+    expect(toBetaCode(str, keyType.TRANSLITERATION, { preserveWhitespace: true })).toBe(expected);
+  })
 })
