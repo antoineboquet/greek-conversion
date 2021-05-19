@@ -124,3 +124,7 @@ export function removeGreekVariants (str: string): string {
 
   return str
 }
+
+export function removeExtraWhitespace (str: string): string {
+  return str.replace(/(\s)+/g, '$1').trim()
+}

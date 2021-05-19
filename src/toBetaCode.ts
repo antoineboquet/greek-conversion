@@ -1,6 +1,11 @@
 import { keyType } from './enums'
 import { diacriticsMapping, greekMapping } from './mapping'
-import { applyUppercaseChars, removeDiacritics, removeGreekVariants } from './utils'
+import {
+  applyUppercaseChars,
+  removeDiacritics,
+  removeExtraWhitespace,
+  removeGreekVariants
+} from './utils'
 
 export function toBetaCode (
   str: string,

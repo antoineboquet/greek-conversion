@@ -4,6 +4,7 @@ import {
   applyGammaDiphthongs,
   normalizeGreek,
   removeDiacritics,
+  removeExtraWhitespace,
   removeGreekVariants
 } from './utils'
 
@@ -28,6 +29,8 @@ export function toTransliteration (
       str = fromGreekToTransliteration(str)
       break
   }
+
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
 
   return applyGammaDiphthongs(str, keyType.TRANSLITERATION)
 }

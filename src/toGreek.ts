@@ -5,7 +5,8 @@ import {
   applyGreekVariants,
   applyUppercaseChars,
   normalizeGreek,
-  removeDiacritics
+  removeDiacritics,
+  removeExtraWhitespace
 } from './utils'
 
 export function toGreek (
@@ -33,6 +34,8 @@ export function toGreek (
 
   str = applyGreekVariants(str)
   str = applyGammaDiphthongs(str, keyType.GREEK)
+
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
 
   return str
 }
