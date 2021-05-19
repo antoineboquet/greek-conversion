@@ -36,7 +36,7 @@ describe('toTransliteration', () => {
   const thucydides = {
     greek: 'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',
     transAccented: 'Héllêsin egéneto kaì mérei tinì tỗn barbárôn, hôs dè eipeĩn kaì epì pleĩston anthrốpôn.',
-    transUnaccented: 'Hellêsin egeneto kai merei tini tôn barbarôn, hôs de eipein kai epi pleiston anthrôpôn.'
+    transUnaccented: 'Ellêsin egeneto kai merei tini tôn barbarôn, ôs de eipein kai epi pleiston anthrôpôn.'
   }
 
   test.each`
@@ -45,11 +45,11 @@ describe('toTransliteration', () => {
     ${'οραω'}           | ${'oraô'}
     ${'α α'}            | ${'a a'}
     ${'ἄνθρωπος'}       | ${'anthrôpos'}
-    ${'ἵππος'}          | ${'hippos'}
-    ${'ὁράω'}           | ${'horaô'}
-    ${'Οἷαι'}           | ${'Hoiai'}
-    ${'ῥυθμός'}         | ${'rhuthmos'}
-    ${'οἷος'}           | ${'hoios'}
+    ${'ἵππος'}          | ${'ippos'}
+    ${'ὁράω'}           | ${'oraô'}
+    ${'Οἷαι'}           | ${'Oiai'}
+    ${'ῥυθμός'}         | ${'ruthmos'}
+    ${'οἷος'}           | ${'oios'}
     ${'ποιῇ'}           | ${'poiê'}
     ${'ὄ, ὄ, ὄ'}        | ${'o, o, o'}
     ${thucydides.greek} | ${thucydides.transUnaccented}

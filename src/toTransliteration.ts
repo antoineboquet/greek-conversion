@@ -20,9 +20,9 @@ export function toTransliteration (
       break
 
     case keyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str)
       str = removeSmoothBreathings(str, keyType.GREEK)
       str = applyRoughBreathings(str)
-      if (options.removeDiacritics) str = removeDiacritics(str)
       str = removeGreekVariants(str)
       str = normalizeGreek(str)
       str = fromGreekToTransliteration(str)
