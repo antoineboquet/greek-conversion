@@ -12,17 +12,15 @@ export function toBetaCode (
   from: keyType,
   options: ConversionOptions = {}
 ): string {
+  if (options.removeDiacritics) str = removeDiacritics(str)
+
   switch (from) {
     case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str)
-
       str = removeGreekVariants(str)
       str = fromGreekToBetaCode(str, options.removeDiacritics)
       break
 
     case keyType.TRANSLITERATION:
-      if (options.removeDiacritics) str = removeDiacritics(str)
-
       str = applyUppercaseChars(str)
       str = fromTransliterationToBetaCode(str)
 
@@ -30,6 +28,8 @@ export function toBetaCode (
       else str = applyBreathings(str)
       break
   }
+
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
 
   return str
 }
