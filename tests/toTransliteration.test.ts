@@ -4,15 +4,15 @@ describe('toTransliteration', () => {
   const aristotle = { // challenge: `(meta\\ kinh/sews ga/r)`
     betacode: 'E)kei=nai me\\n dh\\ fusikh=s meta\\ kinh/sews ga/r, au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.',
     transAccented: 'Ekeĩnai mèn dề phusikễs metà kinếseôs gár, haútê dè hetéras, ei mêdemía autoĩs archề koinế.',
-    transUnaccented: 'Ekeinai men dê phusikês meta kinêseôs gar, hautê de heteras, ei mêdemia autois archê koinê.'
+    transUnaccented: 'Ekeinai men dê phusikês meta kinêseôs gar, autê de eteras, ei mêdemia autois archê koinê.'
   }
 
   test.each`
     str                   | expected
     ${'anqrwpos'}         | ${'anthrôpos'}
-    ${'H(ra/kleios'}      | ${'Hêrakleios'}
+    ${'H(ra/kleios'}      | ${'Êrakleios'}
     ${'w)stiw='}          | ${'ôstiô'}
-    ${'oi(=os'}           | ${'hoios'}
+    ${'oi(=os'}           | ${'oios'}
     ${'a)i/+dalos'}       | ${'aidalos'}
     ${'poih=|'}           | ${'poiê'}
     ${aristotle.betacode} | ${aristotle.transUnaccented}
