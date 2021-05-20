@@ -1,14 +1,12 @@
 # greek-conversion
 
-A small library to convert an ancient greek string from/into various representations. This is full featured to deal with unaccentued greek strings (a good choice for search purposes), and work in progress to convert polytonic greek in a non-destructive manner (see [limitations](#limitations)).
+A small library to convert a polytonic greek string from/into various representations.
 
-## Installation
+## Installation and usage
 
 In order to use this library for your project, simply type `npm install --save greek-conversion`.
 
-## Usage
-
-First import the library's functions as needed:
+Import the library's functions as needed:
 
 ```js
 // ES6 modules syntax
@@ -21,17 +19,6 @@ const gc = require('greek-conversion')
 Then use it:
 
 ```js
-// With unaccented strings
-
-toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
-toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
-toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
-
-// With accented strings
-
-toTransliteration('ἄϋλος', keyType.GREEK) // áülos
-toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
-
 // Let's transliterate some Thucydides
 
 toTransliteration(                                   // Héllêsin egéneto
@@ -41,19 +28,53 @@ toTransliteration(                                   // Héllêsin egéneto
 )                                                    // pleĩston anthrốpôn.
 ```
 
-Functions signature is consistently `str: string, from: keyType, options: { removeDiacritics?: boolean }`
-- where the `keyType` enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION`;
-- and the `removeDiacritics` option is turned off by default.
+### toBetaCode ⋅ toGreek ⋅ toTransliteration
 
-Note that if you write plain javascript, you can fill the second parameter with string literals (`"beta_code", "greek", "transliteration"`) and avoid importing the keyType enumeration.
+Functions signature is consistently **`str: string, from: keyType, options: ConversionOptions = {}`**
 
-There is also an utility function `isMappedKey (key: string, type: keyType): boolean` that can be useful to check if a sequence exists in the mapping.
+The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).
+If you write plain JavaScript, you can also use string literals (`"beta-code", "greek", "transliteration"`).
+
+The **`ConversionOptions`** interface provides some control other the conversion process:
+
+```ts
+{
+  preserveWhitespace?: boolean, // multiple spaces are deleted by default
+  removeDiacritics?: boolean    // diacritics are preserved by default
+}
+```
+
+#### Examples
+
+```js
+// With unaccented strings
+
+toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
+toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
+toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
+
+// With accented strings
+
+toGreek('A)/i+da', keyType.BETA_CODE) // Ἄϊδα
+toTransliteration('ἄϋλος', keyType.GREEK) // áülos
+toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
+```
+
+### Other functions
+
+#### `isMappedKey (key: string, type: keyType): boolean`
+
+Checks if a key is used by the converter.
+
+#### `removeDiacritics (str: string, type: keyType): string`
+
+Removes all the diacritics from a given string.
 
 ## Limitations
 
 This is what you should know before using this library:
 
-- Converting from `transliteration` to `betacode` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν *= καὶ ἄν*);
+- Converting from `transliteration` to `betacode` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
 - When converting to `betacode`, some characters that represent diacritics can't be use as autonomous characters (`), (, /, \, +, =, |`);
 - When converting to `betacode` or `transliteration`, the *ano teleia* (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
 - Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
