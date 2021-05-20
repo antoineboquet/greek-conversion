@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { greekMapping } from './mapping'
+import { diacriticsMapping, greekMapping } from './mapping'
 
 export function applyGammaDiphthongs (str: string, type: keyType): string {
   switch (type) {
@@ -49,7 +49,7 @@ export function applyGreekVariants (str: string): string {
     const lastSigmaIndex: number = el.lastIndexOf('σ')
 
     const lastSigmaSlice: string = (lastSigmaIndex)
-      ? removeDiacritics(el.slice(lastSigmaIndex))
+      ? removeDiacritics(el.slice(lastSigmaIndex), keyType.GREEK)
       : undefined
 
     if (el.charAt(0) === 'ϐ') {
@@ -79,7 +79,12 @@ export function applyUppercaseChars (str: string): string {
 export function isMappedKey (key: string, type: keyType): boolean {
   const keys = []
 
-  for (const el of greekMapping) {
+  const mapping = [
+    ...greekMapping,
+    ...diacriticsMapping
+  ]
+
+  for (const el of mapping) {
     switch (type) {
       case keyType.GREEK:
         keys.push(el.greek)
@@ -100,29 +105,33 @@ export function isMappedKey (key: string, type: keyType): boolean {
 
 export function normalizeGreek (str: string): string {
   // Normalize `middle dot` (\u00B7) to `greek ano teleia` (\u0387).
-  str = str.replace(/\u00B7/g, '\u0387')
-
-  return str
+  return str.replace(/\u00B7/g, '\u0387')
 }
 
-export function removeDiacritics (str: string): string {
+export function removeDiacritics (str: string, type: keyType): string {
   str = str.normalize('NFD')
 
-  // Keep the circumflex (\u0302) that is used for transliteration.
-  str = str.replace(/[\u0300-\u0301]|[\u0303-\u036f]/g, '')
+  switch (type) {
+    case keyType.BETA_CODE:
+      // Delete the following characters: `( ) \ / + = |`.
+      str = str.replace(/[\(\)\\\/\+=\|]/g, '')
+      break
+
+    case keyType.GREEK:
+      str = str.replace(/[\u0300-\u036f]/g, '')
+      break
+
+    case keyType.TRANSLITERATION:
+      // Keep the circumflex (\u0302) that is used for transliteration.
+      str = str.replace(/[\u0300-\u0301]|[\u0303-\u036f]/g, '')
+      break
+  }
 
   return str.normalize('NFC')
 }
 
 export function removeGreekVariants (str: string): string {
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === 'ϐ')
-      str = str.slice(0, i) + 'β' + str.slice(i + 1)
-    else if (str[i] === 'ς')
-      str = str.slice(0, i) + 'σ' + str.slice(i + 1)
-  }
-
-  return str
+  return str.replace(/ϐ/g, 'β').replace(/ς/g, 'σ')
 }
 
 export function removeExtraWhitespace (str: string): string {
