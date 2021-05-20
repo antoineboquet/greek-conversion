@@ -1,3 +1,13 @@
+export const SMOOTH_BREATHING  = '\u0313'
+export const ROUGH_BREATHING   = '\u0314'
+export const ACCUTE_ACCENT     = '\u0301'
+export const GRAVE_ACCENT      = '\u0300'
+export const GREEK_TILDE       = '\u0342'
+export const LATIN_TILDE       = '\u0303'
+export const DIAERESIS         = '\u0308'
+export const IOTA_SUBSCRIPT    = '\u0345'
+export const CIRCUMFLEX_ACCENT = '\u0302'
+
 export const greekMapping = [
   {
     // Alpha
@@ -316,46 +326,46 @@ export const greekMapping = [
 export const diacriticsMapping = [
   {
     // Smooth breathing
-    greek: '\u0313',
+    greek: SMOOTH_BREATHING,
     latin: ')',
     trans: ''
   },
   {
     // Rough breathing
-    greek: '\u0314',
+    greek: ROUGH_BREATHING,
     latin: '(',
     trans: ''
   },
   {
     // Accute accent (`Combining Acute Accent`)
-    greek: '\u0301',
+    greek: ACCUTE_ACCENT,
     latin: '/',
-    trans: '\u0301'
+    trans: ACCUTE_ACCENT
   },
   {
     // Grave accent
-    greek: '\u0300',
+    greek: GRAVE_ACCENT,
     latin: '\\',
-    trans: '\u0300'
+    trans: GRAVE_ACCENT
   },
   {
     // Tilde:
     //   `Combining Greek Perispomeni` (\u0342)
     //   `Combining Tilde` (\u0303)
-    greek: '\u0342',
+    greek: GREEK_TILDE,
     latin: '=',
-    trans: '\u0303'
+    trans: LATIN_TILDE
   },
   {
     // Diaeresis
-    greek: '\u0308',
+    greek: DIAERESIS,
     latin: '+',
-    trans: '\u0308'
+    trans: DIAERESIS
   },
   {
     // Iota subscript
-    greek: '\u0345',
+    greek: IOTA_SUBSCRIPT,
     latin: '|',
-    trans: '\u0345'
+    trans: IOTA_SUBSCRIPT
   }
 ]
