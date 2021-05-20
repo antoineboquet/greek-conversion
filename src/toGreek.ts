@@ -1,5 +1,19 @@
 import { keyType } from './enums'
-import { diacriticsMapping, greekMapping } from './mapping'
+
+import {
+  ACCUTE_ACCENT,
+  CIRCUMFLEX_ACCENT,
+  DIAERESIS,
+  GRAVE_ACCENT,
+  IOTA_SUBSCRIPT,
+  GREEK_TILDE,
+  LATIN_TILDE,
+  ROUGH_BREATHING,
+  SMOOTH_BREATHING,
+  diacriticsMapping,
+  greekMapping
+} from './mapping'
+
 import {
   applyGammaDiphthongs,
   applyGreekVariants,
@@ -16,11 +30,12 @@ export function toGreek (
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
       str = fromBetaCodeToGreek(str, options.removeDiacritics)
       break
 
     case keyType.TRANSLITERATION:
-      if (options.removeDiacritics) str = removeDiacritics(str)
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
 
       str = fromTransliterationToGreek(str)
       str = applyUppercaseChars(str)
@@ -43,21 +58,22 @@ export function toGreek (
 function applyBreathings (str: string): string {
   str = str.normalize('NFD')
 
-  const pattern = new RegExp(
-    // (start or space) (rough breathing?) (accented vowels) (diaeresis?)
-    /(^|\s)(h)?([αεηιοωυ\u0301\u0300\u0303\u0345]+)(\u0308)?/, 'gi'
-  )
+  const breathings = SMOOTH_BREATHING + ROUGH_BREATHING
+  const accents = ACCUTE_ACCENT + GRAVE_ACCENT + LATIN_TILDE
+  const vowels = 'αεηιοωυ' + accents + IOTA_SUBSCRIPT
+
+  const pattern = new RegExp(`(^|\\s)(h)?([${vowels}]+)(${DIAERESIS})?`, 'gi')
 
   // Apply breathings on vowels.
   str = str.replace(pattern, (match, start, roughBreathing, group, diaeresis) => {
-    // Smooth breathing (\u0313) or rough breathing (\u3014).
-    const breathing = (roughBreathing) ? '\u0314' : '\u0313'
+    const breathing = (roughBreathing) ? ROUGH_BREATHING : SMOOTH_BREATHING
 
     if (diaeresis) {
       match = match.normalize('NFC')
 
-      const vowelsGroup = match.slice(0, match.length - 1).normalize('NFD')
-      const vowelWithDiaeresis = match.slice(match.length - 1).normalize('NFD')
+      const lastChar = (match.length - 1)
+      const vowelsGroup = match.slice(0, lastChar).normalize('NFD')
+      const vowelWithDiaeresis = match.slice(lastChar).normalize('NFD')
 
       return start + vowelsGroup + breathing + vowelWithDiaeresis
     }
@@ -66,10 +82,13 @@ function applyBreathings (str: string): string {
   })
 
   // Apply rough breathings on `rho`.
-  str = str.replace(/(ρ)h/gi, '$1\u0314')
+  str = str.replace(/(ρ)h/gi, `$1${ROUGH_BREATHING}`)
 
   // Reorder diacritics.
-  str = str.replace(/([\u0301\u0300\u0303\u0345])([\u0313\u0314])/g, '$2$1')
+  str = str.replace(
+    new RegExp(`([${accents + IOTA_SUBSCRIPT}])([${breathings}])`, 'g'),
+    '$2$1'
+  )
 
   return str.normalize('NFC')
 }
@@ -84,8 +103,6 @@ function fromBetaCodeToGreek (
     ? [...greekMapping, ...diacriticsMapping]
     : greekMapping
 
-  const diacritics = diacriticsMapping.map((el) => el.latin)
-
   for (const char of betaCodeStr) {
     let tmp: string
 
@@ -96,9 +113,7 @@ function fromBetaCodeToGreek (
       }
     }
 
-    if (!removeDiacritics || (removeDiacritics && !diacritics.includes(char))) {
-      greekStr += tmp ?? char
-    }
+    greekStr += tmp ?? char
   }
 
   if (!removeDiacritics) greekStr = greekStr.normalize('NFC')
@@ -117,12 +132,15 @@ function fromTransliterationToGreek (transliteratedStr: string): string {
 
     // `Combining Tilde` (\u0303) diacritic is latin-only and must be converted
     // to the latin diacritical mark `Combining Greek Perispomeni` (\u0342).
-    let decomposedChar = transliteratedStr[i].normalize('NFD').replace(/\u0303/g, '\u0342')
+    let decomposedChar = transliteratedStr[i]
+      .normalize('NFD')
+      .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+
     // Isolate the character with its potential circumflex (as this diacritical
     // mark is used to represent long vowels in transliterated form).
     let recomposedChar = recomposeChar(decomposedChar)
 
-    decomposedChar = decomposedChar.replace(/\u0302/g, '') // \u0302 = circumflex.
+    decomposedChar = decomposedChar.replace(new RegExp(CIRCUMFLEX_ACCENT, 'g'), '')
 
     for (const key of greekMapping) {
       if ([recomposedChar, pair].includes(key.trans)) {
@@ -147,9 +165,8 @@ function fromTransliterationToGreek (transliteratedStr: string): string {
 function recomposeChar (decomposedChar: string): string {
   let recomposedChar = decomposedChar.charAt(0)
 
-  // \u0302 = circumflex.
-  if (decomposedChar.includes('\u0302')) {
-    recomposedChar += '\u0302'
+  if (decomposedChar.includes(CIRCUMFLEX_ACCENT)) {
+    recomposedChar += CIRCUMFLEX_ACCENT
   }
 
   return recomposedChar.normalize('NFC')

@@ -1,5 +1,5 @@
 import { keyType } from './enums'
-import { diacriticsMapping, greekMapping } from './mapping'
+import { SMOOTH_BREATHING, diacriticsMapping, greekMapping } from './mapping'
 import {
   applyGammaDiphthongs,
   normalizeGreek,
@@ -15,15 +15,16 @@ export function toTransliteration (
 ): string {
   switch (from) {
     case keyType.BETA_CODE:
-      str = removeSmoothBreathings(str, keyType.BETA_CODE)
-      str = flagRoughBreathings(str)
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
+      else str = flagRoughBreathings(str)
+
       str = fromBetaCodeToTransliteration(str, options.removeDiacritics)
       break
 
     case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str)
-      str = removeSmoothBreathings(str, keyType.GREEK)
-      str = applyRoughBreathings(str)
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
+      else str = applyGreekBreathings(str)
+
       str = removeGreekVariants(str)
       str = normalizeGreek(str)
       str = fromGreekToTransliteration(str)
@@ -35,8 +36,11 @@ export function toTransliteration (
   return applyGammaDiphthongs(str, keyType.TRANSLITERATION)
 }
 
-function applyRoughBreathings (str: string): string {
+function applyGreekBreathings (str: string): string {
   str = str.normalize('NFD')
+
+  // Remove smooth breathings.
+  str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
 
   // Transliterate rough breathings with an `h`.
   str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
@@ -132,20 +136,4 @@ function fromGreekToTransliteration (greekStr: string): string {
   }
 
   return transliteratedStr
-}
-
-function removeSmoothBreathings (str: string, type: keyType): string {
-  switch (type) {
-    case keyType.BETA_CODE:
-      str = str.replace(/\)/g, '')
-      break
-
-    case keyType.GREEK:
-      str = str.normalize('NFD')
-      str = str.replace(/\u0313/g, '')
-      str = str.normalize('NFC')
-      break
-  }
-
-  return str
 }
