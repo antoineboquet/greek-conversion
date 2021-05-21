@@ -1,12 +1,16 @@
-export const SMOOTH_BREATHING  = '\u0313'
-export const ROUGH_BREATHING   = '\u0314'
-export const ACCUTE_ACCENT     = '\u0301'
-export const GRAVE_ACCENT      = '\u0300'
-export const GREEK_TILDE       = '\u0342'
-export const LATIN_TILDE       = '\u0303'
-export const DIAERESIS         = '\u0308'
-export const IOTA_SUBSCRIPT    = '\u0345'
-export const CIRCUMFLEX_ACCENT = '\u0302'
+export const SMOOTH_BREATHING = '\u0313'
+export const ROUGH_BREATHING  = '\u0314'
+export const ACUTE_ACCENT     = '\u0301' // `Combining Acute Accent`
+export const GRAVE_ACCENT     = '\u0300'
+export const GREEK_TILDE      = '\u0342' // `Combining Greek Perispomeni`
+export const LATIN_TILDE      = '\u0303' // `Combining Tilde`
+export const DIAERESIS        = '\u0308'
+export const IOTA_SUBSCRIPT   = '\u0345'
+export const CIRCUMFLEX       = '\u0302'
+export const ANO_TELEIA       = '\u0387'
+
+export const BREATHINGS = ROUGH_BREATHING + SMOOTH_BREATHING
+export const ACCENTS    = ACUTE_ACCENT + GRAVE_ACCENT + GREEK_TILDE + LATIN_TILDE
 
 export const greekMapping = [
   {
@@ -316,8 +320,8 @@ export const greekMapping = [
     trans: '?'
   },
   {
-    // Ano teleia
-    greek: '·',
+    // Ano teleia (`·`)
+    greek: ANO_TELEIA,
     latin: ';',
     trans: ';'
   }
@@ -337,10 +341,10 @@ export const diacriticsMapping = [
     trans: ''
   },
   {
-    // Accute accent (`Combining Acute Accent`)
-    greek: ACCUTE_ACCENT,
+    // Accute accent
+    greek: ACUTE_ACCENT,
     latin: '/',
-    trans: ACCUTE_ACCENT
+    trans: ACUTE_ACCENT
   },
   {
     // Grave accent
@@ -349,9 +353,7 @@ export const diacriticsMapping = [
     trans: GRAVE_ACCENT
   },
   {
-    // Tilde:
-    //   `Combining Greek Perispomeni` (\u0342)
-    //   `Combining Tilde` (\u0303)
+    // Tilde
     greek: GREEK_TILDE,
     latin: '=',
     trans: LATIN_TILDE
