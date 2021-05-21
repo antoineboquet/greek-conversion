@@ -1,5 +1,10 @@
 import { keyType } from './enums'
-import { diacriticsMapping, greekMapping } from './mapping'
+
+import {
+  CIRCUMFLEX, DIAERESIS,
+  GREEK_TILDE, LATIN_TILDE,
+  greekMapping
+} from './mapping'
 
 export function applyGammaDiphthongs (str: string, type: keyType): string {
   switch (type) {
@@ -35,6 +40,49 @@ export function applyGammaDiphthongs (str: string, type: keyType): string {
   }
 
   return str
+}
+
+export function applyBreathings (
+  str: string,
+  options: {
+    accents: string,
+    breathings: { rough: string, smooth: string },
+    vowels: string
+  }
+): string {
+  str = str.normalize('NFD')
+
+  const accents = options.accents
+  const vowels  = options.vowels
+  const rough   = options.breathings.rough
+  const smooth  = options.breathings.smooth
+
+  const re = new RegExp(`(^|\\s)(h)?([${accents + vowels}]+)(${DIAERESIS})?`, 'gi')
+
+  // Apply breathings on vowels.
+  str = str.replace(re, (match, start, roughBreathing, group, diaeresis) => {
+    const breathing = (roughBreathing) ? rough : smooth
+
+    if (diaeresis) {
+      match = match.normalize('NFC')
+
+      const lastChar = (match.length - 1)
+      const vowelsGroup = match.slice(0, lastChar).normalize('NFD')
+      const vowelWithDiaeresis = match.slice(lastChar).normalize('NFD')
+
+      return start + vowelsGroup + breathing + vowelWithDiaeresis
+    }
+
+    return start + group + breathing
+  })
+
+  // Apply rough breathings on `rho`.
+  str = str.replace(/([ρr])h/gi, `$1${rough}`)
+
+  // Reorder diacritics.
+  str = str.replace(new RegExp(`([${accents}])([${rough + smooth}])`, 'g'), '$2$1')
+
+  return str.normalize('NFC')
 }
 
 export function applyGreekVariants (str: string): string {
@@ -79,12 +127,7 @@ export function applyUppercaseChars (str: string): string {
 export function isMappedKey (key: string, type: keyType): boolean {
   const keys = []
 
-  const mapping = [
-    ...greekMapping,
-    ...diacriticsMapping
-  ]
-
-  for (const el of mapping) {
+  for (const el of greekMapping) {
     switch (type) {
       case keyType.GREEK:
         keys.push(el.greek)
@@ -104,8 +147,27 @@ export function isMappedKey (key: string, type: keyType): boolean {
 }
 
 export function normalizeGreek (str: string): string {
-  // Normalize `middle dot` (\u00B7) to `greek ano teleia` (\u0387).
-  return str.replace(/\u00B7/g, '\u0387')
+  str = str.normalize('NFD')
+
+  // Latin only `combining tilde` becomes `combining greek perispomeni`.
+  str = str.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+
+  str = str.normalize('NFC')
+
+  // `Middle dot` (\u00B7) becomes `greek ano teleia` (\u0387).
+  str = str.replace(/\u00b7/g, '\u0387')
+
+  return str
+}
+
+export function recomposeTransliteratedChar (decomposedChar: string): string {
+  let recomposedChar = decomposedChar.charAt(0)
+
+  if (decomposedChar.includes(CIRCUMFLEX)) {
+    recomposedChar += CIRCUMFLEX
+  }
+
+  return recomposedChar.normalize('NFC')
 }
 
 export function removeDiacritics (str: string, type: keyType): string {

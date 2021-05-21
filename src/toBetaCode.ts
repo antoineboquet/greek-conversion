@@ -1,8 +1,16 @@
 import { keyType } from './enums'
-import { diacriticsMapping, greekMapping } from './mapping'
+
 import {
+  ACCENTS, IOTA_SUBSCRIPT,
+  diacriticsMapping,
+  greekMapping
+} from './mapping'
+
+import {
+  applyBreathings,
   applyUppercaseChars,
   removeDiacritics,
+  recomposeTransliteratedChar,
   removeExtraWhitespace,
   removeGreekVariants
 } from './utils'
@@ -25,51 +33,20 @@ export function toBetaCode (
       str = applyUppercaseChars(str)
       str = fromTransliterationToBetaCode(str)
 
+      const applyBreathingsOptions = {
+        accents: ACCENTS + IOTA_SUBSCRIPT,
+        breathings: { rough: '(', smooth: ')' },
+        vowels: 'aehiowu'
+      }
+
       if (options.removeDiacritics) str = str.replace(/(^|\s)h/gi, '$1')
-      else str = applyBreathings(str)
+      else str = applyBreathings(str, applyBreathingsOptions)
       break
   }
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
 
   return str
-}
-
-/**
- * @FIXME Could be merged with `src/toGreek.ts` homonym function.
-*/
-function applyBreathings (str: string): string {
-  str = str.normalize('NFD')
-
-  const pattern = new RegExp(
-    // (start or space) (rough breathing?) (accented vowels) (diaeresis?)
-    /(^|\s)(h)?([aehiowu\u0301\u0300\u0303\u0345]+)(\u0308)?/, 'gi'
-  )
-
-  // Apply breathings on vowels.
-  str = str.replace(pattern, (match, start, roughBreathing, group, diaeresis) => {
-    // Smooth breathing `(` or rough breathing `)`.
-    const breathing = (roughBreathing) ? '(' : ')'
-
-    if (diaeresis) {
-      match = match.normalize('NFC')
-
-      const vowelsGroup = match.slice(0, match.length - 1).normalize('NFD')
-      const vowelWithDiaeresis = match.slice(match.length - 1).normalize('NFD')
-
-      return start + vowelsGroup + breathing + vowelWithDiaeresis
-    }
-
-    return start + group + breathing
-  })
-
-  // Apply rough breathings on `rho`.
-  str = str.replace(/(r)h/gi, '$1(')
-
-  // Reorder diacritics.
-  str = str.replace(/([\u0301\u0300\u0303\u0345])([\u0313\u0314])/g, '$2$1')
-
-  return str.normalize('NFC')
 }
 
 function convertTransliteratedDiacritics (decomposedDiacritics: string): string {
@@ -84,7 +61,7 @@ function convertTransliteratedDiacritics (decomposedDiacritics: string): string 
     }
   }
 
-  // Ensure the order (grave/accute/tilde then diaeresis & iota subscript).
+  // Reorder diacritics (grave/accute/tilde then diaeresis & iota subscript).
   betaCodeDiacritics = betaCodeDiacritics.replace(/([+|])([\/\\=])/g, '$2$1')
 
   return betaCodeDiacritics
@@ -133,7 +110,7 @@ function fromTransliterationToBetaCode (transliteratedStr: string): string {
 
     // Isolate the character with its potential circumflex (as this diacritical
     // mark is used to represent long vowels in transliterated form).
-    let recomposedChar = recomposeChar(decomposedChar)
+    let recomposedChar = recomposeTransliteratedChar(decomposedChar)
 
     for (const key of greekMapping) {
       if ([recomposedChar, pair].includes(key.trans)) {
@@ -146,24 +123,10 @@ function fromTransliterationToBetaCode (transliteratedStr: string): string {
       }
     }
 
-    // Remove base character + the eventual recomposed circumflex (u0302).
-    const decomposedDiacritics = decomposedChar.slice(1).replace(/\u0302/g, '')
-
-    tmp.latin += convertTransliteratedDiacritics(decomposedDiacritics)
+    tmp.latin += convertTransliteratedDiacritics(decomposedChar.slice(1))
 
     betaCodeStr += tmp.latin || transliteratedStr[i]
   }
 
   return betaCodeStr
-}
-
-function recomposeChar (decomposedChar: string): string {
-  let recomposedChar = decomposedChar.charAt(0)
-
-  // \u0302 = circumflex (`Combining Circumflex Accent`).
-  if (decomposedChar.includes('\u0302')) {
-    recomposedChar += '\u0302'
-  }
-
-  return recomposedChar.normalize('NFC')
 }

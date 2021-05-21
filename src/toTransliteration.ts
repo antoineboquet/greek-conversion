@@ -1,5 +1,12 @@
 import { keyType } from './enums'
-import { SMOOTH_BREATHING, diacriticsMapping, greekMapping } from './mapping'
+
+import {
+  GREEK_TILDE, LATIN_TILDE, SMOOTH_BREATHING,
+  diacriticsMapping,
+  greekMapping,
+  ROUGH_BREATHING
+} from './mapping'
+
 import {
   applyGammaDiphthongs,
   normalizeGreek,
@@ -43,31 +50,29 @@ function applyGreekBreathings (str: string): string {
   str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
 
   // Transliterate rough breathings with an `h`.
-  str = str.replace(/([α-ω]+)\u0314/gi, (match, group) => {
-    if (match.toLowerCase() === 'ῥ') {
+  const re = new RegExp(`([α-ω]+)${ROUGH_BREATHING}`, 'gi')
+
+  str = str.replace(re, (match, group) => {
+    if (match.toLowerCase() === 'ῥ')
       return group + 'h'
-    } else {
-      if (group === group.toLowerCase()) return 'h' + group
-      else return 'H' + group.toLowerCase()
-    }
+
+    if (group === group.toLowerCase()) return 'h' + group
+    else return 'H' + group.toLowerCase()
   })
 
-  str = str.normalize('NFC')
-
-  return str
+  return str.normalize('NFC')
 }
 
 function flagRoughBreathings (str: string): string {
   // Rough breathings are ambiguous as `h` converts to `ê`.
-  // This transforms rough breathings to unambiguous flags ($ = h, £ = H)
+  // This transforms rough breathings to unambiguous flags ($ = h, % = H)
   // that need to be transliterated in fromBetaCodeToTransliteration().
   str = str.replace(/([aehiowu]+)\(/gi, (match, group) => {
-    if (match.toLowerCase() === 'r(') {
+    if (match.toLowerCase() === 'r(')
       return group + '$'
-    } else {
-      if (group === group.toLowerCase()) return '$' + group
-      else return '£' + group.toLowerCase()
-    }
+
+    if (group === group.toLowerCase()) return '$' + group
+    else return '%' + group.toLowerCase()
   })
 
   return str
@@ -83,8 +88,6 @@ function fromBetaCodeToTransliteration (
     ? [...greekMapping, ...diacriticsMapping]
     : greekMapping
 
-  const diacritics = diacriticsMapping.map((el) => el.latin)
-
   for (const char of betaCodeStr) {
     let tmp: string
 
@@ -95,12 +98,10 @@ function fromBetaCodeToTransliteration (
       }
     }
 
-    if (!removeDiacritics || (removeDiacritics && !diacritics.includes(char))) {
-      transliteratedStr += tmp ?? char
-    }
+    transliteratedStr += tmp ?? char
   }
 
-  transliteratedStr = transliteratedStr.replace(/\$/g, 'h').replace(/£/g, 'H')
+  transliteratedStr = transliteratedStr.replace(/\$/g, 'h').replace(/%/g, 'H')
 
   if (!removeDiacritics) transliteratedStr = transliteratedStr.normalize('NFC')
 
@@ -116,7 +117,8 @@ function fromGreekToTransliteration (greekStr: string): string {
     for (const key of greekMapping) {
       // `Combining Greek Perispomeni` (\u0342) diacritic is greek-only and must
       // be converted to the latin diacritical mark `Combining Tilde` (\u0303).
-      const decomposedChar = char.normalize('NFD').replace(/\u0342/g, '\u0303')
+      const decomposedChar = char.normalize('NFD')
+        .replace(new RegExp(GREEK_TILDE, 'g'), LATIN_TILDE)
 
       switch (key.greek) {
         case char:
