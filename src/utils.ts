@@ -3,6 +3,7 @@ import { keyType } from './enums'
 import {
   CIRCUMFLEX, DIAERESIS,
   GREEK_TILDE, LATIN_TILDE,
+  diacriticsMapping,
   greekMapping
 } from './mapping'
 
@@ -126,8 +127,9 @@ export function applyUppercaseChars (str: string): string {
 
 export function isMappedKey (key: string, type: keyType): boolean {
   const keys = []
+  const mapping = [...greekMapping, ...diacriticsMapping]
 
-  for (const el of greekMapping) {
+  for (const el of mapping) {
     switch (type) {
       case keyType.GREEK:
         keys.push(el.greek)
