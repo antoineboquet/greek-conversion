@@ -3,6 +3,8 @@ import { keyType, isMappedKey, removeDiacritics } from '../src/index'
 describe('isMappedKey', () => {
   test('Testing `isMappedKey` function',
     () => expect(isMappedKey('a', keyType.BETA_CODE)).toBe(true))
+    test('Testing `isMappedKey` function',
+    () => expect(isMappedKey('\u0314'/* rough breathing */, keyType.GREEK)).toBe(true))
   test('Testing `isMappedKey` function',
     () => expect(isMappedKey('$', keyType.GREEK)).toBe(false))
 })
