@@ -62,6 +62,14 @@ toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // a
 
 ### Other functions
 
+#### `applyGreekVariants (str: string): string`
+
+Applies the beta and sigma variants.
+
+#### `applyGammaDiphthongs (str: string, type: keyType): string`
+
+Applies the gamma diphtongs. e.g. `aggelos -> angelos` and `ανγελος -> αγγελος`.
+
 #### `isMappedKey (key: string, type: keyType): boolean`
 
 Checks if a key is used by the converter.
@@ -69,6 +77,10 @@ Checks if a key is used by the converter.
 #### `removeDiacritics (str: string, type: keyType): string`
 
 Removes all the diacritics from a given string.
+
+#### `removeGreekVariants (str: string): string`
+
+Removes the beta and sigma variants.
 
 ## Limitations
 
