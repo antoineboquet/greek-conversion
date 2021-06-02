@@ -1,8 +1,10 @@
 # greek-conversion
 
+> **This library needs some feedback before getting its first stable release!**
+
 A small library to convert a polytonic greek string from/into various representations.
 
-## Installation and usage
+## Usage
 
 In order to use this library for your project, simply type `npm install --save greek-conversion`.
 
@@ -16,7 +18,7 @@ import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversio
 const gc = require('greek-conversion')
 ```
 
-Then use it:
+Then use them:
 
 ```js
 // Let's transliterate some Thucydides
@@ -32,8 +34,8 @@ toTransliteration(                                   // Héllêsin egéneto
 
 Functions signature is consistently **`str: string, from: keyType, options: ConversionOptions = {}`**
 
-The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).
-If you write plain JavaScript, you can also use string literals (`"beta-code", "greek", "transliteration"`).
+The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
+If you write plain JavaScript, you can also use string literals ("beta-code", "greek", "transliteration").
 
 The **`ConversionOptions`** interface provides some control other the conversion process:
 
@@ -64,11 +66,12 @@ toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // a
 
 #### `applyGreekVariants (str: string): string`
 
-Applies the beta and sigma variants.
+Applies beta and sigma variants, and transforms `πσ` in `ψ`.
 
 #### `applyGammaDiphthongs (str: string, type: keyType): string`
 
-Applies the gamma diphtongs. e.g. `aggelos -> angelos` and `ανγελος -> αγγελος`.
+Applies gamma diphtongs for strings of type `GREEK | TRANSLITERATION`.\
+e.g. `aggelos -> angelos` and `ανγελος -> αγγελος`.
 
 #### `isMappedKey (key: string, type: keyType): boolean`
 
@@ -80,7 +83,7 @@ Removes all the diacritics from a given string.
 
 #### `removeGreekVariants (str: string): string`
 
-Removes the beta and sigma variants.
+Removes beta and sigma variants.
 
 ## Limitations
 
