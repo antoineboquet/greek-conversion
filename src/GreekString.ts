@@ -7,8 +7,7 @@ import { removeDiacritics, removeExtraWhitespace } from './utils'
 export class GreekString {
   readonly from: keyType
   readonly options: ConversionOptions
-
-  source: string
+  readonly source: string
 
   _beta_code: string
   _greek: string
