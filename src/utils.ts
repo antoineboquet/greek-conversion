@@ -1,8 +1,7 @@
 import { keyType } from './enums'
 
 import {
-  CIRCUMFLEX, DIAERESIS,
-  GREEK_TILDE, LATIN_TILDE,
+  CIRCUMFLEX, DIAERESIS, GREEK_TILDE, LATIN_TILDE,
   diacriticsMapping,
   greekMapping
 } from './mapping'
