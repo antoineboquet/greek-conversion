@@ -1,10 +1,9 @@
 import { keyType } from './enums'
 
 import {
-  GREEK_TILDE, LATIN_TILDE, SMOOTH_BREATHING,
+  GREEK_TILDE, LATIN_TILDE, ROUGH_BREATHING, SMOOTH_BREATHING,
   diacriticsMapping,
   greekMapping,
-  ROUGH_BREATHING
 } from './mapping'
 
 import {
@@ -46,7 +45,6 @@ export function toTransliteration (
 function applyGreekBreathings (str: string): string {
   str = str.normalize('NFD')
 
-  // Remove smooth breathings.
   str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
 
   // Transliterate rough breathings with an `h`.

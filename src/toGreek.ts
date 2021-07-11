@@ -1,8 +1,7 @@
 import { keyType } from './enums'
 
 import {
-  ACCENTS, CIRCUMFLEX, IOTA_SUBSCRIPT,
-  ROUGH_BREATHING, SMOOTH_BREATHING,
+  ACCENTS, CIRCUMFLEX, IOTA_SUBSCRIPT, ROUGH_BREATHING, SMOOTH_BREATHING,
   diacriticsMapping,
   greekMapping
 } from './mapping'
