@@ -90,7 +90,7 @@ Removes beta and sigma variants.
 This is what you should know before using this library:
 
 - Converting from `transliteration` to `betacode` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
-- When converting to `betacode`, some characters that represent diacritics can't be use as autonomous characters (`), (, /, \, +, =, |`);
+- When converting to `betacode`, some characters that represent diacritics can't be used as autonomous characters (`), (, /, \, +, =, |`);
 - When converting to `betacode` or `transliteration`, the *ano teleia* (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
 - Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
 - Some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
