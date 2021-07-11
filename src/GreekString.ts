@@ -2,6 +2,7 @@ import { keyType } from './enums'
 import { toBetaCode } from './toBetaCode'
 import { toGreek } from './toGreek'
 import { toTransliteration } from './toTransliteration'
+import { removeDiacritics, removeExtraWhitespace } from './utils'
 
 export class GreekString {
   readonly from: keyType
@@ -18,6 +19,9 @@ export class GreekString {
     this.options = options ?? {}
 
     this.source = str
+
+    if (this.options.removeDiacritics) str = removeDiacritics(str, from)
+    if (!this.options.preserveWhitespace) str = removeExtraWhitespace(str)
 
     switch (from) {
       case keyType.BETA_CODE:
