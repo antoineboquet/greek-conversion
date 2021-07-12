@@ -4,9 +4,21 @@
 
 A small library to convert a polytonic greek string from/into various representations.
 
+## Summary
+
+1. [Usage](#usage)
+2. [Core functions](#core-functions)
+3. [OOP style](#oop-style)
+4. [Helper functions](#helper-functions)
+5. [Limitations](#limitations)
+6. [License](#license)
+
 ## Usage
 
-In order to use this library for your project, simply type `npm install --save greek-conversion`.
+In order to use this library for your project, simply type:
+```
+npm install --save greek-conversion
+```
 
 Import the library's functions as needed:
 
@@ -30,7 +42,9 @@ toTransliteration(                                   // Héllêsin egéneto
 )                                                    // pleĩston anthrốpôn.
 ```
 
-### toBetaCode ⋅ toGreek ⋅ toTransliteration
+## Core functions
+
+This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**.
 
 Functions signature is consistently **`str: string, from: keyType, options: ConversionOptions = {}`**
 
@@ -46,7 +60,7 @@ The **`ConversionOptions`** interface provides some control other the conversion
 }
 ```
 
-#### Examples
+### Examples
 
 ```js
 // With unaccented strings
@@ -62,11 +76,40 @@ toTransliteration('ἄϋλος', keyType.GREEK) // áülos
 toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
 ```
 
-### Other functions
+## OOP style
+
+You can also use the **`GreekString`** object if you want to manage several representations of a greek string.
+
+As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
+
+`GreekString` constructor is **`str: string, from: keyType, options?: ConversionOptions`**.
+
+You can access each representation by calling the following properties:  **`betaCode`**, **`greek`** & **`transliteration`**.
+
+Note that **`ConversionOptions`** is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the **`source`** property.
+
+
+### Example
+
+```js
+const person = new GreekString(
+  'ἄνθρωπος',
+  keyType.GREEK,
+  { removeDiacritics: true }
+)
+
+person.betaCode // anqrwpos
+person.greek // ανθρωπος
+person.transliteration // anthrôpos
+
+person.source // ἄνθρωπος
+```
+
+## Helper functions
 
 #### `applyGreekVariants (str: string): string`
 
-Applies beta and sigma variants, and transforms `πσ` in `ψ`.
+Applies beta/sigma variants and transforms `πσ` in `ψ`.
 
 #### `applyGammaDiphthongs (str: string, type: keyType): string`
 
@@ -79,7 +122,7 @@ Checks if a key is used by the converter.
 
 #### `removeDiacritics (str: string, type: keyType): string`
 
-Removes all the diacritics from a given string.
+Removes all the diacritics from a given string. Diacritics are defined for each representation of a greek string.
 
 #### `removeGreekVariants (str: string): string`
 
