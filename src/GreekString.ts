@@ -16,7 +16,6 @@ export class GreekString {
   constructor(str: string, from: keyType, options?: ConversionOptions) {
     this.from = from
     this.options = options ?? {}
-
     this.source = str
 
     if (this.options.removeDiacritics) str = removeDiacritics(str, from)
