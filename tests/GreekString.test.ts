@@ -1,15 +1,15 @@
 import { keyType, GreekString } from '../src/index'
 
 describe('GreekString', () => {
-  const foo = new GreekString('anthrôpos', keyType.TRANSLITERATION)
+  const foo = new GreekString('ánthrôpos', keyType.TRANSLITERATION)
   const bar = new GreekString('ἵππος', keyType.GREEK, { removeDiacritics: true })
   const baz = new GreekString('αἴξ   κριός', keyType.GREEK)
 
   test('Testing `GreekString` object', () => {
-    expect(foo.source).toBe('anthrôpos')
-    expect(foo.betaCode).toBe('a)nqrwpos')
-    expect(foo.greek).toBe('ἀνθρωπος')
-    expect(foo.transliteration).toBe('anthrôpos')
+    expect(foo.source).toBe('ánthrôpos')
+    expect(foo.betaCode).toBe('a)/nqrwpos')
+    expect(foo.greek).toBe('ἄνθρωπος')
+    expect(foo.transliteration).toBe('ánthrôpos')
   })
 
   test('Testing `GreekString` object w/ conversion options (removeDiacritics)', () => {
