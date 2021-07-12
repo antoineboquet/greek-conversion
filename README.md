@@ -92,6 +92,8 @@ Note that **`ConversionOptions`** is also applied to the input string in order t
 ### Example
 
 ```js
+import { GreekString, keyType } from 'greek-conversion'
+
 const person = new GreekString(
   'ἄνθρωπος',
   keyType.GREEK,
