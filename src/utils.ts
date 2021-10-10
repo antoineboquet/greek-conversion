@@ -95,18 +95,15 @@ export function applyGreekVariants (str: string): string {
 
   words.forEach((el, i) => {
     const lastSigmaIndex: number = el.lastIndexOf('σ')
-
     const lastSigmaSlice: string = (lastSigmaIndex)
       ? removeDiacritics(el.slice(lastSigmaIndex), keyType.GREEK)
       : undefined
 
-    if (el.charAt(0) === 'ϐ') {
-      words[i] = 'β' + el.slice(1)
-    }
-
     if (el.length > 1 && /σ(?![α-ω])/.test(lastSigmaSlice)) {
       words[i] = el.slice(0, lastSigmaIndex) + 'ς' + el.slice((lastSigmaIndex + 1))
     }
+
+    if (el.charAt(0) === 'ϐ') words[i] = 'β' + words[i].slice(1)
   })
 
   return words.join(' ')

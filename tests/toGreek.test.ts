@@ -24,6 +24,7 @@ describe('toGreek', () => {
     ${'i(/ppos'}          | ${'ἵππος'}
     ${'poih|='}           | ${'ποιῇ'}
     ${'A)/i+da'}          | ${'Ἄϊδα'}
+    ${'barbaros'}         | ${'βαρϐαρος'}
     ${aristotle.betacode} | ${aristotle.greekAccented}
   `('Testing `toGreek` function w/ beta code input, preserving diactrics', ({ str, expected }) => {
     expect(toGreek(str, keyType.BETA_CODE)).toBe(expected)
