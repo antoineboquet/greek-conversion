@@ -1,4 +1,5 @@
 import { keyType } from './enums'
+import { ConversionOptions } from './interfaces'
 
 import {
   ACCENTS, IOTA_SUBSCRIPT,

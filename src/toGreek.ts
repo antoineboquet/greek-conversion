@@ -1,4 +1,5 @@
 import { keyType } from './enums'
+import { ConversionOptions } from './interfaces'
 
 import {
   ACCENTS, CIRCUMFLEX, IOTA_SUBSCRIPT, ROUGH_BREATHING, SMOOTH_BREATHING,

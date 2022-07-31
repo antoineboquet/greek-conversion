@@ -1,4 +1,5 @@
 import { keyType } from './enums'
+import { ConversionOptions } from './interfaces'
 
 import {
   GREEK_TILDE, LATIN_TILDE, ROUGH_BREATHING, SMOOTH_BREATHING,

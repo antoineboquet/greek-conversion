@@ -1,9 +1,9 @@
 import { keyType } from './enums'
+import { ConversionOptions } from './interfaces'
 import { toBetaCode } from './toBetaCode'
 import { toGreek } from './toGreek'
 import { toTransliteration } from './toTransliteration'
 import { removeDiacritics, removeExtraWhitespace } from './utils'
-
 export class GreekString {
   readonly from: keyType
   readonly options: ConversionOptions
