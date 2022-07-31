@@ -7,14 +7,21 @@ A small library to convert a polytonic greek string from/into various representa
 ## Summary
 
 1. [Usage](#usage)
+    1. [With a package manager (recommended)](#with-a-package-manager-recommended)
+    2. [The old way](#the-old-way)
 2. [Core functions](#core-functions)
+    1. [Summary](#summary-1)
+    2. [Examples](#examples)
 3. [OOP style](#oop-style)
+    1. [Summary](#summary-2)
+    2. [Example](#example)
 4. [Helper functions](#helper-functions)
 5. [Limitations](#limitations)
 6. [License](#license)
 
 ## Usage
 
+### With a package manager (recommended)
 In order to use this library for your project, simply type:
 ```
 npm install --save greek-conversion
@@ -42,7 +49,24 @@ toTransliteration(                                   // Héllêsin egéneto
 )                                                    // pleĩston anthrốpôn.
 ```
 
+### The old way
+
+> This is primarily intended for the use of the library in the browser in the absence of a modern development environment.
+
+Download the latest release on Github, include `greekConversion.min.js` into your project then import it inside your HTML page using a `<script>` tag set as `type="module"` (which is supported by all modern browsers).
+
+You can then call the library's functions as exemplified below:
+
+```html
+<script type="module">
+  import { keyType, toGreek } from "./greekConversion.min.js";
+  console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)); // ανθρωπος
+</script>
+```
+
 ## Core functions
+
+### Summary
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**.
 
@@ -77,6 +101,8 @@ toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // a
 ```
 
 ## OOP style
+
+### Summary
 
 You can also use the **`GreekString`** object if you want to manage several representations of a greek string.
 
@@ -144,7 +170,7 @@ This should evolve in the future. Contributions are welcome.
 
 ## License
 
-Copyright (C) 2021  Antoine Boquet
+Copyright (C) 2021, 2022  Antoine Boquet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by

@@ -2,7 +2,7 @@
   "name": "greek-conversion",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "A small library to convert a polytonic greek string from/into various representations.",
   "keywords": [
     "greek",
@@ -12,8 +12,16 @@
   ],
   "homepage": "https://github.com/antoineboquet/greek-conversion#readme",
   "repository": "github:antoineboquet/greek-conversion.git",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "./dist/greekConversion.js",
+  "types": "./dist/greekConversion.d.ts",
+  "browser": "dist/greekConversion.min.js",
+  "targets": {
+    "browser": {
+      "optimize": true
+    }
+  },
   "files": [
     "/dist"
   ],
@@ -27,15 +35,17 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "parcel build",
     "prepare": "npm run build",
     "test": "jest",
     "test-coverage": "jest --coverage"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "jest": "^27.2.5",
-    "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3"
+    "@parcel/packager-ts": "^2.6.2",
+    "@parcel/transformer-typescript-types": "^2.6.2",
+    "@types/jest": "^28.1.6",
+    "jest": "^28.1.3",
+    "parcel": "^2.6.2",
+    "ts-jest": "^28.0.7"
   }
 }
