@@ -137,7 +137,7 @@ person.source // ἄνθρωπος
 
 #### `applyGreekVariants (str: string): string`
 
-Applies beta/sigma variants and transforms `πσ` in `ψ`.
+Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
 #### `applyGammaDiphthongs (str: string, type: keyType): string`
 
