@@ -141,7 +141,7 @@ Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
 #### `applyGammaDiphthongs (str: string, type: keyType): string`
 
-Applies gamma diphtongs for strings of type `GREEK | TRANSLITERATION`.\
+Applies gamma diphthongs for strings of type `GREEK | TRANSLITERATION`.\
 e.g. `aggelos -> angelos` and `ανγελος -> αγγελος`.
 
 #### `isMappedKey (key: string, type: keyType): boolean`
@@ -170,7 +170,7 @@ This should evolve in the future. Contributions are welcome.
 
 ## License
 
-Copyright (C) 2021, 2022  Antoine Boquet
+Copyright (C) 2021, 2022, 2023  Antoine Boquet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
