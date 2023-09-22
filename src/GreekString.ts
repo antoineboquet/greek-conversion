@@ -3,7 +3,8 @@ import { ConversionOptions } from './interfaces'
 import { toBetaCode } from './toBetaCode'
 import { toGreek } from './toGreek'
 import { toTransliteration } from './toTransliteration'
-import { removeDiacritics, removeExtraWhitespace } from './utils'
+import { applyGammaDiphthongs, applyGreekVariants, removeDiacritics, removeExtraWhitespace } from './utils'
+
 export class GreekString {
   readonly from: keyType
   readonly options: ConversionOptions
@@ -27,10 +28,13 @@ export class GreekString {
         break
 
       case keyType.GREEK:
+        str = applyGreekVariants(str, this.options.disableBetaVariant)
+        str = applyGammaDiphthongs(str, keyType.GREEK)
         this._greek = str
         break
 
       case keyType.TRANSLITERATION:
+        str = applyGammaDiphthongs(str, keyType.TRANSLITERATION)
         this._transliteration = str
         break
     }
