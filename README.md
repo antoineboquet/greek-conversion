@@ -22,9 +22,7 @@ A small library to convert a polytonic greek string from/into various representa
 ## Usage
 
 ### With a package manager (recommended)
-
 In order to use this library for your project, simply type:
-
 ```
 npm install --save greek-conversion
 ```
@@ -33,15 +31,10 @@ Import the library's functions as needed:
 
 ```js
 // ES6 modules syntax
-import {
-    keyType,
-    toBetaCode,
-    toGreek,
-    toTransliteration,
-} from "greek-conversion";
+import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
 // OR CommonJS syntax
-const gc = require("greek-conversion");
+const gc = require('greek-conversion')
 ```
 
 Then use them:
@@ -49,12 +42,11 @@ Then use them:
 ```js
 // Let's transliterate some Thucydides
 
-toTransliteration(
-    // Héllêsin egéneto
-    "Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, " + // kaì mérei tinì tỗn
-        "ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.", // barbárôn, hôs dè
-    keyType.GREEK // eipeĩn kaì epì
-); // pleĩston anthrốpôn.
+toTransliteration(                                   // Héllêsin egéneto
+  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // kaì mérei tinì tỗn
+  'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // barbárôn, hôs dè
+  keyType.GREEK                                      // eipeĩn kaì epì
+)                                                    // pleĩston anthrốpôn.
 ```
 
 ### The old way
@@ -67,8 +59,8 @@ You can then call the library's functions as exemplified below:
 
 ```html
 <script type="module">
-    import { keyType, toGreek } from "./greekConversion.min.js";
-    console.log(toGreek("anthrôpos", keyType.TRANSLITERATION)); // ανθρωπος
+  import { keyType, toGreek } from "./greekConversion.min.js";
+  console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)); // ανθρωπος
 </script>
 ```
 
@@ -88,7 +80,8 @@ The **`ConversionOptions`** interface provides some control other the conversion
 ```ts
 {
   preserveWhitespace?: boolean, // multiple spaces are deleted by default
-  removeDiacritics?: boolean    // diacritics are preserved by default
+  removeDiacritics?: boolean,   // diacritics are preserved by default
+  disableBetaVariant?: boolean  // the typographic variant `ϐ` is enabled by default (greek)
 }
 ```
 
@@ -97,15 +90,15 @@ The **`ConversionOptions`** interface provides some control other the conversion
 ```js
 // With unaccented strings
 
-toBetaCode("ανθρωπος", keyType.GREEK); // anqrwpos
-toGreek("anthrôpos", keyType.TRANSLITERATION); // ανθρωπος
-toTransliteration("anqrwpos", keyType.BETA_CODE); // anthrôpos
+toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
+toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
+toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
 
 // With accented strings
 
-toGreek("A)/i+da", keyType.BETA_CODE); // Ἄϊδα
-toTransliteration("ἄϋλος", keyType.GREEK); // áülos
-toTransliteration("ἄϋλος", keyType.GREEK, { removeDiacritics: true }); // aulos
+toGreek('A)/i+da', keyType.BETA_CODE) // Ἄϊδα
+toTransliteration('ἄϋλος', keyType.GREEK) // áülos
+toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
 ```
 
 ## OOP style
@@ -118,24 +111,27 @@ As multiple conversions can be destructive (see [limitations](#limitations)), <a
 
 `GreekString` constructor is **`str: string, from: keyType, options?: ConversionOptions`**.
 
-You can access each representation by calling the following properties: **`betaCode`**, **`greek`** & **`transliteration`**.
+You can access each representation by calling the following properties:  **`betaCode`**, **`greek`** & **`transliteration`**.
 
 Note that **`ConversionOptions`** is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the **`source`** property.
+
 
 ### Example
 
 ```js
-import { GreekString, keyType } from "greek-conversion";
+import { GreekString, keyType } from 'greek-conversion'
 
-const person = new GreekString("ἄνθρωπος", keyType.GREEK, {
-    removeDiacritics: true,
-});
+const person = new GreekString(
+  'ἄνθρωπος',
+  keyType.GREEK,
+  { removeDiacritics: true }
+)
 
-person.betaCode; // anqrwpos
-person.greek; // ανθρωπος
-person.transliteration; // anthrôpos
+person.betaCode // anqrwpos
+person.greek // ανθρωπος
+person.transliteration // anthrôpos
 
-person.source; // ἄνθρωπος
+person.source // ἄνθρωπος
 ```
 
 ## Helper functions
@@ -165,17 +161,17 @@ Removes beta and sigma variants.
 
 This is what you should know before using this library:
 
--   Converting from `transliteration` to `betacode` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
--   When converting to `betacode`, some characters that represent diacritics can't be used as autonomous characters (`), (, /, \, +, =, |`);
--   When converting to `betacode` or `transliteration`, the _ano teleia_ (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
--   Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
--   Some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
+- Converting from `transliteration` to `betacode` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
+- When converting to `betacode`, some characters that represent diacritics can't be used as autonomous characters (`), (, /, \, +, =, |`);
+- When converting to `betacode` or `transliteration`, the *ano teleia* (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
+- Accents should be normalized when converting to `greek` (because they can be encoded either `tonos` [= modern greek] or `oxia` [= ancient greek]);
+- Some thoughts are necessary to take care of the iota subscript which can either be omitted or added as a regular "i" in a transliterated context. None of these solutions can be reverted easily. The actual behaviour conservs the iota subscript below the latin letter.
 
 This should evolve in the future. Contributions are welcome.
 
 ## License
 
-Copyright (C) 2021, 2022, 2023 Antoine Boquet
+Copyright (C) 2021, 2022, 2023  Antoine Boquet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -184,8 +180,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see https://www.gnu.org/licenses/agpl-3.0.fr.html.
+along with this program.  If not, see https://www.gnu.org/licenses/agpl-3.0.fr.html.
