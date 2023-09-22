@@ -53,14 +53,16 @@ toTransliteration(                                   // Héllêsin egéneto
 
 > This is primarily intended for the use of the library in the browser in the absence of a modern development environment.
 
-Download the latest release on Github, include `greekConversion.min.js` into your project then import it inside your HTML page using a `<script>` tag set as `type="module"` (which is supported by all modern browsers).
+You can either import the library from the global content delivery network **unpkg** (`https://www.unpkg.com/greek-conversion`) or download the latest release on Github then include `greekConversion.min.js` into your project (but you could experience a CORS issue in this case and need to use a local server to run your project).
+
+As the library is built as a module, the `<script>` tag needs to be set as `type="module"` (which is supported by all modern browsers).
 
 You can then call the library's functions as exemplified below:
 
 ```html
 <script type="module">
-  import { keyType, toGreek } from "./greekConversion.min.js";
-  console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)); // ανθρωπος
+  import { keyType, toGreek } from 'https://www.unpkg.com/greek-conversion' // or './greekConversion.min.js'
+  console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)) // ανθρωπος
 </script>
 ```
 
