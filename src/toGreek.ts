@@ -48,7 +48,7 @@ export function toGreek (
       break
   }
 
-  str = applyGreekVariants(str)
+  str = applyGreekVariants(str, options.disableBetaVariant)
   str = applyGammaDiphthongs(str, keyType.GREEK)
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
