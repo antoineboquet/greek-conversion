@@ -53,7 +53,7 @@ toTransliteration(                                   // Héllêsin egéneto
 
 > This is primarily intended for the use of the library in the browser in the absence of a modern development environment.
 
-You can either import the library from the global content delivery network **unpkg** (`https://www.unpkg.com/greek-conversion`) or download the latest release on Github then include `greekConversion.min.js` into your project (but you could experience a CORS issue in this case and need to use a local server to run your project).
+You can either import the library from the unpkg <abbr title="Content Delivery Network">CDN</abbr> (`https://www.unpkg.com/greek-conversion`) or download the latest release on Github then include `greekConversion.min.js` into your project (but you could experience a CORS issue in this case and need to use a local server to run your project).
 
 As the library is built as a module, the `<script>` tag needs to be set as `type="module"` (which is supported by all modern browsers).
 
@@ -72,7 +72,7 @@ You can then call the library's functions as exemplified below:
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**.
 
-Functions signature is consistently **`str: string, from: keyType, options: ConversionOptions = {}`**
+Functions signature is consistently `str: string, from: keyType, options: ConversionOptions = {}`.
 
 The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
 If you write plain JavaScript, you can also use string literals ("beta-code", "greek", "transliteration").
@@ -111,11 +111,11 @@ You can also use the **`GreekString`** object if you want to manage several repr
 
 As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
-`GreekString` constructor is **`str: string, from: keyType, options?: ConversionOptions`**.
+`GreekString` constructor is `str: string, from: keyType, options?: ConversionOptions`.
 
-You can access each representation by calling the following properties:  **`betaCode`**, **`greek`** & **`transliteration`**.
+You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that **`ConversionOptions`** is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the **`source`** property.
+Note that `ConversionOptions` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 
 ### Example
