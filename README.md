@@ -43,7 +43,7 @@ Then use them:
 // Let's transliterate some Thucydides
 
 toTransliteration(                                   // Héllêsin egéneto
-  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // kaì mérei tinì tỗn
+  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρϐάρων, ' +  // kaì mérei tinì tỗn
   'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // barbárôn, hôs dè
   keyType.GREEK                                      // eipeĩn kaì epì
 )                                                    // pleĩston anthrốpôn.
