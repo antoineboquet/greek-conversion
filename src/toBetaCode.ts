@@ -22,6 +22,10 @@ export function toBetaCode (
   options: ConversionOptions = {}
 ): string {
   switch (from) {
+    case keyType.BETA_CODE:
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
+      break
+    
     case keyType.GREEK:
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
       str = removeGreekVariants(str)

@@ -29,6 +29,10 @@ export function toGreek (
       str = fromBetaCodeToGreek(str, options.removeDiacritics)
       break
 
+    case keyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
+      break
+
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
 
