@@ -43,7 +43,7 @@ Then use them:
 // Let's transliterate some Thucydides
 
 toTransliteration(                                   // Héllêsin egéneto
-  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρϐάρων, ' +  // kaì mérei tinì tỗn
+  'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // kaì mérei tinì tỗn
   'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // barbárôn, hôs dè
   keyType.GREEK                                      // eipeĩn kaì epì
 )                                                    // pleĩston anthrốpôn.
@@ -83,7 +83,7 @@ The **`ConversionOptions`** interface provides some control other the conversion
 {
   preserveWhitespace?: boolean, // multiple spaces are deleted by default
   removeDiacritics?: boolean,   // diacritics are preserved by default
-  disableBetaVariant?: boolean  // the typographic variant `ϐ` is enabled by default (greek)
+  disableBetaVariant?: boolean  // the typographic variant `ϐ` [U+03D0] is enabled by default (greek)
 }
 ```
 
