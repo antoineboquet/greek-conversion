@@ -85,8 +85,8 @@ export function applyBreathings (
   return str.normalize('NFC')
 }
 
-export function applyGreekVariants (str: string): string {
-  str = str.replace(/β/g, 'ϐ')
+export function applyGreekVariants (str: string, disableBetaVariant?: boolean): string {
+  if (!disableBetaVariant) str = str.replace(/β/g, 'ϐ')
   str = str.replace(/ς/g, 'σ')
 
   str = str.replace(/ΠΣ/g, 'Ψ').replace(/Πσ/g, 'Ψ').replace(/πσ/g, 'ψ')
@@ -103,7 +103,9 @@ export function applyGreekVariants (str: string): string {
       words[i] = el.slice(0, lastSigmaIndex) + 'ς' + el.slice((lastSigmaIndex + 1))
     }
 
-    if (el.charAt(0) === 'ϐ') words[i] = 'β' + words[i].slice(1)
+    if (!disableBetaVariant && el.charAt(0) === 'ϐ') {
+      words[i] = 'β' + words[i].slice(1)
+    }
   })
 
   return words.join(' ')

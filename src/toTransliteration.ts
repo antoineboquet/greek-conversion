@@ -36,6 +36,10 @@ export function toTransliteration (
       str = normalizeGreek(str)
       str = fromGreekToTransliteration(str)
       break
+
+    case keyType.TRANSLITERATION:
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
+      break
   }
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str)

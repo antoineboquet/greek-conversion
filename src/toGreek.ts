@@ -29,6 +29,10 @@ export function toGreek (
       str = fromBetaCodeToGreek(str, options.removeDiacritics)
       break
 
+    case keyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
+      break
+
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
 
@@ -48,7 +52,7 @@ export function toGreek (
       break
   }
 
-  str = applyGreekVariants(str)
+  str = applyGreekVariants(str, options.disableBetaVariant)
   str = applyGammaDiphthongs(str, keyType.GREEK)
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str)

@@ -72,4 +72,11 @@ describe('toGreek', () => {
   `('Testing `toGreek` function w/ transliterated input, preserving whitespace', ({ str, expected }) => {
     expect(toGreek(str, keyType.TRANSLITERATION, { preserveWhitespace: true })).toBe(expected);
   })
+
+  test.each`
+    str         | expected
+    ${'bíblos'} | ${'βίβλος'}
+  `('Testing `toGreek` function w/ transliterated input, disabling typographic lowercase beta variant', ({ str, expected }) => {
+    expect(toGreek(str, keyType.TRANSLITERATION, { disableBetaVariant: true })).toBe(expected);
+  })
 })

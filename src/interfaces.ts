@@ -1,4 +1,5 @@
 export interface ConversionOptions {
   preserveWhitespace?: boolean,
-  removeDiacritics?: boolean
+  removeDiacritics?: boolean,
+  disableBetaVariant?: boolean
 }
