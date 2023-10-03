@@ -70,7 +70,7 @@ You can then call the library's functions as exemplified below:
 
 ### Summary
 
-This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**.
+This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**. You can refer to the [conversion chart](https://github.com/antoineboquet/greek-conversion/wiki#conversion-chart) for further information about the expected input & output.
 
 Functions signature is consistently `str: string, from: keyType, options: ConversionOptions = {}`.
 
