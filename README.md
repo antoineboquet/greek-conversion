@@ -62,7 +62,7 @@ You can then call the library's functions as exemplified below:
 ```html
 <script type="module">
   import { keyType, toGreek } from 'https://www.unpkg.com/greek-conversion' // or './greekConversion.min.js'
-  console.log(toGreek('anthrôpos', keyType.TRANSLITERATION)) // ανθρωπος
+  console.log(toGreek('anthrōpos', keyType.TRANSLITERATION)) // ανθρωπος
 </script>
 ```
 
@@ -81,26 +81,35 @@ The **`ConversionOptions`** interface provides some control other the conversion
 
 ```ts
 {
-  preserveWhitespace?: boolean, // multiple spaces are deleted by default
-  removeDiacritics?: boolean,   // diacritics are preserved by default
-  disableBetaVariant?: boolean  // the typographic variant `ϐ` [U+03D0] is enabled by default (greek)
+  preserveWhitespace?: boolean,          // multiple spaces are deleted by default
+  removeDiacritics?: boolean,            // diacritics are preserved by default
+  setGreekStyle?: {
+    disableBetaVariant?: boolean         // the typographic variant `ϐ` [U+03D0] is enabled by default
+  },
+  setTransliterationStyle?: {
+    useCircumflexOnLongVowels?: boolean, // long vowels `η` & `ω` are indicated with a macron by default
+    xi_ks?: boolean,                     // alter the transliteration of `χ` which is `ch` by default
+    chi_kh?: boolean                     // alter the transliteration of `ξ` which is `x` by default
+  }
 }
 ```
 
 ### Examples
 
 ```js
-// With unaccented strings
+// Basic examples
 
 toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
-toGreek('anthrôpos', keyType.TRANSLITERATION) // ανθρωπος
-toTransliteration('anqrwpos', keyType.BETA_CODE) // anthrôpos
-
-// With accented strings
-
 toGreek('A)/i+da', keyType.BETA_CODE) // Ἄϊδα
-toTransliteration('ἄϋλος', keyType.GREEK) // áülos
 toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
+
+// With customized transliteration
+
+toTransliteration('τέχνη', keyType.GREEK) // téchnē
+toTransliteration('τέχνη', keyType.GREEK, { setTransliterationStyle: { chi_kh: true } }) // tékhnē
+toGreek('tékhnê', keyType.TRANSLITERATION, { setTransliterationStyle: { useCircumflexOnLongVowels: true, chi_kh: true } }) // τέχνη
+
+
 ```
 
 ## OOP style
@@ -131,7 +140,7 @@ const person = new GreekString(
 
 person.betaCode // anqrwpos
 person.greek // ανθρωπος
-person.transliteration // anthrôpos
+person.transliteration // anthrōpos
 
 person.source // ἄνθρωπος
 ```
