@@ -88,8 +88,8 @@ The **`ConversionOptions`** interface provides some control other the conversion
   },
   setTransliterationStyle?: {
     useCircumflexOnLongVowels?: boolean, // long vowels `η` & `ω` are indicated with a macron by default
-    xi_ks?: boolean,                     // alter the transliteration of `χ` which is `ch` by default
-    chi_kh?: boolean                     // alter the transliteration of `ξ` which is `x` by default
+    chi_kh?: boolean,                     // alter the transliteration of `χ` which is `ch` by default
+    xi_ks?: boolean                     // alter the transliteration of `ξ` which is `x` by default
   }
 }
 ```
