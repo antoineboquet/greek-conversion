@@ -45,7 +45,7 @@ Then use them:
 toTransliteration(                                   // Héllêsin egéneto
   'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // kaì mérei tinì tỗn
   'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // barbárôn, hôs dè
-  keyType.GREEK                                      // eipeĩn kaì epì
+  keyType.GREEK,                                     // eipeĩn kaì epì
 )                                                    // pleĩston anthrốpôn.
 ```
 
