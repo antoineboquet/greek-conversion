@@ -85,7 +85,7 @@ The **`ConversionOptions`** interface provides some control other the conversion
   removeDiacritics?: boolean,            // diacritics are preserved by default
   setGreekStyle?: {
     disableBetaVariant?: boolean,        // the typographic variant `ϐ` [U+03D0] is enabled by default
-    useSemicolonAsQuestionMark?: boolean // `greek question mark` [U+037E] is employed by default
+    useSemicolonAsQuestionMark?: boolean // the greek question mark [U+037E] is employed by default
   },
   setTransliterationStyle?: {
     useCircumflexOnLongVowels?: boolean, // long vowels `η` & `ω` are indicated with a macron by default
