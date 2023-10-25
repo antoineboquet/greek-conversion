@@ -72,25 +72,26 @@ You can then call the library's functions as exemplified below:
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**. You can refer to the [conversion chart](https://github.com/antoineboquet/greek-conversion/wiki#conversion-chart) for further information about the expected input & output.
 
-Functions signature is consistently `str: string, from: keyType, options: ConversionOptions = {}`.
+Functions signature is consistently `str: string, from: keyType, options: IConversionOptions = {}`.
 
 The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
 If you write plain JavaScript, you can also use string literals ("beta-code", "greek", "transliteration").
 
-The **`ConversionOptions`** interface provides some control other the conversion process:
+The **`IConversionOptions`** interface provides some control other the conversion process:
 
 ```ts
 {
-  preserveWhitespace?: boolean,          // multiple spaces are deleted by default
-  removeDiacritics?: boolean,            // diacritics are preserved by default
+  preserveWhitespace?: boolean,            // multiple spaces are deleted by default
+  removeDiacritics?: boolean,              // diacritics are preserved by default
+  useAdditionalLetters?:                   // extends the default mapping
+    additionalLetters|additionalLetters[],
   setGreekStyle?: {
-    disableBetaVariant?: boolean,        // the typographic variant `ϐ` [U+03D0] is enabled by default
-    useSemicolonAsQuestionMark?: boolean // the greek question mark [U+037E] is employed by default
+    disableBetaVariant?: boolean           // the typographic variant `ϐ` [U+03D0] is enabled by default
   },
   setTransliterationStyle?: {
-    useCircumflexOnLongVowels?: boolean, // long vowels `η` & `ω` are indicated with a macron by default
-    chi_kh?: boolean,                    // alter the transliteration of `χ` which is `ch` by default
-    xi_ks?: boolean                      // alter the transliteration of `ξ` which is `x` by default
+    useCxOverMacron?: boolean,             // long vowels `η` & `ω` are indicated with a macron by default
+    chi_kh?: boolean,                      // alter the transliteration of `χ` which is `ch` by default
+    xi_ks?: boolean                        // alter the transliteration of `ξ` which is `x` by default
   }
 }
 ```
@@ -108,9 +109,7 @@ toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // a
 
 toTransliteration('τέχνη', keyType.GREEK) // téchnē
 toTransliteration('τέχνη', keyType.GREEK, { setTransliterationStyle: { chi_kh: true } }) // tékhnē
-toGreek('tékhnê', keyType.TRANSLITERATION, { setTransliterationStyle: { useCircumflexOnLongVowels: true, chi_kh: true } }) // τέχνη
-
-
+toGreek('tékhnê', keyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, chi_kh: true } }) // τέχνη
 ```
 
 ## OOP style
@@ -121,12 +120,11 @@ You can also use the **`GreekString`** object if you want to manage several repr
 
 As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
-`GreekString` constructor is `str: string, from: keyType, options?: ConversionOptions`.
+`GreekString` constructor is `str: string, from: keyType, options?: IConversionOptions`.
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that `ConversionOptions` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
-
+Note that `IConversionOptions` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 
