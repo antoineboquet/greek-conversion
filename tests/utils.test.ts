@@ -17,5 +17,5 @@ describe('removeDiacritics', () => {
   test('Testing `removeDiacritics` function',
     () => expect(removeDiacritics('aḯdalos', keyType.TRANSLITERATION)).toBe('aidalos'))
   test('Testing `removeDiacritics` function',
-    () => expect(removeDiacritics('hoplítês', keyType.TRANSLITERATION)).toBe('hoplitês'))
+    () => expect(removeDiacritics('hoplítēs', keyType.TRANSLITERATION)).toBe('hoplitēs'))
 })

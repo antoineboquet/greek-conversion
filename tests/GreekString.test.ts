@@ -1,22 +1,22 @@
 import { keyType, GreekString } from '../src/index'
 
 describe('GreekString', () => {
-  const a = new GreekString('ánthrôpos', keyType.TRANSLITERATION)
+  const a = new GreekString('ánthrōpos', keyType.TRANSLITERATION)
   const b = new GreekString('ἵππος', keyType.GREEK, { removeDiacritics: true })
   const c = new GreekString('a)sth/r', keyType.BETA_CODE, { removeDiacritics: true })
   const d = new GreekString('áülos', keyType.TRANSLITERATION, { removeDiacritics: true })
   const e = new GreekString('αἴξ   κριός', keyType.GREEK)
   const f = new GreekString('αἴξ   κριός', keyType.GREEK, { preserveWhitespace: true })
   const g = new GreekString('βάρβαρος', keyType.GREEK)
-  const h = new GreekString('βάρβαρος', keyType.GREEK, { disableBetaVariant: true /* greek only */ })
+  const h = new GreekString('βάρβαρος', keyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })
   const i = new GreekString('ανγελος', keyType.GREEK)
   const j = new GreekString('aggelos', keyType.TRANSLITERATION)
 
   test('Testing `GreekString` object', () => {
-    expect(a.source).toBe('ánthrôpos')
+    expect(a.source).toBe('ánthrōpos')
     expect(a.betaCode).toBe('a)/nqrwpos')
     expect(a.greek).toBe('ἄνθρωπος')
-    expect(a.transliteration).toBe('ánthrôpos')
+    expect(a.transliteration).toBe('ánthrōpos')
   })
 
   test('Testing `GreekString` object w/ conversion options (removeDiacritics)', () => {
@@ -30,7 +30,7 @@ describe('GreekString', () => {
     expect(c.source).toBe('a)sth/r')
     expect(c.betaCode).toBe('asthr')
     expect(c.greek).toBe('αστηρ')
-    expect(c.transliteration).toBe('astêr')
+    expect(c.transliteration).toBe('astēr')
   })
 
   test('Testing `GreekString` object w/ conversion options (removeDiacritics)', () => {
