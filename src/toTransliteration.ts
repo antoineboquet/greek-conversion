@@ -1,144 +1,213 @@
-import { keyType } from './enums'
-import { ConversionOptions } from './interfaces'
-
+import { keyType } from './enums';
+import { IConversionOptions } from './interfaces';
 import {
-  GREEK_TILDE, LATIN_TILDE, ROUGH_BREATHING, SMOOTH_BREATHING,
-  diacriticsMapping,
-  greekMapping,
-} from './mapping'
-
+  ANO_TELEIA,
+  GREEK_TILDE,
+  GREEK_QUESTION_MARK,
+  LATIN_TILDE,
+  Mapping,
+  MIDDLE_DOT,
+  ROUGH_BREATHING,
+  SMOOTH_BREATHING
+} from './Mapping';
 import {
   applyGammaDiphthongs,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace,
   removeGreekVariants
-} from './utils'
+} from './utils';
 
-export function toTransliteration (
+export function toTransliteration(
   str: string,
   from: keyType,
-  options: ConversionOptions = {}
+  options: IConversionOptions = {},
+  declaredMapping?: Mapping
 ): string {
+  const mapping = declaredMapping ?? new Mapping(options);
+
   switch (from) {
     case keyType.BETA_CODE:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
-      else str = flagRoughBreathings(str)
-
-      str = fromBetaCodeToTransliteration(str, options.removeDiacritics)
-      break
+      str = flagRoughBreathings(str);
+      if (options.removeDiacritics)
+        str = removeDiacritics(str, keyType.BETA_CODE);
+      str = fromBetaCodeToTransliteration(str, mapping);
+      break;
 
     case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
-      else str = applyGreekBreathings(str)
-
-      str = removeGreekVariants(str)
-      str = normalizeGreek(str)
-      str = fromGreekToTransliteration(str)
-      break
+      str = applyGreekBreathings(str);
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+      str = removeGreekVariants(str);
+      str = normalizeGreek(str);
+      str = fromGreekToTransliteration(str, mapping, options);
+      break;
 
     case keyType.TRANSLITERATION:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
-      break
+      // @FIXME: apply conversion options to the transliterated string.
+      if (options.removeDiacritics)
+        str = removeDiacritics(str, keyType.TRANSLITERATION);
+      break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
-  return applyGammaDiphthongs(str, keyType.TRANSLITERATION)
+  return applyGammaDiphthongs(str, keyType.TRANSLITERATION);
 }
 
-function applyGreekBreathings (str: string): string {
-  str = str.normalize('NFD')
+function applyGreekBreathings(str: string): string {
+  str = str.normalize('NFD');
 
-  str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
+  str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '');
 
-  // Transliterate rough breathings with an `h`.
-  const re = new RegExp(`([α-ω]+)${ROUGH_BREATHING}`, 'gi')
+  str = str.replace(
+    new RegExp(`(?<vowels>[αεηιοωυ]{1,2})${ROUGH_BREATHING}`, 'gi'),
+    (match, vowels) => {
+      if (vowels === vowels.toLowerCase()) return 'h' + vowels;
+      else return 'H' + vowels.toLowerCase();
+    }
+  );
 
-  str = str.replace(re, (match, group) => {
-    if (match.toLowerCase() === 'ῥ')
-      return group + 'h'
+  const reRho = new RegExp(`(?<=\\s|^)(?<rho>ρ)(${ROUGH_BREATHING})`, 'gmi');
+  const reDoubleRho = new RegExp(
+    `(?<rhos>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`,
+    'gi'
+  );
 
-    if (group === group.toLowerCase()) return 'h' + group
-    else return 'H' + group.toLowerCase()
-  })
+  str = str.replace(reRho, '$<rho>h').replace(reDoubleRho, '$<rhos>h');
 
-  return str.normalize('NFC')
+  return str.normalize('NFC');
 }
 
-function flagRoughBreathings (str: string): string {
-  // Rough breathings are ambiguous as `h` converts to `ê`.
-  // This transforms rough breathings to unambiguous flags ($ = h, % = H)
-  // that need to be transliterated in fromBetaCodeToTransliteration().
-  str = str.replace(/([aehiowu]+)\(/gi, (match, group) => {
-    if (match.toLowerCase() === 'r(')
-      return group + '$'
-
-    if (group === group.toLowerCase()) return '$' + group
-    else return '%' + group.toLowerCase()
-  })
-
-  return str
+/*
+ * Rough breathings are ambiguous as `h` is transliterated to `η`.
+ * This function transforms rough breathings to unambiguous flags
+ * (`$` = `h`, `$$` = `H`) that need to be transliterated in
+ * fromBetaCodeToTransliteration().
+ */
+function flagRoughBreathings(str: string): string {
+  return str.replace(/([aehiowur]+)\(/gi, (match, group) => {
+    if (match.toLowerCase() === 'r(') return group + '$';
+    else if (group === group.toLowerCase()) return '$' + group;
+    else return '$$' + group.toLowerCase();
+  });
 }
 
-function fromBetaCodeToTransliteration (
+function fromBetaCodeToTransliteration(
   betaCodeStr: string,
-  removeDiacritics: boolean
+  mapping: Mapping
 ): string {
-  let transliteratedStr = ''
+  const mappingProps = mapping.getPropertiesAsMap(
+    keyType.BETA_CODE,
+    keyType.TRANSLITERATION
+  );
 
-  const mapping = (!removeDiacritics)
-    ? [...greekMapping, ...diacriticsMapping]
-    : greekMapping
+  // Make sure the source string is correctly formed.
+  betaCodeStr = betaCodeStr.normalize('NFC');
 
-  for (const char of betaCodeStr) {
-    let tmp: string
+  let transliteratedStr = '';
 
-    for (const key of mapping) {
-      if (key.latin === char) {
-        tmp = key.trans
-        break
+  for (let i = 0; i < betaCodeStr.length; i++) {
+    const tmp = {
+      bc: undefined as string,
+      tr: undefined as string
+    };
+
+    // e.g. small lunate sigma = `s3`.
+    let couple = betaCodeStr.slice(i, i + 2);
+    if (couple.length !== 2) couple = undefined as string;
+
+    // Diacritics only. e.g. macron = `%26`.
+    let triple = betaCodeStr.slice(i, i + 3);
+    if (triple.length !== 3) triple = undefined as string;
+
+    // Apply transliterated chars.
+    for (const [bc, tr] of mappingProps.chars) {
+      if ([betaCodeStr[i], couple].includes(bc)) {
+        [tmp.bc, tmp.tr] = [bc, tr];
+
+        // Couple found: increase the index twice & stop searching.
+        if (bc === couple) {
+          i++;
+          break;
+        }
       }
     }
 
-    transliteratedStr += tmp ?? char
+    // Apply transliterated diacritics.
+    for (const [bc, tr] of mappingProps.diacritics) {
+      if ([betaCodeStr[i], triple].includes(bc)) {
+        [tmp.bc, tmp.tr] = [bc, tr];
+
+        // Triple found: increase the index three times & stop searching.
+        if (bc === triple) {
+          i += 2;
+          break;
+        }
+      }
+    }
+
+    transliteratedStr += tmp.tr ?? betaCodeStr[i];
   }
 
-  transliteratedStr = transliteratedStr.replace(/\$/g, 'h').replace(/%/g, 'H')
+  // Apply flagged rough breathings.
+  transliteratedStr = transliteratedStr
+    .replace(/\$\$/g, 'H')
+    .replace(/\$/g, 'h');
 
-  if (!removeDiacritics) transliteratedStr = transliteratedStr.normalize('NFC')
-
-  return transliteratedStr
+  return transliteratedStr.normalize('NFC');
 }
 
-function fromGreekToTransliteration (greekStr: string): string {
-  let transliteratedStr = ''
+function fromGreekToTransliteration(
+  greekStr: string,
+  mapping: Mapping,
+  options?: IConversionOptions
+): string {
+  const mappingProps = mapping.getPropertiesAsMap(
+    keyType.GREEK,
+    keyType.TRANSLITERATION
+  );
+  const { removeDiacritics } = options;
 
-  for (const char of greekStr) {
-    let tmp: string
+  // Make sure the source string is correctly formed.
+  greekStr = greekStr.normalize('NFC');
 
-    for (const key of greekMapping) {
-      // `Combining Greek Perispomeni` (\u0342) diacritic is greek-only and must
-      // be converted to the latin diacritical mark `Combining Tilde` (\u0303).
-      const decomposedChar = char.normalize('NFD')
-        .replace(new RegExp(GREEK_TILDE, 'g'), LATIN_TILDE)
+  let transliteratedStr = '';
 
-      switch (key.greek) {
-        case char:
-          tmp = key.trans
-          break
+  for (let i = 0; i < greekStr.length; i++) {
+    let tmp: string;
 
-        case decomposedChar.charAt(0):
-          tmp = key.trans.normalize('NFD') + decomposedChar.slice(1)
-          tmp = tmp.normalize('NFC')
-          break
+    // Normalized chars are deleted by the Unicode normalization due to the
+    // poor canonical equivalences. Special chars need to be replaced twice.
+    let decomposedChar = greekStr[i]
+      .normalize('NFD')
+      .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+      .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
+      .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+
+    // Apply transliterated chars.
+    for (const [gr, tr] of mappingProps.chars) {
+      if (gr === decomposedChar.charAt(0)) {
+        tmp = tr;
+        break;
       }
-
-      if (tmp) break
     }
 
-    transliteratedStr += tmp ?? char
+    transliteratedStr += tmp ?? greekStr[i];
+
+    const charDiacritics = decomposedChar.slice(1);
+
+    // Apply transliterated diacritics.
+    if (!removeDiacritics && charDiacritics) {
+      for (const diacritic of charDiacritics) {
+        for (const [gr, tr] of mappingProps.diacritics) {
+          if (gr === diacritic) {
+            transliteratedStr += tr;
+            break;
+          }
+        }
+      }
+    }
   }
 
-  return transliteratedStr
+  return transliteratedStr.normalize('NFC');
 }
