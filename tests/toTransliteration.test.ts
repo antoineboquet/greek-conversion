@@ -44,6 +44,7 @@ describe('From beta code to transliteration', () => {
     ${'R(o/dos'}       | ${'Rhódos'}
     ${'polu/rrizos'}   | ${'polúrrizos'}
     ${'polu/r)r(izos'} | ${'polúrrhizos'}
+    ${'ma/rmaros'}     | ${'mármaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, keyType.BETA_CODE)).toBe(expected) })
 
   test.each`
@@ -107,6 +108,7 @@ describe('From greek to transliteration', () => {
     ${'Ῥόδος'}      | ${'Rhódos'}
     ${'πολύρριζος'} | ${'polúrrhizos'}
     ${'πολύῤῥιζος'} | ${'polúrrhizos'}
+    ${'μάρμαρος'}   | ${'mármaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK)).toBe(expected) })
 
   test('Testing correctness with various word separators', () => {

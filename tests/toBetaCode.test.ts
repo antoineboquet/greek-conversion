@@ -33,6 +33,7 @@ describe('From greek to beta code', () => {
     ${'Ῥόδος'}      | ${'R(o/dos'}
     ${'πολύρριζος'} | ${'polu/rrizos'}
     ${'πολύῤῥιζος'} | ${'polu/r)r(izos'}
+    ${'μάρμαρος'}   | ${'ma/rmaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toBetaCode(str, keyType.GREEK)).toBe(expected) })
 
   test('Testing correctness with various word separators', () => {
@@ -105,6 +106,7 @@ describe('From transliteration to beta code', () => {
     ${'Rhódos'}      | ${'R(o/dos'}
     ${'polúrrizos'}  | ${'polu/rrizos'}
     ${'polúrrhizos'} | ${'polu/rrizos'}
+    ${'mármaros'}    | ${'ma/rmaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
