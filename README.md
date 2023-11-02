@@ -76,7 +76,7 @@ This library provides three main functions to convert a greek string: **`toBetaC
 Functions signature is consistently `str: string, from: keyType, options: IConversionOptions = {}`.
 
 The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
-If you write plain JavaScript, you can also use string literals 'beta-code', 'greek' & 'transliteration'.
+If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
 
 The **`IConversionOptions`** interface provides some control other the conversion process:
 
