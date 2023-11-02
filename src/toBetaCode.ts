@@ -1,137 +1,163 @@
-import { keyType } from './enums'
-import { ConversionOptions } from './interfaces'
-
-import {
-  ACCENTS, IOTA_SUBSCRIPT,
-  diacriticsMapping,
-  greekMapping
-} from './mapping'
-
+import { keyType } from './enums';
+import { IConversionOptions } from './interfaces';
+import { CIRCUMFLEX, MACRON, Mapping } from './Mapping';
 import {
   applyBreathings,
   applyUppercaseChars,
   removeDiacritics,
-  recomposeTransliteratedChar,
   removeExtraWhitespace,
   removeGreekVariants
-} from './utils'
+} from './utils';
 
-export function toBetaCode (
+export function toBetaCode(
   str: string,
   from: keyType,
-  options: ConversionOptions = {}
+  options: IConversionOptions = {},
+  declaredMapping?: Mapping
 ): string {
+  const mapping = declaredMapping ?? new Mapping(options);
+
   switch (from) {
     case keyType.BETA_CODE:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
-      break
-    
+      if (options.removeDiacritics)
+        str = removeDiacritics(str, keyType.BETA_CODE);
+      break;
+
     case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
-      str = removeGreekVariants(str)
-      str = fromGreekToBetaCode(str, options.removeDiacritics)
-      break
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+      str = removeGreekVariants(str);
+      str = fromGreekToBetaCode(str, mapping);
+      break;
 
     case keyType.TRANSLITERATION:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
+      str = applyUppercaseChars(str);
 
-      str = applyUppercaseChars(str)
-      str = fromTransliterationToBetaCode(str)
+      // Flag transliterated rough breathings.
+      str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      const applyBreathingsOptions = {
-        accents: ACCENTS + IOTA_SUBSCRIPT,
-        breathings: { rough: '(', smooth: ')' },
-        vowels: 'aehiowu'
+      str = fromTransliterationToBetaCode(str, mapping, options);
+
+      if (options.removeDiacritics) {
+        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = str.replace(/\$/gi, '');
+      } else {
+        str = applyBreathings(str, mapping, keyType.BETA_CODE, '\\$');
       }
-
-      if (options.removeDiacritics) str = str.replace(/(^|\s)h/gi, '$1')
-      else str = applyBreathings(str, applyBreathingsOptions)
-      break
+      break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
-  return str
+  return str;
 }
 
-function convertTransliteratedDiacritics (decomposedDiacritics: string): string {
-  let betaCodeDiacritics = ''
+function fromGreekToBetaCode(greekStr: string, mapping: Mapping): string {
+  const mappingProps = mapping.getPropertiesAsMap(
+    keyType.GREEK,
+    keyType.BETA_CODE
+  );
 
-  for (const point of decomposedDiacritics) {
-    for (const diacritic of diacriticsMapping) {
-      if (point === diacritic.trans) {
-        betaCodeDiacritics += diacritic.latin
-        break
+  // Make sure the source string is correctly formed.
+  greekStr = greekStr.normalize('NFD');
+
+  let betaCodeStr = '';
+
+  for (let i = 0; i < greekStr.length; i++) {
+    let tmp: string;
+
+    for (const [gr, bc] of new Map([
+      ...mappingProps.chars,
+      ...mappingProps.diacritics
+    ])) {
+      if (gr === greekStr[i]) {
+        tmp = bc;
+        break;
+      }
+    }
+
+    betaCodeStr += tmp ?? greekStr[i];
+  }
+
+  return betaCodeStr.normalize('NFC');
+}
+
+function fromTransliterationToBetaCode(
+  transliteratedStr: string,
+  mapping: Mapping,
+  options?: IConversionOptions
+): string {
+  const mappingProps = mapping.getPropertiesAsMap(
+    keyType.TRANSLITERATION,
+    keyType.BETA_CODE
+  );
+  const { removeDiacritics, setTransliterationStyle: style } = options;
+  const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
+  const trUnaccentedLettersWithCxOrMacron = mapping
+    .lettersWithCxOrMacron(options)
+    .map((letter) => letter.tr.normalize('NFD').charAt(0))
+    .join('');
+
+  // Make sure the source string is correctly formed.
+  transliteratedStr = transliteratedStr.normalize('NFC');
+
+  let betaCodeStr = '';
+
+  for (let i = 0; i < transliteratedStr.length; i++) {
+    const tmp = {
+      tr: undefined as string,
+      bc: undefined as string
+    };
+
+    let couple = transliteratedStr.slice(i, i + 2);
+    if (couple.length !== 2) couple = undefined as string;
+
+    // As some transliterated chars carry a macron or a circumflex we need
+    // to isolate these diacritics with the current char for proper conversion.
+    let decomposedChar = transliteratedStr[i].normalize('NFD');
+    let recomposedChar = decomposedChar.charAt(0);
+
+    if (trUnaccentedLettersWithCxOrMacron.includes(decomposedChar.charAt(0))) {
+      if (decomposedChar.includes(longVowelMark)) {
+        recomposedChar += longVowelMark;
+        decomposedChar = decomposedChar.replace(longVowelMark, '');
+      }
+
+      recomposedChar = recomposedChar.normalize('NFC');
+    }
+
+    // Apply beta code chars.
+    for (const [tr, bc] of mappingProps.chars) {
+      if ([recomposedChar, couple].includes(tr)) {
+        [tmp.tr, tmp.bc] = [tr, bc];
+
+        // Couple found: increase the index twice & stop searching.
+        if (tr === couple) {
+          i++;
+          break;
+        }
+      }
+    }
+
+    betaCodeStr += tmp.bc ?? transliteratedStr[i];
+
+    const charDiacritics = decomposedChar.slice(1);
+
+    // Apply beta code diacritics.
+    // @FIXME: some diacritics aren't converted on long vowels.
+    if (!removeDiacritics && charDiacritics) {
+      for (const diacritic of charDiacritics) {
+        for (const [tr, bc] of mappingProps.diacritics) {
+          if (tr === diacritic) {
+            betaCodeStr += bc;
+            break;
+          }
+        }
       }
     }
   }
 
   // Reorder diacritics (grave/accute/tilde then diaeresis & iota subscript).
-  betaCodeDiacritics = betaCodeDiacritics.replace(/([+|])([\/\\=])/g, '$2$1')
+  // betaCodeStr = betaCodeStr.replace(/([+|])([\/\\=])/g, '$2$1');
 
-  return betaCodeDiacritics
-}
-
-function fromGreekToBetaCode (
-  greekStr: string,
-  removeDiacritics: boolean
-): string {
-  let betaCodeStr = ''
-
-  const mapping = (!removeDiacritics)
-    ? [...greekMapping, ...diacriticsMapping]
-    : greekMapping
-
-  if (!removeDiacritics) {
-    greekStr = greekStr.normalize('NFD')
-  }
-
-  for (const char of greekStr) {
-    let tmp: string
-
-    for (const key of mapping) {
-      if (key.greek === char) {
-        tmp = key.latin
-        break
-      }
-    }
-
-    betaCodeStr += tmp ?? char
-  }
-
-  return betaCodeStr
-}
-
-function fromTransliterationToBetaCode (transliteratedStr: string): string {
-  let betaCodeStr = ''
-
-  for (let i = 0; i < transliteratedStr.length; i++) {
-    const tmp = { trans: '', latin: '' }
-
-    let pair = transliteratedStr.slice(i, (i + 2))
-    if (pair.length !== 2) pair = ''
-
-    let decomposedChar = transliteratedStr[i].normalize('NFD')
-
-    // Isolate the character with its potential circumflex (as this diacritical
-    // mark is used to represent long vowels in transliterated form).
-    let recomposedChar = recomposeTransliteratedChar(decomposedChar)
-
-    for (const key of greekMapping) {
-      if ([recomposedChar, pair].includes(key.trans)) {
-        tmp.trans = key.trans
-        tmp.latin = key.latin
-
-        if (key.trans === pair) {
-          i++; break
-        }
-      }
-    }
-
-    tmp.latin += convertTransliteratedDiacritics(decomposedChar.slice(1))
-
-    betaCodeStr += tmp.latin || transliteratedStr[i]
-  }
-
-  return betaCodeStr
+  return betaCodeStr.normalize('NFC');
 }
