@@ -1,201 +1,200 @@
-import { keyType } from './enums'
-
+import { keyType } from './enums';
 import {
-  CIRCUMFLEX, DIAERESIS, GREEK_TILDE, LATIN_TILDE,
-  diacriticsMapping,
-  greekMapping
-} from './mapping'
+  ANO_TELEIA,
+  GREEK_QUESTION_MARK,
+  GREEK_TILDE,
+  LATIN_TILDE,
+  MIDDLE_DOT,
+  Mapping
+} from './Mapping';
 
-export function applyGammaDiphthongs (str: string, type: keyType): string {
+// @FIXME: take care of xi/chi variants.
+export function applyGammaDiphthongs(str: string, type: keyType): string {
   switch (type) {
     case keyType.GREEK:
-      str = str.replace(/ΝΓ/g, 'ΓΓ') // Upper
-               .replace(/ΝΞ/g, 'ΓΞ')
-               .replace(/ΝΚ/g, 'ΓΚ')
-               .replace(/ΝΧ/g, 'ΓΧ')
-               .replace(/Νγ/g, 'Γγ') // Upper + lower
-               .replace(/Νξ/g, 'Γξ')
-               .replace(/Νκ/g, 'Γκ')
-               .replace(/Νχ/g, 'Γχ')
-               .replace(/νγ/g, 'γγ') // Lower
-               .replace(/νξ/g, 'γξ')
-               .replace(/νκ/g, 'γκ')
-               .replace(/νχ/g, 'γχ')
-      break
+      str = str
+        .replace(/ΝΓ/g, 'ΓΓ') // Upper
+        .replace(/ΝΞ/g, 'ΓΞ')
+        .replace(/ΝΚ/g, 'ΓΚ')
+        .replace(/ΝΧ/g, 'ΓΧ')
+        .replace(/Νγ/g, 'Γγ') // Upper + lower
+        .replace(/Νξ/g, 'Γξ')
+        .replace(/Νκ/g, 'Γκ')
+        .replace(/Νχ/g, 'Γχ')
+        .replace(/νγ/g, 'γγ') // Lower
+        .replace(/νξ/g, 'γξ')
+        .replace(/νκ/g, 'γκ')
+        .replace(/νχ/g, 'γχ');
+      break;
 
     case keyType.TRANSLITERATION:
-      str = str.replace(/GG/g,  'NG' ) // Upper
-               .replace(/GX/g,  'NX' )
-               .replace(/GK/g,  'NK' )
-               .replace(/GCH/g, 'NCH')
-               .replace(/Gg/g,  'Ng' ) // Upper + lower
-               .replace(/Gx/g,  'Nx' )
-               .replace(/Gk/g,  'Nk' )
-               .replace(/Gch/g, 'Nch')
-               .replace(/gg/g,  'ng' ) // Lower
-               .replace(/gx/g,  'nx' )
-               .replace(/gk/g,  'nk' )
-               .replace(/gch/g, 'nch')
-      break
+      str = str
+        .replace(/GG/g, 'NG') // Upper
+        .replace(/GX/g, 'NX')
+        .replace(/GK/g, 'NK')
+        .replace(/GCH/g, 'NCH')
+        .replace(/Gg/g, 'Ng') // Upper + lower
+        .replace(/Gx/g, 'Nx')
+        .replace(/Gk/g, 'Nk')
+        .replace(/Gch/g, 'Nch')
+        .replace(/gg/g, 'ng') // Lower
+        .replace(/gx/g, 'nx')
+        .replace(/gk/g, 'nk')
+        .replace(/gch/g, 'nch');
+      break;
   }
 
-  return str
+  return str;
 }
 
-export function applyBreathings (
+// @FIXME: take care of diaeresis, diphthongs and so on.
+export function applyBreathings(
   str: string,
-  options: {
-    accents: string,
-    breathings: { rough: string, smooth: string },
-    vowels: string
-  }
+  mapping: Mapping,
+  toType: keyType,
+  escapedRoughBreathingMark: string
 ): string {
-  str = str.normalize('NFD')
+  const roughBreathing = mapping.DIACRITICS.ROUGH_BREATHING;
+  const smoothBreathing = mapping.DIACRITICS.SMOOTH_BREATHING;
 
-  const accents = options.accents
-  const vowels  = options.vowels
-  const rough   = options.breathings.rough
-  const smooth  = options.breathings.smooth
+  str = str.normalize('NFD');
 
-  const re = new RegExp(`(^|\\s)(h)?([${accents + vowels}]+)(${DIAERESIS})?`, 'gi')
+  switch (toType) {
+    case keyType.BETA_CODE:
+      const bcVowels = 'aehiowu';
+      const bcDiacritics = '()\\/+=|';
+      const bcRe = new RegExp(
+        `(?<=(?![${bcDiacritics}])\\p{P}|\\s|^)(?<trRoughBreathing>${escapedRoughBreathingMark})?(?<vowelsGroup>[${bcVowels}]{1,2})`,
+        'gimu'
+      );
 
-  // Apply breathings on vowels.
-  str = str.replace(re, (match, start, roughBreathing, group, diaeresis) => {
-    const breathing = (roughBreathing) ? rough : smooth
+      str = str.replace(bcRe, (match, trRoughBreathing, vowelsGroup) => {
+        const breathing = trRoughBreathing
+          ? roughBreathing.bc
+          : smoothBreathing.bc;
+        return vowelsGroup + breathing;
+      });
 
-    if (diaeresis) {
-      match = match.normalize('NFC')
+      // Apply rough breathings on rhos (excluding double rhos).
+      str = str.replace(
+        new RegExp(`(?<!r)(r)${escapedRoughBreathingMark}`, 'gi'),
+        `$1${roughBreathing.bc}`
+      );
+      break;
 
-      const lastChar = (match.length - 1)
-      const vowelsGroup = match.slice(0, lastChar).normalize('NFD')
-      const vowelWithDiaeresis = match.slice(lastChar).normalize('NFD')
+    case keyType.GREEK:
+      const grVowels = 'αεηιοωυ';
+      const grRe = new RegExp(
+        `(?<=\\p{P}|\\s|^)(?<trRoughBreathing>${escapedRoughBreathingMark})?(?<vowelsGroup>[${grVowels}]{1,2})`,
+        'gimu'
+      );
 
-      return start + vowelsGroup + breathing + vowelWithDiaeresis
-    }
+      str = str.replace(grRe, (match, trRoughBreathing, vowelsGroup) => {
+        const breathing = trRoughBreathing
+          ? roughBreathing.gr
+          : smoothBreathing.gr;
+        return vowelsGroup + breathing;
+      });
 
-    return start + group + breathing
-  })
+      // Apply rough breathings on rhos (excluding double rhos).
+      str = str.replace(
+        new RegExp(`(?<!ρ)(ρ)${escapedRoughBreathingMark}`, 'gi'),
+        `$1${roughBreathing.gr}`
+      );
+      break;
 
-  // Apply rough breathings on `rho`.
-  str = str.replace(/([ρr])h/gi, `$1${rough}`)
-
-  // Reorder diacritics.
-  str = str.replace(new RegExp(`([${accents}])([${rough + smooth}])`, 'g'), '$2$1')
-
-  return str.normalize('NFC')
-}
-
-export function applyGreekVariants (str: string, disableBetaVariant?: boolean): string {
-  if (!disableBetaVariant) str = str.replace(/β/g, 'ϐ')
-  str = str.replace(/ς/g, 'σ')
-
-  str = str.replace(/ΠΣ/g, 'Ψ').replace(/Πσ/g, 'Ψ').replace(/πσ/g, 'ψ')
-
-  const words = str.split(' ')
-
-  words.forEach((el, i) => {
-    const lastSigmaIndex: number = el.lastIndexOf('σ')
-    const lastSigmaSlice: string = (lastSigmaIndex)
-      ? removeDiacritics(el.slice(lastSigmaIndex), keyType.GREEK)
-      : undefined
-
-    if (el.length > 1 && /σ(?![α-ω])/.test(lastSigmaSlice)) {
-      words[i] = el.slice(0, lastSigmaIndex) + 'ς' + el.slice((lastSigmaIndex + 1))
-    }
-
-    if (!disableBetaVariant && el.charAt(0) === 'ϐ') {
-      words[i] = 'β' + words[i].slice(1)
-    }
-  })
-
-  return words.join(' ')
-}
-
-export function applyUppercaseChars (str: string): string {
-  const words = str.split(' ')
-
-  words.forEach((el, i) => {
-    if (el.charAt(0) === 'H') {
-      words[i] = el.charAt(0) + el.charAt(1).toUpperCase() + el.slice(2)
-    }
-  })
-
-  return words.join(' ')
-}
-
-export function isMappedKey (key: string, type: keyType): boolean {
-  const keys = []
-  const mapping = [...greekMapping, ...diacriticsMapping]
-
-  for (const el of mapping) {
-    switch (type) {
-      case keyType.GREEK:
-        keys.push(el.greek)
-        break
-
-      case keyType.BETA_CODE:
-        keys.push(el.latin)
-        break
-
-      case keyType.TRANSLITERATION:
-        keys.push(el.trans)
-        break
-    }
+    case keyType.TRANSLITERATION:
+      throw new Error('not implemented');
   }
 
-  return keys.includes(key)
+  // Remove remaining flagged rough breathings (e.g. on double rhos).
+  str = str.replace(new RegExp(`${escapedRoughBreathingMark}`, 'gi'), '');
+
+  return str.normalize('NFC');
 }
 
-export function normalizeGreek (str: string): string {
-  str = str.normalize('NFD')
-
-  // Latin only `combining tilde` becomes `combining greek perispomeni`.
-  str = str.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-
-  str = str.normalize('NFC')
-
-  // `Middle dot` (\u00B7) becomes `greek ano teleia` (\u0387).
-  str = str.replace(/\u00b7/g, '\u0387')
-
-  return str
-}
-
-export function recomposeTransliteratedChar (decomposedChar: string): string {
-  let recomposedChar = decomposedChar.charAt(0)
-
-  if (decomposedChar.includes(CIRCUMFLEX)) {
-    recomposedChar += CIRCUMFLEX
+export function applyGreekVariants(
+  str: string,
+  disableBetaVariant?: boolean
+): string {
+  // Apply beta variant.
+  if (!disableBetaVariant) {
+    str = str.replace(/\u03D0/g, 'β');
+    str = str.replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
   }
+  // Apply final sigma.
+  str = str.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
 
-  return recomposedChar.normalize('NFC')
+  // Replace pi + sigma with psi.
+  str = str.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');
+
+  return str;
 }
 
-export function removeDiacritics (str: string, type: keyType): string {
-  str = str.normalize('NFD')
+export function applyUppercaseChars(str: string): string {
+  return str.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
+    if (word.charAt(0) === 'H') {
+      word = word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2);
+    }
+
+    return word;
+  });
+}
+
+// @FIXME: not implemented yet.
+/*export function isMappedKey(
+  key: string,
+  type: keyType,
+  mapping?: Mapping
+): boolean {
+  // ...
+}*/
+
+/*
+ * Please note that any other normalization will revert some
+ * changes due to the weird Unicode canonical equivalences.
+ */
+export function normalizeGreek(str: string): string {
+  str = str.normalize('NFD');
+
+  // Latin only `combining tilde` -> `combining greek perispomeni`.
+  str = str.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+
+  str = str.normalize('NFC');
+
+  // `Middle dot` -> `greek ano teleia`.
+  str = str.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
+  // `Semicolon` -> `greek question mark`.
+  str = str.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+
+  return str;
+}
+
+export function removeDiacritics(str: string, type: keyType): string {
+  str = str.normalize('NFD');
 
   switch (type) {
     case keyType.BETA_CODE:
-      // Delete the following characters: `( ) \ / + = |`.
-      str = str.replace(/[\(\)\\\/\+=\|]/g, '')
-      break
+      // Remove the following characters: `( ) \ / + = |`.
+      str = str.replace(/[\(\)\\\/\+=\|]/g, '');
+      break;
 
     case keyType.GREEK:
-      str = str.replace(/[\u0300-\u036f]/g, '')
-      break
+      str = str.replace(/[\u0300-\u036f]/g, '');
+      break;
 
     case keyType.TRANSLITERATION:
-      // Keep the circumflex (\u0302) that is used for transliteration.
-      str = str.replace(/[\u0300-\u0301]|[\u0303-\u036f]/g, '')
-      break
+      str = str.replace(/[\u0300-\u036f]/g, '');
+      break;
   }
 
-  return str.normalize('NFC')
+  return str.normalize('NFC');
 }
 
-export function removeGreekVariants (str: string): string {
-  return str.replace(/ϐ/g, 'β').replace(/ς/g, 'σ')
+export function removeGreekVariants(str: string): string {
+  return str.replace(/ϐ/g, 'β').replace(/ς/g, 'σ');
 }
 
-export function removeExtraWhitespace (str: string): string {
-  return str.replace(/(\s)+/g, '$1').trim()
+export function removeExtraWhitespace(str: string): string {
+  return str.replace(/(\s)+/g, '$1').trim();
 }
