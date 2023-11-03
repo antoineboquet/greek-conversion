@@ -171,8 +171,6 @@ export function normalizeGreek(str: string): string {
 }
 
 export function removeDiacritics(str: string, type: keyType): string {
-  str = str.normalize('NFD');
-
   switch (type) {
     case keyType.BETA_CODE:
       // Remove the following characters: `( ) \ / + = |`.
@@ -180,15 +178,14 @@ export function removeDiacritics(str: string, type: keyType): string {
       break;
 
     case keyType.GREEK:
-      str = str.replace(/[\u0300-\u036f]/g, '');
-      break;
-
     case keyType.TRANSLITERATION:
+      str = str.normalize('NFD');
       str = str.replace(/[\u0300-\u036f]/g, '');
+      str = str.normalize('NFC');
       break;
   }
 
-  return str.normalize('NFC');
+  return str;
 }
 
 export function removeGreekVariants(str: string): string {
