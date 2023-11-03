@@ -405,12 +405,12 @@ export class Mapping {
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
-          bc: undefined,
+          bc: '*#2',
           tr: 'C̄'
         };
         this.SMALL_STIGMA = {
           gr: '\u03DB',
-          bc: undefined,
+          bc: '#2',
           tr: 'c̄'
         };
       }
@@ -423,12 +423,12 @@ export class Mapping {
       ) {
         this.CAPITAL_KOPPA = {
           gr: 'Ϟ',
-          bc: undefined,
+          bc: '*#1',
           tr: 'Q'
         };
         this.SMALL_KOPPA = {
           gr: 'ϟ',
-          bc: undefined,
+          bc: '#1',
           tr: 'q'
         };
       }
@@ -441,12 +441,12 @@ export class Mapping {
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
-          bc: undefined,
+          bc: '*#5',
           tr: 'S̄'
         };
         this.SMALL_SAMPI = {
           gr: 'ϡ',
-          bc: undefined,
+          bc: '#5',
           tr: 's̄'
         };
       }
