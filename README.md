@@ -82,20 +82,20 @@ The **`IConversionOptions`** interface provides some control other the conversio
 
 ```ts
 {
-  preserveWhitespace?: boolean;            // keep potential extra whitespace
-  removeDiacritics?: boolean;              // remove diacritics, except those that represent letters
+  preserveWhitespace?: boolean,            // keep potential extra whitespace
+  removeDiacritics?: boolean,              // remove diacritics, except those that represent letters
   useAdditionalLetters?:                   // extend the default mapping with predefined
-    additionalLetters|additionalLetters[]; //   additional letters
+    additionalLetters|additionalLetters[], //   additional letters
   setBetaCodeStyle?: {
-    classical?: boolean;                   // enable the old all caps writing system (e.g. *PO/NOS)
+    classical?: boolean                    // enable the old all caps writing system (e.g. *PO/NOS)
   },
   setGreekStyle?: {
-    disableBetaVariant?: boolean;          // disable the typographic variant 'ϐ' [U+03D0]
+    disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
   },
   setTransliterationStyle?: {
-    useCxOverMacron?: boolean;             // use a circumflex rather than a macron for eta, omega, etc
-    chi_kh?: boolean;                      // alter the transliteration of 'χ' (defaults to: 'ch')
-    xi_ks?: boolean;                       // alter the transliteration of 'ξ' (defaults to: 'x')
+    useCxOverMacron?: boolean,             // use a circumflex rather than a macron for eta, omega, etc
+    chi_kh?: boolean,                      // alter the transliteration of 'χ' (defaults to: 'ch')
+    xi_ks?: boolean                        // alter the transliteration of 'ξ' (defaults to: 'x')
   }
 }
 ```
