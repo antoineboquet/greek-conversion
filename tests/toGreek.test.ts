@@ -59,9 +59,10 @@ describe('From beta code to greek', () => {
   `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE)).toBe(expected) })
 
   test.each`
-    str           | expected
-    ${'voi='}     | ${'ϝοῖ'}
-    ${'a(/gios3'} | ${'ἅγιο\u03F2'}
+    str                  | expected
+    ${'voi='}            | ${'ϝοῖ'}
+    ${'a(/gios3'}        | ${'ἅγιο\u03F2'}
+    ${'#2*#2#1*#1#5*#5'} | ${'\u03DB\u03DAϟϞϡϠ'}
   `('Using additional letters', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {

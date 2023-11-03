@@ -42,9 +42,10 @@ describe('From greek to beta code', () => {
   })
 
   test.each`
-    str             | expected
-    ${'ϝοῖ'}        | ${'voi='}
-    ${'ἅγιο\u03F2'} | ${'a(/gios3'}
+    str                   | expected
+    ${'ϝοῖ'}              | ${'voi='}
+    ${'ἅγιο\u03F2'}       | ${'a(/gios3'}
+    ${'\u03DB\u03DAϟϞϡϠ'} | ${'#2*#2#1*#1#5*#5'}
   `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.GREEK, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
   
   test('Using a subset of additional letters', () => {
@@ -113,6 +114,7 @@ describe('From transliteration to beta code', () => {
     str         | expected
     ${'woĩ'}    | ${'voi='}
     ${'hágioc'} | ${'a(/gios3'}
+    ${'c̄C̄qQs̄S̄'} | ${'#2*#2#1*#1#5*#5'}
   `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {

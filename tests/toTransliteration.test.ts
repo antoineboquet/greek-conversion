@@ -48,9 +48,11 @@ describe('From beta code to transliteration', () => {
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, keyType.BETA_CODE)).toBe(expected) })
 
   test.each`
-    str           | expected
-    ${'voi='}     | ${'woĩ'}
-    ${'a(/gios3'} | ${'hágioc'}
+    str                  | expected
+    ${'voi='}            | ${'woĩ'}
+    ${'a(/gios3'}        | ${'hágioc'}
+    ${'#2*#2#1*#1#5*#5'} | ${'c̄C̄qQs̄S̄'}
+
   `('Using additional letters', ({ str, expected }) => { expect(toTransliteration(str, keyType.BETA_CODE, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {
