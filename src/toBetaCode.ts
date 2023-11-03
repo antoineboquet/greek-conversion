@@ -170,7 +170,8 @@ function fromTransliterationToBetaCode(
     // Apply beta code chars.
     for (const [tr, bc] of mappingProps.chars) {
       if ([recomposedChar, couple].includes(tr)) {
-        [tmp.tr, tmp.bc] = [tr, bc];
+        // Add potential diacritics to the beta code char.
+        [tmp.tr, tmp.bc] = [tr, bc + decomposedChar.slice(1)];
 
         // Couple found: increase the index twice & stop searching.
         if (tr === couple) {
@@ -181,28 +182,13 @@ function fromTransliterationToBetaCode(
     }
 
     betaCodeStr += tmp.bc ?? transliteratedStr[i];
-
-    const charDiacritics = decomposedChar.slice(1);
-
-    // Apply beta code diacritics.
-    // @FIXME: some diacritics aren't converted on long vowels.
-    if (!removeDiacritics && charDiacritics) {
-      for (const diacritic of charDiacritics) {
-        if (transliteratedStr === 'poiē̃ͅ') console.log(diacritic);
-        for (const [tr, bc] of mappingProps.diacritics) {
-          if (tr === diacritic) {
-            betaCodeStr += bc;
-            break;
-          }
-        }
-      }
-    }
   }
 
-  /*for (const [tr, bc] of mappingProps.diacritics) {
+  // Apply beta code diacritics.
+  for (const [tr, bc] of mappingProps.diacritics) {
     if (!tr) continue;
     betaCodeStr = betaCodeStr.replace(new RegExp(tr, 'g'), bc);
-  }*/
+  }
 
   return betaCodeStr.normalize('NFC');
 }
