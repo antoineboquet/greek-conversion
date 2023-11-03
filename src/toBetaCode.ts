@@ -27,6 +27,7 @@ export function toBetaCode(
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
       str = fromGreekToBetaCode(str, mapping);
+      str = reorderDiacritics(str);
       break;
 
     case keyType.TRANSLITERATION:
@@ -38,17 +39,24 @@ export function toBetaCode(
       str = fromTransliterationToBetaCode(str, mapping, options);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, keyType.TRANSLITERATION);
         str = str.replace(/\$/gi, '');
       } else {
         str = applyBreathings(str, mapping, keyType.BETA_CODE, '\\$');
       }
+
+      str = reorderDiacritics(str);
       break;
   }
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
   return str;
+}
+
+// @FIXME: reorder all diacritics combinations.
+function reorderDiacritics(str: string): string {
+  return str.replace(/(=)(\|)/g, '$2$1');
 }
 
 function fromGreekToBetaCode(greekStr: string, mapping: Mapping): string {
@@ -146,6 +154,7 @@ function fromTransliterationToBetaCode(
     // @FIXME: some diacritics aren't converted on long vowels.
     if (!removeDiacritics && charDiacritics) {
       for (const diacritic of charDiacritics) {
+        if (transliteratedStr === 'poiē̃ͅ') console.log(diacritic);
         for (const [tr, bc] of mappingProps.diacritics) {
           if (tr === diacritic) {
             betaCodeStr += bc;
@@ -156,8 +165,10 @@ function fromTransliterationToBetaCode(
     }
   }
 
-  // Reorder diacritics (grave/accute/tilde then diaeresis & iota subscript).
-  // betaCodeStr = betaCodeStr.replace(/([+|])([\/\\=])/g, '$2$1');
+  /*for (const [tr, bc] of mappingProps.diacritics) {
+    if (!tr) continue;
+    betaCodeStr = betaCodeStr.replace(new RegExp(tr, 'g'), bc);
+  }*/
 
   return betaCodeStr.normalize('NFC');
 }
