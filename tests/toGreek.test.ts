@@ -38,6 +38,18 @@ describe('From beta code to greek', () => {
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE)).toBe(expected) })
 
   test.each`
+    str             | expected
+    ${')/ANQRWPOS'} | ${'ἄνθρωπος'}
+    ${'POIH|='}     | ${'ποιῇ'}
+    ${')/*AI+DA'}   | ${'Ἄϊδα'}
+    ${'BA/RBAROS'}  | ${'βάρ\u03D0αρος'}
+    ${'(*OPLI/THS'} | ${'Ὁπλίτης'}
+    ${'(*Opli/ths'} | ${'Ὁπλίτης'}
+    ${'NOI='}       | ${'vοῖ'}
+    ${'(/AGIOS3'}   | ${'ἅγιοσ3'}
+  `('Testing classical TLG writing system', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { setBetaCodeStyle: { classical: true } })).toBe(expected) })
+
+  test.each`
     str                | expected
     ${'Ro/dos'}        | ${'Ρόδος'}
     ${'R(o/dos'}       | ${'Ῥόδος'}
