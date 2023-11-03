@@ -2,7 +2,6 @@ import { keyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { CIRCUMFLEX, MACRON, Mapping } from './Mapping';
 import {
-  applyBreathings,
   applyUppercaseChars,
   removeDiacritics,
   removeExtraWhitespace,
@@ -39,10 +38,10 @@ export function toBetaCode(
       str = fromTransliterationToBetaCode(str, mapping, options);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, keyType.BETA_CODE);
         str = str.replace(/\$/gi, '');
       } else {
-        str = applyBreathings(str, mapping, keyType.BETA_CODE, '\\$');
+        str = convertTransliteratedBreathings(str, mapping, '\\$');
       }
 
       str = reorderDiacritics(str);
@@ -52,6 +51,41 @@ export function toBetaCode(
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
   return str;
+}
+
+// @FIXME: take care of diaeresis, diphthongs and so on.
+function convertTransliteratedBreathings(
+  str: string,
+  mapping: Mapping,
+  escapedRoughBreathingMark: string
+): string {
+  const roughBreathing = mapping.DIACRITICS.ROUGH_BREATHING;
+  const smoothBreathing = mapping.DIACRITICS.SMOOTH_BREATHING;
+  const bcVowels = 'aehiowu';
+  const bcDiacritics = '()\\/+=|';
+
+  str = str.normalize('NFD');
+
+  const re = new RegExp(
+    `(?<=(?![${bcDiacritics}])\\p{P}|\\s|^)(?<trRoughBreathing>${escapedRoughBreathingMark})?(?<vowelsGroup>[${bcVowels}]{1,2})`,
+    'gimu'
+  );
+
+  str = str.replace(re, (match, trRoughBreathing, vowelsGroup) => {
+    const breathing = trRoughBreathing ? roughBreathing.bc : smoothBreathing.bc;
+    return vowelsGroup + breathing;
+  });
+
+  // Apply rough breathings on rhos (excluding double rhos).
+  str = str.replace(
+    new RegExp(`(?<!r)(r)${escapedRoughBreathingMark}`, 'gi'),
+    `$1${roughBreathing.bc}`
+  );
+
+  // Remove remaining flagged rough breathings (e.g. on double rhos).
+  str = str.replace(new RegExp(`${escapedRoughBreathingMark}`, 'gi'), '');
+
+  return str.normalize('NFC');
 }
 
 // @FIXME: reorder all diacritics combinations.

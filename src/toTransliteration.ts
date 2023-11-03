@@ -35,7 +35,7 @@ export function toTransliteration(
       break;
 
     case keyType.GREEK:
-      str = applyGreekBreathings(str);
+      str = convertGreekBreathings(str);
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
@@ -54,26 +54,34 @@ export function toTransliteration(
   return applyGammaDiphthongs(str, keyType.TRANSLITERATION);
 }
 
-function applyGreekBreathings(str: string): string {
+// @FIXME: take care of diaeresis, diphthongs and so on.
+function convertGreekBreathings(str: string): string {
+  const grVowels = 'αεηιοωυ';
+
   str = str.normalize('NFD');
 
   str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '');
 
-  str = str.replace(
-    new RegExp(`(?<vowels>[αεηιοωυ]{1,2})${ROUGH_BREATHING}`, 'gi'),
-    (match, vowels) => {
-      if (vowels === vowels.toLowerCase()) return 'h' + vowels;
-      else return 'H' + vowels.toLowerCase();
-    }
-  );
-
-  const reRho = new RegExp(`(?<=\\s|^)(?<rho>ρ)(${ROUGH_BREATHING})`, 'gmi');
-  const reDoubleRho = new RegExp(
-    `(?<rhos>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`,
+  const re = new RegExp(
+    `(?<vowelsGroup>[${grVowels}]{1,2})(?<grRoughBreathing>${ROUGH_BREATHING})`,
     'gi'
   );
 
-  str = str.replace(reRho, '$<rho>h').replace(reDoubleRho, '$<rhos>h');
+  str = str.replace(re, (match, vowelsGroup) => {
+    if (vowelsGroup === vowelsGroup.toLowerCase()) return 'h' + vowelsGroup;
+    else return 'H' + vowelsGroup.toLowerCase();
+  });
+
+  // Apply rough breathings on double rhos.
+  const reDoubleRho = new RegExp(
+    `(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`,
+    'gi'
+  );
+  str = str.replace(reDoubleRho, '$1h');
+
+  // Apply rough breathings on single rhos.
+  const reRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
+  str = str.replace(reRho, '$1h');
 
   return str.normalize('NFC');
 }

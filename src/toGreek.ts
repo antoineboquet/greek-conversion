@@ -1,8 +1,13 @@
 import { keyType } from './enums';
 import { IConversionOptions } from './interfaces';
-import { CIRCUMFLEX, MACRON, Mapping } from './Mapping';
 import {
-  applyBreathings,
+  CIRCUMFLEX,
+  MACRON,
+  Mapping,
+  ROUGH_BREATHING,
+  SMOOTH_BREATHING
+} from './Mapping';
+import {
   applyGammaDiphthongs,
   applyGreekVariants,
   applyUppercaseChars,
@@ -39,7 +44,7 @@ export function toGreek(
         str = removeDiacritics(str, keyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
-        str = applyBreathings(str, mapping, keyType.GREEK, 'h');
+        str = convertTransliteratedBreathings(str);
       }
 
       str = normalizeGreek(str);
@@ -52,6 +57,31 @@ export function toGreek(
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
   return str;
+}
+
+// @FIXME: take care of diaeresis, diphthongs and so on.
+function convertTransliteratedBreathings(str: string): string {
+  const grVowels = 'αεηιοωυ';
+
+  str = str.normalize('NFD');
+
+  const re = new RegExp(
+    `(?<=\\p{P}|\\s|^)(?<trRoughBreathing>h)?(?<vowelsGroup>[${grVowels}]{1,2})`,
+    'gimu'
+  );
+
+  str = str.replace(re, (match, trRoughBreathing, vowelsGroup) => {
+    const breathing = trRoughBreathing ? ROUGH_BREATHING : SMOOTH_BREATHING;
+    return vowelsGroup + breathing;
+  });
+
+  // Apply rough breathings on rhos (excluding double rhos).
+  str = str.replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`);
+
+  // Remove remaining flagged rough breathings (e.g. on double rhos).
+  str = str.replace(new RegExp('h', 'gi'), '');
+
+  return str.normalize('NFC');
 }
 
 function fromBetaCodeToGreek(betaCodeStr: string, mapping: Mapping): string {
