@@ -185,9 +185,11 @@ function fromTransliterationToBetaCode(
   }
 
   // Apply beta code diacritics.
-  for (const [tr, bc] of mappingProps.diacritics) {
-    if (!tr) continue;
-    betaCodeStr = betaCodeStr.replace(new RegExp(tr, 'g'), bc);
+  if (!removeDiacritics) {
+    for (const [tr, bc] of mappingProps.diacritics) {
+      if (!tr) continue;
+      betaCodeStr = betaCodeStr.replace(new RegExp(tr, 'g'), bc);
+    }
   }
 
   return betaCodeStr.normalize('NFC');
