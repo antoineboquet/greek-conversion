@@ -46,7 +46,7 @@ toTransliteration(
   'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // Hellēsin egeneto kai
   'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // merei tini tōn barbarōn,
   keyType.GREEK,                                     // hōs de eipein kai epi
-  options: { removeDiacritics: true }                // pleiston anthrōpōn.
+  { removeDiacritics: true }                         // pleiston anthrōpōn.
 )
 ```
 
