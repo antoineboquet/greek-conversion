@@ -92,9 +92,9 @@ describe('From greek to transliteration', () => {
     str                | expected
     ${'ἄνθρωπος'}      | ${'ánthrōpos'}
     ${'ποιῇ'}          | ${'poiē̃ͅ'}
-    ${'Ἄϊδα'}          | ${'Áïda'}
+    ${'Ἄϊδα'}         | ${'Áïda'}
     ${'βάρ\u03D0αρος'} | ${'bárbaros'}
-    ${'Ὕσιρις'}        | ${'Húsiris'}
+    ${'Ὕσιρις'}       | ${'Húsiris'}
     ${'ᾠώδης'}         | ${'ōͅṓdēs'}
     ${'wοῖ'}           | ${'woĩ'}
     ${'ἅγιοc'}         | ${'hágioc'}
@@ -133,9 +133,9 @@ describe('From greek to transliteration', () => {
     str              | expected
     ${'ανθρωπος'}    | ${'anthrōpos'}
     ${'ποιῇ'}        | ${'poiē'}
-    ${'Ἄϊδα'}        | ${'Aida'}
+    ${'Ἄϊδα'}       | ${'Aida'}
     ${'bárbaros'}    | ${'barbaros'}
-    ${'Ὕσιρις'}      | ${'Husiris'}
+    ${'Ὕσιρις'}     | ${'Husiris'}
     ${'ᾠώδης'}       | ${'ōōdēs'}
     ${'Ξενοφῶν'}     | ${'Xenophōn'}
     ${'χορηγέω'}     | ${'chorēgeō'}
@@ -161,8 +161,12 @@ describe('From greek to transliteration', () => {
   `('Using circumflex on long vowels', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
 
   test.each`
-    str          | expected
-    ${'Ξενοφῶν'} | ${'Ksenophō̃n'}
-    ${'χορηγέω'} | ${'khorēgéō'}
+    str             | expected
+    ${'Ξενοφῶν'}    | ${'Ksenophō̃n'}
+    ${'χορηγέω'}    | ${'khorēgéō'}
+    ${'σφίγξ'}      | ${'sphínks'}
+    ${'μελαγχολία'} | ${'melankholía'}
+    ${'σφίνξ'}      | ${'sphínks'}
+    ${'μελανχολία'} | ${'melankholía'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 })

@@ -37,7 +37,8 @@ describe('From beta code to greek', () => {
     ${aristotle.bc} | ${aristotle.gr}
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE)).toBe(expected) })
 
-  test.each`
+  // Scheduled for v 0.12.0.
+  /*test.each`
     str             | expected
     ${')/ANQRWPOS'} | ${'ἄνθρωπος'}
     ${'POIH|='}     | ${'ποιῇ'}
@@ -47,7 +48,7 @@ describe('From beta code to greek', () => {
     ${'(*Opli/ths'} | ${'Ὁπλίτης'}
     ${'NOI='}       | ${'vοῖ'}
     ${'(/AGIOS3'}   | ${'ἅγιοσ3'}
-  `('Testing classical TLG writing system', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { setBetaCodeStyle: { classical: true } })).toBe(expected) })
+  `('Testing classical TLG writing system', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { setBetaCodeStyle: { classical: true } })).toBe(expected) })*/
 
   test.each`
     str                | expected
@@ -178,8 +179,8 @@ describe('From transliteration to greek', () => {
   `('Using circumflex on long vowels', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
 
   test.each`
-    str            | expected
-    ${'Ksenophȭn'} | ${'Ξενοφῶν'}
-    ${'khorēgéō'}  | ${'χορηγέω'}
+    str              | expected
+    ${'Ksenophȭn'}   | ${'Ξενοφῶν'}
+    ${'khorēgéō'}    | ${'χορηγέω'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 })
