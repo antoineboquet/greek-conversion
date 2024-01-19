@@ -87,7 +87,7 @@ The **`IConversionOptions`** interface provides some control other the conversio
   useAdditionalLetters?:                   // extend the default mapping with predefined
     additionalLetters|additionalLetters[], //   additional letters
   setBetaCodeStyle?: {
-    classical?: boolean                    // enable the old all caps writing system (e.g. *PO/NOS)
+    useClassical?: boolean                 // enable the old all caps writing system (e.g. *PO/NOS)
   },
   setGreekStyle?: {
     disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
@@ -185,7 +185,7 @@ This should evolve in the future. Contributions are welcome.
 
 ## License
 
-Copyright (C) 2021, 2022, 2023  Antoine Boquet
+Copyright (C) 2021, 2022, 2023, 2024  Antoine Boquet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
