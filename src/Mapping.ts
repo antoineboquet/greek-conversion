@@ -1,15 +1,11 @@
 import { additionalLetters, keyType } from './enums';
 import { IConversionOptions } from './interfaces';
+import { sanitizeRegExpString } from './utils';
 
 interface IMappingProperty {
   gr: string;
   bc?: string;
   tr?: string;
-}
-
-interface IMappingPropertiesMap {
-  chars: Map<string, string>;
-  diacritics: Map<string, string>;
 }
 
 export const GRAVE_ACCENT = '\u0300';
@@ -556,6 +552,94 @@ export class Mapping {
     }
   }
 
+  apply(
+    inputStr: string,
+    inputType: keyType,
+    outputType: keyType,
+    options?: IConversionOptions
+  ): string {
+    const mappingProps = this.getPropertiesAsMapOrderByLengthDesc(
+      inputType,
+      outputType,
+      options?.removeDiacritics
+    );
+
+    inputStr = inputStr.normalize('NFD');
+
+    // Transliteration: join back the long wovel marks, which should
+    // not be treated as diacritics, to their associated chars.
+    if (inputType === keyType.TRANSLITERATION) {
+      const { setTransliterationStyle: style } = options;
+      const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
+      const markedLetters: string = this.lettersWithCxOrMacron(options)
+        .map((letter) => letter.tr.normalize('NFD').charAt(0))
+        .join('');
+
+      const re = new RegExp(
+        `(?<char>[${markedLetters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
+        'gu'
+      );
+
+      inputStr = inputStr.replace(re, (match, char, diacritics) => {
+        return (char + longVowelMark).normalize('NFC') + diacritics;
+      });
+    }
+
+    // Greek: enforce the right Unicode points for
+    // wrong Unicode canonical equivalences.
+    if (inputType === keyType.GREEK) {
+      inputStr = inputStr
+        .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+        .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
+        .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+    }
+
+    let convertedStr: string[] = new Array(inputStr.length);
+
+    // Apply mapped chars.
+    for (const [lval, rval] of mappingProps) {
+      // Left value can be empty/undefined.
+      if (!lval) continue;
+
+      const re = new RegExp(sanitizeRegExpString(lval), 'g');
+
+      for (const match of inputStr.matchAll(re)) {
+        const matchEndIndex = match.index + match[0].normalize('NFD').length;
+
+        // Check if the indices have already been filled.
+        let isFilled = false;
+        for (let i = match.index; i < matchEndIndex; i++) {
+          if (convertedStr[i] !== undefined) {
+            isFilled = true;
+            break;
+          }
+        }
+
+        if (!isFilled) convertedStr[match.index] = rval;
+
+        // Nullish subsequent array indices if necessary.
+        if (lval.length > 1) {
+          for (let i = 1; i < lval.length; i++) {
+            convertedStr[match.index + i] = null;
+          }
+        }
+      }
+
+      if (!convertedStr.includes(undefined)) break;
+    }
+
+    // Apply potentially remaining (non-mapped) chars to the converted string.
+    if (convertedStr.includes(undefined)) {
+      for (let i = 0; i < convertedStr.length; i++) {
+        if (convertedStr[i] === undefined) {
+          convertedStr[i] = inputStr[i];
+        }
+      }
+    }
+
+    return convertedStr.join('').normalize('NFC');
+  }
+
   lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
     let letters = [
       this.CAPITAL_ETA,
@@ -585,9 +669,12 @@ export class Mapping {
     return letters;
   }
 
-  getPropertiesAsMap(from: keyType, to: keyType): IMappingPropertiesMap {
+  getPropertiesAsMapOrderByLengthDesc(
+    from: keyType,
+    to: keyType,
+    removeDiacritics = false
+  ): Map<string, string> {
     let chars = new Map();
-    let diacritics = new Map();
 
     for (const [i, v] of Object.entries(this)) {
       if (from === keyType.BETA_CODE && v.bc !== undefined) {
@@ -607,28 +694,37 @@ export class Mapping {
       }
     }
 
-    for (const [i, v] of Object.entries(this.DIACRITICS)) {
-      if (from === keyType.BETA_CODE && v.bc !== undefined) {
-        if (to === keyType.GREEK && v.gr !== undefined)
-          diacritics.set(v.bc, v.gr);
-        else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-          diacritics.set(v.bc, v.tr);
-      } else if (from === keyType.GREEK && v.gr !== undefined) {
-        if (to === keyType.BETA_CODE && v.bc !== undefined)
-          diacritics.set(v.gr, v.bc);
-        else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-          diacritics.set(v.gr, v.tr);
-      } else if (from === keyType.TRANSLITERATION && v.tr !== undefined) {
-        if (to === keyType.BETA_CODE && v.bc !== undefined)
-          diacritics.set(v.tr, v.bc);
-        else if (to === keyType.GREEK && v.gr !== undefined)
-          diacritics.set(v.tr, v.gr);
+    const sortedChars = new Map(
+      [...chars].sort(
+        (a, b) => b[0].normalize('NFD').length - a[0].normalize('NFD').length
+      )
+    );
+
+    if (!removeDiacritics) {
+      let diacritics = new Map();
+
+      for (const [i, v] of Object.entries(this.DIACRITICS)) {
+        if (from === keyType.BETA_CODE && v.bc !== undefined) {
+          if (to === keyType.GREEK && v.gr !== undefined)
+            diacritics.set(v.bc, v.gr);
+          else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
+            diacritics.set(v.bc, v.tr);
+        } else if (from === keyType.GREEK && v.gr !== undefined) {
+          if (to === keyType.BETA_CODE && v.bc !== undefined)
+            diacritics.set(v.gr, v.bc);
+          else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
+            diacritics.set(v.gr, v.tr);
+        } else if (from === keyType.TRANSLITERATION && v.tr !== undefined) {
+          if (to === keyType.BETA_CODE && v.bc !== undefined)
+            diacritics.set(v.tr, v.bc);
+          else if (to === keyType.GREEK && v.gr !== undefined)
+            diacritics.set(v.tr, v.gr);
+        }
       }
+
+      return new Map([...sortedChars, ...diacritics]);
     }
 
-    return {
-      chars: chars,
-      diacritics: diacritics
-    };
+    return sortedChars;
   }
 }

@@ -9,7 +9,11 @@ import {
 } from './Mapping';
 
 // @FIXME: take care of xi/chi variants.
-export function applyGammaDiphthongs(str: string, type: keyType): string {
+export function applyGammaDiphthongs(
+  str: string,
+  type: keyType,
+  mapping?: Mapping
+): string {
   switch (type) {
     case keyType.GREEK:
       str = str
@@ -56,6 +60,7 @@ export function applyGreekVariants(
     str = str.replace(/\u03D0/g, 'β');
     str = str.replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
   }
+
   // Apply final sigma.
   str = str.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
 
@@ -75,14 +80,14 @@ export function applyUppercaseChars(str: string): string {
   });
 }
 
-// @FIXME: not implemented yet.
-/*export function isMappedKey(
+// @FIXME: implement this function.
+export function isMappedKey(
   key: string,
   type: keyType,
   mapping?: Mapping
 ): boolean {
-  // ...
-}*/
+  return true;
+}
 
 /*
  * Please note that any other normalization will revert some
@@ -128,4 +133,8 @@ export function removeGreekVariants(str: string): string {
 
 export function removeExtraWhitespace(str: string): string {
   return str.replace(/(\s)+/g, '$1').trim();
+}
+
+export function sanitizeRegExpString(str) {
+  return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
 }
