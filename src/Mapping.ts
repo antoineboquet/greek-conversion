@@ -602,25 +602,26 @@ export class Mapping {
       if (!lval) continue;
 
       const re = new RegExp(sanitizeRegExpString(lval), 'g');
+      let matches;
 
-      for (const match of inputStr.matchAll(re)) {
-        const matchEndIndex = match.index + match[0].normalize('NFD').length;
+      while ((matches = re.exec(inputStr)) !== null) {
+        const lastIndex = matches.index + matches[0].normalize('NFD').length;
 
         // Check if the indices have already been filled.
         let isFilled = false;
-        for (let i = match.index; i < matchEndIndex; i++) {
+        for (let i = matches.index; i < lastIndex; i++) {
           if (convertedStr[i] !== undefined) {
             isFilled = true;
             break;
           }
         }
 
-        if (!isFilled) convertedStr[match.index] = rval;
+        if (!isFilled) convertedStr[matches.index] = rval;
 
         // Nullish subsequent array indices if necessary.
         if (lval.length > 1) {
           for (let i = 1; i < lval.length; i++) {
-            convertedStr[match.index + i] = null;
+            convertedStr[matches.index + i] = null;
           }
         }
       }
