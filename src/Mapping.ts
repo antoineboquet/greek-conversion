@@ -558,7 +558,7 @@ export class Mapping {
     outputType: keyType,
     options?: IConversionOptions
   ): string {
-    const mappingProps = this.getPropertiesAsMapOrderByLengthDesc(
+    const mappingProps = this.#getPropertiesAsMapOrderByLengthDesc(
       inputType,
       outputType,
       options?.removeDiacritics
@@ -571,7 +571,7 @@ export class Mapping {
     if (inputType === keyType.TRANSLITERATION) {
       const { setTransliterationStyle: style } = options;
       const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
-      const markedLetters: string = this.lettersWithCxOrMacron(options)
+      const markedLetters: string = this.#lettersWithCxOrMacron(options)
         .map((letter) => letter.tr.normalize('NFD').charAt(0))
         .join('');
 
@@ -594,7 +594,7 @@ export class Mapping {
         .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
     }
 
-    let convertedStr: string[] = new Array(inputStr.length);
+    let conversionArr: string[] = new Array(inputStr.length);
 
     // Apply mapped chars.
     for (const [lval, rval] of mappingProps) {
@@ -610,38 +610,79 @@ export class Mapping {
         // Check if the indices have already been filled.
         let isFilled = false;
         for (let i = matches.index; i < lastIndex; i++) {
-          if (convertedStr[i] !== undefined) {
+          if (conversionArr[i] !== undefined) {
             isFilled = true;
             break;
           }
         }
 
-        if (!isFilled) convertedStr[matches.index] = rval;
+        if (!isFilled) conversionArr[matches.index] = rval;
 
         // Nullish subsequent array indices if necessary.
         if (lval.length > 1) {
           for (let i = 1; i < lval.length; i++) {
-            convertedStr[matches.index + i] = null;
+            conversionArr[matches.index + i] = null;
           }
         }
       }
 
-      if (!convertedStr.includes(undefined)) break;
+      if (!conversionArr.includes(undefined)) break;
     }
 
     // Apply potentially remaining (non-mapped) chars to the converted string.
-    if (convertedStr.includes(undefined)) {
-      for (let i = 0; i < convertedStr.length; i++) {
-        if (convertedStr[i] === undefined) {
-          convertedStr[i] = inputStr[i];
+    if (conversionArr.includes(undefined)) {
+      for (let i = 0; i < conversionArr.length; i++) {
+        if (conversionArr[i] === undefined) {
+          conversionArr[i] = inputStr[i];
         }
       }
     }
 
-    return convertedStr.join('').normalize('NFC');
+    let outputStr = conversionArr.join('').normalize('NFC');
+    outputStr = this.#applyGammaDiphthongs(outputStr, outputType);
+
+    return outputStr;
   }
 
-  lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
+  #applyGammaDiphthongs(str: string, type: keyType): string {
+    switch (type) {
+      case keyType.GREEK:
+        str = str
+          .replace(/ΝΓ/g, 'ΓΓ') // Upper
+          .replace(/ΝΞ/g, 'ΓΞ')
+          .replace(/ΝΚ/g, 'ΓΚ')
+          .replace(/ΝΧ/g, 'ΓΧ')
+          .replace(/Νγ/g, 'Γγ') // Upper + lower
+          .replace(/Νξ/g, 'Γξ')
+          .replace(/Νκ/g, 'Γκ')
+          .replace(/Νχ/g, 'Γχ')
+          .replace(/νγ/g, 'γγ') // Lower
+          .replace(/νξ/g, 'γξ')
+          .replace(/νκ/g, 'γκ')
+          .replace(/νχ/g, 'γχ');
+        break;
+
+      case keyType.TRANSLITERATION:
+        str = str
+          .replace(/GG/g, 'NG') // Upper
+          .replace(/GX/g, 'NX')
+          .replace(/GK/g, 'NK')
+          .replace(/GCH/g, 'NCH')
+          .replace(/Gg/g, 'Ng') // Upper + lower
+          .replace(/Gx/g, 'Nx')
+          .replace(/Gk/g, 'Nk')
+          .replace(/Gch/g, 'Nch')
+          .replace(/gg/g, 'ng') // Lower
+          .replace(/gx/g, 'nx')
+          .replace(/gk/g, 'nk')
+          .replace(/gch/g, 'nch');
+        break;
+    }
+
+    return str;
+  }
+
+  #lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
     let letters = [
       this.CAPITAL_ETA,
       this.SMALL_ETA,
@@ -670,7 +711,7 @@ export class Mapping {
     return letters;
   }
 
-  getPropertiesAsMapOrderByLengthDesc(
+  #getPropertiesAsMapOrderByLengthDesc(
     from: keyType,
     to: keyType,
     removeDiacritics = false
