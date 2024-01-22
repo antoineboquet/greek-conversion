@@ -2,7 +2,6 @@ import { keyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
-  applyGammaDiphthongs,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace,
@@ -44,7 +43,7 @@ export function toTransliteration(
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
-  return applyGammaDiphthongs(str, keyType.TRANSLITERATION);
+  return str;
 }
 
 // @FIXME: take care of diaeresis, diphthongs and so on.

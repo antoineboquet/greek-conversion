@@ -2,7 +2,6 @@ import { keyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
-  applyGammaDiphthongs,
   applyGreekVariants,
   applyUppercaseChars,
   normalizeGreek,
@@ -47,7 +46,6 @@ export function toGreek(
   }
 
   str = applyGreekVariants(str, options.setGreekStyle?.disableBetaVariant);
-  str = applyGammaDiphthongs(str, keyType.GREEK);
 
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
