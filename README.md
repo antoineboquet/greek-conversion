@@ -154,15 +154,6 @@ person.source // ἄνθρωπος
 
 Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
-#### `applyGammaDiphthongs (str: string, type: keyType): string`
-
-Applies gamma diphthongs for strings of type `GREEK | TRANSLITERATION`.\
-e.g. `aggelos -> angelos` and `ανγελος -> αγγελος`.
-
-#### `isMappedKey (key: string, type: keyType): boolean`
-
-Checks if a key is used by the converter.
-
 #### `removeDiacritics (str: string, type: keyType): string`
 
 Removes all the diacritics from a given string. Diacritics are defined for each representation of a greek string.
