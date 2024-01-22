@@ -675,57 +675,43 @@ export class Mapping {
     to: keyType,
     removeDiacritics = false
   ): Map<string, string> {
-    let chars = new Map();
+    let fromProp: string;
+    let toProp: string;
+
+    if (from === keyType.BETA_CODE) fromProp = 'bc';
+    else if (from === keyType.GREEK) fromProp = 'gr';
+    else if (from === keyType.TRANSLITERATION) fromProp = 'tr';
+    else throw new Error('Given `keyType` is not implemented.');
+
+    if (to === keyType.BETA_CODE) toProp = 'bc';
+    else if (to === keyType.GREEK) toProp = 'gr';
+    else if (to === keyType.TRANSLITERATION) toProp = 'tr';
+    else throw new Error('Given `keyType` is not implemented.');
+
+    let chars = [];
 
     for (const [i, v] of Object.entries(this)) {
-      if (from === keyType.BETA_CODE && v.bc !== undefined) {
-        if (to === keyType.GREEK && v.gr !== undefined) chars.set(v.bc, v.gr);
-        else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-          chars.set(v.bc, v.tr);
-      } else if (from === keyType.GREEK && v.gr !== undefined) {
-        if (to === keyType.BETA_CODE && v.bc !== undefined)
-          chars.set(v.gr, v.bc);
-        else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-          chars.set(v.gr, v.tr);
-      } else if (from === keyType.TRANSLITERATION && v.tr !== undefined) {
-        if (to === keyType.BETA_CODE && v.bc !== undefined)
-          chars.set(v.tr, v.bc);
-        else if (to === keyType.GREEK && v.gr !== undefined)
-          chars.set(v.tr, v.gr);
+      if (v[fromProp] !== undefined && v[toProp] !== undefined) {
+        chars.push([v[fromProp], v[toProp]]);
       }
     }
 
-    const sortedChars = new Map(
-      [...chars].sort(
-        (a, b) => b[0].normalize('NFD').length - a[0].normalize('NFD').length
-      )
-    );
+    const sortedChars = chars.sort((a, b) => {
+      return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
+    });
 
     if (!removeDiacritics) {
-      let diacritics = new Map();
+      let diacritics = [];
 
       for (const [i, v] of Object.entries(this.DIACRITICS)) {
-        if (from === keyType.BETA_CODE && v.bc !== undefined) {
-          if (to === keyType.GREEK && v.gr !== undefined)
-            diacritics.set(v.bc, v.gr);
-          else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-            diacritics.set(v.bc, v.tr);
-        } else if (from === keyType.GREEK && v.gr !== undefined) {
-          if (to === keyType.BETA_CODE && v.bc !== undefined)
-            diacritics.set(v.gr, v.bc);
-          else if (to === keyType.TRANSLITERATION && v.tr !== undefined)
-            diacritics.set(v.gr, v.tr);
-        } else if (from === keyType.TRANSLITERATION && v.tr !== undefined) {
-          if (to === keyType.BETA_CODE && v.bc !== undefined)
-            diacritics.set(v.tr, v.bc);
-          else if (to === keyType.GREEK && v.gr !== undefined)
-            diacritics.set(v.tr, v.gr);
+        if (v[fromProp] !== undefined && v[toProp] !== undefined) {
+          diacritics.push([v[fromProp], v[toProp]]);
         }
       }
 
       return new Map([...sortedChars, ...diacritics]);
     }
 
-    return sortedChars;
+    return new Map(sortedChars);
   }
 }
