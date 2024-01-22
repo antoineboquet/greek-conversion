@@ -4,9 +4,7 @@ import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
 import {
-  applyGammaDiphthongs,
   applyGreekVariants,
-  isMappedKey,
   removeDiacritics,
   removeGreekVariants
 } from './utils';
@@ -17,9 +15,7 @@ export { toBetaCode } from './toBetaCode';
 export { toGreek } from './toGreek';
 export { toTransliteration } from './toTransliteration';
 export {
-  applyGammaDiphthongs,
   applyGreekVariants,
-  isMappedKey,
   removeDiacritics,
   removeGreekVariants
 } from './utils';
@@ -30,9 +26,7 @@ export default {
   toBetaCode,
   toGreek,
   toTransliteration,
-  applyGammaDiphthongs,
   applyGreekVariants,
-  isMappedKey,
   removeDiacritics,
   removeGreekVariants
 };

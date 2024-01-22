@@ -4,52 +4,8 @@ import {
   GREEK_QUESTION_MARK,
   GREEK_TILDE,
   LATIN_TILDE,
-  MIDDLE_DOT,
-  Mapping
+  MIDDLE_DOT
 } from './Mapping';
-
-// @FIXME: take care of xi/chi variants.
-export function applyGammaDiphthongs(
-  str: string,
-  type: keyType,
-  mapping?: Mapping
-): string {
-  switch (type) {
-    case keyType.GREEK:
-      str = str
-        .replace(/ΝΓ/g, 'ΓΓ') // Upper
-        .replace(/ΝΞ/g, 'ΓΞ')
-        .replace(/ΝΚ/g, 'ΓΚ')
-        .replace(/ΝΧ/g, 'ΓΧ')
-        .replace(/Νγ/g, 'Γγ') // Upper + lower
-        .replace(/Νξ/g, 'Γξ')
-        .replace(/Νκ/g, 'Γκ')
-        .replace(/Νχ/g, 'Γχ')
-        .replace(/νγ/g, 'γγ') // Lower
-        .replace(/νξ/g, 'γξ')
-        .replace(/νκ/g, 'γκ')
-        .replace(/νχ/g, 'γχ');
-      break;
-
-    case keyType.TRANSLITERATION:
-      str = str
-        .replace(/GG/g, 'NG') // Upper
-        .replace(/GX/g, 'NX')
-        .replace(/GK/g, 'NK')
-        .replace(/GCH/g, 'NCH')
-        .replace(/Gg/g, 'Ng') // Upper + lower
-        .replace(/Gx/g, 'Nx')
-        .replace(/Gk/g, 'Nk')
-        .replace(/Gch/g, 'Nch')
-        .replace(/gg/g, 'ng') // Lower
-        .replace(/gx/g, 'nx')
-        .replace(/gk/g, 'nk')
-        .replace(/gch/g, 'nch');
-      break;
-  }
-
-  return str;
-}
 
 export function applyGreekVariants(
   str: string,
@@ -80,39 +36,33 @@ export function applyUppercaseChars(str: string): string {
   });
 }
 
-// @FIXME: implement this function.
-export function isMappedKey(
-  key: string,
-  type: keyType,
-  mapping?: Mapping
-): boolean {
-  return true;
-}
-
-/*
- * Please note that any other normalization will revert some
- * changes due to the weird Unicode canonical equivalences.
+/**
+ * Normalizes the given greek string.
+ *
+ * @remarks
+ * (1) Some characters must be applied in the canonically-decomposed form.
+ * (2) Due to the poor Unicode canonical equivalences, any subsequent
+ * normalization may break the replacements made by this function.
  */
-export function normalizeGreek(str: string): string {
-  str = str.normalize('NFD');
-
-  // Latin only `combining tilde` -> `combining greek perispomeni`.
-  str = str.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
-
-  str = str.normalize('NFC');
-
-  // `Middle dot` -> `greek ano teleia`.
-  str = str.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
-  // `Semicolon` -> `greek question mark`.
-  str = str.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
-
-  return str;
+export function normalizeGreek(greekStr: string): string {
+  return greekStr
+    .normalize('NFD')
+    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+    .normalize('NFC')
+    .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
+    .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
 }
 
+/**
+ * Returns the given string without diacritics.
+ * *
+ * @remarks
+ * The set of diacritical signs depends of the greek string representation.
+ */
 export function removeDiacritics(str: string, type: keyType): string {
   switch (type) {
     case keyType.BETA_CODE:
-      // Remove the following characters: `( ) \ / + = |`.
+      // Remove the following characters: `(`, `)`, `\`, `/`, `+`, `=`, `|`.
       str = str.replace(/[\(\)\\\/\+=\|]/g, '');
       break;
 
