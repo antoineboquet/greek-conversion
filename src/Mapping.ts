@@ -639,47 +639,34 @@ export class Mapping {
     }
 
     let outputStr = conversionArr.join('').normalize('NFC');
-    outputStr = this.#applyGammaDiphthongs(outputStr, outputType);
+
+    if ([keyType.GREEK, keyType.TRANSLITERATION].includes(outputType)) {
+      outputStr = Mapping.#applyGammaNasals(outputStr, outputType);
+    }
 
     return outputStr;
   }
 
-  #applyGammaDiphthongs(str: string, type: keyType): string {
+  static #applyGammaNasals(str: string, type: keyType): string {
     switch (type) {
       case keyType.GREEK:
-        str = str
-          .replace(/ΝΓ/g, 'ΓΓ') // Upper
-          .replace(/ΝΞ/g, 'ΓΞ')
-          .replace(/ΝΚ/g, 'ΓΚ')
-          .replace(/ΝΧ/g, 'ΓΧ')
-          .replace(/Νγ/g, 'Γγ') // Upper + lower
-          .replace(/Νξ/g, 'Γξ')
-          .replace(/Νκ/g, 'Γκ')
-          .replace(/Νχ/g, 'Γχ')
-          .replace(/νγ/g, 'γγ') // Lower
-          .replace(/νξ/g, 'γξ')
-          .replace(/νκ/g, 'γκ')
-          .replace(/νχ/g, 'γχ');
-        break;
+        return str.replace(/(ν)([γξκχ])/gi, (match, first, second) => {
+          if (first === first.toUpperCase()) return 'Γ' + second;
+          else return 'γ' + second;
+        });
 
       case keyType.TRANSLITERATION:
-        str = str
-          .replace(/GG/g, 'NG') // Upper
-          .replace(/GX/g, 'NX')
-          .replace(/GK/g, 'NK')
-          .replace(/GCH/g, 'NCH')
-          .replace(/Gg/g, 'Ng') // Upper + lower
-          .replace(/Gx/g, 'Nx')
-          .replace(/Gk/g, 'Nk')
-          .replace(/Gch/g, 'Nch')
-          .replace(/gg/g, 'ng') // Lower
-          .replace(/gx/g, 'nx')
-          .replace(/gk/g, 'nk')
-          .replace(/gch/g, 'nch');
-        break;
-    }
+        // The case of `ITransliterationStyle` options `xi_ks` &
+        // `chi_kh` is covered by letter K.
+        return str.replace(/(g)(g|x|k|ch)/gi, (match, first, second) => {
+          if (first === first.toUpperCase()) return 'N' + second;
+          else return 'n' + second;
+        });
 
-    return str;
+      default:
+        console.warn(`keyType '${type}' is not implemented.`);
+        return str;
+    }
   }
 
   #lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
@@ -722,12 +709,12 @@ export class Mapping {
     if (from === keyType.BETA_CODE) fromProp = 'bc';
     else if (from === keyType.GREEK) fromProp = 'gr';
     else if (from === keyType.TRANSLITERATION) fromProp = 'tr';
-    else throw new Error('Given `keyType` is not implemented.');
+    else console.warn(`keyType '${from}' is not implemented.`);
 
     if (to === keyType.BETA_CODE) toProp = 'bc';
     else if (to === keyType.GREEK) toProp = 'gr';
     else if (to === keyType.TRANSLITERATION) toProp = 'tr';
-    else throw new Error('Given `keyType` is not implemented.');
+    else console.warn(`keyType '${to}' is not implemented.`);
 
     let chars = [];
 
