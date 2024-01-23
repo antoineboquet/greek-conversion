@@ -63,18 +63,18 @@ export function removeDiacritics(str: string, type: keyType): string {
   switch (type) {
     case keyType.BETA_CODE:
       // Remove the following characters: `(`, `)`, `\`, `/`, `+`, `=`, `|`.
-      str = str.replace(/[\(\)\\\/\+=\|]/g, '');
-      break;
+      return str.replace(/[\(\)\\\/\+=\|]/g, '');
 
     case keyType.GREEK:
     case keyType.TRANSLITERATION:
-      str = str.normalize('NFD');
-      str = str.replace(/[\u0300-\u036f]/g, '');
-      str = str.normalize('NFC');
-      break;
-  }
+      return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .normalize('NFC');
 
-  return str;
+    default:
+      console.warn(`keyType '${type}' is not implemented.`);
+  }
 }
 
 export function removeGreekVariants(str: string): string {
