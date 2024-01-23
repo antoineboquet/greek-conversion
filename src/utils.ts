@@ -74,6 +74,7 @@ export function removeDiacritics(str: string, type: keyType): string {
 
     default:
       console.warn(`keyType '${type}' is not implemented.`);
+      return str;
   }
 }
 
