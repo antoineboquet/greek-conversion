@@ -10,7 +10,7 @@ export interface IConversionOptions {
 }
 
 export interface IBetaCodeStyle {
-  classical?: boolean;
+  //useClassical?: boolean;
 }
 
 export interface IGreekStyle {
