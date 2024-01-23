@@ -19,9 +19,18 @@ export function toTransliteration(
   switch (from) {
     case keyType.BETA_CODE:
       str = flagRoughBreathings(str);
-      if (options.removeDiacritics)
+
+      if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.TRANSLITERATION);
+      }
+
+      str = mapping.apply(
+        str,
+        keyType.BETA_CODE,
+        keyType.TRANSLITERATION,
+        options
+      );
+
       // Apply flagged rough breathings.
       str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
       break;
@@ -31,13 +40,20 @@ export function toTransliteration(
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION);
+      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION, options);
       break;
 
     case keyType.TRANSLITERATION:
-      // @FIXME: apply conversion options to the transliterated string.
-      if (options.removeDiacritics)
+      if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.TRANSLITERATION);
+      }
+
+      str = mapping.apply(
+        str,
+        keyType.TRANSLITERATION,
+        keyType.TRANSLITERATION,
+        options
+      );
       break;
   }
 

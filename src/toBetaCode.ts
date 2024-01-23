@@ -18,14 +18,16 @@ export function toBetaCode(
 
   switch (from) {
     case keyType.BETA_CODE:
-      if (options.removeDiacritics)
+      if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
+      }
+      str = mapping.apply(str, keyType.BETA_CODE, keyType.BETA_CODE, options);
       break;
 
     case keyType.GREEK:
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.BETA_CODE);
+      str = mapping.apply(str, keyType.GREEK, keyType.BETA_CODE, options);
       str = reorderDiacritics(str);
       break;
 
