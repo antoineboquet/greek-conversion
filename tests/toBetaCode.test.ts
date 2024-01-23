@@ -17,9 +17,9 @@ describe('From greek to beta code', () => {
     str                | expected
     ${'ἄνθρωπος'}      | ${'a)/nqrwpos'}
     ${'ποιῇ'}          | ${'poih|='}
-    ${'Ἄϊδα'}          | ${'A)/i+da'}
+    ${'Ἄϊδα'}         | ${'A)/i+da'}
     ${'βάρ\u03D0αρος'} | ${'ba/rbaros'}
-    ${'Ὕσιρις'}        | ${'U(/siris'}
+    ${'Ὕσιρις'}       | ${'U(/siris'}
     ${'wοῖ'}           | ${'woi='}
     ${'ἅγιοc'}         | ${'a(/gioc'}
     ${'Ξενοφῶν'}       | ${'Cenofw=n'}
@@ -57,9 +57,9 @@ describe('From greek to beta code', () => {
     str             | expected
     ${'ανθρωπος'}   | ${'anqrwpos'}
     ${'ποιῇ'}       | ${'poih'}
-    ${'Ἄϊδα'}       | ${'Aida'}
+    ${'Ἄϊδα'}      | ${'Aida'}
     ${'bárbaros'}   | ${'barbaros'}
-    ${'Ὕσιρις'}     | ${'Usiris'}
+    ${'Ὕσιρις'}    | ${'Usiris'}
     ${'Ξενοφῶν'}    | ${'Cenofwn'}
     ${'χορηγέω'}    | ${'xorhgew'}
     ${'ἀ̆ᾱεηῐῑοωῠῡ'} | ${'aaehiiowuu'}
@@ -92,7 +92,7 @@ describe('From transliteration to beta code', () => {
   test.each`
     str             | expected
     ${'ánthrōpos'}  | ${'a)/nqrwpos'}
-    ${'poiē̃ͅ'}       | ${'poih|='}
+    ${'poiȩ̄̃'}       | ${'poih|='}
     ${'Áïda'}       | ${'A)/i+da'}
     ${'bárbaros'}   | ${'ba/rbaros'}
     ${'Hoplítēs'}   | ${'O(pli/ths'}
@@ -125,7 +125,7 @@ describe('From transliteration to beta code', () => {
   test.each`
     str              | expected
     ${'ánthrōpos'}   | ${'anqrwpos'}
-    ${'poiē̃ͅ'}        | ${'poih'}
+    ${'poiȩ̄̃'}        | ${'poih'}
     ${'Áïda'}        | ${'Aida'}
     ${'bárbaros'}    | ${'barbaros'}
     ${'Hoplítēs'}    | ${'Opliths'}
@@ -136,6 +136,7 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('aíx kriós', keyType.TRANSLITERATION)).toBe('ai)/c krio/s')
     expect(toBetaCode('aíx   kriós', keyType.TRANSLITERATION, { preserveWhitespace: true })).toBe('ai)/c   krio/s')
   })
+
   test.each`
     str            | expected
     ${'ánthrôpos'} | ${'a)/nqrwpos'}

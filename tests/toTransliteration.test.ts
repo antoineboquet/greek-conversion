@@ -24,11 +24,12 @@ const plato = {
   trCrx: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elénxeien hóti ouk alêthễ légeis?'
 }
 
+// ē̃ͅȩ̄̃ōͅō̧
 describe('From beta code to transliteration', () => {
   test.each`
     str             | expected
     ${'a)/nqrwpos'} | ${'ánthrōpos'}
-    ${'poih|='}     | ${'poiē̃ͅ'}
+    ${'poih|='}     | ${'poiȩ̄̃'}
     ${'A)/i+da'}    | ${'Áïda'}
     ${'ba/rbaros'}  | ${'bárbaros'}
     ${'O(pli/ths'}  | ${'Hoplítēs'}
@@ -75,7 +76,7 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('ai)/c   krio/s', keyType.BETA_CODE, { preserveWhitespace: true })).toBe('aíx   kriós')
   })
 
-  // @FIXME: these orders don't work `w|=(`, `w=(|` & `w=|(`.
+  // Scheduled for v. 0.12 (broken orders: `w|=(`, `w=(|`, `w=|(` ).
   /*test.each`
     str       | expected
     ${'w(|='} | ${'ᾧ'}
@@ -91,11 +92,11 @@ describe('From greek to transliteration', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'ánthrōpos'}
-    ${'ποιῇ'}          | ${'poiē̃ͅ'}
+    ${'ποιῇ'}          | ${'poiȩ̄̃'}
     ${'Ἄϊδα'}         | ${'Áïda'}
     ${'βάρ\u03D0αρος'} | ${'bárbaros'}
     ${'Ὕσιρις'}       | ${'Húsiris'}
-    ${'ᾠώδης'}         | ${'ōͅṓdēs'}
+    ${'ᾠώδης'}         | ${'ō̧ṓdēs'}
     ${'wοῖ'}           | ${'woĩ'}
     ${'ἅγιοc'}         | ${'hágioc'}
     ${'Ξενοφῶν'}       | ${'Xenophō̃n'}
@@ -103,6 +104,21 @@ describe('From greek to transliteration', () => {
     ${'ἀ̆ᾱεηῐῑοωῠῡ'}    | ${'ăāeēĭīoōŭū'}
     ${plato.gr}        | ${plato.tr} 
   `('Basic conversion', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK)).toBe(expected) })
+
+  test.each`
+    str          | expected
+    ${'ἄγγελος'} | ${'ángelos'}
+    ${'σπόγγος'} | ${'spóngos'} 
+    ${'ἄγκυρα'}  | ${'ánkura'}
+    ${'σφίγξ'}   | ${'sphínx'} 
+    ${'τυγχάνω'} | ${'tunchánō'}
+  `('Testing gamma nasals', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK)).toBe(expected) })
+
+  test.each`
+    str          | expected
+    ${'σφίγξ'}   | ${'sphínks'}
+    ${'τυγχάνω'} | ${'tunkhánō'}
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   test.each`
     str             | expected
