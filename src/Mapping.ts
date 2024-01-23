@@ -333,7 +333,7 @@ export class Mapping {
     IOTA_SUBSCRIPT: {
       gr: IOTA_SUBSCRIPT,
       bc: '|',
-      tr: IOTA_SUBSCRIPT
+      tr: CEDILLA
     } as IMappingProperty
   };
 
