@@ -553,22 +553,16 @@ export class Mapping {
   }
 
   apply(
-    inputStr: string,
-    inputType: keyType,
-    outputType: keyType,
+    fromStr: string,
+    fromType: keyType,
+    toType: keyType,
     options?: IConversionOptions
   ): string {
-    const mappingProps = this.#getPropertiesAsMapOrderByLengthDesc(
-      inputType,
-      outputType,
-      options?.removeDiacritics
-    );
-
-    inputStr = inputStr.normalize('NFD');
+    fromStr = fromStr.normalize('NFD');
 
     // Transliteration: join back the long wovel marks, which should
     // not be treated as diacritics, to their associated chars.
-    if (inputType === keyType.TRANSLITERATION) {
+    if (fromType === keyType.TRANSLITERATION) {
       const { setTransliterationStyle: style } = options;
       const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
       const markedLetters: string = this.#lettersWithCxOrMacron(options)
@@ -580,21 +574,26 @@ export class Mapping {
         'gu'
       );
 
-      inputStr = inputStr.replace(re, (match, char, diacritics) => {
+      fromStr = fromStr.replace(re, (match, char, diacritics) => {
         return (char + longVowelMark).normalize('NFC') + diacritics;
       });
     }
 
     // Greek: enforce the right Unicode points for
     // wrong Unicode canonical equivalences.
-    if (inputType === keyType.GREEK) {
-      inputStr = inputStr
+    if (fromType === keyType.GREEK) {
+      fromStr = fromStr
         .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
         .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
         .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
     }
 
-    let conversionArr: string[] = new Array(inputStr.length);
+    const mappingProps = this.#getPropsMapOrderByLengthDesc(
+      fromType,
+      toType,
+      options?.removeDiacritics
+    );
+    let conversionArr: string[] = new Array(fromStr.length);
 
     // Apply mapped chars.
     for (const [lval, rval] of mappingProps) {
@@ -604,7 +603,7 @@ export class Mapping {
       const re = new RegExp(sanitizeRegExpString(lval), 'g');
       let matches;
 
-      while ((matches = re.exec(inputStr)) !== null) {
+      while ((matches = re.exec(fromStr)) !== null) {
         const lastIndex = matches.index + matches[0].normalize('NFD').length;
 
         // Check if the indices have already been filled.
@@ -633,18 +632,18 @@ export class Mapping {
     if (conversionArr.includes(undefined)) {
       for (let i = 0; i < conversionArr.length; i++) {
         if (conversionArr[i] === undefined) {
-          conversionArr[i] = inputStr[i];
+          conversionArr[i] = fromStr[i];
         }
       }
     }
 
-    let outputStr = conversionArr.join('').normalize('NFC');
+    let convertedStr = conversionArr.join('').normalize('NFC');
 
-    if ([keyType.GREEK, keyType.TRANSLITERATION].includes(outputType)) {
-      outputStr = Mapping.#applyGammaNasals(outputStr, outputType);
+    if ([keyType.GREEK, keyType.TRANSLITERATION].includes(toType)) {
+      convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
     }
 
-    return outputStr;
+    return convertedStr;
   }
 
   static #applyGammaNasals(str: string, type: keyType): string {
@@ -698,23 +697,23 @@ export class Mapping {
     return letters;
   }
 
-  #getPropertiesAsMapOrderByLengthDesc(
-    from: keyType,
-    to: keyType,
+  #getPropsMapOrderByLengthDesc(
+    fromType: keyType,
+    toType: keyType,
     removeDiacritics = false
   ): Map<string, string> {
     let fromProp: string;
     let toProp: string;
 
-    if (from === keyType.BETA_CODE) fromProp = 'bc';
-    else if (from === keyType.GREEK) fromProp = 'gr';
-    else if (from === keyType.TRANSLITERATION) fromProp = 'tr';
-    else console.warn(`keyType '${from}' is not implemented.`);
+    if (fromType === keyType.BETA_CODE) fromProp = 'bc';
+    else if (fromType === keyType.GREEK) fromProp = 'gr';
+    else if (fromType === keyType.TRANSLITERATION) fromProp = 'tr';
+    else console.warn(`keyType '${fromType}' is not implemented.`);
 
-    if (to === keyType.BETA_CODE) toProp = 'bc';
-    else if (to === keyType.GREEK) toProp = 'gr';
-    else if (to === keyType.TRANSLITERATION) toProp = 'tr';
-    else console.warn(`keyType '${to}' is not implemented.`);
+    if (toType === keyType.BETA_CODE) toProp = 'bc';
+    else if (toType === keyType.GREEK) toProp = 'gr';
+    else if (toType === keyType.TRANSLITERATION) toProp = 'tr';
+    else console.warn(`keyType '${toType}' is not implemented.`);
 
     let chars = [];
 
