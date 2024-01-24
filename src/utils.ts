@@ -8,26 +8,36 @@ import {
 } from './Mapping';
 
 export function applyGreekVariants(
-  str: string,
+  greekStr: string,
   disableBetaVariant?: boolean
 ): string {
   // Apply beta variant.
   if (!disableBetaVariant) {
-    str = str.replace(/\u03D0/g, 'β');
-    str = str.replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
+    greekStr = greekStr
+      .replace(/\u03D0/g, 'β')
+      .replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
   }
 
   // Apply final sigma.
-  str = str.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
+  greekStr = greekStr.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
 
   // Replace pi + sigma with psi.
-  str = str.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');
+  greekStr = greekStr.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');
 
-  return str;
+  return greekStr;
 }
 
-export function applyUppercaseChars(str: string): string {
-  return str.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
+/**
+ * Returns a string with correctly positioned uppercase chars considering
+ * that an initial uppercase `h` is going to be removed during a subsequent
+ * conversion process.
+ *
+ * @remarks
+ * This function expects a transliterated string or, at least, a string that
+ * keeps its transliterated rough breathings.
+ */
+export function applyUppercaseChars(transliteratedStr: string): string {
+  return transliteratedStr.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
     if (word.charAt(0) === 'H') {
       word = word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2);
     }
@@ -37,7 +47,7 @@ export function applyUppercaseChars(str: string): string {
 }
 
 /**
- * Normalizes the given greek string.
+ * Returns a normalized greek string.
  *
  * @remarks
  * (1) Some characters must be applied in the canonically-decomposed form.
@@ -54,15 +64,14 @@ export function normalizeGreek(greekStr: string): string {
 }
 
 /**
- * Returns the given string without diacritics.
- * *
+ * Returns a string without diacritics.
+ *
  * @remarks
  * The set of diacritical signs depends of the greek string representation.
  */
 export function removeDiacritics(str: string, type: keyType): string {
   switch (type) {
     case keyType.BETA_CODE:
-      // Remove the following characters: `(`, `)`, `\`, `/`, `+`, `=`, `|`.
       return str.replace(/[\(\)\\\/\+=\|]/g, '');
 
     case keyType.GREEK:
