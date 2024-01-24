@@ -29,7 +29,7 @@ npm install --save greek-conversion
 
 Import the library's functions as needed:
 
-```js
+```ts
 // ES6 modules syntax
 import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
@@ -39,7 +39,7 @@ const gc = require('greek-conversion')
 
 Then use them:
 
-```js
+```ts
 // Let's transliterate some Thucydides
 
 toTransliteration(
@@ -73,7 +73,13 @@ You can then call the library's functions as exemplified below:
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**. You can refer to the [conversion chart](https://github.com/antoineboquet/greek-conversion/wiki#conversion-chart) for further information about the expected input & output.
 
-Functions signature is consistently `str: string, from: keyType, options: IConversionOptions = {}`.
+Functions signature is consistently:
+```ts
+str: string,
+fromType: keyType,
+options: IConversionOptions = {},
+declaredMapping?: Mapping
+```
 
 The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
 If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
@@ -102,7 +108,7 @@ The **`IConversionOptions`** interface provides some control other the conversio
 
 ### Examples
 
-```js
+```ts
 // Basic examples
 
 toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
@@ -124,7 +130,12 @@ You can also use the **`GreekString`** object if you want to manage several repr
 
 As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
-`GreekString` constructor is `str: string, from: keyType, options?: IConversionOptions`.
+`GreekString` constructor is:
+```ts
+str: string,
+fromType: keyType,
+options?: IConversionOptions`
+``````
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
@@ -132,7 +143,7 @@ Note that `IConversionOptions` is also applied to the input string in order to h
 
 ### Example
 
-```js
+```ts
 import { GreekString, keyType } from 'greek-conversion'
 
 const person = new GreekString(
@@ -156,7 +167,7 @@ Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
 #### `removeDiacritics (str: string, type: keyType): string`
 
-Removes all the diacritics from a given string. Diacritics are defined for each representation of a greek string.
+Removes all the diacritics from a given string. The set of diacritical signs depends of the greek string representation.
 
 #### `removeGreekVariants (str: string): string`
 
