@@ -6,7 +6,7 @@ import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
 
 export class GreekString {
-  readonly #from: keyType;
+  readonly #fromType: keyType;
   readonly #options: IConversionOptions;
   readonly #mapping: Mapping;
   readonly source: string;
@@ -15,13 +15,13 @@ export class GreekString {
   #greek: string;
   #transliteration: string;
 
-  constructor(str: string, from: keyType, options?: IConversionOptions) {
-    this.#from = from;
-    this.#options = options ?? {};
+  constructor(str: string, fromType: keyType, options?: IConversionOptions) {
+    this.#fromType = fromType;
+    this.#options = options;
     this.#mapping = new Mapping(options);
     this.source = str;
 
-    switch (this.#from) {
+    switch (this.#fromType) {
       case keyType.BETA_CODE:
         this.#betaCode = toBetaCode(
           str,
@@ -48,7 +48,7 @@ export class GreekString {
 
   get betaCode(): string {
     if (!this.#betaCode) {
-      switch (this.#from) {
+      switch (this.#fromType) {
         case keyType.GREEK:
           this.#betaCode = toBetaCode(
             this.#greek,
@@ -74,7 +74,7 @@ export class GreekString {
 
   get greek(): string {
     if (!this.#greek) {
-      switch (this.#from) {
+      switch (this.#fromType) {
         case keyType.BETA_CODE:
           this.#greek = toGreek(
             this.#betaCode,
@@ -100,7 +100,7 @@ export class GreekString {
 
   get transliteration(): string {
     if (!this.#transliteration) {
-      switch (this.#from) {
+      switch (this.#fromType) {
         case keyType.BETA_CODE:
           this.#transliteration = toTransliteration(
             this.#betaCode,
