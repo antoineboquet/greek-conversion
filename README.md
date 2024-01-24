@@ -89,9 +89,6 @@ The **`IConversionOptions`** interface provides some control other the conversio
   removeDiacritics?: boolean,              // remove diacritics, except those that represent letters
   useAdditionalLetters?:                   // extend the default mapping with predefined
     additionalLetters|additionalLetters[], //   additional letters
-  setBetaCodeStyle?: {
-    useClassical?: boolean                 // enable the old all caps writing system (e.g. *PO/NOS)
-  },
   setGreekStyle?: {
     disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
   },
