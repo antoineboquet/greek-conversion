@@ -75,10 +75,7 @@ This library provides three main functions to convert a greek string: **`toBetaC
 
 Functions signature is consistently:
 ```ts
-str: string,
-fromType: keyType,
-options: IConversionOptions = {},
-declaredMapping?: Mapping
+str: string, fromType: keyType, options: IConversionOptions = {}
 ```
 
 The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
@@ -132,10 +129,8 @@ As multiple conversions can be destructive (see [limitations](#limitations)), <a
 
 `GreekString` constructor is:
 ```ts
-str: string,
-fromType: keyType,
-options?: IConversionOptions`
-``````
+str: string, fromType: keyType, options?: IConversionOptions
+```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
