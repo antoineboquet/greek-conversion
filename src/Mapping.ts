@@ -565,12 +565,10 @@ export class Mapping {
     if (fromType === keyType.TRANSLITERATION) {
       const { setTransliterationStyle: style } = options;
       const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
-      const markedLetters: string = this.#lettersWithCxOrMacron(options)
-        .map((letter) => letter.tr.normalize('NFD').charAt(0))
-        .join('');
+      const letters: string = this.trLettersWithCxOrMacron(options).join('');
 
       const re = new RegExp(
-        `(?<char>[${markedLetters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
+        `(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
         'gu'
       );
 
@@ -683,10 +681,11 @@ export class Mapping {
    * to a circumflex or a macron, depnding on the context.
    *
    * @remarks
-   * The current implementation is semi-static as it doesn't check
+   * (1) Letters are returned without their diacritical sign.
+   * (2) The current implementation is semi-static as it doesn't check
    * the actual mapped chars.
    */
-  #lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
+  trLettersWithCxOrMacron(options?: IConversionOptions): string[] {
     let letters = [
       this.CAPITAL_ETA,
       this.SMALL_ETA,
@@ -697,7 +696,7 @@ export class Mapping {
     if (
       options?.useAdditionalLetters === additionalLetters.ALL ||
       options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options.useAdditionalLetters) &&
+      (Array.isArray(options?.useAdditionalLetters) &&
         options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
     ) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
@@ -706,13 +705,13 @@ export class Mapping {
     if (
       options?.useAdditionalLetters === additionalLetters.ALL ||
       options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options.useAdditionalLetters) &&
+      (Array.isArray(options?.useAdditionalLetters) &&
         options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
     ) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }
 
-    return letters;
+    return letters.map((letter) => letter.tr.normalize('NFD').charAt(0));
   }
 
   /**
