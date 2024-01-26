@@ -560,7 +560,7 @@ export class Mapping {
   ): string {
     fromStr = fromStr.normalize('NFD');
 
-    // Transliteration: join back the long wovel marks, which should
+    // Transliteration: join back long wovel marks, which should
     // not be treated as diacritics, to their associated chars.
     if (fromType === keyType.TRANSLITERATION) {
       const { setTransliterationStyle: style } = options;
@@ -638,16 +638,26 @@ export class Mapping {
     }
 
     let convertedStr = conversionArr.join('').normalize('NFC');
-
-    if ([keyType.GREEK, keyType.TRANSLITERATION].includes(toType)) {
-      convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
-    }
+    convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
 
     return convertedStr;
   }
 
+  /**
+   * Returns a string with the right representation of gamma nasals.
+   *
+   * @remarks
+   * The current implementation is `static`, so it wouldn't reflect
+   * hypothetical mapped chars changes.
+   */
   static #applyGammaNasals(str: string, type: keyType): string {
     switch (type) {
+      case keyType.BETA_CODE:
+        return str.replace(/(g)(g|c|k|x)/gi, (match, first, second) => {
+          if (first === first.toUpperCase()) return 'N' + second;
+          else return 'n' + second;
+        });
+
       case keyType.GREEK:
         return str.replace(/(ν)([γξκχ])/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'Γ' + second;
@@ -668,6 +678,14 @@ export class Mapping {
     }
   }
 
+  /**
+   * Returns an array containing the transliterated mapped chars tied
+   * to a circumflex or a macron, depnding on the context.
+   *
+   * @remarks
+   * The current implementation is semi-static as it doesn't check
+   * the actual mapped chars.
+   */
   #lettersWithCxOrMacron(options?: IConversionOptions): IMappingProperty[] {
     let letters = [
       this.CAPITAL_ETA,
@@ -697,6 +715,14 @@ export class Mapping {
     return letters;
   }
 
+  /**
+   * Returns the `Mapping` properties as a `Map` of values matching the given
+   * `fromType` and `toType` and orderd by decomposed string length.
+   *
+   * @param fromType - The left value of the resulting `Map`
+   * @param toType - The right value of the resulting `Map`
+   * @param removeDiacritics - If `true`, exclude the `DIACRITICS` property
+   */
   #getPropsMapOrderByLengthDesc(
     fromType: keyType,
     toType: keyType,
