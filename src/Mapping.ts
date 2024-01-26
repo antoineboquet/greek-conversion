@@ -677,44 +677,6 @@ export class Mapping {
   }
 
   /**
-   * Returns an array containing the transliterated mapped chars tied
-   * to a circumflex or a macron, depnding on the context.
-   *
-   * @remarks
-   * (1) Letters are returned without their diacritical sign.
-   * (2) The current implementation is semi-static as it doesn't check
-   * the actual mapped chars.
-   */
-  trLettersWithCxOrMacron(options?: IConversionOptions): string[] {
-    let letters = [
-      this.CAPITAL_ETA,
-      this.SMALL_ETA,
-      this.CAPITAL_OMEGA,
-      this.SMALL_OMEGA
-    ];
-
-    if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
-    ) {
-      letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
-    }
-
-    if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
-    ) {
-      letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
-    }
-
-    return letters.map((letter) => letter.tr.normalize('NFD').charAt(0));
-  }
-
-  /**
    * Returns the `Mapping` properties as a `Map` of values matching the given
    * `fromType` and `toType` and orderd by decomposed string length.
    *
@@ -765,5 +727,43 @@ export class Mapping {
     }
 
     return new Map(sortedChars);
+  }
+
+  /**
+   * Returns an array containing the transliterated mapped chars tied
+   * to a circumflex or a macron, depnding on the context.
+   *
+   * @remarks
+   * (1) Letters are returned without their diacritical sign.
+   * (2) The current implementation is semi-static as it doesn't check
+   * the actual mapped chars.
+   */
+  trLettersWithCxOrMacron(options?: IConversionOptions): string[] {
+    let letters = [
+      this.CAPITAL_ETA,
+      this.SMALL_ETA,
+      this.CAPITAL_OMEGA,
+      this.SMALL_OMEGA
+    ];
+
+    if (
+      options?.useAdditionalLetters === additionalLetters.ALL ||
+      options?.useAdditionalLetters === additionalLetters.STIGMA ||
+      (Array.isArray(options?.useAdditionalLetters) &&
+        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
+    ) {
+      letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
+    }
+
+    if (
+      options?.useAdditionalLetters === additionalLetters.ALL ||
+      options?.useAdditionalLetters === additionalLetters.STIGMA ||
+      (Array.isArray(options?.useAdditionalLetters) &&
+        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
+    ) {
+      letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
+    }
+
+    return letters.map((letter) => letter.tr.normalize('NFD').charAt(0));
   }
 }
