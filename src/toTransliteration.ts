@@ -10,13 +10,13 @@ import {
 
 export function toTransliteration(
   str: string,
-  from: keyType,
+  fromType: keyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
 
-  switch (from) {
+  switch (fromType) {
     case keyType.BETA_CODE:
       str = flagRoughBreathings(str);
 
@@ -45,7 +45,10 @@ export function toTransliteration(
 
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, keyType.TRANSLITERATION, {
+          letters: mapping.trLettersWithCxOrMacron(),
+          useCxOverMacron: options.setTransliterationStyle?.useCxOverMacron
+        });
       }
 
       str = mapping.apply(

@@ -1,9 +1,11 @@
 import { keyType } from './enums';
 import {
   ANO_TELEIA,
+  CIRCUMFLEX,
   GREEK_QUESTION_MARK,
   GREEK_TILDE,
   LATIN_TILDE,
+  MACRON,
   MIDDLE_DOT
 } from './Mapping';
 
@@ -68,18 +70,62 @@ export function normalizeGreek(greekStr: string): string {
  *
  * @remarks
  * The set of diacritical signs depends of the greek string representation.
+ *
+ * @param str - The input string
+ * @param type - The kind of representation associated to the input string
+ * @param trPreserveLettersWithCxOrMacron - Transliteration only: preserve
+ * some letters that are paired with a diacritic
+ * @param trPreserveLettersWithCxOrMacron.letters - An array of letters
+ * @param trPreserveLettersWithCxOrMacron.diacritic - The diacritic
+ * associated to these letters (default to the \u0304 macron)
  */
-export function removeDiacritics(str: string, type: keyType): string {
+export function removeDiacritics(
+  str: string,
+  type: keyType,
+  trPreserveLettersWithCxOrMacron?: {
+    letters: string[];
+    useCxOverMacron: boolean;
+  }
+): string {
   switch (type) {
     case keyType.BETA_CODE:
       return str.replace(/[\(\)\\\/\+=\|]/g, '');
 
     case keyType.GREEK:
-    case keyType.TRANSLITERATION:
       return str
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .normalize('NFC');
+
+    case keyType.TRANSLITERATION:
+      const { letters, useCxOverMacron } =
+        trPreserveLettersWithCxOrMacron || {};
+
+      str = str.normalize('NFD');
+
+      if (letters?.length) {
+        const cxOrMacron = useCxOverMacron ? CIRCUMFLEX : MACRON;
+        const rePreservedLetters = new RegExp(
+          `(?<![${letters.join('')}])(\\p{M}*?)${cxOrMacron}`,
+          'gu'
+        );
+
+        if (useCxOverMacron) {
+          // Exclude the \u0302 circumflex from the range.
+          str = str
+            .replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
+            .replace(rePreservedLetters, '');
+        } else {
+          // Exclude the \u0304 macron from the range.
+          str = str
+            .replace(/[\u0300-\u0303-\u0305-\u036f]/g, '')
+            .replace(rePreservedLetters, '');
+        }
+      } else {
+        str = str.replace(/[\u0300-\u036f]/g, '');
+      }
+
+      return str.normalize('NFC');
 
     default:
       console.warn(`keyType '${type}' is not implemented.`);
