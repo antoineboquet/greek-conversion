@@ -144,4 +144,17 @@ describe('GreekString', () => {
     expect(gs3.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs3.transliteration).toBe('sphínks, tunkhánō')
   })
+
+  test('From tr: using circumflex on long vowels', () => {
+    const gs = new GreekString('ánthrôpos', keyType.TRANSLITERATION, {
+      setTransliterationStyle: {
+        useCxOverMacron: true
+      }
+    })
+
+    expect(gs.source).toBe('ánthrôpos')
+    expect(gs.betaCode).toBe('a)/nqrwpos')
+    expect(gs.greek).toBe('ἄνθρωπος')
+    expect(gs.transliteration).toBe('ánthrôpos')
+  })
 })
