@@ -76,7 +76,7 @@ export function normalizeGreek(greekStr: string): string {
  * @param trPreserveLettersWithCxOrMacron - Transliteration only: preserve
  * some letters that are paired with a diacritic
  * @param trPreserveLettersWithCxOrMacron.letters - An array of letters
- * @param trPreserveLettersWithCxOrMacron.diacritic - The diacritic
+ * @param trPreserveLettersWithCxOrMacron.useCxOverMacron - The diacritic
  * associated to these letters (default to the \u0304 macron)
  */
 export function removeDiacritics(
