@@ -111,7 +111,6 @@ describe('From transliteration to greek', () => {
     ${'bárbaros'}   | ${'βάρ\u03D0αρος'}
     ${'Húsiris'}    | ${'Ὕσιρις'}
     ${'ō̧ṓdēs'}      | ${'ᾠώδης'}
-    ${'Ēṓs'}        | ${'Ἠώς'} 
     ${'woĩ'}        | ${'wοῖ'}
     ${'hágioc'}     | ${'ἅγιοc'}
     ${'Xenophȭn'}   | ${'Ξενοφῶν'}
@@ -119,6 +118,15 @@ describe('From transliteration to greek', () => {
     ${'ăāeēĭīoōŭū'} | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
     ${plato.tr}     | ${plato.gr} 
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
+    str             | expected
+    ${'Ēṓs'}        | ${'Ἠώς'}
+    ${'aísthēsis'}  | ${'αἴσθησις'}
+    ${'Aĩa'}        | ${'Αἶα'}
+    ${'áülos'}      | ${'ἄϋλος'}
+    ${'huḯdion'}    | ${'ὑΐδιον'}
+  `('Testing breathings placement rules', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
     str           | expected
