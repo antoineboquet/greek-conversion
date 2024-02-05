@@ -171,7 +171,7 @@ This is what you should know before using this library:
 
 - Due to the limits of inference, converting from `transliteration` to `beta code` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
 - When converting from `greek` to `beta code` or `transliteration`, the *ano teleia* (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
-- The monotonic greek `tonos` should be converted to the `oxia` polytonic form [see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)].
+- The monotonic greek `tonos` should be converted to the `oxia` polytonic form (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
 
 ## License
 
