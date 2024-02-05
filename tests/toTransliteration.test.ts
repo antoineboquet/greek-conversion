@@ -106,6 +106,15 @@ describe('From greek to transliteration', () => {
   `('Basic conversion', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK)).toBe(expected) })
 
   test.each`
+    str           | expected
+    ${'Ἠώς'}      | ${'Ēṓs'}
+    ${'αἴσθησις'} | ${'aísthēsis'}
+    ${'Αἶα'}      | ${'Aĩa'}
+    ${'ἄϋλος'}    | ${'áülos'}
+    ${'ὑΐδιον'}   | ${'huḯdion'}
+  `('Testing breathings placement rules', ({ str, expected }) => { expect(toTransliteration(str, keyType.GREEK)).toBe(expected) })
+
+  test.each`
     str          | expected
     ${'ἄγγελος'} | ${'ángelos'}
     ${'σπόγγος'} | ${'spóngos'} 
