@@ -18,7 +18,7 @@ export function toTransliteration(
 
   switch (fromType) {
     case keyType.BETA_CODE:
-      str = flagRoughBreathings(str);
+      str = bcFlagRoughBreathings(str);
 
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
@@ -36,7 +36,7 @@ export function toTransliteration(
       break;
 
     case keyType.GREEK:
-      str = convertGreekBreathings(str);
+      str = grConvertBreathings(str);
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
@@ -65,46 +65,43 @@ export function toTransliteration(
   return str;
 }
 
-// @FIXME: take care of diaeresis, diphthongs and so on.
-function convertGreekBreathings(str: string): string {
-  const grVowels = 'αεηιοωυ';
+/**
+ * Returns a greek string with tranliterated breathings.
+ *
+ * @remarks
+ * This function does:
+ *   1. remove smooth breathings;
+ *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
+ *   3. add an `h` after double rhos carrying a rough breathing;
+ *   4. add an `h` after a single rho carrying a rough breathing.
+ */
+function grConvertBreathings(greekStr: string): string {
+  const reInitialBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
+  const reDoubleRho = new RegExp(`(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
+  const reSingleRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
 
-  str = str.normalize('NFD');
-
-  str = str.replace(new RegExp(SMOOTH_BREATHING, 'g'), '');
-
-  const re = new RegExp(
-    `(?<vowelsGroup>[${grVowels}]{1,2})(?<grRoughBreathing>${ROUGH_BREATHING})`,
-    'gi'
-  );
-
-  str = str.replace(re, (match, vowelsGroup) => {
-    if (vowelsGroup === vowelsGroup.toLowerCase()) return 'h' + vowelsGroup;
-    else return 'H' + vowelsGroup.toLowerCase();
-  });
-
-  // Apply rough breathings on double rhos.
-  const reDoubleRho = new RegExp(
-    `(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`,
-    'gi'
-  );
-  str = str.replace(reDoubleRho, '$1h');
-
-  // Apply rough breathings on single rhos.
-  const reRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
-  str = str.replace(reRho, '$1h');
-
-  return str.normalize('NFC');
+  return greekStr
+    .normalize('NFD')
+    .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
+    .replace(reInitialBreathing, (match, vowelsGroup) => {
+      if (vowelsGroup === vowelsGroup.toLowerCase()) return 'h' + vowelsGroup;
+      else return 'H' + vowelsGroup.toLowerCase();
+    })
+    .replace(reDoubleRho, '$1h') // Apply rough breathings on double rhos.
+    .replace(reSingleRho, '$1h') // Apply rough breathings on single rhos.
+    .normalize('NFC');
 }
 
-/*
- * Rough breathings are ambiguous as `h` is transliterated to `η`.
- * This function transforms rough breathings to unambiguous flags
- * (`$` = `h`, `$$` = `H`) that need to be transliterated in
- * fromBetaCodeToTransliteration().
+/**
+ * Returns a beta code string with an unambiguous representation
+ * of rough breathings (`h` -> `$`, `H` -> `$$`).
+ *
+ * @remarks
+ * Rough breathings are ambiguous as letter `h` is transliterated
+ * as `ē` or `ê`.
  */
-function flagRoughBreathings(str: string): string {
-  return str.replace(/([aehiowur]+)\(/gi, (match, group) => {
+function bcFlagRoughBreathings(betaCodeStr: string): string {
+  return betaCodeStr.replace(/([aehiowur]+)\(/gi, (match, group) => {
     if (match.toLowerCase() === 'r(') return group + '$';
     else if (group === group.toLowerCase()) return '$' + group;
     else return '$$' + group.toLowerCase();
