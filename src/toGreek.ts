@@ -58,7 +58,7 @@ export function toGreek(
  * This function applies:
  *   1. initial breathings, taking care of diphthongs and diaeresis rules;
  *   2. rough breathing on single rhos (excluding double rhos).
- * Then it removes possibly remaining flagged rough breathing (such as
+ * Then it removes possibly remaining flagged rough breathings (such as
  * on double rhos).
  *
  * @privateRemarks
