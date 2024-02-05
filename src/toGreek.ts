@@ -69,11 +69,9 @@ export function toGreek(
  * match 2+ vowels.
  */
 function trConvertBreathings(str: string): string {
-  // prettier-ignore
-  const diphthongs = ['αι','αυ','ει','ευ','ηυ','οι','ου','υι'];
+  const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
-  // prettier-ignore
-  const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu');
+  const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
