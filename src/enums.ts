@@ -1,9 +1,3 @@
-export enum keyType {
-  GREEK = 'greek',
-  BETA_CODE = 'beta-code',
-  TRANSLITERATION = 'transliteration'
-}
-
 export enum additionalLetters {
   ALL = 'all',
   DIGAMMA = 'digamma',
@@ -11,6 +5,12 @@ export enum additionalLetters {
   LUNATE_SIGMA = 'lunate-sigma',
   STIGMA = 'stigma',
   KOPPA = 'koppa',
-  SAMPI = 'sampi',
+  SAMPI = 'sampi'
   //SAN = 'san'
+}
+
+export enum keyType {
+  GREEK = 'greek',
+  BETA_CODE = 'beta-code',
+  TRANSLITERATION = 'transliteration'
 }
