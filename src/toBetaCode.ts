@@ -1,137 +1,118 @@
-import { keyType } from './enums'
-import { ConversionOptions } from './interfaces'
-
+import { keyType } from './enums';
+import { IConversionOptions } from './interfaces';
+import { Mapping } from './Mapping';
 import {
-  ACCENTS, IOTA_SUBSCRIPT,
-  diacriticsMapping,
-  greekMapping
-} from './mapping'
-
-import {
-  applyBreathings,
   applyUppercaseChars,
   removeDiacritics,
-  recomposeTransliteratedChar,
   removeExtraWhitespace,
   removeGreekVariants
-} from './utils'
+} from './utils';
 
-export function toBetaCode (
+export function toBetaCode(
   str: string,
-  from: keyType,
-  options: ConversionOptions = {}
+  fromType: keyType,
+  options: IConversionOptions = {},
+  declaredMapping?: Mapping
 ): string {
-  switch (from) {
+  const mapping = declaredMapping ?? new Mapping(options);
+
+  switch (fromType) {
     case keyType.BETA_CODE:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.BETA_CODE)
-      break
-    
+      if (options.removeDiacritics) {
+        str = removeDiacritics(str, keyType.BETA_CODE);
+      }
+      str = mapping.apply(str, keyType.BETA_CODE, keyType.BETA_CODE, options);
+      str = reorderDiacritics(str);
+      break;
+
     case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK)
-      str = removeGreekVariants(str)
-      str = fromGreekToBetaCode(str, options.removeDiacritics)
-      break
+      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+      str = removeGreekVariants(str);
+      str = mapping.apply(str, keyType.GREEK, keyType.BETA_CODE, options);
+      str = reorderDiacritics(str);
+      break;
 
     case keyType.TRANSLITERATION:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.TRANSLITERATION)
+      str = applyUppercaseChars(str);
 
-      str = applyUppercaseChars(str)
-      str = fromTransliterationToBetaCode(str)
+      // Flag transliterated rough breathings.
+      str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      const applyBreathingsOptions = {
-        accents: ACCENTS + IOTA_SUBSCRIPT,
-        breathings: { rough: '(', smooth: ')' },
-        vowels: 'aehiowu'
+      str = mapping.apply(
+        str,
+        keyType.TRANSLITERATION,
+        keyType.BETA_CODE,
+        options
+      );
+
+      if (options.removeDiacritics) {
+        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = str.replace(/\$/gi, '');
+      } else {
+        str = trConvertFlaggedBreathings(str);
       }
 
-      if (options.removeDiacritics) str = str.replace(/(^|\s)h/gi, '$1')
-      else str = applyBreathings(str, applyBreathingsOptions)
-      break
+      str = reorderDiacritics(str);
+      break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str)
+  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+
+  return str;
+}
+
+/**
+ * Returns a string with beta code formated breathings.
+ *
+ * @remarks
+ * This function applies:
+ *   1. initial breathings, taking care of diphthongs and diaeresis rules;
+ *   2. rough breathing on single rhos (excluding double rhos).
+ * Then it removes possibly remaining flagged rough breathings (such as
+ * on double rhos).
+ */
+function trConvertFlaggedBreathings(str: string): string {
+  const diphthongs = ['ai', 'au', 'ei', 'eu', 'hu', 'oi', 'ou', 'ui'];
+  const vowels = 'aehiowu';
+  const diacritics = '()\\/+=|';
+
+  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(?<trRough>\\$)?(?<firstV>[${vowels}])(?<firstD>[${diacritics}])?(?<nextV>[${vowels}])?(?<nextD>[${diacritics}])?`, 'gimu'); // prettier-ignore
 
   return str
-}
+    .normalize('NFD')
+    .replace(
+      reInitialBreathing,
+      (match, trRough, firstV, firstD, nextV, nextD) => {
+        const breathing = trRough ? '(' : ')';
 
-function convertTransliteratedDiacritics (decomposedDiacritics: string): string {
-  let betaCodeDiacritics = ''
+        firstD = firstD ?? '';
+        nextV = nextV ?? '';
+        nextD = nextD ?? '';
 
-  for (const point of decomposedDiacritics) {
-    for (const diacritic of diacriticsMapping) {
-      if (point === diacritic.trans) {
-        betaCodeDiacritics += diacritic.latin
-        break
-      }
-    }
-  }
+        const hasDiphthong = diphthongs.includes(
+          (firstV + nextV).toLowerCase()
+        );
 
-  // Reorder diacritics (grave/accute/tilde then diaeresis & iota subscript).
-  betaCodeDiacritics = betaCodeDiacritics.replace(/([+|])([\/\\=])/g, '$2$1')
-
-  return betaCodeDiacritics
-}
-
-function fromGreekToBetaCode (
-  greekStr: string,
-  removeDiacritics: boolean
-): string {
-  let betaCodeStr = ''
-
-  const mapping = (!removeDiacritics)
-    ? [...greekMapping, ...diacriticsMapping]
-    : greekMapping
-
-  if (!removeDiacritics) {
-    greekStr = greekStr.normalize('NFD')
-  }
-
-  for (const char of greekStr) {
-    let tmp: string
-
-    for (const key of mapping) {
-      if (key.greek === char) {
-        tmp = key.latin
-        break
-      }
-    }
-
-    betaCodeStr += tmp ?? char
-  }
-
-  return betaCodeStr
-}
-
-function fromTransliterationToBetaCode (transliteratedStr: string): string {
-  let betaCodeStr = ''
-
-  for (let i = 0; i < transliteratedStr.length; i++) {
-    const tmp = { trans: '', latin: '' }
-
-    let pair = transliteratedStr.slice(i, (i + 2))
-    if (pair.length !== 2) pair = ''
-
-    let decomposedChar = transliteratedStr[i].normalize('NFD')
-
-    // Isolate the character with its potential circumflex (as this diacritical
-    // mark is used to represent long vowels in transliterated form).
-    let recomposedChar = recomposeTransliteratedChar(decomposedChar)
-
-    for (const key of greekMapping) {
-      if ([recomposedChar, pair].includes(key.trans)) {
-        tmp.trans = key.trans
-        tmp.latin = key.latin
-
-        if (key.trans === pair) {
-          i++; break
+        if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
+          return firstV + firstD + nextV + breathing + nextD;
         }
+
+        return firstV + breathing + firstD + nextV + nextD;
       }
-    }
+    )
+    .replace(/(?<!r)(r)\$/gi, '$1(')
+    .replace(/\$/g, '')
+    .normalize('NFC');
+}
 
-    tmp.latin += convertTransliteratedDiacritics(decomposedChar.slice(1))
-
-    betaCodeStr += tmp.latin || transliteratedStr[i]
-  }
-
-  return betaCodeStr
+/**
+ * Returns a beta code string with a correct diacritics order.
+ *
+ * @privateRemarks
+ * This function should reorder all the diacritics defined for the beta code
+ * representation. Currently, it only reorders breathings/accents in relation
+ * to the iota subscript.
+ */
+function reorderDiacritics(betaCodeStr: string): string {
+  return betaCodeStr.replace(/(\|)([()\\/+=]+)/g, '$2$1');
 }

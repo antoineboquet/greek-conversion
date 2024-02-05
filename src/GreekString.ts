@@ -1,83 +1,143 @@
-import { keyType } from './enums'
-import { ConversionOptions } from './interfaces'
-import { toBetaCode } from './toBetaCode'
-import { toGreek } from './toGreek'
-import { toTransliteration } from './toTransliteration'
+import { keyType } from './enums';
+import { IConversionOptions } from './interfaces';
+import { Mapping } from './Mapping';
+import { toBetaCode } from './toBetaCode';
+import { toGreek } from './toGreek';
+import { toTransliteration } from './toTransliteration';
 
 export class GreekString {
-  readonly from: keyType
-  readonly options: ConversionOptions
-  readonly source: string
+  readonly #fromType: keyType;
+  readonly #options: IConversionOptions;
+  readonly #mapping: Mapping;
+  readonly source: string;
 
-  _beta_code: string
-  _greek: string
-  _transliteration: string
+  #betaCode: string;
+  #greek: string;
+  #transliteration: string;
 
-  constructor(str: string, from: keyType, options?: ConversionOptions) {
-    this.from = from
-    this.options = options ?? {}
-    this.source = str
+  constructor(str: string, fromType: keyType, options?: IConversionOptions) {
+    this.#fromType = fromType;
+    this.#options = options;
+    this.#mapping = new Mapping(options);
+    this.source = str;
 
-    switch (from) {
+    switch (this.#fromType) {
       case keyType.BETA_CODE:
-        this._beta_code = toBetaCode(str, keyType.BETA_CODE, this.options)
-        break
+        this.#betaCode = toBetaCode(
+          this.source,
+          keyType.BETA_CODE,
+          this.#options,
+          this.#mapping
+        );
+        break;
 
       case keyType.GREEK:
-        this._greek = toGreek(str, keyType.GREEK, this.options)
-        break
+        this.#greek = toGreek(
+          this.source,
+          keyType.GREEK,
+          this.#options,
+          this.#mapping
+        );
+        break;
 
       case keyType.TRANSLITERATION:
-        this._transliteration = toTransliteration(str, keyType.TRANSLITERATION, this.options)
-        break
+        this.#transliteration = toTransliteration(
+          this.source,
+          keyType.TRANSLITERATION,
+          this.#options,
+          this.#mapping
+        );
+        break;
+
+      default:
+        console.warn(`keyType '${this.#fromType}' is not implemented.`);
     }
   }
 
   get betaCode(): string {
-    if (!this._beta_code) {
-      switch (this.from) {
+    if (!this.#betaCode) {
+      switch (this.#fromType) {
         case keyType.GREEK:
-          this._beta_code = toBetaCode(this._greek, keyType.GREEK, this.options)
-          break
+          this.#betaCode = toBetaCode(
+            this.source,
+            keyType.GREEK,
+            this.#options,
+            this.#mapping
+          );
+          break;
 
         case keyType.TRANSLITERATION:
-          this._beta_code = toBetaCode(this._transliteration, keyType.TRANSLITERATION, this.options)
-          break
+          this.#betaCode = toBetaCode(
+            this.source,
+            keyType.TRANSLITERATION,
+            this.#options,
+            this.#mapping
+          );
+          break;
+
+        default:
+          console.warn(`keyType '${this.#fromType}' is not implemented.`);
       }
     }
 
-    return this._beta_code
+    return this.#betaCode;
   }
 
   get greek(): string {
-    if (!this._greek) {
-      switch (this.from) {
+    if (!this.#greek) {
+      switch (this.#fromType) {
         case keyType.BETA_CODE:
-          this._greek = toGreek(this._beta_code, keyType.BETA_CODE, this.options)
-          break
+          this.#greek = toGreek(
+            this.source,
+            keyType.BETA_CODE,
+            this.#options,
+            this.#mapping
+          );
+          break;
 
         case keyType.TRANSLITERATION:
-          this._greek = toGreek(this._transliteration, keyType.TRANSLITERATION, this.options)
-          break
+          this.#greek = toGreek(
+            this.source,
+            keyType.TRANSLITERATION,
+            this.#options,
+            this.#mapping
+          );
+          break;
+
+        default:
+          console.warn(`keyType '${this.#fromType}' is not implemented.`);
       }
     }
 
-    return this._greek
+    return this.#greek;
   }
 
   get transliteration(): string {
-    if (!this._transliteration) {
-      switch (this.from) {
+    if (!this.#transliteration) {
+      switch (this.#fromType) {
         case keyType.BETA_CODE:
-          this._transliteration = toTransliteration(this._beta_code, keyType.BETA_CODE, this.options)
-          break
+          this.#transliteration = toTransliteration(
+            this.source,
+            keyType.BETA_CODE,
+            this.#options,
+            this.#mapping
+          );
+          break;
 
         case keyType.GREEK:
-          this._transliteration = toTransliteration(this._greek, keyType.GREEK, this.options)
-          break
+          this.#transliteration = toTransliteration(
+            this.source,
+            keyType.GREEK,
+            this.#options,
+            this.#mapping
+          );
+          break;
+
+        default:
+          console.warn(`keyType '${this.#fromType}' is not implemented.`);
       }
     }
 
-    return this._transliteration
+    return this.#transliteration;
   }
 }
