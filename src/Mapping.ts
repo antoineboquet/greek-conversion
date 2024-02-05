@@ -10,6 +10,8 @@ interface IMappingProperty {
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
+export const TONOS = '\u0384';
+export const OXIA = '\u1FFD';
 export const CIRCUMFLEX = '\u0302';
 export const LATIN_TILDE = '\u0303';
 export const MACRON = '\u0304';
