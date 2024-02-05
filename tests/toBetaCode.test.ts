@@ -16,7 +16,7 @@ describe('From greek to beta code', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'a)/nqrwpos'}
-    ${'ποιῇ'}          | ${'poih|='}
+    ${'ποιῇ'}          | ${'poih=|'}
     ${'Ἄϊδα'}         | ${'A)/i+da'}
     ${'βάρ\u03D0αρος'} | ${'ba/rbaros'}
     ${'Ὕσιρις'}       | ${'U(/siris'}
@@ -92,7 +92,7 @@ describe('From transliteration to beta code', () => {
   test.each`
     str             | expected
     ${'ánthrōpos'}  | ${'a)/nqrwpos'}
-    ${'poiȩ̄̃'}       | ${'poih|='}
+    ${'poiȩ̄̃'}       | ${'poih=|'}
     ${'Áïda'}       | ${'A)/i+da'}
     ${'bárbaros'}   | ${'ba/rbaros'}
     ${'Hoplítēs'}   | ${'O(pli/ths'}
@@ -100,6 +100,15 @@ describe('From transliteration to beta code', () => {
     ${'hágioc'}     | ${'a(/gioc'}
     ${aristotle.tr} | ${aristotle.bc}
   `('Basic conversion', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
+    str             | expected
+    ${'Ēṓs'}        | ${'H)w/s'}
+    ${'aísthēsis'}  | ${'ai)/sqhsis'}
+    ${'Aĩa'}        | ${'Ai)=a'}
+    ${'áülos'}      | ${'a)/u+los'}
+    ${'huḯdion'}    | ${'u(i+/dion'}
+  `('Testing breathings placement rules', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
     str              | expected
@@ -119,7 +128,6 @@ describe('From transliteration to beta code', () => {
 
   test('Using a subset of additional letters', () => {
     expect(toBetaCode('wWcC', keyType.TRANSLITERATION, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('vVs3S3')
-    //expect(toBetaCode('', keyType.TRANSLITERATION, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('')
   })
 
   test.each`
