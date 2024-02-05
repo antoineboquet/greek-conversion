@@ -11,16 +11,17 @@ import {
 
 export function toGreek(
   str: string,
-  from: keyType,
+  fromType: keyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
 
-  switch (from) {
+  switch (fromType) {
     case keyType.BETA_CODE:
-      if (options.removeDiacritics)
+      if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
+      }
       str = mapping.apply(str, keyType.BETA_CODE, keyType.GREEK, options);
       break;
 
@@ -30,15 +31,14 @@ export function toGreek(
       break;
 
     case keyType.TRANSLITERATION:
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
-
       str = applyUppercaseChars(str);
+      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
 
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
-        str = convertTransliteratedBreathings(str);
+        str = trConvertBreathings(str);
       }
 
       str = normalizeGreek(str);
@@ -51,27 +51,57 @@ export function toGreek(
   return str;
 }
 
-// @FIXME: take care of diaeresis, diphthongs and so on.
-function convertTransliteratedBreathings(str: string): string {
-  const grVowels = 'αεηιοωυ';
+/**
+ * Returns a string with tranliterated greek breathings.
+ *
+ * @remarks
+ * This function applies:
+ *   1. initial breathings, taking care of diphthongs and diaeresis rules;
+ *   2. rough breathing on single rhos (excluding double rhos).
+ * Then it removes possibly remaining flagged rough breathing (such as
+ * on double rhos).
+ *
+ * @privateRemarks
+ * (1) Can't figure how to implement `reInitialBreathing` in order
+ * to consistently find `firstV`, `firstD`, `nextV` & `nextD` values.
+ * (2) Currently the regex captures the first vowels - including their
+ * diacritics - of a word together. Notice that the `vowelGroups` can
+ * match 2+ vowels.
+ */
+function trConvertBreathings(str: string): string {
+  // prettier-ignore
+  const diphthongs = ['αι','αυ','ει','ευ','ηυ','οι','ου','υι'];
+  const vowels = 'αεηιουω';
+  // prettier-ignore
+  const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu');
 
-  str = str.normalize('NFD');
+  return str
+    .normalize('NFD')
+    .replace(reInitialBreathing, (match, trRough, vowelsGroup) => {
+      const breathing = trRough ? ROUGH_BREATHING : SMOOTH_BREATHING;
 
-  const re = new RegExp(
-    `(?<=\\p{P}|\\s|^)(?<trRoughBreathing>h)?(?<vowelsGroup>[${grVowels}]{1,2})`,
-    'gimu'
-  );
+      vowelsGroup = vowelsGroup.normalize('NFC');
 
-  str = str.replace(re, (match, trRoughBreathing, vowelsGroup) => {
-    const breathing = trRoughBreathing ? ROUGH_BREATHING : SMOOTH_BREATHING;
-    return vowelsGroup + breathing;
-  });
+      // `vowelsGroup` length can be 2+, so define first, next & extra vowels.
+      let firstV = vowelsGroup.substring(0, 1).normalize('NFD');
+      let nextV = vowelsGroup.substring(1, 2).normalize('NFD');
+      const extraV = vowelsGroup.substring(2).normalize('NFD');
 
-  // Apply rough breathings on rhos (excluding double rhos).
-  str = str.replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`);
+      const firstD = firstV.substring(1);
+      const nextD = nextV.substring(1);
 
-  // Remove remaining flagged rough breathings (e.g. on double rhos).
-  str = str.replace(new RegExp('h', 'gi'), '');
+      firstV = firstV.substring(0, 1);
+      nextV = nextV.substring(0, 1);
 
-  return str.normalize('NFC');
+      const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
+
+      if (!/\u0308/.test(nextD) && hasDiphthong) {
+        return firstV + firstD + nextV + breathing + nextD + extraV;
+      }
+
+      return firstV + breathing + firstD + nextV + nextD + extraV;
+    })
+    .replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`)
+    .replace(new RegExp('h', 'gi'), '')
+    .normalize('NFC');
 }
