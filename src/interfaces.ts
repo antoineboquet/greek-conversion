@@ -15,7 +15,6 @@ export interface IBetaCodeStyle {
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
-  useSemicolonAsQuestionMark?: boolean;
 }
 
 export interface ITransliterationStyle {
