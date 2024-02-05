@@ -10,18 +10,19 @@ import {
 
 export function toBetaCode(
   str: string,
-  from: keyType,
+  fromType: keyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
 
-  switch (from) {
+  switch (fromType) {
     case keyType.BETA_CODE:
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
       }
       str = mapping.apply(str, keyType.BETA_CODE, keyType.BETA_CODE, options);
+      str = reorderDiacritics(str);
       break;
 
     case keyType.GREEK:
@@ -48,7 +49,7 @@ export function toBetaCode(
         str = removeDiacritics(str, keyType.TRANSLITERATION);
         str = str.replace(/\$/gi, '');
       } else {
-        str = convertTransliteratedBreathings(str, mapping, '\\$');
+        str = trConvertFlaggedBreathings(str);
       }
 
       str = reorderDiacritics(str);
@@ -60,42 +61,58 @@ export function toBetaCode(
   return str;
 }
 
-// @FIXME: take care of diaeresis, diphthongs and so on.
-function convertTransliteratedBreathings(
-  str: string,
-  mapping: Mapping,
-  escapedRoughBreathingMark: string
-): string {
-  const roughBreathing = mapping.DIACRITICS.ROUGH_BREATHING;
-  const smoothBreathing = mapping.DIACRITICS.SMOOTH_BREATHING;
-  const bcVowels = 'aehiowu';
-  const bcDiacritics = '()\\/+=|';
+/**
+ * Returns a string with beta code formated breathings.
+ *
+ * @remarks
+ * This function applies:
+ *   1. initial breathings, taking care of diphthongs and diaeresis rules;
+ *   2. rough breathing on single rhos (excluding double rhos).
+ * Then it removes possibly remaining flagged rough breathings (such as
+ * on double rhos).
+ */
+function trConvertFlaggedBreathings(str: string): string {
+  const diphthongs = ['ai', 'au', 'ei', 'eu', 'hu', 'oi', 'ou', 'ui'];
+  const vowels = 'aehiowu';
+  const diacritics = '()\\/+=|';
 
-  str = str.normalize('NFD');
+  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(?<trRough>\\$)?(?<firstV>[${vowels}])(?<firstD>[${diacritics}])?(?<nextV>[${vowels}])?(?<nextD>[${diacritics}])?`, 'gimu'); // prettier-ignore
 
-  const re = new RegExp(
-    `(?<=(?![${bcDiacritics}])\\p{P}|\\s|^)(?<trRoughBreathing>${escapedRoughBreathingMark})?(?<vowelsGroup>[${bcVowels}]{1,2})`,
-    'gimu'
-  );
+  return str
+    .normalize('NFD')
+    .replace(
+      reInitialBreathing,
+      (match, trRough, firstV, firstD, nextV, nextD) => {
+        const breathing = trRough ? '(' : ')';
 
-  str = str.replace(re, (match, trRoughBreathing, vowelsGroup) => {
-    const breathing = trRoughBreathing ? roughBreathing.bc : smoothBreathing.bc;
-    return vowelsGroup + breathing;
-  });
+        firstD = firstD ?? '';
+        nextV = nextV ?? '';
+        nextD = nextD ?? '';
 
-  // Apply rough breathings on rhos (excluding double rhos).
-  str = str.replace(
-    new RegExp(`(?<!r)(r)${escapedRoughBreathingMark}`, 'gi'),
-    `$1${roughBreathing.bc}`
-  );
+        const hasDiphthong = diphthongs.includes(
+          (firstV + nextV).toLowerCase()
+        );
 
-  // Remove remaining flagged rough breathings (e.g. on double rhos).
-  str = str.replace(new RegExp(`${escapedRoughBreathingMark}`, 'gi'), '');
+        if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
+          return firstV + firstD + nextV + breathing + nextD;
+        }
 
-  return str.normalize('NFC');
+        return firstV + breathing + firstD + nextV + nextD;
+      }
+    )
+    .replace(/(?<!r)(r)\$/gi, '$1(')
+    .replace(/\$/g, '')
+    .normalize('NFC');
 }
 
-// @FIXME: reorder all diacritics combinations.
-function reorderDiacritics(str: string): string {
-  return str.replace(/(=)(\|)/g, '$2$1');
+/**
+ * Returns a beta code string with a correct diacritics order.
+ *
+ * @privateRemarks
+ * This function should reorder all the diacritics defined for the beta code
+ * representation. Currently, it only reorders breathings/accents in relation
+ * to the iota subscript.
+ */
+function reorderDiacritics(betaCodeStr: string): string {
+  return betaCodeStr.replace(/(\|)([()\\/+=]+)/g, '$2$1');
 }
