@@ -1,9 +1,9 @@
-import { additionalLetters, keyType, style } from './enums';
+import { additionalChars, keyType, style } from './enums';
 
 export interface IConversionOptions {
   preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
-  useAdditionalLetters?: additionalLetters | additionalLetters[];
+  useAdditionalChars?: additionalChars | additionalChars[];
   setBetaCodeStyle?: style.MODERN | style.TLG;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?:

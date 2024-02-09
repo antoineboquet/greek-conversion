@@ -1,4 +1,4 @@
-import { additionalLetters, keyType } from './enums';
+import { additionalChars, keyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { sanitizeRegExpString } from './utils';
 
@@ -340,12 +340,12 @@ export class Mapping {
   };
 
   constructor(options?: IConversionOptions) {
-    if (options?.useAdditionalLetters) {
+    if (options?.useAdditionalChars) {
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.DIGAMMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.DIGAMMA))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.DIGAMMA ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.DIGAMMA))
       ) {
         this.CAPITAL_DIGAMMA = {
           gr: 'Ϝ',
@@ -360,10 +360,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.YOT ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.YOT))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.YOT ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.YOT))
       ) {
         this.CAPITAL_YOT = {
           gr: '\u037F',
@@ -378,10 +378,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.LUNATE_SIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.LUNATE_SIGMA))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.LUNATE_SIGMA ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.LUNATE_SIGMA))
       ) {
         this.CAPITAL_LUNATE_SIGMA = {
           gr: '\u03F9',
@@ -396,10 +396,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.STIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.STIGMA))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.STIGMA ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -414,10 +414,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.KOPPA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.KOPPA))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.KOPPA ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.KOPPA))
       ) {
         this.CAPITAL_KOPPA = {
           gr: 'Ϟ',
@@ -432,10 +432,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAMPI ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAMPI))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.SAMPI ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -450,10 +450,10 @@ export class Mapping {
       }
 
       /*if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAN ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAN))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.SAN ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.SAN))
       ) {
         this.CAPITAL_SAN = {
           gr: '\u03FA',
@@ -491,10 +491,10 @@ export class Mapping {
       };
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.STIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.STIGMA))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.STIGMA ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -509,10 +509,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAMPI ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAMPI))
+        options.useAdditionalChars === additionalChars.ALL ||
+        options.useAdditionalChars === additionalChars.SAMPI ||
+        (Array.isArray(options.useAdditionalChars) &&
+          options.useAdditionalChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -749,19 +749,19 @@ export class Mapping {
     ];
 
     if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
+      options?.useAdditionalChars === additionalChars.ALL ||
+      options?.useAdditionalChars === additionalChars.STIGMA ||
+      (Array.isArray(options?.useAdditionalChars) &&
+        options?.useAdditionalChars.includes(additionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
     if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
+      options?.useAdditionalChars === additionalChars.ALL ||
+      options?.useAdditionalChars === additionalChars.STIGMA ||
+      (Array.isArray(options?.useAdditionalChars) &&
+        options?.useAdditionalChars.includes(additionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }

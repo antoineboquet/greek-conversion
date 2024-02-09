@@ -1,4 +1,4 @@
-import { additionalLetters, keyType, toBetaCode } from '../src/index'
+import { additionalChars, keyType, toBetaCode } from '../src/index'
 
 /*
  * Special characters:
@@ -46,11 +46,11 @@ describe('From greek to beta code', () => {
     ${'ϝοῖ'}              | ${'voi='}
     ${'ἅγιο\u03F2'}       | ${'a(/gios3'}
     ${'\u03DB\u03DAϟϞϡϠ'} | ${'#2*#2#1*#1#5*#5'}
-  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.GREEK, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
+  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.GREEK, { useAdditionalChars: additionalChars.ALL })).toBe(expected) })
   
   test('Using a subset of additional letters', () => {
-    expect(toBetaCode('ϝϜ\u03F2\u03F9', keyType.GREEK, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', keyType.GREEK, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
+    expect(toBetaCode('ϝϜ\u03F2\u03F9', keyType.GREEK, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', keyType.GREEK, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
   test.each`
@@ -124,10 +124,10 @@ describe('From transliteration to beta code', () => {
     ${'woĩ'}    | ${'voi='}
     ${'hágioc'} | ${'a(/gios3'}
     ${'c̄C̄qQs̄S̄'} | ${'#2*#2#1*#1#5*#5'}
-  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
+  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, keyType.TRANSLITERATION, { useAdditionalChars: additionalChars.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {
-    expect(toBetaCode('wWcC', keyType.TRANSLITERATION, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('wWcC', keyType.TRANSLITERATION, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
   })
 
   test.each`

@@ -1,4 +1,4 @@
-import { additionalLetters, keyType, toGreek } from '../src/index'
+import { additionalChars, keyType, toGreek } from '../src/index'
 
 /*
  * Special characters:
@@ -64,11 +64,11 @@ describe('From beta code to greek', () => {
     ${'voi='}            | ${'ϝοῖ'}
     ${'a(/gios3'}        | ${'ἅγιο\u03F2'}
     ${'#2*#2#1*#1#5*#5'} | ${'\u03DB\u03DAϟϞϡϠ'}
-  `('Using additional letters', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
+  `('Using additional letters', ({ str, expected }) => { expect(toGreek(str, keyType.BETA_CODE, { useAdditionalChars: additionalChars.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {
-    expect(toGreek('vVs3S3', keyType.BETA_CODE, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
-    //expect(toGreek('', keyType.BETA_CODE, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('')
+    expect(toGreek('vVs3S3', keyType.BETA_CODE, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
+    //expect(toGreek('', keyType.BETA_CODE, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('')
   })
 
   test.each`
@@ -161,11 +161,11 @@ describe('From transliteration to greek', () => {
     str         | expected
     ${'woĩ'}    | ${'ϝοῖ'}
     ${'hágioc'} | ${'ἅγιο\u03F2'}
-  `('Using additional letters', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION, { useAdditionalLetters: additionalLetters.ALL })).toBe(expected) })
+  `('Using additional letters', ({ str, expected }) => { expect(toGreek(str, keyType.TRANSLITERATION, { useAdditionalChars: additionalChars.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {
-    expect(toGreek('wWcC', keyType.TRANSLITERATION, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
-    expect(toGreek('jJc̄C̄qQs̄S̄', keyType.TRANSLITERATION, { useAdditionalLetters: [additionalLetters.DIGAMMA, additionalLetters.LUNATE_SIGMA] })).toBe('jJϲ̄Ϲ̄qQσ̄Σ̄')
+    expect(toGreek('wWcC', keyType.TRANSLITERATION, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
+    expect(toGreek('jJc̄C̄qQs̄S̄', keyType.TRANSLITERATION, { useAdditionalChars: [additionalChars.DIGAMMA, additionalChars.LUNATE_SIGMA] })).toBe('jJϲ̄Ϲ̄qQσ̄Σ̄')
   })
 
   test.each`

@@ -87,8 +87,8 @@ The **`IConversionOptions`** interface provides some control other the conversio
 {
   preserveWhitespace?: boolean,            // keep potential extra whitespace
   removeDiacritics?: boolean,              // remove diacritics, except those that represent letters
-  useAdditionalLetters?:                   // extend the default mapping with predefined
-    additionalLetters|additionalLetters[], //   additional letters
+  useAdditionalChars?:                     // extend the default mapping with additional chars
+    additionalChars|additionalChars[],
   setGreekStyle?: {
     disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
   },

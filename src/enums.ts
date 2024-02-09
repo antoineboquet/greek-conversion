@@ -1,4 +1,4 @@
-export enum additionalLetters {
+export enum additionalChars {
   ALL = 'all',
   DIGAMMA = 'digamma',
   YOT = 'yot',
