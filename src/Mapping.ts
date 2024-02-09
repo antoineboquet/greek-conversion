@@ -766,6 +766,8 @@ export class Mapping {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }
 
-    return letters.map((letter) => letter.tr.normalize('NFD').charAt(0));
+    return letters.map((letter) =>
+      letter.tr.normalize('NFD').charAt(0).normalize('NFC')
+    );
   }
 }
