@@ -1,12 +1,10 @@
-import { additionalChars, keyType } from './enums';
-import { IConversionOptions } from './interfaces';
+import { additionalChars, keyType, style } from './enums';
+import {
+  IConversionOptions,
+  IMappingProperty,
+  ITransliterationStyle
+} from './interfaces';
 import { sanitizeRegExpString } from './utils';
-
-interface IMappingProperty {
-  gr: string;
-  bc?: string;
-  tr?: string;
-}
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
@@ -339,13 +337,52 @@ export class Mapping {
     } as IMappingProperty
   };
 
+  #removeDiacritics: boolean;
+  #transliterationStyle: ITransliterationStyle;
+  #useAdditionalChars: additionalChars[] | additionalChars;
+
   constructor(options?: IConversionOptions) {
-    if (options?.useAdditionalChars) {
+    if (!options) return;
+
+    this.#removeDiacritics = options?.removeDiacritics;
+    this.#useAdditionalChars = options?.useAdditionalChars;
+
+    // Instantiate the transliteration style.
+    if (options?.setTransliterationStyle) {
+      if (typeof options.setTransliterationStyle === 'string') {
+        switch (String(style)) {
+          case style.ALA_LC:
+            this.#transliterationStyle = {
+              upsilon_y: true
+            };
+            break;
+
+          case style.BNF:
+            this.#transliterationStyle = {};
+            break;
+
+          case style.SBL:
+            this.#transliterationStyle = {};
+            break;
+
+          default:
+            console.warn(
+              `style '${options.setTransliterationStyle}' is not implemented.`
+            );
+        }
+      } else {
+        this.#transliterationStyle = options.setTransliterationStyle;
+      }
+    }
+
+    const useAdditionalChars = this.#useAdditionalChars;
+
+    if (useAdditionalChars) {
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.DIGAMMA ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.DIGAMMA))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.DIGAMMA ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.DIGAMMA))
       ) {
         this.CAPITAL_DIGAMMA = {
           gr: 'Ϝ',
@@ -360,10 +397,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.YOT ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.YOT))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.YOT ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.YOT))
       ) {
         this.CAPITAL_YOT = {
           gr: '\u037F',
@@ -378,10 +415,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.LUNATE_SIGMA ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.LUNATE_SIGMA))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.LUNATE_SIGMA ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.LUNATE_SIGMA))
       ) {
         this.CAPITAL_LUNATE_SIGMA = {
           gr: '\u03F9',
@@ -396,10 +433,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.STIGMA ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.STIGMA))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.STIGMA ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -414,10 +451,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.KOPPA ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.KOPPA))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.KOPPA ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.KOPPA))
       ) {
         this.CAPITAL_KOPPA = {
           gr: 'Ϟ',
@@ -432,10 +469,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.SAMPI ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.SAMPI))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.SAMPI ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -450,10 +487,10 @@ export class Mapping {
       }
 
       /*if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.SAN ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.SAN))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.SAN ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.SAN))
       ) {
         this.CAPITAL_SAN = {
           gr: '\u03FA',
@@ -468,7 +505,7 @@ export class Mapping {
       }*/
     }
 
-    if (options?.setTransliterationStyle?.useCxOverMacron) {
+    if (this.#transliterationStyle?.useCxOverMacron) {
       this.CAPITAL_ETA = {
         gr: 'Η',
         bc: 'H',
@@ -491,10 +528,10 @@ export class Mapping {
       };
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.STIGMA ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.STIGMA))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.STIGMA ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -509,10 +546,10 @@ export class Mapping {
       }
 
       if (
-        options.useAdditionalChars === additionalChars.ALL ||
-        options.useAdditionalChars === additionalChars.SAMPI ||
-        (Array.isArray(options.useAdditionalChars) &&
-          options.useAdditionalChars.includes(additionalChars.SAMPI))
+        useAdditionalChars === additionalChars.ALL ||
+        useAdditionalChars === additionalChars.SAMPI ||
+        (Array.isArray(useAdditionalChars) &&
+          useAdditionalChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -527,7 +564,7 @@ export class Mapping {
       }
     }
 
-    if (options?.setTransliterationStyle?.chi_kh) {
+    if (this.#transliterationStyle?.chi_kh) {
       this.CAPITAL_CHI = {
         gr: 'Χ',
         bc: 'X',
@@ -540,7 +577,7 @@ export class Mapping {
       };
     }
 
-    if (options?.setTransliterationStyle?.xi_ks) {
+    if (this.#transliterationStyle?.xi_ks) {
       this.CAPITAL_XI = {
         gr: 'Ξ',
         bc: 'C',
@@ -554,20 +591,16 @@ export class Mapping {
     }
   }
 
-  apply(
-    fromStr: string,
-    fromType: keyType,
-    toType: keyType,
-    options?: IConversionOptions
-  ): string {
+  apply(fromStr: string, fromType: keyType, toType: keyType): string {
     fromStr = fromStr.normalize('NFD');
 
     // Transliteration: join back long wovel marks, which should
     // not be treated as diacritics, to their associated chars.
     if (fromType === keyType.TRANSLITERATION) {
-      const { setTransliterationStyle: style } = options;
-      const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
-      const letters: string = this.trLettersWithCxOrMacron(options).join('');
+      const longVowelMark = this.#transliterationStyle?.useCxOverMacron
+        ? CIRCUMFLEX
+        : MACRON;
+      const letters: string = this.trLettersWithCxOrMacron().join('');
 
       const re = new RegExp(
         `(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
@@ -588,11 +621,7 @@ export class Mapping {
         .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
     }
 
-    const mappingProps = this.#getPropsMapOrderByLengthDesc(
-      fromType,
-      toType,
-      options?.removeDiacritics
-    );
+    const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
     let conversionArr: string[] = new Array(fromStr.length);
 
     // Apply mapped chars.
@@ -688,8 +717,7 @@ export class Mapping {
    */
   #getPropsMapOrderByLengthDesc(
     fromType: keyType,
-    toType: keyType,
-    removeDiacritics = false
+    toType: keyType
   ): Map<string, string> {
     let fromProp: string;
     let toProp: string;
@@ -716,7 +744,7 @@ export class Mapping {
       return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
     });
 
-    if (!removeDiacritics) {
+    if (!this.#removeDiacritics) {
       let diacritics = [];
 
       for (const [i, v] of Object.entries(this.DIACRITICS)) {
@@ -740,7 +768,7 @@ export class Mapping {
    * (2) The current implementation is semi-static as it doesn't check
    * the actual mapped chars.
    */
-  trLettersWithCxOrMacron(options?: IConversionOptions): string[] {
+  trLettersWithCxOrMacron(): string[] {
     let letters = [
       this.CAPITAL_ETA,
       this.SMALL_ETA,
@@ -749,19 +777,19 @@ export class Mapping {
     ];
 
     if (
-      options?.useAdditionalChars === additionalChars.ALL ||
-      options?.useAdditionalChars === additionalChars.STIGMA ||
-      (Array.isArray(options?.useAdditionalChars) &&
-        options?.useAdditionalChars.includes(additionalChars.STIGMA))
+      this.#useAdditionalChars === additionalChars.ALL ||
+      this.#useAdditionalChars === additionalChars.STIGMA ||
+      (Array.isArray(this.#useAdditionalChars) &&
+        this.#useAdditionalChars.includes(additionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
     if (
-      options?.useAdditionalChars === additionalChars.ALL ||
-      options?.useAdditionalChars === additionalChars.STIGMA ||
-      (Array.isArray(options?.useAdditionalChars) &&
-        options?.useAdditionalChars.includes(additionalChars.STIGMA))
+      this.#useAdditionalChars === additionalChars.ALL ||
+      this.#useAdditionalChars === additionalChars.STIGMA ||
+      (Array.isArray(this.#useAdditionalChars) &&
+        this.#useAdditionalChars.includes(additionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }
