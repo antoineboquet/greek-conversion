@@ -7,10 +7,10 @@ export interface IConversionOptions {
   setBetaCodeStyle?: style.MODERN | style.TLG;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?:
-    | ITransliterationStyle
     | style.ALA_LC
     | style.BNF
-    | style.SBL;
+    | style.SBL
+    | ITransliterationStyle;
 }
 
 export interface IGreekStyle {
