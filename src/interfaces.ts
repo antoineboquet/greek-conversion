@@ -1,9 +1,9 @@
-import { additionalChars, keyType, style } from './enums';
+import { additionalChars, style } from './enums';
 
 export interface IConversionOptions {
   preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
-  useAdditionalChars?: additionalChars | additionalChars[];
+  useAdditionalChars?: additionalChars[] | additionalChars;
   setBetaCodeStyle?: style.MODERN | style.TLG;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?:
@@ -15,6 +15,12 @@ export interface IConversionOptions {
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
+}
+
+export interface IMappingProperty {
+  gr: string;
+  bc?: string;
+  tr?: string;
 }
 
 export interface ITransliterationStyle {
