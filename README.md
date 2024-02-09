@@ -85,18 +85,32 @@ The **`IConversionOptions`** interface provides some control other the conversio
 
 ```ts
 {
-  preserveWhitespace?: boolean,            // keep potential extra whitespace
-  removeDiacritics?: boolean,              // remove diacritics, except those that represent letters
-  useAdditionalChars?:                     // extend the default mapping with additional chars
-    additionalChars|additionalChars[],
+  preserveWhitespace?: boolean,   // keep potential extra whitespace
+
+  removeDiacritics?: boolean,     // remove diacritics, except those that represent letters
+
+  useAdditionalChars?:            // extend the default mapping with additional chars
+    additionalChars[] |           //   (use additionalChars.ALL to enable the whole set)
+    additionalChars,
+
+  setBetaCodeStyle?:                    
+    style.MODERN |                // (default) modern style (e.g. Are/th → Ἀρέτη)
+    style.TLG,                    // Thesaurus Linguae Graecae (e.g. *PO/NOS → Πόνοϛ)
+
   setGreekStyle?: {
-    disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
+    disableBetaVariant?: boolean  // disable the typographic variant 'ϐ' [U+03D0]
   },
-  setTransliterationStyle?: {
-    useCxOverMacron?: boolean,             // use a circumflex rather than a macron for eta, omega, etc
-    chi_kh?: boolean,                      // alter the transliteration of 'χ' (defaults to: 'ch')
-    xi_ks?: boolean                        // alter the transliteration of 'ξ' (defaults to: 'x')
-  }
+
+  setTransliterationStyle?:
+    style.ALA_LC |                // American Library Association – Library of Congress
+    style.BNF |                   // (default) Bibliothèque nationale de France
+    style.SBL |                   // Society of Biblical Literature
+    {
+      useCxOverMacron?: boolean,  // use a circumflex rather than a macron for 'η', 'ω', etc 
+      chi_kh?: boolean,           // alter the transliteration of 'χ' (defaults to: 'ch')
+      xi_ks?: boolean,            // alter the transliteration of 'ξ' (defaults to: 'x')
+      upsilon_y?: boolean         // alter the transliteration of 'υ' (defaults to: 'u')
+    }
 }
 ```
 
