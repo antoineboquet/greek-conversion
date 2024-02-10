@@ -4,7 +4,7 @@ export interface IConversionOptions {
   preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
   useAdditionalChars?: additionalChars[] | additionalChars;
-  setBetaCodeStyle?: style.MODERN | style.TLG;
+  setBetaCodeStyle?: BetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?:
     | style.ALA_LC
@@ -12,6 +12,8 @@ export interface IConversionOptions {
     | style.SBL
     | ITransliterationStyle;
 }
+
+export type BetaCodeStyle = style.MODERN | style.TLG;
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
