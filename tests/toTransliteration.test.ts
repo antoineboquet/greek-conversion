@@ -92,7 +92,7 @@ describe('From beta code to transliteration', () => {
     ${'u(bri/s'}     | ${'hybrís'}
     ${'au)to/matos'} | ${'autómatos'}
     ${'a)/u+los'}    | ${'áülos'}
-    ${'u(i+/dion'}   | ${'huḯdion'}
+    ${'u(i/+dion'}   | ${'huḯdion'}
     ${'u(/dwr'}      | ${'hýdōr'}
     ${'U(/bla'}      | ${'Hýbla'}
     ${'u)/ u(='}     | ${'ý hỹ'}
