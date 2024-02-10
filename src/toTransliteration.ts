@@ -1,4 +1,4 @@
-import { keyType } from './enums';
+import { KeyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
@@ -10,7 +10,7 @@ import {
 
 export function toTransliteration(
   str: string,
-  fromType: keyType,
+  fromType: KeyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
@@ -18,30 +18,30 @@ export function toTransliteration(
   const transliterationStyle = mapping.getTransliterationStyle();
 
   switch (fromType) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, KeyType.BETA_CODE);
       }
 
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.TRANSLITERATION);
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
 
       // Apply flagged rough breathings.
       str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
       break;
 
-    case keyType.GREEK:
+    case KeyType.GREEK:
       str = grConvertBreathings(str);
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION);
+      str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION, {
+        str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
           useCxOverMacron: transliterationStyle?.useCxOverMacron
         });
@@ -49,8 +49,8 @@ export function toTransliteration(
 
       str = mapping.apply(
         str,
-        keyType.TRANSLITERATION,
-        keyType.TRANSLITERATION
+        KeyType.TRANSLITERATION,
+        KeyType.TRANSLITERATION
       );
       break;
   }

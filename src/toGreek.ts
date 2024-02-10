@@ -1,4 +1,4 @@
-import { keyType } from './enums';
+import { KeyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
@@ -11,31 +11,31 @@ import {
 
 export function toGreek(
   str: string,
-  fromType: keyType,
+  fromType: KeyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, KeyType.BETA_CODE);
       }
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.GREEK);
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
       break;
 
-    case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK);
+    case KeyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK);
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
         str = trConvertBreathings(str);

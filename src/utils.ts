@@ -1,4 +1,4 @@
-import { keyType } from './enums';
+import { KeyType } from './enums';
 import {
   ANO_TELEIA,
   CIRCUMFLEX,
@@ -81,23 +81,23 @@ export function normalizeGreek(greekStr: string): string {
  */
 export function removeDiacritics(
   str: string,
-  type: keyType,
+  type: KeyType,
   trPreserveLettersWithCxOrMacron?: {
     letters: string[];
     useCxOverMacron: boolean;
   }
 ): string {
   switch (type) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       return str.replace(/[\(\)\\\/\+=\|]/g, '');
 
-    case keyType.GREEK:
+    case KeyType.GREEK:
       return str
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .normalize('NFC');
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       const { letters, useCxOverMacron } =
         trPreserveLettersWithCxOrMacron || {};
 
@@ -128,7 +128,7 @@ export function removeDiacritics(
       return str.normalize('NFC');
 
     default:
-      console.warn(`keyType '${type}' is not implemented.`);
+      console.warn(`KeyType '${type}' is not implemented.`);
       return str;
   }
 }

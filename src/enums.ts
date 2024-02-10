@@ -1,4 +1,4 @@
-export enum additionalChars {
+export enum AdditionalChars {
   ALL = 'all',
   DIGAMMA = 'digamma',
   YOT = 'yot',
@@ -9,13 +9,13 @@ export enum additionalChars {
   //SAN = 'san'
 }
 
-export enum keyType {
+export enum KeyType {
   GREEK = 'greek',
   BETA_CODE = 'beta-code',
   TRANSLITERATION = 'transliteration'
 }
 
-export enum style {
+export enum Style {
   ALA_LC = 'ala-lc',
   BNF = 'bnf',
   MODERN = 'modern',

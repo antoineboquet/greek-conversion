@@ -1,4 +1,4 @@
-import { additionalChars, keyType } from './enums';
+import { AdditionalChars, KeyType, Style } from './enums';
 import { GreekString } from './GreekString';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
@@ -9,7 +9,7 @@ import {
   removeGreekVariants
 } from './utils';
 
-export { additionalChars, keyType } from './enums';
+export { AdditionalChars, KeyType, Style } from './enums';
 export { GreekString } from './GreekString';
 export { toBetaCode } from './toBetaCode';
 export { toGreek } from './toGreek';
@@ -21,7 +21,7 @@ export {
 } from './utils';
 
 export default {
-  keyType,
+  KeyType,
   GreekString,
   toBetaCode,
   toGreek,

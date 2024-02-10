@@ -1,19 +1,19 @@
-import { additionalChars, style } from './enums';
+import { AdditionalChars, Style } from './enums';
 
 export interface IConversionOptions {
   preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
-  useAdditionalChars?: additionalChars[] | additionalChars;
+  useAdditionalChars?: AdditionalChars[] | AdditionalChars;
   setBetaCodeStyle?: BetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?:
-    | style.ALA_LC
-    | style.BNF
-    | style.SBL
+    | Style.ALA_LC
+    | Style.BNF
+    | Style.SBL
     | ITransliterationStyle;
 }
 
-export type BetaCodeStyle = style.MODERN | style.TLG;
+export type BetaCodeStyle = Style.MODERN | Style.TLG;
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;

@@ -1,8 +1,8 @@
-import { keyType, GreekString } from '../src/index'
+import { KeyType, GreekString } from '../src/index'
 
 describe('GreekString', () => {
   test('From bc: Basic conversion', () => {
-    const gs = new GreekString('a)/nqrwpos', keyType.BETA_CODE)
+    const gs = new GreekString('a)/nqrwpos', KeyType.BETA_CODE)
 
     expect(gs.source).toBe('a)/nqrwpos')
     expect(gs.betaCode).toBe('a)/nqrwpos')
@@ -11,7 +11,7 @@ describe('GreekString', () => {
   })
 
   test('From gr: Basic conversion', () => {
-    const gs = new GreekString('ἄνθρωπος', keyType.GREEK)
+    const gs = new GreekString('ἄνθρωπος', KeyType.GREEK)
 
     expect(gs.source).toBe('ἄνθρωπος')
     expect(gs.betaCode).toBe('a)/nqrwpos')
@@ -20,7 +20,7 @@ describe('GreekString', () => {
   })
 
   test('From tr: Basic conversion', () => {
-    const gs = new GreekString('ánthrōpos', keyType.TRANSLITERATION)
+    const gs = new GreekString('ánthrōpos', KeyType.TRANSLITERATION)
 
     expect(gs.source).toBe('ánthrōpos')
     expect(gs.betaCode).toBe('a)/nqrwpos')
@@ -29,7 +29,7 @@ describe('GreekString', () => {
   })
 
   test('From bc: Removing diacritics', () => {
-    const gs = new GreekString('a)/nqrwpos', keyType.BETA_CODE, { removeDiacritics: true })
+    const gs = new GreekString('a)/nqrwpos', KeyType.BETA_CODE, { removeDiacritics: true })
 
     expect(gs.source).toBe('a)/nqrwpos')
     expect(gs.betaCode).toBe('anqrwpos')
@@ -38,7 +38,7 @@ describe('GreekString', () => {
   })
 
   test('From gr: Removing diacritics', () => {
-    const gs = new GreekString('ἄνθρωπος', keyType.GREEK, { removeDiacritics: true })
+    const gs = new GreekString('ἄνθρωπος', KeyType.GREEK, { removeDiacritics: true })
 
     expect(gs.source).toBe('ἄνθρωπος')
     expect(gs.betaCode).toBe('anqrwpos')
@@ -47,7 +47,7 @@ describe('GreekString', () => {
   })
 
   test('From tr: Removing diacritics', () => {
-    const gs = new GreekString('ánthrōpos', keyType.TRANSLITERATION, { removeDiacritics: true })
+    const gs = new GreekString('ánthrōpos', KeyType.TRANSLITERATION, { removeDiacritics: true })
 
     expect(gs.source).toBe('ánthrōpos')
     expect(gs.betaCode).toBe('anqrwpos')
@@ -56,8 +56,8 @@ describe('GreekString', () => {
   })
 
   test('From gr: Testing whitespace behavior', () => {
-    const gs1 = new GreekString('αἴξ   κριός', keyType.GREEK)
-    const gs2 = new GreekString('αἴξ   κριός', keyType.GREEK, { preserveWhitespace: true })
+    const gs1 = new GreekString('αἴξ   κριός', KeyType.GREEK)
+    const gs2 = new GreekString('αἴξ   κριός', KeyType.GREEK, { preserveWhitespace: true })
 
     expect(gs1.source).toBe('αἴξ   κριός')
     expect(gs1.betaCode).toBe('ai)/c krio/s')
@@ -71,8 +71,8 @@ describe('GreekString', () => {
   })
 
   test('From gr: Enabling/Disabling beta variant', () => {
-    const gs1 = new GreekString('βάρβαρος', keyType.GREEK)
-    const gs2 = new GreekString('βάρβαρος', keyType.GREEK, {
+    const gs1 = new GreekString('βάρβαρος', KeyType.GREEK)
+    const gs2 = new GreekString('βάρβαρος', KeyType.GREEK, {
       setGreekStyle: {
         disableBetaVariant: true
       }
@@ -90,21 +90,21 @@ describe('GreekString', () => {
   })
 
   test('From gr: Testing gamma nasals', () => {
-    const gs1 = new GreekString('ανγελος', keyType.GREEK)
+    const gs1 = new GreekString('ανγελος', KeyType.GREEK)
 
     expect(gs1.source).toBe('ανγελος')
     expect(gs1.betaCode).toBe('angelos')
     expect(gs1.greek).toBe('αγγελος')
     expect(gs1.transliteration).toBe('angelos')
 
-    const gs2 = new GreekString('σφίγξ, τυγχάνω', keyType.GREEK)
+    const gs2 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK)
 
     expect(gs2.source).toBe('σφίγξ, τυγχάνω')
     expect(gs2.betaCode).toBe('sfi/nc, tunxa/nw')
     expect(gs2.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
-    const gs3 = new GreekString('σφίγξ, τυγχάνω', keyType.GREEK, {
+    const gs3 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK, {
       setTransliterationStyle: {
         xi_ks: true,
         chi_kh: true
@@ -118,21 +118,21 @@ describe('GreekString', () => {
   })
 
   test('From tr: Testing gamma nasals', () => {
-    const gs1 = new GreekString('aggelos', keyType.TRANSLITERATION, { removeDiacritics: true })
+    const gs1 = new GreekString('aggelos', KeyType.TRANSLITERATION, { removeDiacritics: true })
 
     expect(gs1.source).toBe('aggelos')
     expect(gs1.betaCode).toBe('angelos')
     expect(gs1.greek).toBe('αγγελος')
     expect(gs1.transliteration).toBe('angelos')
 
-    const gs2 = new GreekString('sphínx, tunchánō', keyType.TRANSLITERATION)
+    const gs2 = new GreekString('sphínx, tunchánō', KeyType.TRANSLITERATION)
 
     expect(gs2.source).toBe('sphínx, tunchánō')
     expect(gs2.betaCode).toBe('sfi/nc, tunxa/nw')
     expect(gs2.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
-    const gs3 = new GreekString('sphínks, tunkhánō', keyType.TRANSLITERATION, {
+    const gs3 = new GreekString('sphínks, tunkhánō', KeyType.TRANSLITERATION, {
       setTransliterationStyle: {
         xi_ks: true,
         chi_kh: true
@@ -146,7 +146,7 @@ describe('GreekString', () => {
   })
 
   test('From tr: using circumflex on long vowels', () => {
-    const gs = new GreekString('ánthrôpos', keyType.TRANSLITERATION, {
+    const gs = new GreekString('ánthrôpos', KeyType.TRANSLITERATION, {
       setTransliterationStyle: {
         useCxOverMacron: true
       }

@@ -1,4 +1,4 @@
-import { additionalChars, keyType, style } from './enums';
+import { AdditionalChars, KeyType, Style } from './enums';
 import {
   BetaCodeStyle,
   IConversionOptions,
@@ -341,7 +341,7 @@ export class Mapping {
   #betaCodeStyle: BetaCodeStyle;
   #removeDiacritics: boolean;
   #transliterationStyle: ITransliterationStyle;
-  #useAdditionalChars: additionalChars[] | additionalChars;
+  #useAdditionalChars: AdditionalChars[] | AdditionalChars;
 
   constructor(options?: IConversionOptions) {
     if (!options) return;
@@ -352,10 +352,10 @@ export class Mapping {
     // Instantiate the beta code style.
     if (options?.setBetaCodeStyle) {
       switch (options.setBetaCodeStyle) {
-        case style.MODERN:
+        case Style.MODERN:
           break;
 
-        case style.TLG:
+        case Style.TLG:
           break;
 
         default:
@@ -369,17 +369,17 @@ export class Mapping {
     if (options?.setTransliterationStyle) {
       if (typeof options.setTransliterationStyle === 'string') {
         switch (options.setTransliterationStyle) {
-          case style.ALA_LC:
+          case Style.ALA_LC:
             this.#transliterationStyle = {
               upsilon_y: true
             };
             break;
 
-          case style.BNF:
+          case Style.BNF:
             this.#transliterationStyle = {};
             break;
 
-          case style.SBL:
+          case Style.SBL:
             this.#transliterationStyle = {
               upsilon_y: true
             };
@@ -399,10 +399,10 @@ export class Mapping {
 
     if (extraChars) {
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.DIGAMMA ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.DIGAMMA ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.DIGAMMA))
+          extraChars.includes(AdditionalChars.DIGAMMA))
       ) {
         this.CAPITAL_DIGAMMA = {
           gr: 'Ϝ',
@@ -417,9 +417,9 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.YOT ||
-        (Array.isArray(extraChars) && extraChars.includes(additionalChars.YOT))
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.YOT ||
+        (Array.isArray(extraChars) && extraChars.includes(AdditionalChars.YOT))
       ) {
         this.CAPITAL_YOT = {
           gr: '\u037F',
@@ -434,10 +434,10 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.LUNATE_SIGMA ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.LUNATE_SIGMA ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.LUNATE_SIGMA))
+          extraChars.includes(AdditionalChars.LUNATE_SIGMA))
       ) {
         this.CAPITAL_LUNATE_SIGMA = {
           gr: '\u03F9',
@@ -452,10 +452,10 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.STIGMA ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.STIGMA ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.STIGMA))
+          extraChars.includes(AdditionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -470,10 +470,10 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.KOPPA ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.KOPPA ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.KOPPA))
+          extraChars.includes(AdditionalChars.KOPPA))
       ) {
         this.CAPITAL_KOPPA = {
           gr: 'Ϟ',
@@ -488,10 +488,10 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.SAMPI ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.SAMPI ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.SAMPI))
+          extraChars.includes(AdditionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -506,9 +506,9 @@ export class Mapping {
       }
 
       /*if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.SAN ||
-        (Array.isArray(extraChars) && extraChars.includes(additionalChars.SAN))
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.SAN ||
+        (Array.isArray(extraChars) && extraChars.includes(AdditionalChars.SAN))
       ) {
         this.CAPITAL_SAN = {
           gr: '\u03FA',
@@ -533,10 +533,10 @@ export class Mapping {
       this.SMALL_OMEGA.tr = 'ô';
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.STIGMA ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.STIGMA ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.STIGMA))
+          extraChars.includes(AdditionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -551,10 +551,10 @@ export class Mapping {
       }
 
       if (
-        extraChars === additionalChars.ALL ||
-        extraChars === additionalChars.SAMPI ||
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.SAMPI ||
         (Array.isArray(extraChars) &&
-          extraChars.includes(additionalChars.SAMPI))
+          extraChars.includes(AdditionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -585,12 +585,12 @@ export class Mapping {
   /**
    * Returns a converted string.
    */
-  apply(fromStr: string, fromType: keyType, toType: keyType): string {
+  apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
     // Transliteration: join back long wovel marks, which should
     // not be treated as diacritics, to their associated chars.
-    if (fromType === keyType.TRANSLITERATION) {
+    if (fromType === KeyType.TRANSLITERATION) {
       const longVowelMark = this.#transliterationStyle?.useCxOverMacron
         ? CIRCUMFLEX
         : MACRON;
@@ -608,7 +608,7 @@ export class Mapping {
 
     // Greek: enforce the right Unicode points for
     // wrong Unicode canonical equivalences.
-    if (fromType === keyType.GREEK) {
+    if (fromType === KeyType.GREEK) {
       fromStr = fromStr
         .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
         .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
@@ -673,21 +673,21 @@ export class Mapping {
    * The current implementation is `static`, so it wouldn't reflect
    * hypothetical mapped chars changes.
    */
-  static #applyGammaNasals(str: string, type: keyType): string {
+  static #applyGammaNasals(str: string, type: KeyType): string {
     switch (type) {
-      case keyType.BETA_CODE:
+      case KeyType.BETA_CODE:
         return str.replace(/(g)(g|c|k|x)/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
         });
 
-      case keyType.GREEK:
+      case KeyType.GREEK:
         return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'Γ' + second;
           else return 'γ' + second;
         });
 
-      case keyType.TRANSLITERATION:
+      case KeyType.TRANSLITERATION:
         // The case of `ITransliterationStyle` options `xi_ks` &
         // `chi_kh` is covered by letter K.
         return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
@@ -696,7 +696,7 @@ export class Mapping {
         });
 
       default:
-        console.warn(`keyType '${type}' is not implemented.`);
+        console.warn(`KeyType '${type}' is not implemented.`);
         return str;
     }
   }
@@ -710,21 +710,21 @@ export class Mapping {
    * @param removeDiacritics - If `true`, exclude the `DIACRITICS` property
    */
   #getPropsMapOrderByLengthDesc(
-    fromType: keyType,
-    toType: keyType
+    fromType: KeyType,
+    toType: KeyType
   ): Map<string, string> {
     let fromProp: string;
     let toProp: string;
 
-    if (fromType === keyType.BETA_CODE) fromProp = 'bc';
-    else if (fromType === keyType.GREEK) fromProp = 'gr';
-    else if (fromType === keyType.TRANSLITERATION) fromProp = 'tr';
-    else console.warn(`keyType '${fromType}' is not implemented.`);
+    if (fromType === KeyType.BETA_CODE) fromProp = 'bc';
+    else if (fromType === KeyType.GREEK) fromProp = 'gr';
+    else if (fromType === KeyType.TRANSLITERATION) fromProp = 'tr';
+    else console.warn(`KeyType '${fromType}' is not implemented.`);
 
-    if (toType === keyType.BETA_CODE) toProp = 'bc';
-    else if (toType === keyType.GREEK) toProp = 'gr';
-    else if (toType === keyType.TRANSLITERATION) toProp = 'tr';
-    else console.warn(`keyType '${toType}' is not implemented.`);
+    if (toType === KeyType.BETA_CODE) toProp = 'bc';
+    else if (toType === KeyType.GREEK) toProp = 'gr';
+    else if (toType === KeyType.TRANSLITERATION) toProp = 'tr';
+    else console.warn(`KeyType '${toType}' is not implemented.`);
 
     let chars = [];
 
@@ -783,19 +783,19 @@ export class Mapping {
     ];
 
     if (
-      this.#useAdditionalChars === additionalChars.ALL ||
-      this.#useAdditionalChars === additionalChars.STIGMA ||
+      this.#useAdditionalChars === AdditionalChars.ALL ||
+      this.#useAdditionalChars === AdditionalChars.STIGMA ||
       (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(additionalChars.STIGMA))
+        this.#useAdditionalChars.includes(AdditionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
     if (
-      this.#useAdditionalChars === additionalChars.ALL ||
-      this.#useAdditionalChars === additionalChars.STIGMA ||
+      this.#useAdditionalChars === AdditionalChars.ALL ||
+      this.#useAdditionalChars === AdditionalChars.STIGMA ||
       (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(additionalChars.STIGMA))
+        this.#useAdditionalChars.includes(AdditionalChars.STIGMA))
     ) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }

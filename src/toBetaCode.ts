@@ -1,4 +1,4 @@
-import { keyType } from './enums';
+import { KeyType } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
 import {
@@ -10,38 +10,38 @@ import {
 
 export function toBetaCode(
   str: string,
-  fromType: keyType,
+  fromType: KeyType,
   options: IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, KeyType.BETA_CODE);
       }
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.BETA_CODE);
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
       str = reorderDiacritics(str);
       break;
 
-    case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+    case KeyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.BETA_CODE);
+      str = mapping.apply(str, KeyType.GREEK, KeyType.BETA_CODE);
       str = reorderDiacritics(str);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.BETA_CODE);
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.BETA_CODE);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
