@@ -351,7 +351,7 @@ export class Mapping {
 
     // Instantiate the beta code style.
     if (options?.setBetaCodeStyle) {
-      switch (String(style)) {
+      switch (options.setBetaCodeStyle) {
         case style.MODERN:
           break;
 
@@ -368,7 +368,7 @@ export class Mapping {
     // Instantiate the transliteration style.
     if (options?.setTransliterationStyle) {
       if (typeof options.setTransliterationStyle === 'string') {
-        switch (String(style)) {
+        switch (options.setTransliterationStyle) {
           case style.ALA_LC:
             this.#transliterationStyle = {
               upsilon_y: true
@@ -380,7 +380,9 @@ export class Mapping {
             break;
 
           case style.SBL:
-            this.#transliterationStyle = {};
+            this.#transliterationStyle = {
+              upsilon_y: true
+            };
             break;
 
           default:
