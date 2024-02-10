@@ -577,6 +577,12 @@ export class Mapping {
       this.SMALL_XI.tr = 'ks';
     }
 
+    // For `transliterationStyle.upsilon_y`, see `./toTransliteration.ts`.
+  }
+
+  /**
+   * Returns a converted string.
+   */
   apply(fromStr: string, fromType: keyType, toType: keyType): string {
     fromStr = fromStr.normalize('NFD');
 
@@ -674,7 +680,7 @@ export class Mapping {
         });
 
       case keyType.GREEK:
-        return str.replace(/(ν)([γξκχ])/gi, (match, first, second) => {
+        return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'Γ' + second;
           else return 'γ' + second;
         });
@@ -682,7 +688,7 @@ export class Mapping {
       case keyType.TRANSLITERATION:
         // The case of `ITransliterationStyle` options `xi_ks` &
         // `chi_kh` is covered by letter K.
-        return str.replace(/(g)(g|x|k|ch)/gi, (match, first, second) => {
+        return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
         });
