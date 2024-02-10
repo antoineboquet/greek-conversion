@@ -22,17 +22,17 @@ export function toGreek(
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.BETA_CODE);
       }
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.GREEK, options);
+      str = mapping.apply(str, keyType.BETA_CODE, keyType.GREEK);
       break;
 
     case keyType.GREEK:
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
+      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK);
       break;
 
     case keyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
+      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK);
 
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.TRANSLITERATION);
