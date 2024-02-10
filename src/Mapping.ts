@@ -375,14 +375,14 @@ export class Mapping {
       }
     }
 
-    const useAdditionalChars = this.#useAdditionalChars;
+    const extraChars = this.#useAdditionalChars;
 
-    if (useAdditionalChars) {
+    if (extraChars) {
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.DIGAMMA ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.DIGAMMA))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.DIGAMMA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.DIGAMMA))
       ) {
         this.CAPITAL_DIGAMMA = {
           gr: 'Ϝ',
@@ -397,10 +397,9 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.YOT ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.YOT))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.YOT ||
+        (Array.isArray(extraChars) && extraChars.includes(additionalChars.YOT))
       ) {
         this.CAPITAL_YOT = {
           gr: '\u037F',
@@ -415,10 +414,10 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.LUNATE_SIGMA ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.LUNATE_SIGMA))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.LUNATE_SIGMA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.LUNATE_SIGMA))
       ) {
         this.CAPITAL_LUNATE_SIGMA = {
           gr: '\u03F9',
@@ -433,10 +432,10 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.STIGMA ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.STIGMA))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.STIGMA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -451,10 +450,10 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.KOPPA ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.KOPPA))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.KOPPA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.KOPPA))
       ) {
         this.CAPITAL_KOPPA = {
           gr: 'Ϟ',
@@ -469,10 +468,10 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.SAMPI ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.SAMPI))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.SAMPI ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -487,10 +486,9 @@ export class Mapping {
       }
 
       /*if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.SAN ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.SAN))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.SAN ||
+        (Array.isArray(extraChars) && extraChars.includes(additionalChars.SAN))
       ) {
         this.CAPITAL_SAN = {
           gr: '\u03FA',
@@ -506,32 +504,19 @@ export class Mapping {
     }
 
     if (this.#transliterationStyle?.useCxOverMacron) {
-      this.CAPITAL_ETA = {
-        gr: 'Η',
-        bc: 'H',
-        tr: 'Ê'
-      };
-      this.SMALL_ETA = {
-        gr: 'η',
-        bc: 'h',
-        tr: 'ê'
-      };
-      this.CAPITAL_OMEGA = {
-        gr: 'Ω',
-        bc: 'W',
-        tr: 'Ô'
-      };
-      this.SMALL_OMEGA = {
-        gr: 'ω',
-        bc: 'w',
-        tr: 'ô'
-      };
+      // Eta
+      this.CAPITAL_ETA.tr = 'Ê';
+      this.SMALL_ETA.tr = 'ê';
+
+      // Omega
+      this.CAPITAL_OMEGA.tr = 'Ô';
+      this.SMALL_OMEGA.tr = 'ô';
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.STIGMA ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.STIGMA))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.STIGMA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.STIGMA))
       ) {
         this.CAPITAL_STIGMA = {
           gr: '\u03DA',
@@ -546,10 +531,10 @@ export class Mapping {
       }
 
       if (
-        useAdditionalChars === additionalChars.ALL ||
-        useAdditionalChars === additionalChars.SAMPI ||
-        (Array.isArray(useAdditionalChars) &&
-          useAdditionalChars.includes(additionalChars.SAMPI))
+        extraChars === additionalChars.ALL ||
+        extraChars === additionalChars.SAMPI ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(additionalChars.SAMPI))
       ) {
         this.CAPITAL_SAMPI = {
           gr: 'Ϡ',
@@ -565,31 +550,14 @@ export class Mapping {
     }
 
     if (this.#transliterationStyle?.chi_kh) {
-      this.CAPITAL_CHI = {
-        gr: 'Χ',
-        bc: 'X',
-        tr: 'Kh'
-      };
-      this.SMALL_CHI = {
-        gr: 'χ',
-        bc: 'x',
-        tr: 'kh'
-      };
+      this.CAPITAL_CHI.tr = 'Kh';
+      this.SMALL_CHI.tr = 'kh';
     }
 
     if (this.#transliterationStyle?.xi_ks) {
-      this.CAPITAL_XI = {
-        gr: 'Ξ',
-        bc: 'C',
-        tr: 'Ks'
-      };
-      this.SMALL_XI = {
-        gr: 'ξ',
-        bc: 'c',
-        tr: 'ks'
-      };
+      this.CAPITAL_XI.tr = 'Ks';
+      this.SMALL_XI.tr = 'ks';
     }
-  }
 
   apply(fromStr: string, fromType: keyType, toType: keyType): string {
     fromStr = fromStr.normalize('NFD');
