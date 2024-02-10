@@ -15,6 +15,7 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const mapping = declaredMapping ?? new Mapping(options);
+  const transliterationStyle = mapping.getTransliterationStyle();
 
   switch (fromType) {
     case keyType.BETA_CODE:
@@ -24,12 +25,7 @@ export function toTransliteration(
         str = removeDiacritics(str, keyType.BETA_CODE);
       }
 
-      str = mapping.apply(
-        str,
-        keyType.BETA_CODE,
-        keyType.TRANSLITERATION,
-        options
-      );
+      str = mapping.apply(str, keyType.BETA_CODE, keyType.TRANSLITERATION);
 
       // Apply flagged rough breathings.
       str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
@@ -40,29 +36,52 @@ export function toTransliteration(
       if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION, options);
+      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION);
       break;
 
     case keyType.TRANSLITERATION:
       if (options.removeDiacritics) {
         str = removeDiacritics(str, keyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
-          useCxOverMacron: options.setTransliterationStyle?.useCxOverMacron
+          useCxOverMacron: transliterationStyle?.useCxOverMacron
         });
       }
 
       str = mapping.apply(
         str,
         keyType.TRANSLITERATION,
-        keyType.TRANSLITERATION,
-        options
+        keyType.TRANSLITERATION
       );
       break;
   }
 
+  if (transliterationStyle?.upsilon_y) str = applyUpsilon_Y(str);
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
   return str;
+}
+
+/**
+ * Returns a transliterated string with correct upsilon forms.
+ *
+ * @remarks
+ * This applies to the `transliterationStyle.upsilon_y` option.
+ *
+ * @privateRemarks
+ * It should print 'y' when a diaeresis occurs; but the SBL style guide
+ * doesn't mention this.
+ */
+function applyUpsilon_Y(transliteratedStr: string): string {
+  // Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui'.
+  const reUpsilonDiphthongs = new RegExp('(?<![aeo]\\p{M}*)(?<upsilon>u)(?!\\p{M}*i)', 'gimu'); // prettier-ignore
+
+  return transliteratedStr
+    .normalize('NFD')
+    .replace(reUpsilonDiphthongs, (match, upsilon) => {
+      if (upsilon === upsilon.toLowerCase()) return 'y';
+      else return 'Y';
+    })
+    .normalize('NFC');
 }
 
 /**
