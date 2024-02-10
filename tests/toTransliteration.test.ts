@@ -86,6 +86,18 @@ describe('From beta code to transliteration', () => {
     ${'w=(|'} | ${'ᾧ'}
     ${'w=|('} | ${'ᾧ'} 
   `('Applying various diacritics order', ({ str, expected }) => { expect(toTransliteration(str, keyType.BETA_CODE)).toBe(expected) })*/
+
+  test.each`
+    str              | expected
+    ${'u(bri/s'}     | ${'hybrís'}
+    ${'au)to/matos'} | ${'autómatos'}
+    ${'a)/u+los'}    | ${'áülos'}
+    ${'u(i+/dion'}   | ${'huḯdion'}
+    ${'u(/dwr'}      | ${'hýdōr'}
+    ${'U(/bla'}      | ${'Hýbla'}
+    ${'u)/ u(='}     | ${'ý hỹ'}
+  `('Applying upsilon_y', ({ str, expected }) => { expect(toTransliteration(str, keyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
+
 })
 
 describe('From greek to transliteration', () => {
