@@ -1,19 +1,17 @@
-import { AdditionalChars, Style } from './enums';
+import { AdditionalChars } from './enums';
 
 export interface IConversionOptions {
   preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
   useAdditionalChars?: AdditionalChars[] | AdditionalChars;
-  setBetaCodeStyle?: BetaCodeStyle;
+  setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
-  setTransliterationStyle?:
-    | Style.ALA_LC
-    | Style.BNF
-    | Style.SBL
-    | ITransliterationStyle;
+  setTransliterationStyle?: ITransliterationStyle;
 }
 
-export type BetaCodeStyle = Style.MODERN | Style.TLG;
+export interface IBetaCodeStyle {
+  useTLGStyle?: boolean;
+}
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
@@ -30,4 +28,5 @@ export interface ITransliterationStyle {
   xi_ks?: boolean;
   chi_kh?: boolean;
   upsilon_y?: boolean;
+  lunatesigma_s?: boolean;
 }
