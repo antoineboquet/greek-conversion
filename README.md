@@ -84,12 +84,14 @@ The **`options`** parameter can be left blank (use default settings), filled wit
 
 The available presets are:
 1. **For beta code:**
+
 | Preset | Description |
 | --- | --- |
 | `MODERN` | **(default)** modern style (e.g. Are/th → Ἀρέτη) |
 | `TLG` | Thesaurus Linguae Graecae (e.g. *PO/NOS → Πόνοϛ) |
 
 2. **For transliteration:**
+
 | Preset | Description |
 | --- | --- |
 | `ALA_LC` | American Library Association – Library of Congress |
