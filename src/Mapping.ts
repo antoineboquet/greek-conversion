@@ -1,6 +1,6 @@
-import { AdditionalChars, KeyType, Style } from './enums';
+import { AdditionalChars, KeyType } from './enums';
 import {
-  BetaCodeStyle,
+  IBetaCodeStyle,
   IConversionOptions,
   IMappingProperty,
   ITransliterationStyle
@@ -338,62 +338,18 @@ export class Mapping {
     } as IMappingProperty
   };
 
-  #betaCodeStyle: BetaCodeStyle;
   #removeDiacritics: boolean;
-  #transliterationStyle: ITransliterationStyle;
   #useAdditionalChars: AdditionalChars[] | AdditionalChars;
+  #betaCodeStyle: IBetaCodeStyle;
+  #transliterationStyle: ITransliterationStyle;
 
   constructor(options?: IConversionOptions) {
     if (!options) return;
 
     this.#removeDiacritics = options?.removeDiacritics;
     this.#useAdditionalChars = options?.useAdditionalChars;
-
-    // Instantiate the beta code style.
-    if (options?.setBetaCodeStyle) {
-      switch (options.setBetaCodeStyle) {
-        case Style.MODERN:
-          break;
-
-        case Style.TLG:
-          break;
-
-        default:
-          console.warn(
-            `style '${options.setBetaCodeStyle}' is not implemented.`
-          );
-      }
-    }
-
-    // Instantiate the transliteration style.
-    if (options?.setTransliterationStyle) {
-      if (typeof options.setTransliterationStyle === 'string') {
-        switch (options.setTransliterationStyle) {
-          case Style.ALA_LC:
-            this.#transliterationStyle = {
-              upsilon_y: true
-            };
-            break;
-
-          case Style.BNF:
-            this.#transliterationStyle = {};
-            break;
-
-          case Style.SBL:
-            this.#transliterationStyle = {
-              upsilon_y: true
-            };
-            break;
-
-          default:
-            console.warn(
-              `style '${options.setTransliterationStyle}' is not implemented.`
-            );
-        }
-      } else {
-        this.#transliterationStyle = options.setTransliterationStyle;
-      }
-    }
+    this.#betaCodeStyle = options?.setBetaCodeStyle;
+    this.#transliterationStyle = options?.setTransliterationStyle;
 
     const extraChars = this.#useAdditionalChars;
 
