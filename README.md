@@ -85,18 +85,18 @@ The **`options`** parameter can be left blank (use default settings), filled wit
 The available presets are:
 1. **For beta code:**
 
-| Preset | Description |
-| --- | --- |
-| `MODERN` | **(default)** modern style (e.g. Are/th → Ἀρέτη) |
-| `TLG` | Thesaurus Linguae Graecae (e.g. *PO/NOS → Πόνοϛ) |
+| Preset           | Description                                             | Quick example       |
+| ---------------- | ------------------------------------------------------- | ------------------- |
+| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style | **A)re/th** → Ἀρέτη |
+| [**`TLG`**]()    | Thesaurus Linguae Graecae                               | ***PO/NOS** → Πόνοϛ |
 
 2. **For transliteration:**
 
-| Preset | Description |
-| --- | --- |
-| `ALA_LC` | American Library Association – Library of Congress |
-| `BNF` | **(default)** Bibliothèque nationale de France |
-| `SBL` | Society of Biblical Literature |
+| Preset           | Description                                        |
+| ---------------- | -------------------------------------------------- |
+| [**`ALA_LC`**]() | American Library Association – Library of Congress |
+| [**`BNF`**]()    | **(default)** Bibliothèque nationale de France     |
+| [**`SBL`**]()    | Society of Biblical Literature                     |
 
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
 ```ts
