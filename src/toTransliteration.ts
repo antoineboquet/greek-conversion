@@ -1,4 +1,9 @@
-import { KeyType } from './enums';
+import {
+  AdditionalChars,
+  KeyType,
+  Preset,
+  TransliterationPreset
+} from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
@@ -8,12 +13,64 @@ import {
   removeGreekVariants
 } from './utils';
 
+const ALA_LC_OPTIONS: IConversionOptions = {
+  removeDiacritics: true,
+  useAdditionalChars: [
+    AdditionalChars.DIGAMMA,
+    AdditionalChars.KOPPA,
+    AdditionalChars.LUNATE_SIGMA
+  ],
+  setTransliterationStyle: {
+    upsilon_y: true,
+    lunatesigma_s: true
+  }
+};
+
+const BNF_OPTIONS: IConversionOptions = {
+  removeDiacritics: false,
+  useAdditionalChars: [
+    AdditionalChars.DIGAMMA,
+    AdditionalChars.YOT,
+    AdditionalChars.LUNATE_SIGMA,
+    AdditionalChars.STIGMA,
+    AdditionalChars.KOPPA,
+    AdditionalChars.SAMPI
+  ]
+};
+
+const SBL_OPTIONS: IConversionOptions = {
+  removeDiacritics: true,
+  setTransliterationStyle: {
+    upsilon_y: true
+  }
+};
+
 export function toTransliteration(
   str: string,
   fromType: KeyType,
-  options: IConversionOptions = {},
+  options: TransliterationPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
+  // Convert named presets to `IConversionOptions`objects.
+  if (typeof options === 'string') {
+    switch (options) {
+      case Preset.ALA_LC:
+        options = ALA_LC_OPTIONS;
+        break;
+
+      case Preset.BNF:
+        options = BNF_OPTIONS;
+        break;
+
+      case Preset.SBL:
+        options = SBL_OPTIONS;
+        break;
+
+      default:
+        console.warn(`style '${options}' is not implemented.`);
+    }
+  }
+
   const mapping = declaredMapping ?? new Mapping(options);
   const transliterationStyle = mapping.getTransliterationStyle();
 
