@@ -15,10 +15,13 @@ export enum KeyType {
   TRANSLITERATION = 'transliteration'
 }
 
-export enum Style {
+export enum Preset {
   ALA_LC = 'ala-lc',
   BNF = 'bnf',
   MODERN = 'modern',
   SBL = 'sbl',
   TLG = 'tlg'
 }
+
+export type BetaCodePreset = Preset.MODERN | Preset.TLG;
+export type TransliterationPreset = Preset.ALA_LC | Preset.BNF | Preset.SBL;
