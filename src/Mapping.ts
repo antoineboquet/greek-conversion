@@ -449,6 +449,11 @@ export class Mapping {
           bc: 's3',
           tr: 'c'
         };
+
+        if (this.#transliterationStyle?.lunatesigma_s) {
+          this.CAPITAL_LUNATE_SIGMA.tr = 'S';
+          this.SMALL_LUNATE_SIGMA.tr = 's';
+        }
       }
 
       if (
