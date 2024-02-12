@@ -87,7 +87,7 @@ The available presets are:
 
 | Preset           | Description                                             | Quick example       |
 | ---------------- | ------------------------------------------------------- | ------------------- |
-| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style | **A)re/th** → Ἀρέτη |
+| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style | **Po/nos** → Πόνοϛ |
 | [**`TLG`**]()    | Thesaurus Linguae Graecae                               | ***PO/NOS** → Πόνοϛ |
 
 2. **For transliteration:**
