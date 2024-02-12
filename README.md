@@ -118,9 +118,10 @@ setGreekStyle?: {
 
 setTransliterationStyle?: {
   useCxOverMacron?: boolean,    // use a circumflex rather than a macron for 'η', 'ω', etc 
-  chi_kh?: boolean,             // alter the transliteration of 'χ' (defaults to: 'ch')
-  xi_ks?: boolean,              // alter the transliteration of 'ξ' (defaults to: 'x')
-  upsilon_y?: boolean           // alter the transliteration of 'υ' (defaults to: 'u')
+  chi_kh?: boolean,             // transliterate 'χ' as 'kh' (defaults to: 'ch')
+  xi_ks?: boolean,              // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  upsilon_y?: boolean,          // transliterate 'υ' as 'υ' (defaults to: 'u')
+  lunatesigma_s?: boolean       // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 }
 ```
 
