@@ -78,8 +78,7 @@ Functions signature is consistently:
 str: string, fromType: keyType, options: IConversionOptions = {}
 ```
 
-The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`).\
-If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
+The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
 
 The **`IConversionOptions`** interface provides some control over the conversion process:
 
