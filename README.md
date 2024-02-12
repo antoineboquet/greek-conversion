@@ -11,7 +11,9 @@ A small library to convert a polytonic greek string from/into various representa
     2. [The old way](#the-old-way)
 2. [Core functions](#core-functions)
     1. [Summary](#summary-1)
-    2. [Examples](#examples)
+    2. [Presets](#presets)
+    3. [Conversion options](#conversion-options)
+    4. [Examples](#examples)
 3. [OOP style](#oop-style)
     1. [Summary](#summary-2)
     2. [Example](#example)
@@ -82,6 +84,8 @@ The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION`
 
 The **`options`** parameter can be left blank (use default settings), filled with a `Preset` or a user-defined `IConversionOptions` object.
 
+### Presets
+
 The available presets are:
 1. **For beta code:**
 
@@ -97,6 +101,8 @@ The available presets are:
 | [**`ALA_LC`**]() | American Library Association – Library of Congress | ὑϐρίς → **hybris** |
 | [**`BNF`**]()    | **(default)** Bibliothèque nationale de France     | ὑϐρίς → **hubrís** |
 | [**`SBL`**]()    | Society of Biblical Literature                     | ὑϐρίς → **hybris** |
+
+### Conversion options
 
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
 ```ts
