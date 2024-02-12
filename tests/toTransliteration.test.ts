@@ -1,4 +1,4 @@
-import { AdditionalChars, KeyType, Style, toTransliteration } from '../src/index'
+import { AdditionalChars, KeyType, Preset, toTransliteration } from '../src/index'
 
 /*
  * Special characters:
@@ -89,8 +89,8 @@ describe('From beta code to transliteration', () => {
     str              | expected
     ${'u(bri/s'}     | ${'hybrís'}
     ${'au)to/matos'} | ${'autómatos'}
-    ${'a)/u+los'}    | ${'áülos'}
-    ${'u(i+/dion'}   | ${'huḯdion'}
+    ${'a)/u+los'}    | ${'áÿlos'}
+    ${'u(i+/dion'}   | ${'hyḯdion'}
     ${'u(/dwr'}      | ${'hýdōr'}
     ${'U(/bla'}      | ${'Hýbla'}
     ${'u)/ u(='}     | ${'ý hỹ'}
@@ -209,8 +209,8 @@ describe('From greek to transliteration', () => {
     str            | expected
     ${'ὑϐρίς'}     | ${'hybrís'}
     ${'αὐτόματος'} | ${'autómatos'}
-    ${'ἄϋλος'}     | ${'áülos'}
-    ${'ὑΐδιον'}    | ${'huḯdion'}
+    ${'ἄϋλος'}     | ${'áÿlos'}
+    ${'ὑΐδιον'}    | ${'hyḯdion'}
     ${'ὕδωρ'}      | ${'hýdōr'}
     ${'Ὕϐλα'}     | ${'Hýbla'}
     ${'ὔ ὗ'}       | ${'ý hỹ'}
@@ -250,5 +250,5 @@ describe('From greek to transliteration', () => {
   ${'Δαμαρέτα τ’ ἐρατά τε Ϝιανθεμίϲ'}             | ${'Damareta t’ erata te Wianthemis'}
   ${'ξένϝος'}                                     | ${'xenwos'}
   ${'Πάτροϙλος'}                                  | ${'Patroḳlos'}
-  `('Applying Style.ALA_LC', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: Style.ALA_LC, removeDiacritics: true, useAdditionalChars: [ AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA ] })).toBe(expected) })
+  `('Applying preset ALA_LC', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC)).toBe(expected) })
 })
