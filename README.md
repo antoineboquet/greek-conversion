@@ -75,42 +75,50 @@ This library provides three main functions to convert a greek string: **`toBetaC
 
 Functions signature is consistently:
 ```ts
-str: string, fromType: KeyType, options: IConversionOptions = {}
+str: string, fromType: KeyType, options: IConversionOptions
 ```
 
-The **`KeyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).\
-If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
+The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
 
-The **`IConversionOptions`** interface provides some control other the conversion process:
+The **`options`** parameter can be left blank (use default settings), filled with a `Preset` or a user-defined `IConversionOptions` object.
 
+The available presets are:
+1. **For beta code:**
+| Preset | Description |
+| --- | --- |
+| `MODERN` | **(default)** modern style (e.g. Are/th → Ἀρέτη) |
+| `TLG` | Thesaurus Linguae Graecae (e.g. *PO/NOS → Πόνοϛ) |
+
+2. **For transliteration:**
+| Preset | Description |
+| --- | --- |
+| `ALA_LC` | American Library Association – Library of Congress |
+| `BNF` | **(default)** Bibliothèque nationale de France |
+| `SBL` | Society of Biblical Literature |
+
+The **`IConversionOptions`** interface provides the following controls over the conversion process:
 ```ts
-{
-  preserveWhitespace?: boolean,   // keep potential extra whitespace
+preserveWhitespace?: boolean,   // keep potential extra whitespace
 
-  removeDiacritics?: boolean,     // remove diacritics, except those that represent letters
+removeDiacritics?: boolean,     // remove diacritics, except those that represent letters
 
-  useAdditionalChars?:            // extend the default mapping with additional chars
-    AdditionalChars[] |           //   (use AdditionalChars.ALL to enable the whole set)
-    AdditionalChars,
+useAdditionalChars?:            // extend the default mapping with additional chars
+  AdditionalChars[] |           //   (use AdditionalChars.ALL to enable the whole set)
+  AdditionalChars,
 
-  setBetaCodeStyle?:                    
-    Style.MODERN |                // (default) modern style (e.g. Are/th → Ἀρέτη)
-    Style.TLG,                    // Thesaurus Linguae Graecae (e.g. *PO/NOS → Πόνοϛ)
+setBetaCodeStyle?: {
+  useTLGStyle?: boolean         // Thesaurus Linguae Graecae style (e.g. *PO/NOS → Πόνοϛ)
+},
 
-  setGreekStyle?: {
-    disableBetaVariant?: boolean  // disable the typographic variant 'ϐ' [U+03D0]
-  },
+setGreekStyle?: {
+  disableBetaVariant?: boolean  // disable the typographic variant 'ϐ' [U+03D0]
+},
 
-  setTransliterationStyle?:
-    Style.ALA_LC |                // American Library Association – Library of Congress
-    Style.BNF |                   // (default) Bibliothèque nationale de France
-    Style.SBL |                   // Society of Biblical Literature
-    {
-      useCxOverMacron?: boolean,  // use a circumflex rather than a macron for 'η', 'ω', etc 
-      chi_kh?: boolean,           // alter the transliteration of 'χ' (defaults to: 'ch')
-      xi_ks?: boolean,            // alter the transliteration of 'ξ' (defaults to: 'x')
-      upsilon_y?: boolean         // alter the transliteration of 'υ' (defaults to: 'u')
-    }
+setTransliterationStyle?: {
+  useCxOverMacron?: boolean,    // use a circumflex rather than a macron for 'η', 'ω', etc 
+  chi_kh?: boolean,             // alter the transliteration of 'χ' (defaults to: 'ch')
+  xi_ks?: boolean,              // alter the transliteration of 'ξ' (defaults to: 'x')
+  upsilon_y?: boolean           // alter the transliteration of 'υ' (defaults to: 'u')
 }
 ```
 
