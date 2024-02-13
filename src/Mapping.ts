@@ -540,7 +540,10 @@ export class Mapping {
       this.SMALL_XI.tr = 'ks';
     }
 
-    // For `transliterationStyle.upsilon_y`, see `./toTransliteration.ts`.
+    if (this.#transliterationStyle?.upsilon_y) {
+      this.CAPITAL_UPSILON.tr = 'Y';
+      this.SMALL_UPSILON.tr = 'y';
+    }
   }
 
   /**

@@ -5,7 +5,12 @@ import {
   TransliterationPreset
 } from './enums';
 import { IConversionOptions } from './interfaces';
-import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
+import {
+  DIAERESIS,
+  Mapping,
+  ROUGH_BREATHING,
+  SMOOTH_BREATHING
+} from './Mapping';
 import {
   normalizeGreek,
   removeDiacritics,
@@ -78,6 +83,10 @@ export function toTransliteration(
     case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str);
 
+      if (transliterationStyle?.upsilon_y) {
+        str = flagDiaereses(str, KeyType.BETA_CODE);
+      }
+
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.BETA_CODE);
       }
@@ -90,6 +99,9 @@ export function toTransliteration(
 
     case KeyType.GREEK:
       str = grConvertBreathings(str);
+      if (transliterationStyle?.upsilon_y) {
+        str = flagDiaereses(str, KeyType.GREEK);
+      }
       if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
@@ -112,10 +124,14 @@ export function toTransliteration(
       break;
   }
 
-  if (transliterationStyle?.upsilon_y) str = applyUpsilon_Y(str);
+  if (transliterationStyle?.upsilon_y) {
+    str = applyUpsilonDiphthongs(str);
+    str = str.replace(/@/gm, '');
+  }
+
   if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
 
-  return str;
+  return str.normalize('NFC');
 }
 
 /**
@@ -125,20 +141,41 @@ export function toTransliteration(
  * This applies to the `transliterationStyle.upsilon_y` option.
  *
  * @privateRemarks
- * It should print 'y' when a diaeresis occurs; but the SBL style guide
- * doesn't mention this.
+ * (1) Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
+ * (2) The given string's diaereses should have been flagged as '@' using
+ * the `flagDiaereses()` function.
  */
-function applyUpsilon_Y(transliteratedStr: string): string {
-  // Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui'.
-  const reUpsilonDiphthongs = new RegExp('(?<![aeo]\\p{M}*)(?<upsilon>u)(?!\\p{M}*i)', 'gimu'); // prettier-ignore
+function applyUpsilonDiphthongs(transliteratedStr: string): string {
+  const vowels = 'aeēioyō';
+  // `vowelsGroup` includes the upsilon ('y'), the diaeresis flag '@'.
+  const reUpsilonDiphthongs = new RegExp(`(?<vowelsGroup>[${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
 
   return transliteratedStr
     .normalize('NFD')
-    .replace(reUpsilonDiphthongs, (match, upsilon) => {
-      if (upsilon === upsilon.toLowerCase()) return 'y';
-      else return 'Y';
+    .replace(reUpsilonDiphthongs, (match, vowelsGroup) => {
+      if (!/y/i.test(vowelsGroup)) return vowelsGroup;
+      if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
+      if (vowelsGroup.normalize('NFC').length === 1) return vowelsGroup;
+
+      return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
     })
     .normalize('NFC');
+}
+
+/**
+ * Returns a beta code string with an unambiguous representation
+ * of rough breathings (`h` -> `$`, `H` -> `$$`).
+ *
+ * @remarks
+ * Rough breathings are ambiguous as letter `h` is transliterated
+ * as `ē` or `ê`.
+ */
+function bcFlagRoughBreathings(betaCodeStr: string): string {
+  return betaCodeStr.replace(/([aehiowur]+)\(/gi, (match, group) => {
+    if (match.toLowerCase() === 'r(') return group + '$';
+    else if (group === group.toLowerCase()) return '$' + group;
+    else return '$$' + group.toLowerCase();
+  });
 }
 
 /**
@@ -169,17 +206,24 @@ function grConvertBreathings(greekStr: string): string {
 }
 
 /**
- * Returns a beta code string with an unambiguous representation
- * of rough breathings (`h` -> `$`, `H` -> `$$`).
- *
- * @remarks
- * Rough breathings are ambiguous as letter `h` is transliterated
- * as `ē` or `ê`.
+ * Returns a string with added 'commercial at' when diaereses occur
+ * (`\u0308` + `@`) to be able to test the presence of diaereses even
+ * if the diacritics have been removed.
  */
-function bcFlagRoughBreathings(betaCodeStr: string): string {
-  return betaCodeStr.replace(/([aehiowur]+)\(/gi, (match, group) => {
-    if (match.toLowerCase() === 'r(') return group + '$';
-    else if (group === group.toLowerCase()) return '$' + group;
-    else return '$$' + group.toLowerCase();
-  });
+function flagDiaereses(str: string, fromType: KeyType): string {
+  switch (fromType) {
+    case KeyType.BETA_CODE:
+      return str.replace(new RegExp('\\+', 'g'), '$&@');
+
+    case KeyType.GREEK:
+    case KeyType.TRANSLITERATION:
+      return str
+        .normalize('NFD')
+        .replace(new RegExp(DIAERESIS, 'g'), '$&@')
+        .normalize('NFC');
+
+    default:
+      console.warn(`KeyType '${fromType}' is not implemented.`);
+      return str;
+  }
 }
