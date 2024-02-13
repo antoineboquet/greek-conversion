@@ -26,6 +26,7 @@ export interface IMappingProperty {
 export interface ITransliterationStyle {
   useCxOverMacron?: boolean;
   xi_ks?: boolean;
+  rho_rh?: boolean;
   chi_kh?: boolean;
   upsilon_y?: boolean;
   lunatesigma_s?: boolean;
