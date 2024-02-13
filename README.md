@@ -92,16 +92,16 @@ The available presets are:
 
 | Preset           | Description                                             |
 | ---------------- | ------------------------------------------------------- |
-| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style |
-| [**`TLG`**]()    | Thesaurus Linguae Graecae                               |
+| [**`MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern) | **(default)** `greek-conversion`'s own modernized style |
+| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG)    | Thesaurus Linguae Graecae                               |
 
 2. **For transliteration:**
 
 | Preset           | Description                                        |
 | ---------------- | -------------------------------------------------- |
-| [**`ALA_LC`**]() | American Library Association – Library of Congress |
-| [**`BNF`**]()    | **(default)** Bibliothèque nationale de France     |
-| [**`SBL`**]()    | Society of Biblical Literature                     |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki/dev@0.12.0#ALA-LC) | American Library Association – Library of Congress |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF)    | **(default)** Bibliothèque nationale de France     |
+| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL)    | Society of Biblical Literature                     |
 
 ### Conversion options
 
