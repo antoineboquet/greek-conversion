@@ -249,6 +249,6 @@ describe('From greek to transliteration', () => {
   ${'ἄλαϲτα δὲ ϝέργα πάθον κακὰ μηϲαμένοι'}       | ${'alasta de werga pathon kaka mēsamenoi'}
   ${'Δαμαρέτα τ’ ἐρατά τε Ϝιανθεμίϲ'}             | ${'Damareta t’ erata te Wianthemis'}
   ${'ξένϝος'}                                     | ${'xenwos'}
-  ${'Πάτροϙλος'}                                  | ${'Patroḳlos'}
+  ${'Πάτροϙλος'}                                  | ${'Patroḳlos'}
   `('Applying preset ALA_LC', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC)).toBe(expected) })
 })
