@@ -87,20 +87,21 @@ The **`options`** parameter can be left blank (use default settings), filled wit
 ### Presets
 
 The available presets are:
+
 1. **For beta code:**
 
-| Preset           | Description                                             | Quick example       |
-| ---------------- | ------------------------------------------------------- | ------------------- |
-| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style | **Po/nos** → Πόνοϛ  |
-| [**`TLG`**]()    | Thesaurus Linguae Graecae                               | ***PO/NOS** → Πόνοϛ |
+| Preset           | Description                                             |
+| ---------------- | ------------------------------------------------------- |
+| [**`MODERN`**]() | **(default)** `greek-conversion`'s own modernized style |
+| [**`TLG`**]()    | Thesaurus Linguae Graecae                               |
 
 2. **For transliteration:**
 
-| Preset           | Description                                        | Quick example      |
-| ---------------- | -------------------------------------------------- | ------------------ |
-| [**`ALA_LC`**]() | American Library Association – Library of Congress | ὑϐρίς → **hybris** |
-| [**`BNF`**]()    | **(default)** Bibliothèque nationale de France     | ὑϐρίς → **hubrís** |
-| [**`SBL`**]()    | Society of Biblical Literature                     | ὑϐρίς → **hybris** |
+| Preset           | Description                                        |
+| ---------------- | -------------------------------------------------- |
+| [**`ALA_LC`**]() | American Library Association – Library of Congress |
+| [**`BNF`**]()    | **(default)** Bibliothèque nationale de France     |
+| [**`SBL`**]()    | Society of Biblical Literature                     |
 
 ### Conversion options
 
