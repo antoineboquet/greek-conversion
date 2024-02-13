@@ -22,7 +22,7 @@ const ALA_LC_OPTIONS: IConversionOptions = {
   removeDiacritics: true,
   useAdditionalChars: [
     AdditionalChars.DIGAMMA,
-    AdditionalChars.KOPPA,
+    AdditionalChars.ARCHAIC_KOPPA,
     AdditionalChars.LUNATE_SIGMA
   ],
   setTransliterationStyle: {

@@ -5,6 +5,7 @@ export enum AdditionalChars {
   LUNATE_SIGMA = 'lunate-sigma',
   STIGMA = 'stigma',
   KOPPA = 'koppa',
+  ARCHAIC_KOPPA = 'archaic-koppa',
   SAMPI = 'sampi'
   //SAN = 'san'
 }

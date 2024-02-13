@@ -151,6 +151,7 @@ export class Mapping {
   CAPITAL_LUNATE_SIGMA: IMappingProperty;
   CAPITAL_STIGMA: IMappingProperty;
   CAPITAL_KOPPA: IMappingProperty;
+  CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
   CAPITAL_SAMPI: IMappingProperty;
   CAPITAL_SAN: IMappingProperty;
   SMALL_ALPHA: IMappingProperty = {
@@ -278,6 +279,7 @@ export class Mapping {
   SMALL_LUNATE_SIGMA: IMappingProperty;
   SMALL_STIGMA: IMappingProperty;
   SMALL_KOPPA: IMappingProperty;
+  SMALL_ARCHAIC_KOPPA: IMappingProperty;
   SMALL_SAMPI: IMappingProperty;
   SMALL_SAN: IMappingProperty;
   QUESTION_MARK: IMappingProperty = {
@@ -445,6 +447,24 @@ export class Mapping {
           gr: 'ϟ',
           bc: '#1',
           tr: 'q'
+        };
+      }
+
+      if (
+        extraChars === AdditionalChars.ALL ||
+        extraChars === AdditionalChars.ARCHAIC_KOPPA ||
+        (Array.isArray(extraChars) &&
+          extraChars.includes(AdditionalChars.ARCHAIC_KOPPA))
+      ) {
+        this.CAPITAL_ARCHAIC_KOPPA = {
+          gr: 'Ϙ',
+          bc: '*#3',
+          tr: 'Ḳ' // Defined by ALA-LC
+        };
+        this.SMALL_ARCHAIC_KOPPA = {
+          gr: 'ϙ',
+          bc: '#3',
+          tr: 'ḳ' // Defined by ALA-LC
         };
       }
 
