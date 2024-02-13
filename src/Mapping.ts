@@ -473,12 +473,12 @@ export class Mapping {
       ) {
         this.CAPITAL_SAN = {
           gr: '\u03FA',
-          bc: undefined,
+          bc: '*#711',
           tr: undefined
         };
         this.SMALL_SAN = {
           gr: 'ϻ',
-          bc: undefined,
+          bc: '#711',
           tr: undefined
         };
       }*/
@@ -499,16 +499,8 @@ export class Mapping {
         (Array.isArray(extraChars) &&
           extraChars.includes(AdditionalChars.STIGMA))
       ) {
-        this.CAPITAL_STIGMA = {
-          gr: '\u03DA',
-          bc: undefined,
-          tr: 'Ĉ'
-        };
-        this.SMALL_STIGMA = {
-          gr: '\u03DB',
-          bc: undefined,
-          tr: 'ĉ'
-        };
+        this.CAPITAL_STIGMA.tr = 'Ĉ';
+        this.SMALL_STIGMA.tr = 'ĉ';
       }
 
       if (
@@ -517,16 +509,8 @@ export class Mapping {
         (Array.isArray(extraChars) &&
           extraChars.includes(AdditionalChars.SAMPI))
       ) {
-        this.CAPITAL_SAMPI = {
-          gr: 'Ϡ',
-          bc: undefined,
-          tr: 'Ŝ'
-        };
-        this.SMALL_SAMPI = {
-          gr: 'ϡ',
-          bc: undefined,
-          tr: 'ŝ'
-        };
+        this.CAPITAL_SAMPI.tr = 'Ŝ';
+        this.SMALL_SAMPI.tr = 'ŝ';
       }
     }
 
