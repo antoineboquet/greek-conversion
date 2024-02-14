@@ -48,6 +48,15 @@ describe('From beta code to transliteration', () => {
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test.each`
+    str                | expected
+    ${'Ro/dos'}        | ${'Rhódos'}
+    ${'R(o/dos'}       | ${'Rhódos'}
+    ${'polu/rrizos'}   | ${'polúrrizos'}
+    ${'polu/r)r(izos'} | ${'polúrrhizos'}
+    ${'ma/rmaros'}     | ${'mármaros'}
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
+
+  test.each`
     str                  | expected
     ${'voi='}            | ${'woĩ'}
     ${'a(/gios3'}        | ${'hágioc'}
@@ -147,6 +156,15 @@ describe('From greek to transliteration', () => {
     ${'πολύῤῥιζος'} | ${'polúrrhizos'}
     ${'μάρμαρος'}   | ${'mármaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
+
+  test.each`
+    str             | expected
+    ${'Ρόδος'}      | ${'Rhódos'}
+    ${'Ῥόδος'}      | ${'Rhódos'}
+    ${'πολύρριζος'} | ${'polúrrhizos'}
+    ${'πολύῤῥιζος'} | ${'polúrrhizos'}
+    ${'μάρμαρος'}   | ${'mármaros'}
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { rho_rh: true } })).toBe(expected) })
 
   test('Testing correctness with various word separators', () => {
     expect(toTransliteration('Ρόδος\nΡόδος\tΡόδος Ρόδος', KeyType.GREEK)).toBe('Ródos\nRódos\tRódos Ródos')
