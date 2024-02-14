@@ -125,8 +125,9 @@ setGreekStyle?: {
 
 setTransliterationStyle?: {
   useCxOverMacron?: boolean,    // use a circumflex rather than a macron for 'η', 'ω', etc 
-  chi_kh?: boolean,             // transliterate 'χ' as 'kh' (defaults to: 'ch')
   xi_ks?: boolean,              // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  rho_rh?: boolean,             // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
+  chi_kh?: boolean,             // transliterate 'χ' as 'kh' (defaults to: 'ch')
   upsilon_y?: boolean,          // transliterate 'υ' as 'υ' (defaults to: 'u')
   lunatesigma_s?: boolean       // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 }
