@@ -11,7 +11,7 @@ A small library to convert a polytonic greek string from/into various representa
     2. [The old way](#the-old-way)
 2. [Core functions](#core-functions)
     1. [Summary](#summary-1)
-    2. [Presets](#presets)
+    2. [Conversion presets](#conversion-presets)
     3. [Conversion options](#conversion-options)
     4. [Examples](#examples)
 3. [OOP style](#oop-style)
@@ -75,9 +75,11 @@ You can then call the library's functions as exemplified below:
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**. You can refer to the [conversion chart](https://github.com/antoineboquet/greek-conversion/wiki#conversion-chart) for further information about the expected input & output.
 
-Functions signature is consistently:
+Functions signature is:
 ```ts
-str: string, fromType: KeyType, options: IConversionOptions
+toBetaCode(str: string, fromType: KeyType, options: Preset | IConversionOptions = Preset.MODERN)
+toGreek(str: string, fromType: KeyType, options: IConversionOptions)
+toTransliteration(str: string, fromType: KeyType, options: Preset | IConversionOptions = Preset.BNF)
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
