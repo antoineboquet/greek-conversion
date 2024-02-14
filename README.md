@@ -84,7 +84,7 @@ The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION`
 
 The **`options`** parameter can be left blank (use default settings), filled with a `Preset` or a user-defined `IConversionOptions` object.
 
-### Presets
+### Conversion presets
 
 The available presets are:
 
