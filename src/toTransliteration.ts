@@ -26,13 +26,13 @@ const ALA_LC_OPTIONS: IConversionOptions = {
     AdditionalChars.LUNATE_SIGMA
   ],
   setTransliterationStyle: {
+    rho_rh: true,
     upsilon_y: true,
     lunatesigma_s: true
   }
 };
 
 const BNF_OPTIONS: IConversionOptions = {
-  removeDiacritics: false,
   useAdditionalChars: [
     AdditionalChars.DIGAMMA,
     AdditionalChars.YOT,
@@ -46,6 +46,7 @@ const BNF_OPTIONS: IConversionOptions = {
 const SBL_OPTIONS: IConversionOptions = {
   removeDiacritics: true,
   setTransliterationStyle: {
+    rho_rh: true,
     upsilon_y: true
   }
 };
