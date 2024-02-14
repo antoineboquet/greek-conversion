@@ -77,9 +77,23 @@ This library provides three main functions to convert a greek string: **`toBetaC
 
 Functions signature is:
 ```ts
-toBetaCode(str: string, fromType: KeyType, options: Preset | IConversionOptions = Preset.MODERN)
-toGreek(str: string, fromType: KeyType, options: IConversionOptions)
-toTransliteration(str: string, fromType: KeyType, options: Preset | IConversionOptions = Preset.BNF)
+toBetaCode(
+  str: string,
+  fromType: KeyType,
+  options: Preset | IConversionOptions = Preset.MODERN
+)
+
+toGreek(
+  str: string,
+  fromType: KeyType,
+  options: IConversionOptions = {}
+)
+
+toTransliteration(
+  str: string,
+  fromType: KeyType,
+  options: Preset | IConversionOptions = Preset.BNF
+)
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
