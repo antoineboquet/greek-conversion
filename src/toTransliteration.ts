@@ -182,39 +182,15 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
  * as `ē` or `ê`.
  */
 function bcFlagRoughBreathings(betaCodeStr: string): string {
-  return betaCodeStr.replace(/([aehiowur]+)\(/gi, (match, group) => {
-    if (match.toLowerCase() === 'r(') return group + '$';
-    else if (group === group.toLowerCase()) return '$' + group;
-    else return '$$' + group.toLowerCase();
-  });
-}
-
-/**
- * Returns a greek string with tranliterated breathings.
- *
- * @remarks
- * This function does:
- *   1. remove smooth breathings;
- *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
- *   3. add an `h` after double rhos;
- *   4. add an `h` after a single rho (carrying a rough breathing or not if `rho_rh` is true).
- */
-function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
-  const reInitialBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
-  const reDoubleRho = new RegExp(`(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
-  const reSingleRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
-  const reSingleRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(ρ)${ROUGH_BREATHING}?`, 'gi'); // prettier-ignore
-
-  return greekStr
-    .normalize('NFD')
-    .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
-    .replace(reInitialBreathing, (match, vowelsGroup) => {
-      if (vowelsGroup === vowelsGroup.toLowerCase()) return 'h' + vowelsGroup;
-      else return 'H' + vowelsGroup.toLowerCase();
-    })
-    .replace(reDoubleRho, '$1h')
-    .replace(rho_rh ? reSingleRhoLazy : reSingleRho, '$1h')
-    .normalize('NFC');
+  return betaCodeStr
+    .replace(/([aehiowu]{1,2})\(/gi, (match, vowelsGroup) =>
+      vowelsGroup === vowelsGroup.toUpperCase()
+        ? '$$' + vowelsGroup.toLowerCase()
+        : '$' + vowelsGroup
+    )
+    .replace(/(r{1,2})\(/gi, (match, rho) =>
+      betaCodeStr.toUpperCase() === betaCodeStr ? rho + '$$' : rho + '$'
+    );
 }
 
 /**
@@ -238,4 +214,37 @@ function flagDiaereses(str: string, fromType: KeyType): string {
       console.warn(`KeyType '${fromType}' is not implemented.`);
       return str;
   }
+}
+
+/**
+ * Returns a greek string with tranliterated breathings.
+ *
+ * @remarks
+ * This function does:
+ *   1. remove smooth breathings;
+ *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
+ *   3. add an `h` after double rhos;
+ *   4. add an `h` after a single rho (carrying a rough breathing or not if `rho_rh` is true).
+ */
+function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
+  const reInitialBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
+  const reDoubleRhoLazy = new RegExp(`(?<doubleRho>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
+  const reInitialRho = new RegExp(`(?<initialRho>ρ)${ROUGH_BREATHING}`, 'gi');
+  const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(?<initialRho>ρ)${ROUGH_BREATHING}?`, 'gi'); // prettier-ignore
+
+  return greekStr
+    .normalize('NFD')
+    .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
+    .replace(reInitialBreathing, (match, vowelsGroup) =>
+      vowelsGroup === vowelsGroup.toUpperCase()
+        ? 'H' + vowelsGroup.toLowerCase()
+        : 'h' + vowelsGroup
+    )
+    .replace(reDoubleRhoLazy, (match, doubleRho) =>
+      doubleRho === 'ΡΡ' ? doubleRho + 'H' : doubleRho + 'h'
+    )
+    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
+      greekStr.toUpperCase() === greekStr ? initialRho + 'H' : initialRho + 'h'
+    )
+    .normalize('NFC');
 }
