@@ -157,4 +157,15 @@ describe('From transliteration to beta code', () => {
     ${'Ksenophȭn'} | ${'Cenofw=n'}
     ${'khorēgéō'}  | ${'xorhge/w'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
+  test.each`
+    str            | expected
+    ${'hybrís'}    | ${'u(bri/s'}
+    ${'autómatos'} | ${'au)to/matos'}
+    ${'áÿlos'}     | ${'a)/u+los'}
+    ${'hyḯdion'}   | ${'u(i+/dion'}
+    ${'hýdōr'}     | ${'u(/dwr'}
+    ${'Hýbla'}     | ${'U(/bla'}
+    ${'ý hỹ'}      | ${'u)/ u(='}
+  `('Applying upsilon_y', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 })

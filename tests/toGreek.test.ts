@@ -204,4 +204,15 @@ describe('From transliteration to greek', () => {
     ${'Ksenophȭn'} | ${'Ξενοφῶν'}
     ${'khorēgéō'}  | ${'χορηγέω'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
+  test.each`
+    str            | expected
+    ${'hybrís'}    | ${'ὑϐρίς'}
+    ${'autómatos'} | ${'αὐτόματος'}
+    ${'áÿlos'}     | ${'ἄϋλος'}
+    ${'hyḯdion'}   | ${'ὑΐδιον'}
+    ${'hýdōr'}     | ${'ὕδωρ'}
+    ${'Hýbla'}     | ${'Ὕϐλα'}
+    ${'ý hỹ'}      | ${'ὔ ὗ'}
+  `('Applying upsilon_y', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 })
