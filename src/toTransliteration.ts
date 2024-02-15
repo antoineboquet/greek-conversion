@@ -96,6 +96,16 @@ export function toTransliteration(
 
       // Apply flagged rough breathings.
       str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
+
+      if (options.setTransliterationStyle?.rho_rh) {
+        str = str
+          .replace(/(rr)(?!h)/gi, (match) =>
+            match === 'RR' ? match + 'H' : match + 'h'
+          )
+          .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gi, (match) =>
+            str.toUpperCase() === str ? match + 'H' : match + 'h'
+          );
+      }
       break;
 
     case KeyType.GREEK:
