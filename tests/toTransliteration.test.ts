@@ -42,19 +42,23 @@ describe('From beta code to transliteration', () => {
     str                | expected
     ${'Ro/dos'}        | ${'Ródos'}
     ${'R(o/dos'}       | ${'Rhódos'}
+    ${'R(O/DOS'}       | ${'RHÓDOS'}
     ${'polu/rrizos'}   | ${'polúrrizos'}
     ${'polu/r)r(izos'} | ${'polúrrhizos'}
+    ${'POLU/R)R(IZOS'} | ${'POLÚRRHIZOS'}
     ${'ma/rmaros'}     | ${'mármaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test.each`
     str                | expected
     ${'Ro/dos'}        | ${'Rhódos'}
+    ${'RO/DOS'}        | ${'RHÓDOS'}
     ${'R(o/dos'}       | ${'Rhódos'}
-    ${'polu/rrizos'}   | ${'polúrrizos'}
+    ${'polu/rrizos'}   | ${'polúrrhizos'}
+    ${'POLU/RRIZOS'}   | ${'POLÚRRHIZOS'}
     ${'polu/r)r(izos'} | ${'polúrrhizos'}
     ${'ma/rmaros'}     | ${'mármaros'}
-  `('Testing rho rules, applying rho_rh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { rho_rh: true } })).toBe(expected) })
 
   test.each`
     str                  | expected
@@ -152,16 +156,20 @@ describe('From greek to transliteration', () => {
     str             | expected
     ${'Ρόδος'}      | ${'Ródos'}
     ${'Ῥόδος'}      | ${'Rhódos'}
+    ${'ῬΌΔΟΣ'}      | ${'RHÓDOS'}
     ${'πολύρριζος'} | ${'polúrrhizos'}
     ${'πολύῤῥιζος'} | ${'polúrrhizos'}
+    ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLÚRRHIZOS'}
     ${'μάρμαρος'}   | ${'mármaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
 
   test.each`
     str             | expected
     ${'Ρόδος'}      | ${'Rhódos'}
+    ${'ΡΌΔΟΣ'}      | ${'RHÓDOS'}
     ${'Ῥόδος'}      | ${'Rhódos'}
     ${'πολύρριζος'} | ${'polúrrhizos'}
+    ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLÚRRHIZOS'}
     ${'πολύῤῥιζος'} | ${'polúrrhizos'}
     ${'μάρμαρος'}   | ${'mármaros'}
   `('Testing rho rules, applying rho_rh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { rho_rh: true } })).toBe(expected) })
