@@ -126,6 +126,7 @@ export class Mapping {
     bc: 'U',
     tr: 'U'
   };
+  CAPITAL_ALT_UPSILON: IMappingProperty;
   CAPITAL_PHI: IMappingProperty = {
     gr: 'Φ',
     bc: 'F',
@@ -254,6 +255,7 @@ export class Mapping {
     bc: 'u',
     tr: 'u'
   };
+  SMALL_ALT_UPSILON: IMappingProperty;
   SMALL_PHI: IMappingProperty = {
     gr: 'φ',
     bc: 'f',
@@ -556,25 +558,39 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    // Transliteration: join back long wovel marks, which should
-    // not be treated as diacritics, to their associated chars.
+    // From transliteration:
+    // (1) Join back long wovel marks, which should not be treated
+    // as diacritics, to their associated chars.
+    // (2) Add the alternate upsilon form (y/u) to the mapping if
+    // `upsilon_y` has been set.
     if (fromType === KeyType.TRANSLITERATION) {
-      const longVowelMark = this.#transliterationStyle?.useCxOverMacron
-        ? CIRCUMFLEX
-        : MACRON;
+      const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
       const letters: string = this.trLettersWithCxOrMacron().join('');
 
-      const re = new RegExp(
-        `(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
-        'gu'
-      );
+      const re = new RegExp(`(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
 
       fromStr = fromStr.replace(re, (match, char, diacritics) => {
         return (char + longVowelMark).normalize('NFC') + diacritics;
       });
+
+      if (
+        this.#transliterationStyle?.upsilon_y &&
+        toType !== KeyType.TRANSLITERATION
+      ) {
+        this.CAPITAL_ALT_UPSILON = {
+          bc: this.CAPITAL_UPSILON.bc,
+          gr: this.CAPITAL_UPSILON.gr,
+          tr: 'U'
+        };
+        this.SMALL_ALT_UPSILON = {
+          bc: this.SMALL_UPSILON.bc,
+          gr: this.SMALL_UPSILON.gr,
+          tr: 'u'
+        };
+      }
     }
 
-    // Greek: enforce the right Unicode points for
+    // From greek: enforce the right Unicode points for
     // wrong Unicode canonical equivalences.
     if (fromType === KeyType.GREEK) {
       fromStr = fromStr
