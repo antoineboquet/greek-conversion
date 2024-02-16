@@ -78,13 +78,12 @@ export function toTransliteration(
   }
 
   const mapping = declaredMapping ?? new Mapping(options);
-  const transliterationStyle = mapping.getTransliterationStyle();
 
   switch (fromType) {
     case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str);
 
-      if (transliterationStyle?.upsilon_y) {
+      if (options.setTransliterationStyle?.upsilon_y) {
         str = flagDiaereses(str, KeyType.BETA_CODE);
       }
 
@@ -97,6 +96,7 @@ export function toTransliteration(
       // Apply flagged rough breathings.
       str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
 
+      // Enforce rough breathings on rhos.
       if (options.setTransliterationStyle?.rho_rh) {
         str = str
           .replace(/(rr)(?!h)/gi, (match) =>
@@ -109,8 +109,8 @@ export function toTransliteration(
       break;
 
     case KeyType.GREEK:
-      str = grConvertBreathings(str, transliterationStyle?.rho_rh);
-      if (transliterationStyle?.upsilon_y) {
+      str = grConvertBreathings(str, options.setTransliterationStyle?.rho_rh);
+      if (options.setTransliterationStyle?.upsilon_y) {
         str = flagDiaereses(str, KeyType.GREEK);
       }
       if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
@@ -123,7 +123,7 @@ export function toTransliteration(
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
-          useCxOverMacron: transliterationStyle?.useCxOverMacron
+          useCxOverMacron: options.setTransliterationStyle?.useCxOverMacron
         });
       }
 
@@ -135,7 +135,7 @@ export function toTransliteration(
       break;
   }
 
-  if (transliterationStyle?.upsilon_y) {
+  if (options.setTransliterationStyle?.upsilon_y) {
     str = applyUpsilonDiphthongs(str);
     str = str.replace(/@/gm, '');
   }
