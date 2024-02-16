@@ -132,7 +132,8 @@ setBetaCodeStyle?: {
 },
 
 setGreekStyle?: {
-  disableBetaVariant?: boolean   // disable the typographic variant 'ϐ' [U+03D0]
+  disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
+  useLunateSigma?: boolean       // use lunate sigma rather than the regular form
 },
 
 setTransliterationStyle?: {
