@@ -722,18 +722,6 @@ export class Mapping {
   }
 
   /**
-   * Returns the instantiated transliteration style.
-   *
-   * @remarks
-   * This is useful as `IConversionOption.setTransliterationStyle` can be either
-   * an `ITransliterationStyle` interface or a `Style` enum (e.g. `Style.ALA_LC`)
-   * that needs to be setup as `ITransliterationStyle` in the constructor.
-   */
-  getTransliterationStyle(): ITransliterationStyle {
-    return this.#transliterationStyle;
-  }
-
-  /**
    * Returns an array containing the transliterated mapped chars tied
    * to a circumflex or a macron, depnding on the context.
    *
