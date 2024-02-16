@@ -340,18 +340,18 @@ export class Mapping {
     } as IMappingProperty
   };
 
-  #removeDiacritics: boolean;
-  #useAdditionalChars: AdditionalChars[] | AdditionalChars;
   #betaCodeStyle: IBetaCodeStyle;
+  #removeDiacritics: boolean;
   #transliterationStyle: ITransliterationStyle;
+  #useAdditionalChars: AdditionalChars[] | AdditionalChars;
 
   constructor(options?: IConversionOptions) {
     if (!options) return;
 
-    this.#removeDiacritics = options?.removeDiacritics;
-    this.#useAdditionalChars = options?.useAdditionalChars;
     this.#betaCodeStyle = options?.setBetaCodeStyle;
+    this.#removeDiacritics = options?.removeDiacritics;
     this.#transliterationStyle = options?.setTransliterationStyle;
+    this.#useAdditionalChars = options?.useAdditionalChars;
 
     const extraChars = this.#useAdditionalChars;
 
@@ -656,8 +656,8 @@ export class Mapping {
         });
 
       case KeyType.TRANSLITERATION:
-        // The case of `ITransliterationStyle` options `xi_ks` &
-        // `chi_kh` is covered by letter K.
+        // The case of `ITransliterationStyle` options `xi_ks` & `chi_kh`
+        // is covered by the letter K.
         return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
