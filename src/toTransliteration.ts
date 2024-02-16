@@ -102,7 +102,7 @@ export function toTransliteration(
           .replace(/(rr)(?!h)/gi, (match) =>
             match === 'RR' ? match + 'H' : match + 'h'
           )
-          .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gi, (match) =>
+          .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
             str.toUpperCase() === str ? match + 'H' : match + 'h'
           );
       }
