@@ -141,7 +141,7 @@ setTransliterationStyle?: {
   xi_ks?: boolean,               // transliterate 'ξ' as 'ks' (defaults to: 'x')
   rho_rh?: boolean,              // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
   chi_kh?: boolean,              // transliterate 'χ' as 'kh' (defaults to: 'ch')
-  upsilon_y?: boolean,           // transliterate 'υ' as 'υ' (defaults to: 'u')
+  upsilon_y?: boolean,           // transliterate 'υ' as 'y' (defaults to: 'u')
   lunatesigma_s?: boolean        // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 },
 
