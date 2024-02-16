@@ -57,17 +57,18 @@ describe('GreekString', () => {
 
   test('From gr: Testing whitespace behavior', () => {
     const gs1 = new GreekString('αἴξ   κριός', KeyType.GREEK)
-    const gs2 = new GreekString('αἴξ   κριός', KeyType.GREEK, { preserveWhitespace: true })
 
     expect(gs1.source).toBe('αἴξ   κριός')
-    expect(gs1.betaCode).toBe('ai)/c krio/s')
-    expect(gs1.greek).toBe('αἴξ κριός')
-    expect(gs1.transliteration).toBe('aíx kriós')
+    expect(gs1.betaCode).toBe('ai)/c   krio/s')
+    expect(gs1.greek).toBe('αἴξ   κριός')
+    expect(gs1.transliteration).toBe('aíx   kriós')
+
+    const gs2 = new GreekString('αἴξ   κριός', KeyType.GREEK, { removeExtraWhitespace: true })
 
     expect(gs2.source).toBe('αἴξ   κριός')
-    expect(gs2.betaCode).toBe('ai)/c   krio/s')
-    expect(gs2.greek).toBe('αἴξ   κριός')
-    expect(gs2.transliteration).toBe('aíx   kriós')
+    expect(gs2.betaCode).toBe('ai)/c krio/s')
+    expect(gs2.greek).toBe('αἴξ κριός')
+    expect(gs2.transliteration).toBe('aíx kriós')
   })
 
   test('From gr: Enabling/Disabling beta variant', () => {

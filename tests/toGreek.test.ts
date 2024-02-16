@@ -86,8 +86,8 @@ describe('From beta code to greek', () => {
   })
 
   test('Testing whitespace behavior', () => {
-    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ κριός')
-    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { preserveWhitespace: true })).toBe('αἴξ   κριός')
+    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ   κριός')
+    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
   // Scheduled for v. 0.12 (broken orders: `w|=(`, `w=(|`, `w=|(` ).
@@ -187,8 +187,8 @@ describe('From transliteration to greek', () => {
   })
 
   test('Testing whitespace behavior', () => {
-    expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION)).toBe('αἴξ κριός')
-    expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION, { preserveWhitespace: true })).toBe('αἴξ   κριός')
+    expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION)).toBe('αἴξ   κριός')
+    expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
   test.each`

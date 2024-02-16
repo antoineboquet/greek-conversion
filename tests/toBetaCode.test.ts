@@ -70,8 +70,8 @@ describe('From greek to beta code', () => {
   })
 
   test('Testing whitespace behavior', () => {
-    expect(toBetaCode('αἴξ κριός', KeyType.GREEK)).toBe('ai)/c krio/s')
-    expect(toBetaCode('αἴξ   κριός', KeyType.GREEK, { preserveWhitespace: true })).toBe('ai)/c   krio/s')
+    expect(toBetaCode('αἴξ   κριός', KeyType.GREEK)).toBe('ai)/c   krio/s')
+    expect(toBetaCode('αἴξ   κριός', KeyType.GREEK, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
   })
 
   test.each`
@@ -141,8 +141,8 @@ describe('From transliteration to beta code', () => {
   `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
-    expect(toBetaCode('aíx kriós', KeyType.TRANSLITERATION)).toBe('ai)/c krio/s')
-    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { preserveWhitespace: true })).toBe('ai)/c   krio/s')
+    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION)).toBe('ai)/c   krio/s')
+    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
   })
 
   test.each`

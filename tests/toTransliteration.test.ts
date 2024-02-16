@@ -83,8 +83,8 @@ describe('From beta code to transliteration', () => {
   `('Removing diacritics', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
-    expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('aíx kriós')
-    expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE, { preserveWhitespace: true })).toBe('aíx   kriós')
+    expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('aíx   kriós')
+    expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('aíx kriós')
   })
 
   // Scheduled for v. 0.12 (broken orders: `w|=(`, `w=(|`, `w=|(` ).
@@ -209,8 +209,8 @@ describe('From greek to transliteration', () => {
   })
 
   test('Testing whitespace behavior', () => {
-    expect(toTransliteration('αἴξ κριός', KeyType.GREEK)).toBe('aíx kriós')
-    expect(toTransliteration('αἴξ   κριός', KeyType.GREEK, { preserveWhitespace: true })).toBe('aíx   kriós')
+    expect(toTransliteration('αἴξ   κριός', KeyType.GREEK)).toBe('aíx   kriós')
+    expect(toTransliteration('αἴξ   κριός', KeyType.GREEK, { removeExtraWhitespace: true })).toBe('aíx kriós')
   })
 
   test.each`
