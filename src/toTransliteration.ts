@@ -140,7 +140,7 @@ export function toTransliteration(
     str = str.replace(/@/gm, '');
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
   return str.normalize('NFC');
 }

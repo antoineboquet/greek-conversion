@@ -1,12 +1,12 @@
 import { AdditionalChars } from './enums';
 
 export interface IConversionOptions {
-  preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
-  useAdditionalChars?: AdditionalChars[] | AdditionalChars;
+  removeExtraWhitespace?: boolean;
   setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?: ITransliterationStyle;
+  useAdditionalChars?: AdditionalChars[] | AdditionalChars;
 }
 
 export interface IBetaCodeStyle {

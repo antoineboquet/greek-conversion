@@ -75,7 +75,7 @@ export function toBetaCode(
       break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
   return str;
 }
