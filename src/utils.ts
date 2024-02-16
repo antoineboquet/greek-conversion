@@ -1,27 +1,37 @@
 import { KeyType } from './enums';
+import { IGreekStyle } from './interfaces';
 import {
   ANO_TELEIA,
+  CAPITAL_LUNATE_SIGMA,
   CIRCUMFLEX,
   GREEK_QUESTION_MARK,
   GREEK_TILDE,
   LATIN_TILDE,
   MACRON,
-  MIDDLE_DOT
+  MIDDLE_DOT,
+  SMALL_LUNATE_SIGMA
 } from './Mapping';
 
 export function applyGreekVariants(
   greekStr: string,
-  disableBetaVariant?: boolean
+  options: IGreekStyle
 ): string {
-  // Apply beta variant.
-  if (!disableBetaVariant) {
+  // Apply beta variant (lowercase only).
+  if (!options?.disableBetaVariant) {
     greekStr = greekStr
       .replace(/\u03D0/g, 'β')
       .replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
   }
 
-  // Apply final sigma.
-  greekStr = greekStr.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
+  if (options?.useLunateSigma) {
+    // Apply lunate sigma.
+    greekStr = greekStr
+      .replace(/Σ/g, CAPITAL_LUNATE_SIGMA)
+      .replace(/[σς]/g, SMALL_LUNATE_SIGMA);
+  } else {
+    // Apply final sigma (lowercase only).
+    greekStr = greekStr.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
+  }
 
   // Replace pi + sigma with psi.
   greekStr = greekStr.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');

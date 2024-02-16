@@ -45,7 +45,7 @@ export function toGreek(
       break;
   }
 
-  str = applyGreekVariants(str, options.setGreekStyle?.disableBetaVariant);
+  str = applyGreekVariants(str, options.setGreekStyle);
   if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
   return str;

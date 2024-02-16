@@ -24,6 +24,8 @@ export const IOTA_SUBSCRIPT = '\u0345';
 export const ANO_TELEIA = '\u0387';
 export const MIDDLE_DOT = '\u00B7';
 export const GREEK_QUESTION_MARK = '\u037E';
+export const CAPITAL_LUNATE_SIGMA = '\u03F9';
+export const SMALL_LUNATE_SIGMA = '\u03F2';
 
 export class Mapping {
   CAPITAL_ALPHA: IMappingProperty = {

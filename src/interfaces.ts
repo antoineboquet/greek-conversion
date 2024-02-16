@@ -15,6 +15,7 @@ export interface IBetaCodeStyle {
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
+  useLunateSigma?: boolean;
 }
 
 export interface IMappingProperty {
