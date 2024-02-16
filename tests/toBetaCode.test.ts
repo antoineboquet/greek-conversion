@@ -16,6 +16,7 @@ describe('From greek to beta code', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'a)/nqrwpos'}
+    ${'καλὸς κἀγαθός'} | ${'kalo\\s ka)gaqo/s'}
     ${'ποιῇ'}          | ${'poih=|'}
     ${'Ἄϊδα'}         | ${'A)/i+da'}
     ${'βάρ\u03D0αρος'} | ${'ba/rbaros'}
@@ -90,15 +91,16 @@ describe('From greek to beta code', () => {
 
 describe('From transliteration to beta code', () => {
   test.each`
-    str             | expected
-    ${'ánthrōpos'}  | ${'a)/nqrwpos'}
-    ${'poiȩ̄̃'}       | ${'poih=|'}
-    ${'Áïda'}       | ${'A)/i+da'}
-    ${'bárbaros'}   | ${'ba/rbaros'}
-    ${'Hoplítēs'}   | ${'O(pli/ths'}
-    ${'voĩ'}        | ${'voi='}
-    ${'hágioc'}     | ${'a(/gioc'}
-    ${aristotle.tr} | ${aristotle.bc}
+    str                 | expected
+    ${'ánthrōpos'}      | ${'a)/nqrwpos'}
+    ${'kalòs kagathós'} | ${'kalo\\s kagaqo/s'}
+    ${'poiȩ̄̃'}           | ${'poih=|'}
+    ${'Áïda'}           | ${'A)/i+da'}
+    ${'bárbaros'}       | ${'ba/rbaros'}
+    ${'Hoplítēs'}       | ${'O(pli/ths'}
+    ${'voĩ'}            | ${'voi='}
+    ${'hágioc'}         | ${'a(/gioc'}
+    ${aristotle.tr}     | ${aristotle.bc}
   `('Basic conversion', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`

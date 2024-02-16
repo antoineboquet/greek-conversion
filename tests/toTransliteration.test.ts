@@ -26,16 +26,17 @@ const plato = {
 
 describe('From beta code to transliteration', () => {
   test.each`
-    str             | expected
-    ${'a)/nqrwpos'} | ${'ánthrōpos'}
-    ${'poih|='}     | ${'poiȩ̄̃'}
-    ${'A)/i+da'}    | ${'Áïda'}
-    ${'ba/rbaros'}  | ${'bárbaros'}
-    ${'O(pli/ths'}  | ${'Hoplítēs'}
-    ${'voi='}       | ${'voĩ'}
-    ${'a(/gios3'}   | ${'hágios3'}
-    ${'a%26'}       | ${'ā'}
-    ${aristotle.bc} | ${aristotle.tr}
+    str                    | expected
+    ${'a)/nqrwpos'}        | ${'ánthrōpos'}
+    ${'kalo\\s ka)gaqo/s'} | ${'kalòs kagathós'}
+    ${'poih|='}            | ${'poiȩ̄̃'}
+    ${'A)/i+da'}           | ${'Áïda'}
+    ${'ba/rbaros'}         | ${'bárbaros'}
+    ${'O(pli/ths'}         | ${'Hoplítēs'}
+    ${'voi='}              | ${'voĩ'}
+    ${'a(/gios3'}          | ${'hágios3'}
+    ${'a%26'}              | ${'ā'}
+    ${aristotle.bc}        | ${aristotle.tr}
   `('Basic conversion', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test.each`
@@ -115,6 +116,7 @@ describe('From greek to transliteration', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'ánthrōpos'}
+    ${'καλὸς κἀγαθός'} | ${'kalòs kagathós'}
     ${'ποιῇ'}          | ${'poiȩ̄̃'}
     ${'Ἄϊδα'}         | ${'Áïda'}
     ${'βάρ\u03D0αρος'} | ${'bárbaros'}

@@ -25,16 +25,17 @@ const plato = { // Notice that in the greek output, `κὰν` currently doesn't 
 
 describe('From beta code to greek', () => {
   test.each`
-    str             | expected
-    ${'a)/nqrwpos'} | ${'ἄνθρωπος'}
-    ${'poih|='}     | ${'ποιῇ'}
-    ${'A)/i+da'}    | ${'Ἄϊδα'}
-    ${'ba/rbaros'}  | ${'βάρ\u03D0αρος'}
-    ${'O(pli/ths'}  | ${'Ὁπλίτης'}
-    ${'voi='}       | ${'vοῖ'}
-    ${'a(/gios3'}   | ${'ἅγιοσ3'}
-    ${'a%26'}       | ${'ᾱ'}
-    ${aristotle.bc} | ${aristotle.gr}
+    str                    | expected
+    ${'a)/nqrwpos'}        | ${'ἄνθρωπος'}
+    ${'kalo\\s ka)gaqo/s'} | ${'καλὸς κἀγαθός'}
+    ${'poih|='}            | ${'ποιῇ'}
+    ${'A)/i+da'}           | ${'Ἄϊδα'}
+    ${'ba/rbaros'}         | ${'βάρ\u03D0αρος'}
+    ${'O(pli/ths'}         | ${'Ὁπλίτης'}
+    ${'voi='}              | ${'vοῖ'}
+    ${'a(/gios3'}          | ${'ἅγιοσ3'}
+    ${'a%26'}              | ${'ᾱ'}
+    ${aristotle.bc}        | ${aristotle.gr}
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
   // Scheduled for v. 0.12.
@@ -85,6 +86,20 @@ describe('From beta code to greek', () => {
     expect(toGreek('ba/rbaros', KeyType.BETA_CODE, { setGreekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
   })
 
+  test('Using lunate sigma', () => {
+    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
+    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE, { setGreekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
+  })
+
+  test.each`
+    str              | expected
+    ${'ΒÁRBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
+    ${'RHÓDOS'}      | ${'ῬΌΔΟΣ'}
+    ${'POLÚRRHIZOS'} | ${'ΠΟΛΎΡΡΙΖΟΣ'}
+    ${'SUSSEISMÓS'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
+    ${'APSEGḖS'}     | ${'ἈΨΕΓΉΣ'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
   test('Testing whitespace behavior', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ   κριός')
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
@@ -104,19 +119,20 @@ describe('From beta code to greek', () => {
 
 describe('From transliteration to greek', () => {
   test.each`
-    str             | expected
-    ${'ánthrōpos'}  | ${'ἄνθρωπος'}
-    ${'poiȩ̄̃'}       | ${'ποιῇ'}
-    ${'Áïda'}       | ${'Ἄϊδα'}
-    ${'bárbaros'}   | ${'βάρ\u03D0αρος'}
-    ${'Húsiris'}    | ${'Ὕσιρις'}
-    ${'ō̧ṓdēs'}      | ${'ᾠώδης'}
-    ${'woĩ'}        | ${'wοῖ'}
-    ${'hágioc'}     | ${'ἅγιοc'}
-    ${'Xenophȭn'}   | ${'Ξενοφῶν'}
-    ${'chorēgéō'}   | ${'χορηγέω'}
-    ${'ăāeēĭīoōŭū'} | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
-    ${plato.tr}     | ${plato.gr} 
+    str                 | expected
+    ${'ánthrōpos'}      | ${'ἄνθρωπος'}
+    ${'kalòs kagathós'} | ${'καλὸς καγαθός'}
+    ${'poiȩ̄̃'}           | ${'ποιῇ'}
+    ${'Áïda'}           | ${'Ἄϊδα'}
+    ${'bárbaros'}       | ${'βάρ\u03D0αρος'}
+    ${'Húsiris'}        | ${'Ὕσιρις'}
+    ${'ō̧ṓdēs'}          | ${'ᾠώδης'}
+    ${'woĩ'}            | ${'wοῖ'}
+    ${'hágioc'}         | ${'ἅγιοc'}
+    ${'Xenophȭn'}       | ${'Ξενοφῶν'}
+    ${'chorēgéō'}       | ${'χορηγέω'}
+    ${'ăāeēĭīoōŭū'}     | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
+    ${plato.tr}         | ${plato.gr} 
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
@@ -125,7 +141,7 @@ describe('From transliteration to greek', () => {
     ${'aísthēsis'}  | ${'αἴσθησις'}
     ${'Aĩa'}        | ${'Αἶα'}
     ${'áülos'}      | ${'ἄϋλος'}
-    ${'huḯdion'}    | ${'ὑΐδιον'}
+    ${'huḯdion'}    | ${'ὑΐδιον'}
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
@@ -151,6 +167,15 @@ describe('From transliteration to greek', () => {
     ${'polúrrhizos'} | ${'πολύρριζος'}
     ${'mármaros'}    | ${'μάρμαρος'}
   `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
+    str              | expected
+    ${'ΒÁRBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
+    ${'RHÓDOS'}      | ${'ῬΌΔΟΣ'}
+    ${'POLÚRRHIZOS'} | ${'ΠΟΛΎΡΡΙΖΟΣ'}
+    ${'SUSSEISMÓS'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
+    ${'APSEGḖS'}     | ${'ἈΨΕΓΉΣ'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test('Testing correctness with various word separators', () => {
     expect(toGreek('Ródos\nRódos\tRódos Ródos Ródos.', KeyType.TRANSLITERATION)).toBe('Ρόδος\nΡόδος\tΡόδος Ρόδος Ρόδος.')
@@ -186,6 +211,11 @@ describe('From transliteration to greek', () => {
     expect(toGreek('bárbaros', KeyType.TRANSLITERATION, { setGreekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
   })
 
+  test('Using lunate sigma', () => {
+    expect(toGreek('Iēsoũs Christòs Theoũ Huiòs Sōtḗr', KeyType.TRANSLITERATION)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
+    expect(toGreek('Iēsoũs Christòs Theoũ Huiòs Sōtḗr', KeyType.TRANSLITERATION, { setGreekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
+  })
+
   test('Testing whitespace behavior', () => {
     expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION)).toBe('αἴξ   κριός')
     expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
@@ -207,10 +237,10 @@ describe('From transliteration to greek', () => {
 
   test.each`
     str            | expected
-    ${'hybrís'}    | ${'ὑϐρίς'}
-    ${'autómatos'} | ${'αὐτόματος'}
+    ${'hybrís'}    | ${'ὑϐρίς'}
+    ${'autómatos'} | ${'αὐτόματος'}
     ${'áÿlos'}     | ${'ἄϋλος'}
-    ${'hyḯdion'}   | ${'ὑΐδιον'}
+    ${'hyḯdion'}   | ${'ὑΐδιον'}
     ${'hýdōr'}     | ${'ὕδωρ'}
     ${'Hýbla'}     | ${'Ὕϐλα'}
     ${'ý hỹ'}      | ${'ὔ ὗ'}
