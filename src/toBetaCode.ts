@@ -12,7 +12,7 @@ import {
 export function toBetaCode(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN_BC,
+  options: Preset | MixedPreset | IConversionOptions = {}, // @FIXME: Preset.MODERN_BC
   declaredMapping?: Mapping
 ): string {
   // Convert named presets to `IConversionOptions`objects.

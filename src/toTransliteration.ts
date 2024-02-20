@@ -17,7 +17,7 @@ import {
 export function toTransliteration(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = {},
+  options: Preset | MixedPreset | IConversionOptions = {}, // @FIXME: Preset.BNF
   declaredMapping?: Mapping
 ): string {
   // Convert named presets to `IConversionOptions`objects.
@@ -51,6 +51,7 @@ export function toTransliteration(
             match === 'RR' ? match + 'H' : match + 'h'
           )
           .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
+            // @FIXME: check for the word, not the entire string.
             str.toUpperCase() === str ? match + 'H' : match + 'h'
           );
       }
