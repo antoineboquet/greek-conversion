@@ -26,6 +26,11 @@ const BNF_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
+const MODERN_BC_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: false,
+  useAdditionalChars: AdditionalChars.ALL
+});
+
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   setTransliterationStyle: {
@@ -59,8 +64,8 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       options = BNF_OPTIONS();
       break;
 
-    case Preset.MODERN:
-      options = {};
+    case Preset.MODERN_BC:
+      options = MODERN_BC_OPTIONS();
       break;
 
     case Preset.SBL:
