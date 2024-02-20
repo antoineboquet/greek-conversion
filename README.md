@@ -108,7 +108,7 @@ The available presets are:
 
 | Preset | Description |
 | ------ | ----------- |
-| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern beta code) | **(default)** `greek-conversion`'s own modernized style |
+| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | **(default)** `greek-conversion`'s own modernized style |
 | [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
