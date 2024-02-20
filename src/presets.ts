@@ -85,8 +85,6 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
     mergeOptions(options, mixedOptions);
   }
 
-  console.log(options);
-
   return options;
 }
 
