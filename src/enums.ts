@@ -21,7 +21,7 @@ export enum KeyType {
 export enum Preset {
   ALA_LC = 'ala-lc',
   BNF = 'bnf',
-  MODERN = 'modern', // rename MODERN_BC
+  MODERN_BC = 'modern-bc',
   SBL = 'sbl'
   //TLG = 'tlg'
 }
