@@ -1,6 +1,7 @@
-import { BetaCodePreset, KeyType, Preset } from './enums';
+import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
+import { applyPreset } from './presets';
 import {
   applyUppercaseChars,
   removeDiacritics,
@@ -8,34 +9,15 @@ import {
   removeGreekVariants
 } from './utils';
 
-const TLG_OPTIONS: IConversionOptions = {
-  removeDiacritics: false,
-  useAdditionalChars: [],
-  setBetaCodeStyle: {
-    useTLGStyle: true
-  }
-};
-
 export function toBetaCode(
   str: string,
   fromType: KeyType,
-  options: BetaCodePreset | IConversionOptions = Preset.MODERN,
+  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN,
   declaredMapping?: Mapping
 ): string {
   // Convert named presets to `IConversionOptions`objects.
-  if (typeof options === 'string') {
-    switch (options) {
-      case Preset.MODERN:
-        options = {};
-        break;
-
-      case Preset.TLG:
-        options = TLG_OPTIONS;
-        break;
-
-      default:
-        console.warn(`style '${options}' is not implemented.`);
-    }
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
   }
 
   const mapping = declaredMapping ?? new Mapping(options);

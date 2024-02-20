@@ -1,6 +1,7 @@
-import { KeyType } from './enums';
+import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
+import { applyPreset } from './presets';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
@@ -15,7 +16,16 @@ export class GreekString {
   #greek: string;
   #transliteration: string;
 
-  constructor(str: string, fromType: KeyType, options?: IConversionOptions) {
+  constructor(
+    str: string,
+    fromType: KeyType,
+    options?: Preset | MixedPreset | IConversionOptions
+  ) {
+    // Convert named presets to `IConversionOptions`objects.
+    if (typeof options === 'string' || Array.isArray(options)) {
+      options = applyPreset(options);
+    }
+
     this.#fromType = fromType;
     this.#options = options;
     this.#mapping = new Mapping(options);

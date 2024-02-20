@@ -1,3 +1,5 @@
+import { IConversionOptions } from './interfaces';
+
 export enum AdditionalChars {
   ALL = 'all',
   DIGAMMA = 'digamma',
@@ -24,5 +26,4 @@ export enum Preset {
   //TLG = 'tlg'
 }
 
-export type BetaCodePreset = Preset.MODERN | Preset.TLG;
-export type TransliterationPreset = Preset.ALA_LC | Preset.BNF | Preset.SBL;
+export type MixedPreset = [Preset, IConversionOptions];

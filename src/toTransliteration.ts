@@ -1,9 +1,4 @@
-import {
-  AdditionalChars,
-  KeyType,
-  Preset,
-  TransliterationPreset
-} from './enums';
+import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions } from './interfaces';
 import {
   DIAERESIS,
@@ -11,6 +6,7 @@ import {
   ROUGH_BREATHING,
   SMOOTH_BREATHING
 } from './Mapping';
+import { applyPreset } from './presets';
 import {
   normalizeGreek,
   removeDiacritics,
@@ -18,63 +14,15 @@ import {
   removeGreekVariants
 } from './utils';
 
-const ALA_LC_OPTIONS: IConversionOptions = {
-  removeDiacritics: true,
-  useAdditionalChars: [
-    AdditionalChars.DIGAMMA,
-    AdditionalChars.ARCHAIC_KOPPA,
-    AdditionalChars.LUNATE_SIGMA
-  ],
-  setTransliterationStyle: {
-    rho_rh: true,
-    upsilon_y: true,
-    lunatesigma_s: true
-  }
-};
-
-const BNF_OPTIONS: IConversionOptions = {
-  useAdditionalChars: [
-    AdditionalChars.DIGAMMA,
-    AdditionalChars.YOT,
-    AdditionalChars.LUNATE_SIGMA,
-    AdditionalChars.STIGMA,
-    AdditionalChars.KOPPA,
-    AdditionalChars.SAMPI
-  ]
-};
-
-const SBL_OPTIONS: IConversionOptions = {
-  removeDiacritics: true,
-  setTransliterationStyle: {
-    rho_rh: true,
-    upsilon_y: true
-  }
-};
-
 export function toTransliteration(
   str: string,
   fromType: KeyType,
-  options: TransliterationPreset | IConversionOptions = {},
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
   // Convert named presets to `IConversionOptions`objects.
-  if (typeof options === 'string') {
-    switch (options) {
-      case Preset.ALA_LC:
-        options = ALA_LC_OPTIONS;
-        break;
-
-      case Preset.BNF:
-        options = BNF_OPTIONS;
-        break;
-
-      case Preset.SBL:
-        options = SBL_OPTIONS;
-        break;
-
-      default:
-        console.warn(`style '${options}' is not implemented.`);
-    }
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
   }
 
   const mapping = declaredMapping ?? new Mapping(options);

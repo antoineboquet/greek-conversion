@@ -1,6 +1,7 @@
-import { KeyType } from './enums';
+import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
+import { applyPreset } from './presets';
 import {
   applyGreekVariants,
   applyUppercaseChars,
@@ -12,9 +13,14 @@ import {
 export function toGreek(
   str: string,
   fromType: KeyType,
-  options: IConversionOptions = {},
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
+  // Convert named presets to `IConversionOptions`objects.
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
+  }
+
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
