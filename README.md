@@ -80,25 +80,25 @@ Function signatures are:
 toBetaCode(
   str: string,
   fromType: KeyType,
-  options: Preset | IConversionOptions = Preset.MODERN
+  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN
 )
 
 toGreek(
   str: string,
   fromType: KeyType,
-  options: IConversionOptions = {}
+  options: Preset | MixedPreset | IConversionOptions = {}
 )
 
 toTransliteration(
   str: string,
   fromType: KeyType,
-  options: Preset | IConversionOptions = Preset.BNF
+  options: Preset | MixedPreset | IConversionOptions = Preset.BNF
 )
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
 
-The **`options`** parameter can be left blank (use default settings), filled with a `Preset` or a user-defined `IConversionOptions` object.
+The **`options`** parameter can be left blank (use default settings), filled with a `Preset`, a user-defined `IConversionOptions` object or a preset mixed with an `IConversionOptions` object.
 
 ### Conversion presets
 
@@ -176,12 +176,14 @@ As multiple conversions can be destructive (see [limitations](#limitations)), <a
 
 `GreekString` constructor is:
 ```ts
-str: string, fromType: KeyType, options?: IConversionOptions
+str: string,
+fromType: KeyType,
+options?: Preset | MixedPreset | IConversionOptions
 ```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that `IConversionOptions` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
+Note that the `options` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 
