@@ -28,6 +28,7 @@ describe('From beta code to greek', () => {
     str                    | expected
     ${'a)/nqrwpos'}        | ${'ἄνθρωπος'}
     ${'kalo\\s ka)gaqo/s'} | ${'καλὸς κἀγαθός'}
+    ${'au)to/nomos'}       | ${'αὐτόνομος'}
     ${'poih|='}            | ${'ποιῇ'}
     ${'A)/i+da'}           | ${'Ἄϊδα'}
     ${'ba/rbaros'}         | ${'βάρ\u03D0αρος'}
@@ -92,13 +93,13 @@ describe('From beta code to greek', () => {
   })
 
   test.each`
-    str              | expected
-    ${'ΒÁRBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
-    ${'RHÓDOS'}      | ${'ῬΌΔΟΣ'}
-    ${'POLÚRRHIZOS'} | ${'ΠΟΛΎΡΡΙΖΟΣ'}
-    ${'SUSSEISMÓS'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
-    ${'APSEGḖS'}     | ${'ἈΨΕΓΉΣ'}
-  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
+    str               | expected
+    ${'BA/RBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
+    ${'R(O/DOS'}      | ${'ῬΌΔΟΣ'}
+    ${'POLU/RRIZOS'}  | ${'ΠΟΛΎΡΡΙΖΟΣ'}
+    ${'SUSSEISMO/S'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
+    ${'A)YEGH/S'}     | ${'ἈΨΕΓΉΣ'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ   κριός')
@@ -122,6 +123,9 @@ describe('From transliteration to greek', () => {
     str                 | expected
     ${'ánthrōpos'}      | ${'ἄνθρωπος'}
     ${'kalòs kagathós'} | ${'καλὸς καγαθός'}
+    ${'autónomos'}      | ${'αὐτόνομος'}
+    ${'huiós'}          | ${'υἱός'}
+    ${'Huiós'}          | ${'Υἱός'}
     ${'poiȩ̄̃'}           | ${'ποιῇ'}
     ${'Áïda'}           | ${'Ἄϊδα'}
     ${'bárbaros'}       | ${'βάρ\u03D0αρος'}
@@ -170,11 +174,12 @@ describe('From transliteration to greek', () => {
 
   test.each`
     str              | expected
-    ${'ΒÁRBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
+    ${'BÁRBAROS'}    | ${'ΒΆΡΒΑΡΟΣ'}
     ${'RHÓDOS'}      | ${'ῬΌΔΟΣ'}
     ${'POLÚRRHIZOS'} | ${'ΠΟΛΎΡΡΙΖΟΣ'}
     ${'SUSSEISMÓS'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
     ${'APSEGḖS'}     | ${'ἈΨΕΓΉΣ'}
+    ${'HUIÓS'}       | ${'ὙΙΌΣ'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test('Testing correctness with various word separators', () => {

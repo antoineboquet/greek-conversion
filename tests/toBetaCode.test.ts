@@ -17,6 +17,7 @@ describe('From greek to beta code', () => {
     str                | expected
     ${'ἄνθρωπος'}      | ${'a)/nqrwpos'}
     ${'καλὸς κἀγαθός'} | ${'kalo\\s ka)gaqo/s'}
+    ${'αὐτόνομος'}     | ${'au)to/nomos'}
     ${'ποιῇ'}          | ${'poih=|'}
     ${'Ἄϊδα'}         | ${'A)/i+da'}
     ${'βάρ\u03D0αρος'} | ${'ba/rbaros'}
@@ -94,6 +95,7 @@ describe('From transliteration to beta code', () => {
     str                 | expected
     ${'ánthrōpos'}      | ${'a)/nqrwpos'}
     ${'kalòs kagathós'} | ${'kalo\\s kagaqo/s'}
+    ${'autónomos'}      | ${'au)to/nomos'}
     ${'poiȩ̄̃'}           | ${'poih=|'}
     ${'Áïda'}           | ${'A)/i+da'}
     ${'bárbaros'}       | ${'ba/rbaros'}

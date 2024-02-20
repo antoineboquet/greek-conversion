@@ -1,4 +1,5 @@
-import { KeyType, GreekString } from '../src/index'
+import { KeyType, GreekString, Preset, AdditionalChars } from '../src/index'
+import { IConversionOptions } from '../src/interfaces'
 
 describe('GreekString', () => {
   test('From bc: Basic conversion', () => {
@@ -158,4 +159,71 @@ describe('GreekString', () => {
     expect(gs.greek).toBe('ἄνθρωπος')
     expect(gs.transliteration).toBe('ánthrôpos')
   })
+
+  test('Testing presets', () => {
+    // Preset ALA_LC is not reversible; so, for instance, 's' are converted back
+    // to lunate sigmas (as option `lunatesigma_s` is activated).
+    const gs = new GreekString('ánthrōpos', KeyType.TRANSLITERATION, Preset.ALA_LC)
+
+    expect(gs.source).toBe('ánthrōpos')
+    expect(gs.betaCode).toBe('anqrwpos3')
+    expect(gs.greek).toBe('ανθρωποϲ')
+    expect(gs.transliteration).toBe('anthrōpos')
+  })
+
+  test('Testing mixed presets', () => {
+    const gs1 = new GreekString(
+      'ánthrōpos',
+      KeyType.TRANSLITERATION,
+      [Preset.ALA_LC, { removeDiacritics: false }]
+    )
+
+    expect(gs1.source).toBe('ánthrōpos')
+    expect(gs1.betaCode).toBe('a)/nqrwpos3')
+    expect(gs1.greek).toBe('ἄνθρωποϲ')
+    expect(gs1.transliteration).toBe('ánthrōpos')
+
+    const trStyleGs2: IConversionOptions = {
+      setTransliterationStyle: {
+        lunatesigma_s: false
+      }
+    }
+    const gs2 = new GreekString('ἄνθρωπος', KeyType.GREEK, [Preset.ALA_LC, trStyleGs2])
+
+    expect(gs2.source).toBe('ἄνθρωπος')
+    expect(gs2.betaCode).toBe('anqrwpos')
+    expect(gs2.greek).toBe('ανθρωπος')
+    expect(gs2.transliteration).toBe('anthrōpos')
+
+    const trStyleGs3: IConversionOptions = {
+      useAdditionalChars: undefined
+    }
+    const gs3 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs3])
+
+    expect(gs3.source).toBe('a)/nqrwpos3')
+    expect(gs3.betaCode).toBe('anqrwpos3')
+    expect(gs3.greek).toBe('ανθρωποσ3')
+    expect(gs3.transliteration).toBe('anthrōpos3')
+
+    const trStyleGs4: IConversionOptions = {
+      useAdditionalChars: AdditionalChars.DIGAMMA
+    }
+    const gs4 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs4])
+
+    expect(gs4.source).toBe('a)/nqrwpos3')
+    expect(gs4.betaCode).toBe('anqrwpos3')
+    expect(gs4.greek).toBe('ανθρωποσ3')
+    expect(gs4.transliteration).toBe('anthrōpos3')
+  })
+
+  const trStyleGs5: IConversionOptions = {
+    useAdditionalChars: [ AdditionalChars.LUNATE_SIGMA ],
+    removeExtraWhitespace: true
+  }
+  const gs5 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs5])
+
+  expect(gs5.source).toBe('a)/nqrwpos3')
+  expect(gs5.betaCode).toBe('anqrwpos3')
+  expect(gs5.greek).toBe('ανθρωποϲ')
+  expect(gs5.transliteration).toBe('anthrōpos')
 })

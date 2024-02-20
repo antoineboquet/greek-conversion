@@ -29,6 +29,7 @@ describe('From beta code to transliteration', () => {
     str                    | expected
     ${'a)/nqrwpos'}        | ${'ánthrōpos'}
     ${'kalo\\s ka)gaqo/s'} | ${'kalòs kagathós'}
+    ${'au)to/nomos'}       | ${'autónomos'}
     ${'poih|='}            | ${'poiȩ̄̃'}
     ${'A)/i+da'}           | ${'Áïda'}
     ${'ba/rbaros'}         | ${'bárbaros'}
@@ -66,7 +67,6 @@ describe('From beta code to transliteration', () => {
     ${'voi='}            | ${'woĩ'}
     ${'a(/gios3'}        | ${'hágioc'}
     ${'#2*#2#1*#1#5*#5'} | ${'c̄C̄qQs̄S̄'}
-
   `('Using additional letters', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { useAdditionalChars: AdditionalChars.ALL })).toBe(expected) })
 
   test('Using a subset of additional letters', () => {
@@ -82,6 +82,15 @@ describe('From beta code to transliteration', () => {
     ${'O(pli/ths'}  | ${'Hoplitēs'}
     ${aristotle.bc} | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
+
+  test.each`
+    str               | expected
+    ${'BA/RBAROS'}    | ${'BÁRBAROS'}
+    ${'R(O/DOS'}      | ${'RHÓDOS'}
+    ${'POLU/RRIZOS'}  | ${'POLÚRRIZOS'}
+    ${'SUSSEISMO/S'}  | ${'SUSSEISMÓS'}
+    ${'A)YEGH/S'}     | ${'APSEGḖS'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
     expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('aíx   kriós')
@@ -117,6 +126,9 @@ describe('From greek to transliteration', () => {
     str                | expected
     ${'ἄνθρωπος'}      | ${'ánthrōpos'}
     ${'καλὸς κἀγαθός'} | ${'kalòs kagathós'}
+    ${'αὐτόνομος'}     | ${'autónomos'}
+    ${'υἱός'}          | ${'huiós'}
+    ${'Υἱός'}          | ${'Huiós'}
     ${'ποιῇ'}          | ${'poiȩ̄̃'}
     ${'Ἄϊδα'}         | ${'Áïda'}
     ${'βάρ\u03D0αρος'} | ${'bárbaros'}
@@ -210,6 +222,16 @@ describe('From greek to transliteration', () => {
     expect(toTransliteration('βάρβαρος', KeyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })).toBe('bárbaros')
   })
 
+  test.each`
+    str             | expected
+    ${'ΒΆΡΒΑΡΟΣ'}   | ${'BÁRBAROS'}
+    ${'ῬΌΔΟΣ'}      | ${'RHÓDOS'}
+    ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLÚRRHIZOS'}
+    ${'ΣΥΣΣΕΙΣΜΌΣ'} | ${'SUSSEISMÓS'}
+    ${'ἈΨΕΓΉΣ'}     | ${'APSEGḖS'}
+    ${'ὙΙΌΣ'}       | ${'HUIÓS'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
+
   test('Testing whitespace behavior', () => {
     expect(toTransliteration('αἴξ   κριός', KeyType.GREEK)).toBe('aíx   kriós')
     expect(toTransliteration('αἴξ   κριός', KeyType.GREEK, { removeExtraWhitespace: true })).toBe('aíx kriós')
@@ -237,6 +259,7 @@ describe('From greek to transliteration', () => {
     str            | expected
     ${'ὑϐρίς'}     | ${'hybrís'}
     ${'αὐτόματος'} | ${'autómatos'}
+    ${'ΑYΤΌΜΑΤΟΣ'} | ${'AUTÓMATOS'}
     ${'ἄϋλος'}     | ${'áÿlos'}
     ${'ὑΐδιον'}    | ${'hyḯdion'}
     ${'ὕδωρ'}      | ${'hýdōr'}
