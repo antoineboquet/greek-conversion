@@ -1,6 +1,5 @@
 import { AdditionalChars, KeyType } from './enums';
 import {
-  IBetaCodeStyle,
   IConversionOptions,
   IMappingProperty,
   ITransliterationStyle
@@ -344,7 +343,7 @@ export class Mapping {
     } as IMappingProperty
   };
 
-  #betaCodeStyle: IBetaCodeStyle;
+  //#betaCodeStyle: IBetaCodeStyle;
   #removeDiacritics: boolean;
   #transliterationStyle: ITransliterationStyle;
   #useAdditionalChars: AdditionalChars[] | AdditionalChars;
@@ -352,7 +351,7 @@ export class Mapping {
   constructor(options?: IConversionOptions) {
     if (!options) return;
 
-    this.#betaCodeStyle = options?.setBetaCodeStyle;
+    //this.#betaCodeStyle = options?.setBetaCodeStyle;
     this.#removeDiacritics = options?.removeDiacritics;
     this.#transliterationStyle = options?.setTransliterationStyle;
     this.#useAdditionalChars = options?.useAdditionalChars;

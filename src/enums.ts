@@ -19,9 +19,9 @@ export enum KeyType {
 export enum Preset {
   ALA_LC = 'ala-lc',
   BNF = 'bnf',
-  MODERN = 'modern',
-  SBL = 'sbl',
-  TLG = 'tlg'
+  MODERN = 'modern', // rename MODERN_BC
+  SBL = 'sbl'
+  //TLG = 'tlg'
 }
 
 export type BetaCodePreset = Preset.MODERN | Preset.TLG;

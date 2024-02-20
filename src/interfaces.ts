@@ -3,15 +3,16 @@ import { AdditionalChars } from './enums';
 export interface IConversionOptions {
   removeDiacritics?: boolean;
   removeExtraWhitespace?: boolean;
-  setBetaCodeStyle?: IBetaCodeStyle;
+  //setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?: ITransliterationStyle;
   useAdditionalChars?: AdditionalChars[] | AdditionalChars;
 }
 
-export interface IBetaCodeStyle {
+// v0.13
+/*export interface IBetaCodeStyle {
   useTLGStyle?: boolean;
-}
+}*/
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
