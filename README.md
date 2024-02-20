@@ -80,7 +80,7 @@ Function signatures are:
 toBetaCode(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN
+  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN_BC
 )
 
 toGreek(
@@ -108,7 +108,7 @@ The available presets are:
 
 | Preset | Description |
 | ------ | ----------- |
-| [**`MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern) | **(default)** `greek-conversion`'s own modernized style |
+| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern beta code) | **(default)** `greek-conversion`'s own modernized style |
 | [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
