@@ -715,6 +715,7 @@ export class Mapping {
 
     let chars = [];
 
+    for (const [k, v] of Object.entries(this)) {
       if (this.#isUpperCase && k.startsWith('SMALL')) break;
 
       if (v[fromProp] !== undefined && v[toProp] !== undefined) {
@@ -729,7 +730,7 @@ export class Mapping {
     if (!this.#removeDiacritics) {
       let diacritics = [];
 
-      for (const [i, v] of Object.entries(this.DIACRITICS)) {
+      for (const [k, v] of Object.entries(this.DIACRITICS)) {
         if (v[fromProp] !== undefined && v[toProp] !== undefined) {
           diacritics.push([v[fromProp], v[toProp]]);
         }
