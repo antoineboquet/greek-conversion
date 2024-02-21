@@ -1,6 +1,6 @@
 import { AdditionalChars, KeyType } from './enums';
 import {
-  IConversionOptions,
+  IInternalConversionOptions,
   IMappingProperty,
   ITransliterationStyle
 } from './interfaces';
@@ -343,14 +343,16 @@ export class Mapping {
     } as IMappingProperty
   };
 
+  #isUpperCase: boolean;
   //#betaCodeStyle: IBetaCodeStyle;
   #removeDiacritics: boolean;
   #transliterationStyle: ITransliterationStyle;
   #useAdditionalChars: AdditionalChars[] | AdditionalChars;
 
-  constructor(options?: IConversionOptions) {
+  constructor(options?: IInternalConversionOptions) {
     if (!options) return;
 
+    this.#isUpperCase = options?.isUpperCase;
     //this.#betaCodeStyle = options?.setBetaCodeStyle;
     this.#removeDiacritics = options?.removeDiacritics;
     this.#transliterationStyle = options?.setTransliterationStyle;
@@ -713,7 +715,8 @@ export class Mapping {
 
     let chars = [];
 
-    for (const [i, v] of Object.entries(this)) {
+      if (this.#isUpperCase && k.startsWith('SMALL')) break;
+
       if (v[fromProp] !== undefined && v[toProp] !== undefined) {
         chars.push([v[fromProp], v[toProp]]);
       }

@@ -9,6 +9,10 @@ export interface IConversionOptions {
   useAdditionalChars?: AdditionalChars[] | AdditionalChars;
 }
 
+export interface IInternalConversionOptions extends IConversionOptions {
+  isUpperCase?: boolean;
+}
+
 // v0.13
 /*export interface IBetaCodeStyle {
   useTLGStyle?: boolean;
