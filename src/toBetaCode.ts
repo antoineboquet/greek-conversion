@@ -20,7 +20,9 @@ export function toBetaCode(
     options = applyPreset(options);
   }
 
-  const mapping = declaredMapping ?? new Mapping(options);
+  const mapping =
+    declaredMapping ??
+    new Mapping({ isUpperCase: str.toUpperCase() === str, ...options });
 
   switch (fromType) {
     case KeyType.BETA_CODE:

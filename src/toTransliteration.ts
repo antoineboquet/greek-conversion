@@ -27,12 +27,9 @@ export function toTransliteration(
 
   // @fixme: beta code '#2*#2#1*#1#5*#5' produces a false positive;
   // so we should define what is uppercase for beta code.
-  let isUpperCase = false;
-  if (str.toUpperCase() === str) {
-    isUpperCase = true;
-  }
-
-  const mapping = declaredMapping ?? new Mapping({ isUpperCase, ...options });
+  const mapping =
+    declaredMapping ??
+    new Mapping({ isUpperCase: str.toUpperCase() === str, ...options });
 
   switch (fromType) {
     case KeyType.BETA_CODE:

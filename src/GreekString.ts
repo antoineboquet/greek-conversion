@@ -28,7 +28,10 @@ export class GreekString {
 
     this.#fromType = fromType;
     this.#options = options;
-    this.#mapping = new Mapping(options);
+    this.#mapping = new Mapping({
+      isUpperCase: str.toUpperCase() === str,
+      ...options
+    });
     this.source = str;
 
     switch (this.#fromType) {
