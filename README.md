@@ -24,9 +24,13 @@ A small library to convert a polytonic greek string from/into various representa
 ## Usage
 
 ### With a package manager (recommended)
-In order to use this library for your project, simply type:
+In order to use this library in your project, simply type:
 ```
-npm install --save greek-conversion
+// NPM
+npm install greek-conversion
+
+// PNPM
+pnpm add greek-conversion
 ```
 
 Import the library's functions as needed:
