@@ -84,7 +84,10 @@ options: Preset | MixedPreset | IConversionOptions = {}
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
 
-The **`options`** parameter can be filled with a `Preset`, a user-defined `IConversionOptions` object or a preset mixed with an `IConversionOptions` object.
+The **`options`** parameter can be filled with:
+1. a `Preset`;
+2. a user-defined `IConversionOptions` object;
+3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions`]).
 
 ### Conversion presets
 
