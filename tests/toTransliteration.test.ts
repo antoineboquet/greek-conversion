@@ -97,7 +97,8 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('aíx kriós')
   })
 
-  // Scheduled for v. 0.12 (broken orders: `w|=(`, `w=(|`, `w=|(` ).
+  // v0.13
+  // Broken orders: `w|=(`, `w=(|`, `w=|(`.
   /*test.each`
     str       | expected
     ${'w(|='} | ${'ᾧ'}
@@ -243,7 +244,7 @@ describe('From greek to transliteration', () => {
     ${'Ὁπλίτης'}  | ${'Hoplítês'}
     ${'Ξενοφῶν'}  | ${'Xenophỗn'}
     ${plato.gr}   | ${plato.trCrx}
-  `('Using circumflex on long vowels', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
+  `('Using circumflex on long vowels', ({ str, expected }) => {expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
 
   test.each`
     str             | expected

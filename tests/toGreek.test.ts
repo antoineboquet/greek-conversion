@@ -106,7 +106,8 @@ describe('From beta code to greek', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
-  // Scheduled for v. 0.12 (broken orders: `w|=(`, `w=(|`, `w=|(` ).
+  // v0.13 
+  // Broken orders: `w|=(`, `w=(|`, `w=|(`.
   /*test.each`
     str       | expected
     ${'w(|='} | ${'ᾧ'}
