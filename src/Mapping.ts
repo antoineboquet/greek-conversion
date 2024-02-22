@@ -26,7 +26,10 @@ export const GREEK_QUESTION_MARK = '\u037E';
 export const CAPITAL_LUNATE_SIGMA = '\u03F9';
 export const SMALL_LUNATE_SIGMA = '\u03F2';
 
-const ADDITIONAL_CHARS_VALUES: any /* @fixme */ = {
+const ADDITIONAL_CHARS_VALUES: {
+  [k in AdditionalChars]: { [k in any]: IMappingProperty };
+} = {
+  [AdditionalChars.ALL]: {},
   [AdditionalChars.DIGAMMA]: {
     CAPITAL_DIGAMMA: {
       gr: 'Ϝ',
@@ -469,7 +472,10 @@ export class Mapping {
         }
       }
 
+      // @fixme: sometimes produces 'TypeError: Cannot set properties of undefined (setting 'tr')'.
       if (this.#transliterationStyle?.lunatesigma_s) {
+        if (!this.CAPITAL_LUNATE_SIGMA.tr || !this.SMALL_LUNATE_SIGMA)
+          console.log(this);
         this.CAPITAL_LUNATE_SIGMA.tr = 'S';
         this.SMALL_LUNATE_SIGMA.tr = 's';
       }
