@@ -17,10 +17,10 @@ import {
 export function toTransliteration(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = {}, // @FIXME: Preset.BNF
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  // Convert named presets to `IConversionOptions`objects.
+  // Convert named presets to `IConversionOptions` objects.
   if (typeof options === 'string' || Array.isArray(options)) {
     options = applyPreset(options);
   }
