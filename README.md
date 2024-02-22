@@ -35,7 +35,7 @@ Import the library's functions as needed:
 // ES6 modules syntax
 import { KeyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
 
-// OR CommonJS syntax
+// CommonJS syntax
 const gc = require('greek-conversion')
 ```
 
@@ -75,25 +75,11 @@ You can then call the library's functions as exemplified below:
 
 This library provides three main functions to convert a greek string: **`toBetaCode`**, **`toGreek`** & **`toTransliteration`**. You can refer to the [conversion chart](https://github.com/antoineboquet/greek-conversion/wiki#conversion-chart) for further information about the expected input & output.
 
-Function signatures are:
+Functions signature is consistently:
 ```ts
-toBetaCode(
-  str: string,
-  fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = Preset.MODERN_BC
-)
-
-toGreek(
-  str: string,
-  fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = {}
-)
-
-toTransliteration(
-  str: string,
-  fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = Preset.BNF
-)
+str: string,
+fromType: KeyType,
+options: Preset | MixedPreset | IConversionOptions = {}
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
@@ -108,7 +94,7 @@ The available presets are:
 
 | Preset | Description |
 | ------ | ----------- |
-| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | **(default)** `greek-conversion`'s own modernized style |
+| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | `greek-conversion`'s own modernized style |
 | [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
@@ -116,7 +102,7 @@ The available presets are:
 | Preset | Description |
 | ------ | ----------- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
-| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | **(default)** Bibliothèque nationale de France |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
 
 ### Conversion options
@@ -126,10 +112,6 @@ The **`IConversionOptions`** interface provides the following controls over the 
 removeDiacritics?: boolean,      // remove diacritics, except those that represent letters
 
 removeExtraWhitespace?: boolean, // remove potential extra whitespace
-
-setBetaCodeStyle?: {
-  useTLGStyle?: boolean          // Thesaurus Linguae Graecae style (e.g. *PO/NOS → Πόνοϛ)
-},
 
 setGreekStyle?: {
   disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
@@ -170,7 +152,7 @@ toGreek('tékhnê', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxO
 
 ### Summary
 
-You can also use the **`GreekString`** object if you want to manage several representations of a greek string.
+You can use the **`GreekString`** object if you want to manage several representations of a greek string.
 
 As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
