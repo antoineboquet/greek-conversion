@@ -25,11 +25,11 @@ A small library to convert a polytonic greek string from/into various representa
 
 ### With a package manager (recommended)
 In order to use this library in your project, simply type:
-```
-// NPM
+```shell
+# NPM
 npm install greek-conversion
 
-// PNPM
+# PNPM
 pnpm add greek-conversion
 ```
 
