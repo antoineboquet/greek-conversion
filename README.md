@@ -26,11 +26,7 @@ A small library to convert a polytonic greek string from/into various representa
 ### With a package manager (recommended)
 In order to use this library in your project, simply type:
 ```shell
-# NPM
 npm install greek-conversion
-
-# PNPM
-pnpm add greek-conversion
 ```
 
 Import the library's functions as needed:
