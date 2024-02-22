@@ -188,11 +188,15 @@ function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
   return greekStr
     .normalize('NFD')
     .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
-    .replace(reInitialBreathing, (match, vowelsGroup) =>
-      vowelsGroup === vowelsGroup.toUpperCase()
-        ? 'H' + vowelsGroup.toLowerCase()
-        : 'h' + vowelsGroup
-    )
+    .replace(reInitialBreathing, (match, vowelsGroup) => {
+      // @fixme: case should be checked against the current word too.
+      if (greekStr.toUpperCase() === greekStr) return 'H' + vowelsGroup;
+      else {
+        return vowelsGroup.charAt(0) === vowelsGroup.charAt(0).toUpperCase()
+          ? 'H' + vowelsGroup.toLowerCase()
+          : 'h' + vowelsGroup;
+      }
+    })
     .replace(reDoubleRhoLazy, (match, doubleRho) =>
       doubleRho === 'ΡΡ' ? doubleRho + 'H' : doubleRho + 'h'
     )
