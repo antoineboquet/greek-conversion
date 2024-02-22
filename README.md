@@ -33,7 +33,7 @@ Import the library's functions as needed:
 
 ```ts
 // ES6 modules syntax
-import { KeyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
+import { KeyType, toTransliteration } from 'greek-conversion'
 
 // CommonJS syntax
 const gc = require('greek-conversion')
