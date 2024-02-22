@@ -196,7 +196,7 @@ Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
-Removes all the diacritics from a given string. The set of diacritical signs depends of the greek string representation.
+Removes all the diacritics from a given string. The set of diacritical marks depends of the greek string representation.
 
 #### `removeGreekVariants (str: string): string`
 
