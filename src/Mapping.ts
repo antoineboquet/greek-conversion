@@ -535,12 +535,9 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    // From transliteration:
-    // (1) Join back long wovel marks, which should not be treated
-    // as diacritics, to their associated chars.
-    // (2) Add the alternate upsilon form (y/u) to the mapping if
-    // `upsilon_y` has been set.
     if (fromType === KeyType.TRANSLITERATION) {
+      // Join back long wovel marks, which should not be treated
+      // as diacritics, to their associated chars.
       const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
       const letters: string = this.trLettersWithCxOrMacron().join('');
 
@@ -550,6 +547,8 @@ export class Mapping {
         return (char + longVowelMark).normalize('NFC') + diacritics;
       });
 
+      // Add the alternate upsilon form (y/u) to the mapping
+      // if `upsilon_y` has been set.
       if (
         this.#transliterationStyle?.upsilon_y &&
         toType !== KeyType.TRANSLITERATION
@@ -567,13 +566,8 @@ export class Mapping {
       }
     }
 
-    // From greek: enforce the right Unicode points for
-    // wrong Unicode canonical equivalences.
     if (fromType === KeyType.GREEK) {
-      fromStr = fromStr
-        .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-        .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
-        .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+      fromStr = Mapping.#grBypassUnicodeEquivalences(fromStr);
     }
 
     const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
@@ -581,8 +575,7 @@ export class Mapping {
 
     // Apply mapped chars.
     for (const [lval, rval] of mappingProps) {
-      // Left value can be empty/undefined.
-      if (!lval) continue;
+      if (!lval) continue; // Left value can be empty/undefined.
 
       const re = new RegExp(sanitizeRegExpString(lval), 'g');
       let matches;
@@ -714,6 +707,17 @@ export class Mapping {
     }
 
     return new Map(sortedChars);
+  }
+
+  /**
+   * Returns a string for which the wrong Unicode canonical equivalences
+   * have been replaced by the right Unicode points. The string is supposed
+   * to be a greek string, normalized in `NFD` mode.
+   */
+  static #grBypassUnicodeEquivalences(NFDGreekStr: string): string {
+    return NFDGreekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+      .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
+      .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
   }
 
   /**
