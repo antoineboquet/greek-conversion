@@ -83,8 +83,6 @@ options: Preset | MixedPreset | IConversionOptions = {}
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
-> ![NOTE]
-> If you write plain JavaScript, you can use the string literals 'beta-code', 'greek' & 'transliteration'.
 
 The **`options`** parameter can be filled with:
 1. a `Preset`;
@@ -109,9 +107,6 @@ The available presets are:
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
-
-> ![NOTE]
-> If you write plain JavaScript, you can use the string literals (1) 'modern-bc' & 'tlg'; (2) 'ala-lc', 'bnf' & 'sbl'.
 
 ### Conversion options
 
