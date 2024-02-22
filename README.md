@@ -87,7 +87,7 @@ The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION`
 The **`options`** parameter can be filled with:
 1. a `Preset`;
 2. a user-defined `IConversionOptions` object;
-3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions`]).
+3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
 
 ### Conversion presets
 
