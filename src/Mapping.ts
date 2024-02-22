@@ -482,12 +482,21 @@ export class Mapping {
         }
       }
 
-      // @fixme: sometimes produces 'TypeError: Cannot set properties of undefined (setting 'tr')'.
       if (this.#transliterationStyle?.lunatesigma_s) {
-        if (!this.CAPITAL_LUNATE_SIGMA.tr || !this.SMALL_LUNATE_SIGMA)
-          console.log(this);
-        this.CAPITAL_LUNATE_SIGMA.tr = 'S';
-        this.SMALL_LUNATE_SIGMA.tr = 's';
+        // The lunate sigma might not have been activated using the
+        // `useAdditionalChars` option. So, we need to check if its property exists.
+        if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
+        if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
+
+        if (
+          !this.CAPITAL_LUNATE_SIGMA?.tr ||
+          (!this.#isUpperCase && !this.SMALL_LUNATE_SIGMA?.tr)
+        ) {
+          console.warn(
+            'You must enable `AdditionalChars.LUNATE_SIGMA` for the option',
+            '`setTransliterationStyle.lunatesigma_s` to take effect.'
+          );
+        }
       }
     }
 
