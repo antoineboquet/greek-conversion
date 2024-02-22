@@ -27,7 +27,9 @@ export const CAPITAL_LUNATE_SIGMA = '\u03F9';
 export const SMALL_LUNATE_SIGMA = '\u03F2';
 
 const ADDITIONAL_CHARS_VALUES: {
-  [k in AdditionalChars]: { [k in any]: IMappingProperty };
+  [k in AdditionalChars]: {
+    [k in any /* @fixme */]: IMappingProperty;
+  };
 } = {
   [AdditionalChars.ALL]: {},
   [AdditionalChars.DIGAMMA]: {
