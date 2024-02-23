@@ -102,6 +102,9 @@ function trConvertBreathings(str: string): string {
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
       if (/* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong) {
+        if (str.toUpperCase() === str) {
+          return firstV + breathing + firstD + nextD + nextV + extraV;
+        }
         return firstV + firstD + nextV + breathing + nextD + extraV;
       }
 
