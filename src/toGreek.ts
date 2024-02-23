@@ -60,7 +60,7 @@ export function toGreek(
 }
 
 /**
- * Returns a string with tranliterated greek breathings.
+ * Returns a string with greek breathings.
  *
  * @remarks
  * This function applies:
