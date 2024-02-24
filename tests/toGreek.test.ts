@@ -151,6 +151,12 @@ describe('From transliteration to greek', () => {
 
   test.each`
     str           | expected
+    ${'ka̓́n'}      | ${'κἄν'}
+    ${'tau̓tó'}    | ${'ταὐτό'}
+  `('Testing coronides', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
+    str           | expected
     ${'ángelos'}  | ${'ἄγγελος'}
     ${'spóngos'}  | ${'σπόγγος'} 
     ${'ánkura'}   | ${'ἄγκυρα'}

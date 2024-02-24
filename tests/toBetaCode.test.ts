@@ -115,6 +115,12 @@ describe('From transliteration to beta code', () => {
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
+    str           | expected
+    ${'ka̓́n'}      | ${'ka)/n'}
+    ${'tau̓tó'}    | ${'tau)to/'}
+  `('Testing coronides', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
     str              | expected
     ${'Ródos'}       | ${'Ro/dos'}
     ${'Rhódos'}      | ${'R(o/dos'}
