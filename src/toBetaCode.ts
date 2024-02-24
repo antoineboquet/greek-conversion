@@ -80,7 +80,7 @@ export function toBetaCode(
  */
 function trConvertFlaggedBreathings(str: string): string {
   const diphthongs = ['ai', 'au', 'ei', 'eu', 'hu', 'oi', 'ou', 'ui'];
-  const vowels = 'aehiowu';
+  const vowels = 'aehiouw';
   const diacritics = '()\\/+=|';
 
   const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(?<trRough>\\$)?(?<firstV>[${vowels}])(?<firstD>[${diacritics}])?(?<nextV>[${vowels}])?(?<nextD>[${diacritics}])?`, 'gimu'); // prettier-ignore
