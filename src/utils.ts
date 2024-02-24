@@ -59,6 +59,27 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
+ * Returns a boolean that indicates if the given string is uppercase or not.
+ *
+ * @remarks
+ * `Modern beta code`: if the string is written in beta code, uppercase
+ * sequences may represent lowercase characters. This applies to some of the
+ * TLG's `# – Additional Characters` section (characters beginning with a '#').
+ *
+ * @privateRemarks
+ * (1) Given the current mapping implementation, the unusual lowercase
+ * characters are the following: #1, #2, #3 & #5.
+ * (2) When implementing the TLG beta code, the definition of a string
+ * containing lowercase characters will be different.
+ */
+export function isUpperCase(str: string, type: KeyType): boolean {
+  if (type === KeyType.BETA_CODE) {
+    return str.toUpperCase() === str && !/(?<!\*)#[1-35]/.test(str);
+  }
+  return str.toUpperCase() === str;
+}
+
+/**
  * Returns a normalized greek string.
  *
  * @remarks

@@ -1,10 +1,11 @@
 import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import { applyPreset } from './presets';
 import {
   applyGreekVariants,
   applyUppercaseChars,
+  isUpperCase,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace
@@ -21,9 +22,12 @@ export function toGreek(
     options = applyPreset(options);
   }
 
-  const mapping =
-    declaredMapping ??
-    new Mapping({ isUpperCase: str.toUpperCase() === str, ...options });
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: isUpperCase(str, fromType),
+    ...options
+  };
+
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
@@ -46,7 +50,7 @@ export function toGreek(
         str = removeDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str);
+        str = trConvertBreathings(str, internalOptions);
       }
 
       str = normalizeGreek(str);
@@ -76,7 +80,11 @@ export function toGreek(
  * diacritics - of a word together. Notice that the `vowelGroups` can
  * match 2+ vowels.
  */
-function trConvertBreathings(str: string): string {
+function trConvertBreathings(
+  str: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase } = options;
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
   const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
@@ -102,7 +110,7 @@ function trConvertBreathings(str: string): string {
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
       if (/* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong) {
-        if (str.toUpperCase() === str) {
+        if (isUpperCase) {
           return firstV + breathing + firstD + nextD + nextV + extraV;
         }
         return firstV + firstD + nextV + breathing + nextD + extraV;

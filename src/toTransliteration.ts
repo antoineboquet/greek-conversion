@@ -8,6 +8,7 @@ import {
 } from './Mapping';
 import { applyPreset } from './presets';
 import {
+  isUpperCase,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace,
@@ -26,12 +27,10 @@ export function toTransliteration(
   }
 
   const internalOptions: IInternalConversionOptions = {
-    isUpperCase: str.toUpperCase() === str,
+    isUpperCase: isUpperCase(str, fromType),
     ...options
   };
 
-  // @fixme: beta code '#2*#2#1*#1#5*#5' produces a false positive;
-  // so we should define what is uppercase for beta code.
   const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {

@@ -1,9 +1,10 @@
 import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
 import { applyPreset } from './presets';
 import {
   applyUppercaseChars,
+  isUpperCase,
   removeDiacritics,
   removeExtraWhitespace,
   removeGreekVariants
@@ -20,9 +21,12 @@ export function toBetaCode(
     options = applyPreset(options);
   }
 
-  const mapping =
-    declaredMapping ??
-    new Mapping({ isUpperCase: str.toUpperCase() === str, ...options });
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: isUpperCase(str, fromType),
+    ...options
+  };
+
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
