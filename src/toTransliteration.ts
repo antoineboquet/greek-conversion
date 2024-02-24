@@ -36,31 +36,14 @@ export function toTransliteration(
   switch (fromType) {
     case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str, internalOptions);
-
       if (options.setTransliterationStyle?.upsilon_y) {
         str = flagDiaereses(str, KeyType.BETA_CODE);
       }
-
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.BETA_CODE);
       }
-
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
-
-      // Apply flagged rough breathings.
-      str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
-
-      // Enforce rough breathings on rhos.
-      if (options.setTransliterationStyle?.rho_rh) {
-        str = str
-          .replace(/(rr)(?!h)/gi, (match) =>
-            match === 'RR' ? match + 'H' : match + 'h'
-          )
-          .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
-            // @FIXME: check for the word, not the entire string.
-            internalOptions.isUpperCase ? match + 'H' : match + 'h'
-          );
-      }
+      str = bcConvertBreathings(str, internalOptions);
       break;
 
     case KeyType.GREEK:
@@ -129,6 +112,54 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
 }
 
 /**
+ * Returns a transliterated string with transliterated breathings.
+ *
+ * @remarks
+ * This function does:
+ *   1. convert flagged rough breathings;
+ *   2. enforce rough breathings on rhos if `setTransliterationStyle.rho_rh` is enabled;
+ *   3. remove initial smooth breathings (while keeping coronides);
+ *   4. remove potential smooth breathings on rhos.
+ *   5. transliterate the remaining smooth breathings.
+ *
+ * @param transliteratedStr - Expects an already transliterated string with flagged
+ * rough breathings ('$', '$$') and beta code style smooth breathings (')').
+ * @param options
+ */
+function bcConvertBreathings(
+  transliteratedStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase, setTransliterationStyle } = options;
+  const rho_rh = setTransliterationStyle?.rho_rh;
+
+  transliteratedStr = transliteratedStr
+    .replace(/\$\$/g, 'H')
+    .replace(/\$/g, 'h');
+
+  if (rho_rh) {
+    transliteratedStr = transliteratedStr
+      .replace(/(r\)?r)(?!h)/gi, (match) =>
+        match.toUpperCase() === match ? 'RRH' : 'rrh'
+      )
+      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
+        // @fixme(v0.13): case should be checked against the current word.
+        isUpperCase ? match + 'H' : match + 'h'
+      );
+  }
+
+  transliteratedStr = transliteratedStr
+    .replace(
+      /(?<=\p{P}|\s|^)(?<vowelsGroup>[aeēiouyō]{1,2})(\))/gimu,
+      '$<vowelsGroup>'
+    )
+    .replace(/(?<rho>r)\)/gi, '$<rho>')
+    .replace(/\)/g, SMOOTH_BREATHING);
+
+  return transliteratedStr;
+}
+
+/**
  * Returns a beta code string with an unambiguous representation
  * of rough breathings (`h` -> `$`, `H` -> `$$`).
  *
@@ -177,11 +208,11 @@ function flagDiaereses(str: string, fromType: KeyType): string {
 }
 
 /**
- * Returns a greek string with tranliterated breathings.
+ * Returns a greek string with transliterated breathings.
  *
  * @remarks
  * This function does:
- *   1. remove smooth breathings;
+ *   1. remove initial smooth breathings (while keeping coronides);
  *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
  *   3. add an `h` after double rhos;
  *   4. add an `h` after a single rho (carrying a rough breathing or not if `rho_rh` is true).
@@ -193,25 +224,29 @@ function grConvertBreathings(
   const { isUpperCase, setTransliterationStyle } = options;
   const rho_rh = setTransliterationStyle?.rho_rh;
 
+  const reInitialSmoothBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
   const reInitialRoughBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
   const reDoubleRhoLazy = new RegExp(`(?<doubleRho>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
   const reInitialRho = new RegExp(`(?<initialRho>ρ)${ROUGH_BREATHING}`, 'gi');
   const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(?<initialRho>ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
 
+  // Change the coronis form after `reInitialSmoothBreathing`,
+  // by replacing the remaining smooth breathings (e. g.
+  // `.replace(new RegExp(SMOOTH_BREATHING, 'g'), CORONIS)`).
   return greekStr
     .normalize('NFD')
-    .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
+    .replace(reInitialSmoothBreathing, '$<vowelsGroup>')
     .replace(reInitialRoughBreathing, (match, vowelsGroup) => {
       // @fixme(v0.13): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
-        return vowelsGroup.charAt(0) === vowelsGroup.charAt(0).toUpperCase()
+        return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
           ? 'H' + vowelsGroup.toLowerCase()
           : 'h' + vowelsGroup;
       }
     })
     .replace(reDoubleRhoLazy, (match, doubleRho) =>
-      doubleRho === 'ΡΡ' ? doubleRho + 'H' : doubleRho + 'h'
+      doubleRho.toUpperCase() === doubleRho ? 'RRH' : 'rrh'
     )
     .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
       isUpperCase ? initialRho + 'H' : initialRho + 'h'
