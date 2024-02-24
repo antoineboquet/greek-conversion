@@ -28,7 +28,7 @@ describe('From beta code to transliteration', () => {
   test.each`
     str                    | expected
     ${'a)/nqrwpos'}        | ${'ánthrōpos'}
-    ${'kalo\\s ka)gaqo/s'} | ${'kalòs kagathós'}
+    ${'kalo\\s ka)gaqo/s'} | ${'kalòs ka̓gathós'}
     ${'au)to/nomos'}       | ${'autónomos'}
     ${'poih|='}            | ${'poiȩ̄̃'}
     ${'A)/i+da'}           | ${'Áïda'}
@@ -126,14 +126,14 @@ describe('From greek to transliteration', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'ánthrōpos'}
-    ${'καλὸς κἀγαθός'} | ${'kalòs kagathós'}
+    ${'καλὸς κἀγαθός'} | ${'kalòs ka̓gathós'}
     ${'αὐτόνομος'}     | ${'autónomos'}
     ${'υἱός'}          | ${'huiós'}
     ${'Υἱός'}          | ${'Huiós'}
     ${'ποιῇ'}          | ${'poiȩ̄̃'}
-    ${'Ἄϊδα'}         | ${'Áïda'}
+    ${'Ἄϊδα'}          | ${'Áïda'}
     ${'βάρ\u03D0αρος'} | ${'bárbaros'}
-    ${'Ὕσιρις'}       | ${'Húsiris'}
+    ${'Ὕσιρις'}        | ${'Húsiris'}
     ${'ᾠώδης'}         | ${'ō̧ṓdēs'}
     ${'wοῖ'}           | ${'woĩ'}
     ${'ἅγιοc'}         | ${'hágioc'}
@@ -151,6 +151,12 @@ describe('From greek to transliteration', () => {
     ${'ἄϋλος'}    | ${'áülos'}
     ${'ὑΐδιον'}   | ${'huḯdion'}
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
+
+  test.each`
+    str           | expected
+    ${'κἄν'}      | ${'ka̓́n'}
+    ${'ταὐτό'}    | ${'tau̓tó'}
+  `('Testing coronis', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
 
   test.each`
     str          | expected
@@ -209,9 +215,9 @@ describe('From greek to transliteration', () => {
     str              | expected
     ${'ανθρωπος'}    | ${'anthrōpos'}
     ${'ποιῇ'}        | ${'poiē'}
-    ${'Ἄϊδα'}       | ${'Aida'}
+    ${'Ἄϊδα'}        | ${'Aida'}
     ${'bárbaros'}    | ${'barbaros'}
-    ${'Ὕσιρις'}     | ${'Husiris'}
+    ${'Ὕσιρις'}      | ${'Husiris'}
     ${'ᾠώδης'}       | ${'ōōdēs'}
     ${'Ξενοφῶν'}     | ${'Xenophōn'}
     ${'χορηγέω'}     | ${'chorēgeō'}
@@ -264,7 +270,7 @@ describe('From greek to transliteration', () => {
     ${'ἄϋλος'}     | ${'áÿlos'}
     ${'ὑΐδιον'}    | ${'hyḯdion'}
     ${'ὕδωρ'}      | ${'hýdōr'}
-    ${'Ὕϐλα'}     | ${'Hýbla'}
+    ${'Ὕϐλα'}      | ${'Hýbla'}
     ${'ὔ ὗ'}       | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
@@ -279,13 +285,13 @@ describe('From greek to transliteration', () => {
   // The following sentences are given by the ALA-LC romanization table.
   test.each`
   str                                             | expected
-  ${'Ἡσιόδου τοῦ Ἀσκραίου Ἔργα καὶ ἡμέραι'}      | ${'Hēsiodou tou Askraiou Erga kai hēmerai'}
+  ${'Ἡσιόδου τοῦ Ἀσκραίου Ἔργα καὶ ἡμέραι'}       | ${'Hēsiodou tou Askraiou Erga kai hēmerai'}
   ${'Ἡ τοῦ Ὁμήρου Ἰλιάς'}                         | ${'Hē tou Homērou Ilias'}
   ${'Φίληβος ἢ Περὶ ἡδονῆς'}                      | ${'Philēbos ē Peri hēdonēs'}
   ${'Ἀγνώστῳ θεῷ'}                                | ${'Agnōstō theō'}
-  ${'κεῖται παρ’ Ἅιδῃ'}                          | ${'keitai par’ Hadē'}
+  ${'κεῖται παρ’ Ἅιδῃ'}                           | ${'keitai par’ Hadē'}
   ${'Αἴτια Ῥωμαϊκά'}                              | ${'Aitia Rhōmaika'}
-  ${'Ὅτι οὐδ’ ἡδέως ζῆν ἔστι κατ’ Ἐπίκουρον'}    | ${'Hoti oud’ hēdeōs zēn esti kat’ Epikouron'}
+  ${'Ὅτι οὐδ’ ἡδέως ζῆν ἔστι κατ’ Ἐπίκουρον'}     | ${'Hoti oud’ hēdeōs zēn esti kat’ Epikouron'}
   ${'Περὶ τοῦ μὴ ῥᾳδίως πιστεύειν διαβολῇ'}       | ${'Peri tou mē rhadiōs pisteuein diabolē'}
   ${'ἀΰπνους νύκτας ἴαυον'}                       | ${'aypnous nyktas iauon'}
   ${'Λητοῦς καὶ Διὸς υἱός'}                       | ${'Lētous kai Dios huios'}
