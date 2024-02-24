@@ -156,7 +156,7 @@ describe('From greek to transliteration', () => {
     str           | expected
     ${'κἄν'}      | ${'ka̓́n'}
     ${'ταὐτό'}    | ${'tau̓tó'}
-  `('Testing coronis', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
+  `('Testing coronides', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK)).toBe(expected) })
 
   test.each`
     str          | expected
