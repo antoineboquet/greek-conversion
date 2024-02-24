@@ -1,10 +1,11 @@
 import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
 import { applyPreset } from './presets';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
+import { isUpperCase } from './utils';
 
 export class GreekString {
   readonly #fromType: KeyType;
@@ -26,12 +27,14 @@ export class GreekString {
       options = applyPreset(options);
     }
 
+    const internalOptions: IInternalConversionOptions = {
+      isUpperCase: isUpperCase(str, fromType),
+      ...options
+    };
+
     this.#fromType = fromType;
     this.#options = options;
-    this.#mapping = new Mapping({
-      isUpperCase: str.toUpperCase() === str,
-      ...options
-    });
+    this.#mapping = new Mapping(internalOptions);
     this.source = str;
 
     switch (this.#fromType) {
