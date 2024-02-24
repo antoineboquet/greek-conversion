@@ -403,7 +403,7 @@ export class Mapping {
     SMOOTH_BREATHING: {
       gr: SMOOTH_BREATHING,
       bc: ')',
-      tr: undefined
+      tr: SMOOTH_BREATHING
     } as IMappingProperty,
     ROUGH_BREATHING: {
       gr: ROUGH_BREATHING,

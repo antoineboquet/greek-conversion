@@ -123,7 +123,7 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
  *   5. transliterate the remaining smooth breathings.
  *
  * @param transliteratedStr - Expects an already transliterated string with flagged
- * rough breathings ('$', '$$') and beta code style smooth breathings (')').
+ * rough breathings ('$', '$$').
  * @param options
  */
 function bcConvertBreathings(
@@ -139,7 +139,7 @@ function bcConvertBreathings(
 
   if (rho_rh) {
     transliteratedStr = transliteratedStr
-      .replace(/(r\)?r)(?!h)/gi, (match) =>
+      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (match) =>
         match.toUpperCase() === match ? 'RRH' : 'rrh'
       )
       .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
@@ -148,13 +148,12 @@ function bcConvertBreathings(
       );
   }
 
+  const vowels = 'aeēiouyō';
+  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
+
   transliteratedStr = transliteratedStr
-    .replace(
-      /(?<=\p{P}|\s|^)(?<vowelsGroup>[aeēiouyō]{1,2})(\))/gimu,
-      '$<vowelsGroup>'
-    )
-    .replace(/(?<rho>r)\)/gi, '$<rho>')
-    .replace(/\)/g, SMOOTH_BREATHING);
+    .replace(reInitialSmooth, '$<vowelsGroup>')
+    .replace(new RegExp(`(?<rho>r)${SMOOTH_BREATHING}`, 'gi'), '$<rho>');
 
   return transliteratedStr;
 }
