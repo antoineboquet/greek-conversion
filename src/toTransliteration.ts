@@ -1,5 +1,5 @@
 import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import {
   DIAERESIS,
   Mapping,
@@ -25,15 +25,18 @@ export function toTransliteration(
     options = applyPreset(options);
   }
 
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: str.toUpperCase() === str,
+    ...options
+  };
+
   // @fixme: beta code '#2*#2#1*#1#5*#5' produces a false positive;
   // so we should define what is uppercase for beta code.
-  const mapping =
-    declaredMapping ??
-    new Mapping({ isUpperCase: str.toUpperCase() === str, ...options });
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = bcFlagRoughBreathings(str);
+      str = bcFlagRoughBreathings(str, internalOptions);
 
       if (options.setTransliterationStyle?.upsilon_y) {
         str = flagDiaereses(str, KeyType.BETA_CODE);
@@ -56,13 +59,13 @@ export function toTransliteration(
           )
           .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
             // @FIXME: check for the word, not the entire string.
-            str.toUpperCase() === str ? match + 'H' : match + 'h'
+            internalOptions.isUpperCase ? match + 'H' : match + 'h'
           );
       }
       break;
 
     case KeyType.GREEK:
-      str = grConvertBreathings(str, options.setTransliterationStyle?.rho_rh);
+      str = grConvertBreathings(str, internalOptions);
       if (options.setTransliterationStyle?.upsilon_y) {
         str = flagDiaereses(str, KeyType.GREEK);
       }
@@ -134,7 +137,12 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
  * Rough breathings are ambiguous as letter `h` is transliterated
  * as `ē` or `ê`.
  */
-function bcFlagRoughBreathings(betaCodeStr: string): string {
+function bcFlagRoughBreathings(
+  betaCodeStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase } = options;
+
   return betaCodeStr
     .replace(/([aehiowu]{1,2})\(/gi, (match, vowelsGroup) =>
       vowelsGroup === vowelsGroup.toUpperCase()
@@ -142,7 +150,7 @@ function bcFlagRoughBreathings(betaCodeStr: string): string {
         : '$' + vowelsGroup
     )
     .replace(/(r{1,2})\(/gi, (match, rho) =>
-      betaCodeStr.toUpperCase() === betaCodeStr ? rho + '$$' : rho + '$'
+      isUpperCase ? rho + '$$' : rho + '$'
     );
 }
 
@@ -179,8 +187,14 @@ function flagDiaereses(str: string, fromType: KeyType): string {
  *   3. add an `h` after double rhos;
  *   4. add an `h` after a single rho (carrying a rough breathing or not if `rho_rh` is true).
  */
-function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
-  const reInitialBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
+function grConvertBreathings(
+  greekStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase, setTransliterationStyle } = options;
+  const rho_rh = setTransliterationStyle?.rho_rh;
+
+  const reInitialRoughBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
   const reDoubleRhoLazy = new RegExp(`(?<doubleRho>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
   const reInitialRho = new RegExp(`(?<initialRho>ρ)${ROUGH_BREATHING}`, 'gi');
   const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(?<initialRho>ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
@@ -188,9 +202,9 @@ function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
   return greekStr
     .normalize('NFD')
     .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
-    .replace(reInitialBreathing, (match, vowelsGroup) => {
-      // @fixme: case should be checked against the current word too.
-      if (greekStr.toUpperCase() === greekStr) return 'H' + vowelsGroup;
+    .replace(reInitialRoughBreathing, (match, vowelsGroup) => {
+      // @fixme(v0.13): case should be checked against the current word too.
+      if (isUpperCase) return 'H' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0) === vowelsGroup.charAt(0).toUpperCase()
           ? 'H' + vowelsGroup.toLowerCase()
@@ -201,7 +215,7 @@ function grConvertBreathings(greekStr: string, rho_rh: boolean): string {
       doubleRho === 'ΡΡ' ? doubleRho + 'H' : doubleRho + 'h'
     )
     .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
-      greekStr.toUpperCase() === greekStr ? initialRho + 'H' : initialRho + 'h'
+      isUpperCase ? initialRho + 'H' : initialRho + 'h'
     )
     .normalize('NFC');
 }
