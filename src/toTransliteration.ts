@@ -143,7 +143,7 @@ function bcFlagRoughBreathings(
   const { isUpperCase } = options;
 
   return betaCodeStr
-    .replace(/([aehiowu]{1,2})\(/gi, (match, vowelsGroup) =>
+    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) =>
       vowelsGroup === vowelsGroup.toUpperCase()
         ? '$$' + vowelsGroup.toLowerCase()
         : '$' + vowelsGroup
