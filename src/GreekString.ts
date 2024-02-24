@@ -22,7 +22,7 @@ export class GreekString {
     fromType: KeyType,
     options?: Preset | MixedPreset | IConversionOptions
   ) {
-    // Convert named presets to `IConversionOptions`objects.
+    // Convert named presets to `IConversionOptions` objects.
     if (typeof options === 'string' || Array.isArray(options)) {
       options = applyPreset(options);
     }
