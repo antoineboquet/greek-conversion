@@ -173,7 +173,7 @@ toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 
 You can use the **`GreekString`** object if you want to manage several representations of a greek string.
 
-As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
+As multiple conversions can be destructive, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
