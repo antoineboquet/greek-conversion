@@ -206,7 +206,7 @@ Removes beta and sigma variants.
 This is what you should know before using this library:
 
 - Greek numerals are not supported yet (see [Add support for greek numerals](https://github.com/antoineboquet/greek-conversion/issues/5)).
-- The monotonic greek `tonos` should be converted to the `oxia` polytonic form (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
+- Greek output produces monotonic greek `tonos` and not polytonic greek `oxia` (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
 
 ## License
 
