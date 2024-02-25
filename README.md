@@ -155,6 +155,17 @@ toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
   { removeDiacritics: false }
 ]) // aÿ́pnous nýktas íauon
 
+// Using customized greek
+
+const style = {
+  setGreekStyle: {
+    useLunateSigma: true
+  },
+  useAdditionalChars: AdditionalChars.LUNATE_SIGMA
+}
+
+toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style ) // ΙΧΘΥϹ ΖΩΝΤΩΝ
+
 // Using customized transliteration
 
 const style = {
