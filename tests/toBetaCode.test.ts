@@ -6,10 +6,11 @@ import { AdditionalChars, KeyType, toBetaCode } from '../src/index'
  *   - \u03F2 = Greek Lunate Sigma Symbol
  */
 
-const aristotle = { // challenge: `(meta\\ kinh/sews ga/r)`
+const aristotle = {
   gr: 'Ἐκεῖναι μὲν δὴ φυσικῆς μετὰ κινήσεως γάρ, αὕτη δὲ ἑτέρας, εἰ μηδεμία αὐτοῖς ἀρχὴ κοινή.',
   tr: 'Ekeĩnai mèn dḕ phusikē̃s metà kinḗseōs gár, haútē dè hetéras, ei mēdemía autoĩs archḕ koinḗ.',
-  bc: 'E)kei=nai me\\n dh\\ fusikh=s meta\\ kinh/sews ga/r, au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.'
+  bc: 'E)kei=nai me\\n dh\\ fusikh=s meta\\ kinh/sews ga/r, au(/th de\\ e(te/ras, ei) mhdemi/a au)toi=s a)rxh\\ koinh/.',
+  bcNoAcc: 'Ekeinai men dh fusikhs meta kinhsews gar, auth de eteras, ei mhdemia autois arxh koinh.'
 }
 
 describe('From greek to beta code', () => {
@@ -19,15 +20,37 @@ describe('From greek to beta code', () => {
     ${'καλὸς κἀγαθός'} | ${'kalo\\s ka)gaqo/s'}
     ${'αὐτόνομος'}     | ${'au)to/nomos'}
     ${'ποιῇ'}          | ${'poih=|'}
-    ${'Ἄϊδα'}         | ${'A)/i+da'}
+    ${'Ἄϊδα'}          | ${'A)/i+da'}
     ${'βάρ\u03D0αρος'} | ${'ba/rbaros'}
-    ${'Ὕσιρις'}       | ${'U(/siris'}
+    ${'Ὕσιρις'}        | ${'U(/siris'}
     ${'wοῖ'}           | ${'woi='}
     ${'ἅγιοc'}         | ${'a(/gioc'}
     ${'Ξενοφῶν'}       | ${'Cenofw=n'}
     ${'χορηγέω'}       | ${'xorhge/w'}
     ${'ἀ̆ᾱεηῐῑοωῠῡ'}    | ${'a)%27a%26ehi%27i%26owu%27u%26'}
+    ${aristotle.gr}    | ${aristotle.bc}
   `('Basic conversion', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
+
+  test.each`
+    str                | expected
+    ${'ανθρωπος'}      | ${'anqrwpos'}
+    ${'καλὸς κἀγαθός'} | ${'kalos kagaqos'}
+    ${'αὐτόνομος'}     | ${'autonomos'}
+    ${'ποιῇ'}          | ${'poih'}
+    ${'Ἄϊδα'}          | ${'Aida'}
+    ${'βάρ\u03D0αρος'} | ${'barbaros'}
+    ${'Ὕσιρις'}        | ${'Usiris'}
+    ${'wοῖ'}           | ${'woi'}
+    ${'ἅγιοc'}         | ${'agioc'}
+    ${'Ξενοφῶν'}       | ${'Cenofwn'}
+    ${'χορηγέω'}       | ${'xorhgew'}
+    ${'ἀ̆ᾱεηῐῑοωῠῡ'}    | ${'aaehiiowuu'}
+    ${aristotle.gr}    | ${aristotle.bcNoAcc}
+  `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true })).toBe(expected) })
+
+  test('Disabling beta variant', () => {
+    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
+  })
 
   test.each`
     str             | expected
@@ -38,56 +61,37 @@ describe('From greek to beta code', () => {
     ${'μάρμαρος'}   | ${'ma/rmaros'}
   `('Testing rho rules', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
 
-  test('Testing correctness with various word separators', () => {
-    expect(toBetaCode('Ρόδος\nΡόδος\tΡόδος Ρόδος', KeyType.GREEK)).toBe('Ro/dos\nRo/dos\tRo/dos Ro/dos')
-    expect(toBetaCode('Ῥόδος\nῬόδος\tῬόδος Ῥόδος', KeyType.GREEK)).toBe('R(o/dos\nR(o/dos\tR(o/dos R(o/dos')
-  })
-
   test.each`
-    str                   | expected
-    ${'ϝοῖ'}              | ${'voi='}
-    ${'ἅγιο\u03F2'}       | ${'a(/gios3'}
-    ${'\u03DB\u03DAϟϞϡϠ'} | ${'#2*#2#1*#1#5*#5'}
-  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { useAdditionalChars: AdditionalChars.ALL })).toBe(expected) })
-  
-  test('Using a subset of additional letters', () => {
+    str          | expected
+    ${'Ξενοφῶν'} | ${'Cenofw=n'}
+    ${'χορηγέω'} | ${'xorhge/w'}
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
+  test('Using additional letters', () => {
+    expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChars.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
     expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
     expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
   test.each`
     str             | expected
-    ${'ανθρωπος'}   | ${'anqrwpos'}
-    ${'ποιῇ'}       | ${'poih'}
-    ${'Ἄϊδα'}      | ${'Aida'}
-    ${'bárbaros'}   | ${'barbaros'}
-    ${'Ὕσιρις'}    | ${'Usiris'}
-    ${'Ξενοφῶν'}    | ${'Cenofwn'}
-    ${'χορηγέω'}    | ${'xorhgew'}
-    ${'ἀ̆ᾱεηῐῑοωῠῡ'} | ${'aaehiiowuu'}
-  `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true })).toBe(expected) })
-
-  test('Disabling beta variant', () => {
-    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
-  })
+    ${'ΒΆΡΒΑΡΟΣ'}   | ${'BA/RBAROS'}
+    ${'ῬΌΔΟΣ'}      | ${'R(O/DOS'}
+    ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLU/RRIZOS'}
+    ${'ΣΥΣΣΕΙΣΜΌΣ'} | ${'SUSSEISMO/S'}
+    ${'ἈΨΕΓΉΣ'}     | ${'A)YEGH/S'}
+    ${'ὙΙΌΣ'}       | ${'U(IO/S'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
     expect(toBetaCode('αἴξ   κριός', KeyType.GREEK)).toBe('ai)/c   krio/s')
     expect(toBetaCode('αἴξ   κριός', KeyType.GREEK, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
   })
 
-  test.each`
-    str           | expected
-    ${'ἄνθρωπος'} | ${'a)/nqrwpos'}
-    ${'Ὁπλίτης'}  | ${'O(pli/ths'}
-    ${'Ξενοφῶν'}  | ${'Cenofw=n'}
-  `('Using circumflex on long vowels', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
-
-  test.each`
-    str          | expected
-    ${'Ξενοφῶν'} | ${'Cenofw=n'}
-    ${'χορηγέω'} | ${'xorhge/w'}
-  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+  test('Testing correctness with various word separators', () => {
+    expect(toBetaCode('Ρόδος\nΡόδος\tΡόδος Ρόδος', KeyType.GREEK)).toBe('Ro/dos\nRo/dos\tRo/dos Ro/dos')
+    expect(toBetaCode('Ῥόδος\nῬόδος\tῬόδος Ῥόδος', KeyType.GREEK)).toBe('R(o/dos\nR(o/dos\tR(o/dos R(o/dos')
+  })
 })
 
 describe('From transliteration to beta code', () => {
@@ -96,14 +100,48 @@ describe('From transliteration to beta code', () => {
     ${'ánthrōpos'}      | ${'a)/nqrwpos'}
     ${'kalòs kagathós'} | ${'kalo\\s kagaqo/s'}
     ${'autónomos'}      | ${'au)to/nomos'}
+    ${'huiós'}          | ${'ui(o/s'}
+    ${'Huiós'}          | ${'Ui(o/s'}
     ${'poiȩ̄̃'}           | ${'poih=|'}
     ${'Áïda'}           | ${'A)/i+da'}
     ${'bárbaros'}       | ${'ba/rbaros'}
     ${'Hoplítēs'}       | ${'O(pli/ths'}
+    ${'Húsiris'}        | ${'U(/siris'}
+    ${'ō̧ṓdēs'}          | ${'w)|w/dhs'}
     ${'voĩ'}            | ${'voi='}
     ${'hágioc'}         | ${'a(/gioc'}
+    ${'Xenophō̃n'}       | ${'Cenofw=n'}
+    ${'chorēgéō'}       | ${'xorhge/w'}
+    ${'āăē'}            | ${'a)%26a%27h'}
     ${aristotle.tr}     | ${aristotle.bc}
   `('Basic conversion', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  test.each`
+    str                 | expected
+    ${'ánthrōpos'}      | ${'anqrwpos'}
+    ${'kalòs kagathós'} | ${'kalos kagaqos'}
+    ${'autónomos'}      | ${'autonomos'}
+    ${'huiós'}          | ${'uios'}
+    ${'Huiós'}          | ${'Uios'}
+    ${'poiȩ̄̃'}           | ${'poih'}
+    ${'Áïda'}           | ${'Aida'}
+    ${'bárbaros'}       | ${'barbaros'}
+    ${'Hoplítēs'}       | ${'Opliths'}
+    ${'Húsiris'}        | ${'Usiris'}
+    ${'ō̧ṓdēs'}          | ${'wwdhs'}
+    ${'voĩ'}            | ${'voi'}
+    ${'hágioc'}         | ${'agioc'}
+    ${'Xenophō̃n'}       | ${'Cenofwn'}
+    ${'chorēgéō'}       | ${'xorhgew'}
+    ${'āăē'}            | ${'aah'}
+    ${aristotle.tr}     | ${aristotle.bcNoAcc}
+  `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
+
+  // @fixme(v0.13)
+  test('Testing the combining dot below', () => {
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChars.ALL })).toBe('Pa/tro#3los')
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, useAdditionalChars: AdditionalChars.ALL })).toBe('Patro#3los')
+  })
 
   test.each`
     str             | expected
@@ -130,32 +168,6 @@ describe('From transliteration to beta code', () => {
   `('Testing rho rules', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   test.each`
-    str         | expected
-    ${'woĩ'}    | ${'voi='}
-    ${'hágioc'} | ${'a(/gios3'}
-    ${'c̄C̄qQs̄S̄'} | ${'#2*#2#1*#1#5*#5'}
-  `('Using additional letters', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChars.ALL })).toBe(expected) })
-
-  test('Using a subset of additional letters', () => {
-    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
-  })
-
-  test.each`
-    str              | expected
-    ${'ánthrōpos'}   | ${'anqrwpos'}
-    ${'poiȩ̄̃'}        | ${'poih'}
-    ${'Áïda'}        | ${'Aida'}
-    ${'bárbaros'}    | ${'barbaros'}
-    ${'Hoplítēs'}    | ${'Opliths'}
-    ${'polúrrhizos'} | ${'polurrizos'}
-  `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
-
-  test('Testing whitespace behavior', () => {
-    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION)).toBe('ai)/c   krio/s')
-    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
-  })
-
-  test.each`
     str            | expected
     ${'ánthrôpos'} | ${'a)/nqrwpos'}
     ${'Hoplítês'}  | ${'O(pli/ths'}
@@ -178,4 +190,27 @@ describe('From transliteration to beta code', () => {
     ${'Hýbla'}     | ${'U(/bla'}
     ${'ý hỹ'}      | ${'u)/ u(='}
   `('Applying upsilon_y', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
+
+  test('Using additional letters', () => {
+    expect(toBetaCode('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChars.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
+    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
+  })
+
+  // @fixme(v0.13): check if rough breathings diphthongs rules must be overridden when converting from
+  // transliteration to beta code, as 'HUIÓS' -> 'UI(O/S' but 'ὙΙΌΣ' produces 'U(IO/S' (greek to beta code).
+  test.each`
+    str             | expected
+    ${'BÁRBAROS'}   | ${'BA/RBAROS'}
+    ${'RHÓDOS'}     | ${'R(O/DOS'}
+    ${'POLÚRRIZOS'} | ${'POLU/RRIZOS'}
+    ${'SUSSEISMÓS'} | ${'SUSSEISMO/S'}
+    ${'APSEGḖS'}    | ${'A)YEGH/S'}
+    ${'HUIÓS'}      | ${'UI(O/S'}
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  test('Testing whitespace behavior', () => {
+    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION)).toBe('ai)/c   krio/s')
+    expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
+  })
 })

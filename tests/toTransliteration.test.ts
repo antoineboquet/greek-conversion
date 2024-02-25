@@ -36,7 +36,7 @@ describe('From beta code to transliteration', () => {
     ${'O(pli/ths'}         | ${'Hoplítēs'}
     ${'voi='}              | ${'voĩ'}
     ${'a(/gios3'}          | ${'hágios3'}
-    ${'a%26a%27'}          | ${'āă'}
+    ${'a%26a%27h'}         | ${'āăē'}
     ${aristotle.bc}        | ${aristotle.tr}
   `('Basic conversion', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
@@ -51,7 +51,7 @@ describe('From beta code to transliteration', () => {
     ${'O(pli/ths'}         | ${'Hoplitēs'}
     ${'voi='}              | ${'voi'}
     ${'a(/gios3'}          | ${'hagios3'}
-    ${'a%26a%27'}          | ${'aa'}
+    ${'a%26a%27h'}         | ${'aaē'}
     ${aristotle.bc}        | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
@@ -101,6 +101,7 @@ describe('From beta code to transliteration', () => {
     ${'POLU/RRIZOS'}  | ${'POLÚRRIZOS'}
     ${'SUSSEISMO/S'}  | ${'SUSSEISMÓS'}
     ${'A)YEGH/S'}     | ${'APSEGḖS'}
+    ${'UI(O/S'}       | ${'HUIÓS'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected) })
 
   test('Testing whitespace behavior', () => {
