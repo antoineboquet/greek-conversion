@@ -117,7 +117,7 @@ removeExtraWhitespace?: boolean, // remove potential extra whitespace
 
 setGreekStyle?: {
   disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
-  useLunateSigma?: boolean       // use lunate sigma rather than the regular form
+  useLunateSigma?: boolean       // use the lunate sigma rather than the regular form
 },
 
 setTransliterationStyle?: {
