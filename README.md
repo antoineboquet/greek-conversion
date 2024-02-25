@@ -145,6 +145,7 @@ toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // a
 
 // Using presets
 
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aǘpnous núktas íauon
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
 
 // Using mixed presets
