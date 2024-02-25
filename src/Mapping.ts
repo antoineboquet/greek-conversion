@@ -37,84 +37,84 @@ const ADDITIONAL_CHARS_VALUES: {
     CAPITAL_DIGAMMA: {
       gr: 'Ϝ',
       bc: 'V',
-      tr: 'W'
+      tr: 'W' // Defined by: ALA-LC, BNF
     },
     SMALL_DIGAMMA: {
       gr: 'ϝ',
       bc: 'v',
-      tr: 'w'
+      tr: 'w' // Defined by: ALA-LC, BNF
     }
   },
   [AdditionalChars.YOT]: {
     CAPITAL_YOT: {
       gr: '\u037F',
       bc: 'J',
-      tr: 'J'
+      tr: 'J' // Defined by: BNF
     },
     SMALL_YOT: {
       gr: '\u03F3',
       bc: 'j',
-      tr: 'j'
+      tr: 'j' // Defined by: BNF
     }
   },
   [AdditionalChars.LUNATE_SIGMA]: {
     CAPITAL_LUNATE_SIGMA: {
       gr: CAPITAL_LUNATE_SIGMA,
       bc: 'S3',
-      tr: 'C'
+      tr: 'C' // Defined by: BNF
     },
     SMALL_LUNATE_SIGMA: {
       gr: SMALL_LUNATE_SIGMA,
       bc: 's3',
-      tr: 'c'
+      tr: 'c' // Defined by: BNF
     }
   },
   [AdditionalChars.STIGMA]: {
     CAPITAL_STIGMA: {
       gr: '\u03DA',
       bc: '*#2',
-      tr: 'C̄'
+      tr: 'C̄' // Defined by: BNF
     },
     SMALL_STIGMA: {
       gr: '\u03DB',
       bc: '#2',
-      tr: 'c̄'
+      tr: 'c̄' // Defined by: BNF
     }
   },
   [AdditionalChars.KOPPA]: {
     CAPITAL_KOPPA: {
       gr: 'Ϟ',
       bc: '*#1',
-      tr: 'Q'
+      tr: 'Q' // Defined by: BNF
     },
     SMALL_KOPPA: {
       gr: 'ϟ',
       bc: '#1',
-      tr: 'q'
+      tr: 'q' // Defined by: BNF
     }
   },
   [AdditionalChars.ARCHAIC_KOPPA]: {
     CAPITAL_ARCHAIC_KOPPA: {
       gr: 'Ϙ',
       bc: '*#3',
-      tr: 'Ḳ' // Defined by ALA-LC
+      tr: 'Ḳ' // Defined by: ALA-LC
     },
     SMALL_ARCHAIC_KOPPA: {
       gr: 'ϙ',
       bc: '#3',
-      tr: 'ḳ' // Defined by ALA-LC
+      tr: 'ḳ' // Defined by: ALA-LC
     }
   },
   [AdditionalChars.SAMPI]: {
     CAPITAL_SAMPI: {
       gr: 'Ϡ',
       bc: '*#5',
-      tr: 'S̄'
+      tr: 'S̄' // Defined by: BNF
     },
     SMALL_SAMPI: {
       gr: 'ϡ',
       bc: '#5',
-      tr: 's̄'
+      tr: 's̄' // Defined by: BNF
     }
   }
   /*[AdditionalChars.SAN]: {
