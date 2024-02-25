@@ -558,9 +558,10 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
+    // @fixme: this section should be cleaned.
     if (fromType === KeyType.TRANSLITERATION) {
       // Join back below dots to archaic koppas (do not treat them as diacritcs).
-      // @fixme: this does not work with two adjacent koppas.
+      // @fixme: this does not work with adjacent small & capital archaic koppa.
       if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
         const reArchaicKoppa = new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'); // prettier-ignore
         fromStr = fromStr.replace(reArchaicKoppa, (match) => {
