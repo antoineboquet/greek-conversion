@@ -173,11 +173,15 @@ function bcFlagRoughBreathings(
   const { isUpperCase } = options;
 
   return betaCodeStr
-    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) =>
-      vowelsGroup === vowelsGroup.toUpperCase()
-        ? '$$' + vowelsGroup.toLowerCase()
-        : '$' + vowelsGroup
-    )
+    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) => {
+      // @fixme(v0.13): case should be checked against the current word too.
+      if (isUpperCase) return '$$' + vowelsGroup;
+      else {
+        return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
+          ? '$$' + vowelsGroup.toLowerCase()
+          : '$' + vowelsGroup;
+      }
+    })
     .replace(/(r{1,2})\(/gi, (match, rho) =>
       isUpperCase ? rho + '$$' : rho + '$'
     );
