@@ -120,7 +120,8 @@ export function removeDiacritics(
 ): string {
   switch (type) {
     case KeyType.BETA_CODE:
-      return str.replace(/[\(\)\\\/\+=\|]/g, '');
+      // Include the macron (%26) & the breve (%27).
+      return str.replace(/[\(\)\\\/\+=\|\?]|%26|%27/g, '');
 
     case KeyType.GREEK:
       return str
