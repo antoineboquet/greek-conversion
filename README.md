@@ -143,11 +143,28 @@ toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
 toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
 toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
 
-// With customized transliteration
+// Using presets
+
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
+
+// Using mixed presets
+
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
+  Preset.ALA_LC,
+  { removeDiacritics: false }
+]) // aÿ́pnous nýktas íauon
+
+// Using customized transliteration
+
+const style = {
+  setTransliterationStyle: {
+    useCxOverMacron: true,
+    chi_kh: true
+  }
+}
 
 toTransliteration('τέχνη', KeyType.GREEK) // téchnē
-toTransliteration('τέχνη', KeyType.GREEK, { setTransliterationStyle: { chi_kh: true } }) // tékhnē
-toGreek('tékhnê', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, chi_kh: true } }) // τέχνη
+toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 ```
 
 ## OOP style
