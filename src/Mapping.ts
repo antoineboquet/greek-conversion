@@ -487,23 +487,6 @@ export class Mapping {
           for (const [char, props] of Object.entries(v)) this[char] = props;
         }
       }
-
-      if (this.#transliterationStyle?.lunatesigma_s) {
-        // The lunate sigma might not have been activated using the
-        // `useAdditionalChars` option. So, we need to check if its property exists.
-        if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
-        if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
-
-        if (
-          !this.CAPITAL_LUNATE_SIGMA?.tr ||
-          (!this.#isUpperCase && !this.SMALL_LUNATE_SIGMA?.tr)
-        ) {
-          console.warn(
-            'You must enable `AdditionalChars.LUNATE_SIGMA` for the option',
-            '`setTransliterationStyle.lunatesigma_s` to take effect.'
-          );
-        }
-      }
     }
 
     if (this.#transliterationStyle?.useCxOverMacron) {
@@ -536,19 +519,36 @@ export class Mapping {
       }
     }
 
-    if (this.#transliterationStyle?.chi_kh) {
-      this.CAPITAL_CHI.tr = 'Kh';
-      this.SMALL_CHI.tr = 'kh';
-    }
-
     if (this.#transliterationStyle?.xi_ks) {
       this.CAPITAL_XI.tr = 'Ks';
       this.SMALL_XI.tr = 'ks';
     }
 
+    if (this.#transliterationStyle?.chi_kh) {
+      this.CAPITAL_CHI.tr = 'Kh';
+      this.SMALL_CHI.tr = 'kh';
+    }
+
     if (this.#transliterationStyle?.upsilon_y) {
       this.CAPITAL_UPSILON.tr = 'Y';
       this.SMALL_UPSILON.tr = 'y';
+    }
+
+    if (this.#transliterationStyle?.lunatesigma_s) {
+      // The lunate sigma might not have been activated using the
+      // `useAdditionalChars` option. So, we need to check if its property exists.
+      if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
+      if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
+
+      if (
+        !this.CAPITAL_LUNATE_SIGMA?.tr ||
+        (!this.#isUpperCase && !this.SMALL_LUNATE_SIGMA?.tr)
+      ) {
+        console.warn(
+          'You must enable `AdditionalChars.LUNATE_SIGMA` for the option',
+          '`setTransliterationStyle.lunatesigma_s` to take effect.'
+        );
+      }
     }
   }
 
