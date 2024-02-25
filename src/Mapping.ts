@@ -18,6 +18,7 @@ export const BREVE = '\u0306';
 export const DIAERESIS = '\u0308';
 export const SMOOTH_BREATHING = '\u0313';
 export const ROUGH_BREATHING = '\u0314';
+export const DOT_BELOW = '\u0323';
 export const CEDILLA = '\u0327';
 export const IOTA_SUBSCRIPT = '\u0345';
 export const ANO_TELEIA = '\u0387';
@@ -444,6 +445,11 @@ export class Mapping {
       gr: IOTA_SUBSCRIPT,
       bc: '|',
       tr: CEDILLA
+    } as IMappingProperty,
+    DOT_BELOW: {
+      gr: DOT_BELOW,
+      bc: '?',
+      tr: DOT_BELOW
     } as IMappingProperty
   };
 
