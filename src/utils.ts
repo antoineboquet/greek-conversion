@@ -142,12 +142,12 @@ export function removeDiacritics(
         );
 
         if (useCxOverMacron) {
-          // Exclude the \u0302 circumflex from the range.
+          // Exclude the circumflex [\u0302] from the range.
           str = str
             .replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
             .replace(rePreservedLetters, '');
         } else {
-          // Exclude the \u0304 macron from the range.
+          // Exclude the macron [\u0304] from the range.
           str = str
             .replace(/[\u0300-\u0303-\u0305-\u036f]/g, '')
             .replace(rePreservedLetters, '');
