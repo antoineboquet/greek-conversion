@@ -139,6 +139,7 @@ describe('From transliteration to greek', () => {
     ${'Xenophȭn'}       | ${'Ξενοφῶν'}
     ${'chorēgéō'}       | ${'χορηγέω'}
     ${'ăāeēĭīoōŭū'}     | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
+    ${'ēēȩ̄̃ōōō̧'}         | ${'ἠηῇωωῳ'}
     ${plato.tr}         | ${plato.gr} 
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
@@ -159,6 +160,7 @@ describe('From transliteration to greek', () => {
     ${'Xenophȭn'}       | ${'Ξενοφων'}
     ${'chorēgéō'}       | ${'χορηγεω'}
     ${'ăāeēĭīoōŭū'}     | ${'ααεηιιοωυυ'}
+    ${'ēēȩ̄̃ōōō̧'}         | ${'ηηηωωω'}
     ${thucydides.trNoAcc} | ${thucydides.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
 
