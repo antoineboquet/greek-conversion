@@ -124,7 +124,7 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
  *
  * @param transliteratedStr - Expects an already transliterated string with flagged
  * rough breathings ('$', '$$').
- * @param options
+ * @param options - Internal conversion options.
  */
 function bcConvertBreathings(
   transliteratedStr: string,
