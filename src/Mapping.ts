@@ -391,12 +391,12 @@ export class Mapping {
   SMALL_SAN: IMappingProperty;
   QUESTION_MARK: IMappingProperty = {
     gr: GREEK_QUESTION_MARK,
-    bc: '?',
+    bc: ';',
     tr: '?'
   };
   ANO_TELEIA: IMappingProperty = {
     gr: ANO_TELEIA,
-    bc: ';',
+    bc: ':',
     tr: ';'
   };
   DIACRITICS = {
