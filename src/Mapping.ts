@@ -559,8 +559,16 @@ export class Mapping {
     fromStr = fromStr.normalize('NFD');
 
     if (fromType === KeyType.TRANSLITERATION) {
-      // Join back long wovel marks, which should not be treated
-      // as diacritics, to their associated chars.
+      // Join back below dots to archaic koppas (do not treat them as diacritcs).
+      // @fixme: this does not work with two adjacent koppas.
+      if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
+        const reArchaicKoppa = new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'); // prettier-ignore
+        fromStr = fromStr.replace(reArchaicKoppa, (match) => {
+          return match.normalize('NFC');
+        });
+      }
+
+      // Join back long wovel marks to their chars (do not treat them as diacritcs).
       const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
       const letters: string = this.trLettersWithCxOrMacron().join('');
 
@@ -570,8 +578,7 @@ export class Mapping {
         return (char + longVowelMark).normalize('NFC') + diacritics;
       });
 
-      // Add the alternate upsilon form (y/u) to the mapping
-      // if `upsilon_y` has been set.
+      // Add the alternate upsilon form (y/u) to the mapping if `upsilon_y` is enabled.
       if (
         this.#transliterationStyle?.upsilon_y &&
         toType !== KeyType.TRANSLITERATION
