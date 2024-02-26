@@ -27,11 +27,11 @@ export const GREEK_QUESTION_MARK = '\u037E';
 export const CAPITAL_LUNATE_SIGMA = '\u03F9';
 export const SMALL_LUNATE_SIGMA = '\u03F2';
 
-const ADDITIONAL_CHARS_VALUES: {
+const ADDITIONAL_CHARS_VALUES = (): {
   [k in AdditionalChar]: {
     [k in any /* @fixme */]: IMappingProperty;
   };
-} = {
+} => ({
   [AdditionalChar.ALL]: {},
   [AdditionalChar.DIGAMMA]: {
     CAPITAL_DIGAMMA: {
@@ -129,7 +129,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: undefined
     }
   }*/
-};
+});
 
 export class Mapping {
   CAPITAL_ALPHA: IMappingProperty = {
@@ -477,7 +477,7 @@ export class Mapping {
     }
 
     if (this.#useAdditionalChars) {
-      for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES)) {
+      for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
         if (
           this.#useAdditionalChars === AdditionalChar.ALL ||
           this.#useAdditionalChars === k ||
