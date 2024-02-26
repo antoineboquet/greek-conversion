@@ -21,7 +21,9 @@ export {
 } from './utils';
 
 export default {
+  AdditionalChar,
   KeyType,
+  Preset,
   GreekString,
   toBetaCode,
   toGreek,
