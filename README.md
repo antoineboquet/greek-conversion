@@ -130,7 +130,7 @@ setTransliterationStyle?: {
 },
 
 useAdditionalChars?:               // extend the default mapping with additional chars
- AdditionalChar[] | AdditionalChar //   (useAdditionalChar.ALL to enable the whole set)
+ AdditionalChar[] | AdditionalChar //   (use AdditionalChar.ALL to enable the whole set)
 ```
 
 ### Examples
