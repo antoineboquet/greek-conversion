@@ -1,6 +1,6 @@
 import { IConversionOptions } from './interfaces';
 
-export enum AdditionalChars {
+export enum AdditionalChar {
   ALL = 'all',
   DIGAMMA = 'digamma',
   YOT = 'yot',

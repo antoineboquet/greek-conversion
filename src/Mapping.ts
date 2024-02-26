@@ -1,4 +1,4 @@
-import { AdditionalChars, KeyType } from './enums';
+import { AdditionalChar, KeyType } from './enums';
 import {
   IInternalConversionOptions,
   IMappingProperty,
@@ -28,12 +28,12 @@ export const CAPITAL_LUNATE_SIGMA = '\u03F9';
 export const SMALL_LUNATE_SIGMA = '\u03F2';
 
 const ADDITIONAL_CHARS_VALUES: {
-  [k in AdditionalChars]: {
+  [k in AdditionalChar]: {
     [k in any /* @fixme */]: IMappingProperty;
   };
 } = {
-  [AdditionalChars.ALL]: {},
-  [AdditionalChars.DIGAMMA]: {
+  [AdditionalChar.ALL]: {},
+  [AdditionalChar.DIGAMMA]: {
     CAPITAL_DIGAMMA: {
       gr: 'Ϝ',
       bc: 'V',
@@ -45,7 +45,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'w' // Defined by: ALA-LC, BNF
     }
   },
-  [AdditionalChars.YOT]: {
+  [AdditionalChar.YOT]: {
     CAPITAL_YOT: {
       gr: '\u037F',
       bc: 'J',
@@ -57,7 +57,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'j' // Defined by: BNF
     }
   },
-  [AdditionalChars.LUNATE_SIGMA]: {
+  [AdditionalChar.LUNATE_SIGMA]: {
     CAPITAL_LUNATE_SIGMA: {
       gr: CAPITAL_LUNATE_SIGMA,
       bc: 'S3',
@@ -69,7 +69,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'c' // Defined by: BNF
     }
   },
-  [AdditionalChars.STIGMA]: {
+  [AdditionalChar.STIGMA]: {
     CAPITAL_STIGMA: {
       gr: '\u03DA',
       bc: '*#2',
@@ -81,7 +81,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'c̄' // Defined by: BNF
     }
   },
-  [AdditionalChars.KOPPA]: {
+  [AdditionalChar.KOPPA]: {
     CAPITAL_KOPPA: {
       gr: 'Ϟ',
       bc: '*#1',
@@ -93,7 +93,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'q' // Defined by: BNF
     }
   },
-  [AdditionalChars.ARCHAIC_KOPPA]: {
+  [AdditionalChar.ARCHAIC_KOPPA]: {
     CAPITAL_ARCHAIC_KOPPA: {
       gr: 'Ϙ',
       bc: '*#3',
@@ -105,7 +105,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 'ḳ' // Defined by: ALA-LC
     }
   },
-  [AdditionalChars.SAMPI]: {
+  [AdditionalChar.SAMPI]: {
     CAPITAL_SAMPI: {
       gr: 'Ϡ',
       bc: '*#5',
@@ -117,7 +117,7 @@ const ADDITIONAL_CHARS_VALUES: {
       tr: 's̄' // Defined by: BNF
     }
   }
-  /*[AdditionalChars.SAN]: {
+  /*[AdditionalChar.SAN]: {
     CAPITAL_SAN: {
       gr: '\u03FA',
       bc: '*#711',
@@ -457,7 +457,7 @@ export class Mapping {
   //#betaCodeStyle: IBetaCodeStyle;
   #removeDiacritics: boolean;
   #transliterationStyle: ITransliterationStyle;
-  #useAdditionalChars: AdditionalChars[] | AdditionalChars;
+  #useAdditionalChars: AdditionalChar[] | AdditionalChar;
 
   constructor(options?: IInternalConversionOptions) {
     if (!options) return;
@@ -479,10 +479,10 @@ export class Mapping {
     if (this.#useAdditionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES)) {
         if (
-          this.#useAdditionalChars === AdditionalChars.ALL ||
+          this.#useAdditionalChars === AdditionalChar.ALL ||
           this.#useAdditionalChars === k ||
           (Array.isArray(this.#useAdditionalChars) &&
-            this.#useAdditionalChars.includes(k as AdditionalChars))
+            this.#useAdditionalChars.includes(k as AdditionalChar))
         ) {
           for (const [char, props] of Object.entries(v)) this[char] = props;
         }
@@ -499,20 +499,20 @@ export class Mapping {
       this.SMALL_OMEGA.tr = 'ô';
 
       if (
-        this.#useAdditionalChars === AdditionalChars.ALL ||
-        this.#useAdditionalChars === AdditionalChars.STIGMA ||
+        this.#useAdditionalChars === AdditionalChar.ALL ||
+        this.#useAdditionalChars === AdditionalChar.STIGMA ||
         (Array.isArray(this.#useAdditionalChars) &&
-          this.#useAdditionalChars.includes(AdditionalChars.STIGMA))
+          this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
       ) {
         this.CAPITAL_STIGMA.tr = 'Ĉ';
         this.SMALL_STIGMA.tr = 'ĉ';
       }
 
       if (
-        this.#useAdditionalChars === AdditionalChars.ALL ||
-        this.#useAdditionalChars === AdditionalChars.SAMPI ||
+        this.#useAdditionalChars === AdditionalChar.ALL ||
+        this.#useAdditionalChars === AdditionalChar.SAMPI ||
         (Array.isArray(this.#useAdditionalChars) &&
-          this.#useAdditionalChars.includes(AdditionalChars.SAMPI))
+          this.#useAdditionalChars.includes(AdditionalChar.SAMPI))
       ) {
         this.CAPITAL_SAMPI.tr = 'Ŝ';
         this.SMALL_SAMPI.tr = 'ŝ';
@@ -545,7 +545,7 @@ export class Mapping {
         (!this.#isUpperCase && !this.SMALL_LUNATE_SIGMA?.tr)
       ) {
         console.warn(
-          'You must enable `AdditionalChars.LUNATE_SIGMA` for the option',
+          'You must enable `AdditionalChar.LUNATE_SIGMA` for the option',
           '`setTransliterationStyle.lunatesigma_s` to take effect.'
         );
       }
@@ -778,19 +778,19 @@ export class Mapping {
     ];
 
     if (
-      this.#useAdditionalChars === AdditionalChars.ALL ||
-      this.#useAdditionalChars === AdditionalChars.STIGMA ||
+      this.#useAdditionalChars === AdditionalChar.ALL ||
+      this.#useAdditionalChars === AdditionalChar.STIGMA ||
       (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(AdditionalChars.STIGMA))
+        this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
     ) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
     if (
-      this.#useAdditionalChars === AdditionalChars.ALL ||
-      this.#useAdditionalChars === AdditionalChars.STIGMA ||
+      this.#useAdditionalChars === AdditionalChar.ALL ||
+      this.#useAdditionalChars === AdditionalChar.STIGMA ||
       (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(AdditionalChars.STIGMA))
+        this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
     ) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }

@@ -1,12 +1,12 @@
-import { AdditionalChars, MixedPreset, Preset } from './enums';
+import { AdditionalChar, MixedPreset, Preset } from './enums';
 import { IConversionOptions } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   useAdditionalChars: [
-    AdditionalChars.DIGAMMA,
-    AdditionalChars.ARCHAIC_KOPPA,
-    AdditionalChars.LUNATE_SIGMA
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.ARCHAIC_KOPPA,
+    AdditionalChar.LUNATE_SIGMA
   ],
   setTransliterationStyle: {
     rho_rh: true,
@@ -18,18 +18,18 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
 const BNF_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
   useAdditionalChars: [
-    AdditionalChars.DIGAMMA,
-    AdditionalChars.YOT,
-    AdditionalChars.LUNATE_SIGMA,
-    AdditionalChars.STIGMA,
-    AdditionalChars.KOPPA,
-    AdditionalChars.SAMPI
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.YOT,
+    AdditionalChar.LUNATE_SIGMA,
+    AdditionalChar.STIGMA,
+    AdditionalChar.KOPPA,
+    AdditionalChar.SAMPI
   ]
 });
 
 const MODERN_BC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
-  useAdditionalChars: AdditionalChars.ALL
+  useAdditionalChars: AdditionalChar.ALL
 });
 
 const SBL_OPTIONS = (): IConversionOptions => ({
@@ -42,7 +42,7 @@ const SBL_OPTIONS = (): IConversionOptions => ({
 
 const TLG_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
-  useAdditionalChars: AdditionalChars.ALL
+  useAdditionalChars: AdditionalChar.ALL
   /*setBetaCodeStyle: {
     useTLGStyle: true
   }*/

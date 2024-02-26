@@ -1,4 +1,4 @@
-import { AdditionalChars } from './enums';
+import { AdditionalChar } from './enums';
 
 export interface IConversionOptions {
   removeDiacritics?: boolean;
@@ -6,7 +6,7 @@ export interface IConversionOptions {
   //setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?: ITransliterationStyle;
-  useAdditionalChars?: AdditionalChars[] | AdditionalChars;
+  useAdditionalChars?: AdditionalChar[] | AdditionalChar;
 }
 
 export interface IInternalConversionOptions extends IConversionOptions {
