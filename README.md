@@ -11,7 +11,9 @@ A small library to convert a polytonic greek string from/into various representa
     2. [The old way](#the-old-way)
 2. [Core functions](#core-functions)
     1. [Summary](#summary-1)
-    2. [Examples](#examples)
+    2. [Conversion presets](#conversion-presets)
+    3. [Conversion options](#conversion-options)
+    4. [Examples](#examples)
 3. [OOP style](#oop-style)
     1. [Summary](#summary-2)
     2. [Example](#example)
@@ -22,18 +24,18 @@ A small library to convert a polytonic greek string from/into various representa
 ## Usage
 
 ### With a package manager (recommended)
-In order to use this library for your project, simply type:
-```
-npm install --save greek-conversion
+In order to use this library in your project, simply type:
+```shell
+npm install greek-conversion
 ```
 
 Import the library's functions as needed:
 
 ```ts
 // ES6 modules syntax
-import { keyType, toBetaCode, toGreek, toTransliteration } from 'greek-conversion'
+import { KeyType, toTransliteration } from 'greek-conversion'
 
-// OR CommonJS syntax
+// CommonJS syntax
 const gc = require('greek-conversion')
 ```
 
@@ -45,7 +47,7 @@ Then use them:
 toTransliteration(
   'Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων, ' +  // Hellēsin egeneto kai
   'ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.',         // merei tini tōn barbarōn,
-  keyType.GREEK,                                     // hōs de eipein kai epi
+  KeyType.GREEK,                                     // hōs de eipein kai epi
   { removeDiacritics: true }                         // pleiston anthrōpōn.
 )
 ```
@@ -62,8 +64,8 @@ You can then call the library's functions as exemplified below:
 
 ```html
 <script type="module">
-  import { keyType, toGreek } from 'https://www.unpkg.com/greek-conversion' // or './greekConversion.min.js'
-  console.log(toGreek('anthrōpos', keyType.TRANSLITERATION)) // ανθρωπος
+  import { KeyType, toGreek } from 'https://www.unpkg.com/greek-conversion' // or './greekConversion.min.js'
+  console.log(toGreek('anthrōpos', KeyType.TRANSLITERATION)) // ανθρωπος
 </script>
 ```
 
@@ -75,71 +77,143 @@ This library provides three main functions to convert a greek string: **`toBetaC
 
 Functions signature is consistently:
 ```ts
-str: string, fromType: keyType, options: IConversionOptions = {}
+str: string,
+fromType: KeyType,
+options: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-The **`keyType`** enumeration can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `keyType.GREEK`). If you write plain JavaScript, you can also use the string literals 'beta-code', 'greek' & 'transliteration'.
+The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
-The **`IConversionOptions`** interface provides some control over the conversion process:
+The **`options`** parameter can be filled with:
+1. a `Preset`;
+2. a user-defined `IConversionOptions` object;
+3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
 
+### Conversion presets
+
+The available presets are:
+
+1. **For beta code:**
+
+| Preset | Description |
+| ------ | ----------- |
+| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | `greek-conversion`'s own modernized style |
+
+2. **For transliteration:**
+
+| Preset | Description |
+| ------ | ----------- |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
+| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
+
+### Conversion options
+
+The **`IConversionOptions`** interface provides the following controls over the conversion process:
 ```ts
-{
-  preserveWhitespace?: boolean,            // keep potential extra whitespace
-  removeDiacritics?: boolean,              // remove diacritics, except those that represent letters
-  useAdditionalLetters?:                   // extend the default mapping with predefined
-    additionalLetters|additionalLetters[], //   additional letters
-  setGreekStyle?: {
-    disableBetaVariant?: boolean           // disable the typographic variant 'ϐ' [U+03D0]
-  },
-  setTransliterationStyle?: {
-    useCxOverMacron?: boolean,             // use a circumflex rather than a macron for eta, omega, etc
-    chi_kh?: boolean,                      // alter the transliteration of 'χ' (defaults to: 'ch')
-    xi_ks?: boolean                        // alter the transliteration of 'ξ' (defaults to: 'x')
-  }
-}
+removeDiacritics?: boolean,      // remove diacritics, except those that represent letters
+
+removeExtraWhitespace?: boolean, // remove potential extra whitespace
+
+setGreekStyle?: {
+  disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
+  useLunateSigma?: boolean       // use the lunate sigma rather than the regular form
+},
+
+setTransliterationStyle?: {
+  useCxOverMacron?: boolean,     // use a circumflex rather than a macron for 'η', 'ω', etc 
+  xi_ks?: boolean,               // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  rho_rh?: boolean,              // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
+  chi_kh?: boolean,              // transliterate 'χ' as 'kh' (defaults to: 'ch')
+  upsilon_y?: boolean,           // transliterate 'υ' as 'y' (defaults to: 'u')
+  lunatesigma_s?: boolean        // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
+},
+
+useAdditionalChars?:             // extend the default mapping with additional chars
+ AdditionalChar[] |              //   (use AdditionalChar.ALL to enable the whole set)
+ AdditionalChar
 ```
 
 ### Examples
 
+#### Basic examples
+
 ```ts
-// Basic examples
+toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
+toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
+toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
+```
 
-toBetaCode('ανθρωπος', keyType.GREEK) // anqrwpos
-toGreek('A)/i+da', keyType.BETA_CODE) // Ἄϊδα
-toTransliteration('ἄϋλος', keyType.GREEK, { removeDiacritics: true }) // aulos
+#### Using presets
 
-// With customized transliteration
+```ts
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aǘpnous núktas íauon
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
+```
 
-toTransliteration('τέχνη', keyType.GREEK) // téchnē
-toTransliteration('τέχνη', keyType.GREEK, { setTransliterationStyle: { chi_kh: true } }) // tékhnē
-toGreek('tékhnê', keyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, chi_kh: true } }) // τέχνη
+#### Using a mixed preset
+
+```ts
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
+  Preset.ALA_LC,
+  { removeDiacritics: false }
+]) // aÿ́pnous nýktas íauon
+```
+
+#### Using customized greek
+
+```ts
+const style = {
+  setGreekStyle: {
+    useLunateSigma: true
+  }
+}
+
+toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION) // ἸΧΘΥΣ ΖΩΝΤΩΝ
+toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩΝΤΩΝ
+```
+
+#### Using customized transliteration
+
+```ts
+const style = {
+  setTransliterationStyle: {
+    useCxOverMacron: true,
+    chi_kh: true
+  }
+}
+
+toTransliteration('τέχνη', KeyType.GREEK) // téchnē
+toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 ```
 
 ## OOP style
 
 ### Summary
 
-You can also use the **`GreekString`** object if you want to manage several representations of a greek string.
+You can use the **`GreekString`** object if you want to manage several representations of a greek string.
 
-As multiple conversions can be destructive (see [limitations](#limitations)), <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
+As multiple conversions can be destructive, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
-str: string, fromType: keyType, options?: IConversionOptions
+str: string,
+fromType: KeyType,
+options?: Preset | MixedPreset | IConversionOptions
 ```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that `IConversionOptions` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
+Note that the `options` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 
 ```ts
-import { GreekString, keyType } from 'greek-conversion'
+import { GreekString, KeyType } from 'greek-conversion'
 
 const person = new GreekString(
   'ἄνθρωπος',
-  keyType.GREEK,
+  KeyType.GREEK,
   { removeDiacritics: true }
 )
 
@@ -152,15 +226,17 @@ person.source // ἄνθρωπος
 
 ## Helper functions
 
-#### `applyGreekVariants (str: string, disableBetaVariant?: boolean): string`
+#### `applyGreekVariants (greekStr: string, options?: IGreekStyle): string`
 
 Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
-#### `removeDiacritics (str: string, type: keyType): string`
+This function evaluates booleans `disableBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
 
-Removes all the diacritics from a given string. The set of diacritical signs depends of the greek string representation.
+#### `removeDiacritics (str: string, type: KeyType): string`
 
-#### `removeGreekVariants (str: string): string`
+Removes all the diacritics from a given string. The set of diacritical marks depends of the greek string representation.
+
+#### `removeGreekVariants (greekStr: string): string`
 
 Removes beta and sigma variants.
 
@@ -168,9 +244,8 @@ Removes beta and sigma variants.
 
 This is what you should know before using this library:
 
-- Due to the limits of inference, converting from `transliteration` to `beta code` or `greek` keeps breathings but loses coronis (when crasis occurs like in κἂν [= καὶ ἄν]);
-- When converting from `greek` to `beta code` or `transliteration`, the *ano teleia* (`·`), which represents either a semicolon (`;`) or a colon (`:`), is always converted as a semicolon;
-- The monotonic greek `tonos` should be converted to the `oxia` polytonic form (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
+- Greek numerals are not supported yet (see [Add support for greek numerals](https://github.com/antoineboquet/greek-conversion/issues/5)).
+- Greek output produces monotonic greek `tonos` and not polytonic greek `oxia` (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
 
 ## License
 

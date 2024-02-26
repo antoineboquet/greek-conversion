@@ -1,9 +1,11 @@
-import { keyType } from './enums';
-import { IConversionOptions } from './interfaces';
+import { KeyType, MixedPreset, Preset } from './enums';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
+import { applyPreset } from './presets';
 import {
   applyGreekVariants,
   applyUppercaseChars,
+  isUpperCase,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace
@@ -11,48 +13,58 @@ import {
 
 export function toGreek(
   str: string,
-  fromType: keyType,
-  options: IConversionOptions = {},
+  fromType: KeyType,
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  const mapping = declaredMapping ?? new Mapping(options);
+  // Convert named presets to `IConversionOptions` objects.
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
+  }
+
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: isUpperCase(str, fromType),
+    ...options
+  };
+
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, KeyType.BETA_CODE);
       }
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.GREEK, options);
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
       break;
 
-    case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
+    case KeyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
-      str = mapping.apply(str, keyType.TRANSLITERATION, keyType.GREEK, options);
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str);
+        str = trConvertBreathings(str, internalOptions);
       }
 
       str = normalizeGreek(str);
       break;
   }
 
-  str = applyGreekVariants(str, options.setGreekStyle?.disableBetaVariant);
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+  str = applyGreekVariants(str, options.setGreekStyle);
+  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
   return str;
 }
 
 /**
- * Returns a string with tranliterated greek breathings.
+ * Returns a string with greek breathings.
  *
  * @remarks
  * This function applies:
@@ -68,7 +80,12 @@ export function toGreek(
  * diacritics - of a word together. Notice that the `vowelGroups` can
  * match 2+ vowels.
  */
-function trConvertBreathings(str: string): string {
+function trConvertBreathings(
+  str: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase } = options;
+
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
   const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
@@ -94,6 +111,9 @@ function trConvertBreathings(str: string): string {
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
       if (/* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong) {
+        if (isUpperCase) {
+          return firstV + breathing + firstD + nextD + nextV + extraV;
+        }
         return firstV + firstD + nextV + breathing + nextD + extraV;
       }
 

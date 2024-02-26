@@ -1,25 +1,39 @@
-import { additionalLetters } from './enums';
+import { AdditionalChar } from './enums';
 
 export interface IConversionOptions {
-  preserveWhitespace?: boolean;
   removeDiacritics?: boolean;
-  useAdditionalLetters?: additionalLetters | additionalLetters[];
-  setBetaCodeStyle?: IBetaCodeStyle;
+  removeExtraWhitespace?: boolean;
+  //setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?: ITransliterationStyle;
+  useAdditionalChars?: AdditionalChar[] | AdditionalChar;
 }
 
-export interface IBetaCodeStyle {
-  //useClassical?: boolean;
+export interface IInternalConversionOptions extends IConversionOptions {
+  isUpperCase?: boolean;
 }
+
+// v0.13
+/*export interface IBetaCodeStyle {
+  useTLGStyle?: boolean;
+}*/
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
+  useLunateSigma?: boolean;
+}
+
+export interface IMappingProperty {
+  gr: string;
+  bc?: string;
+  tr?: string;
 }
 
 export interface ITransliterationStyle {
   useCxOverMacron?: boolean;
   xi_ks?: boolean;
+  rho_rh?: boolean;
   chi_kh?: boolean;
-  //upsilon_y?: boolean;
+  upsilon_y?: boolean;
+  lunatesigma_s?: boolean;
 }

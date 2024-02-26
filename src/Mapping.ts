@@ -1,30 +1,135 @@
-import { additionalLetters, keyType } from './enums';
-import { IConversionOptions } from './interfaces';
+import { AdditionalChar, KeyType } from './enums';
+import {
+  IInternalConversionOptions,
+  IMappingProperty,
+  ITransliterationStyle
+} from './interfaces';
 import { sanitizeRegExpString } from './utils';
-
-interface IMappingProperty {
-  gr: string;
-  bc?: string;
-  tr?: string;
-}
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
 export const TONOS = '\u0384';
 export const OXIA = '\u1FFD';
 export const CIRCUMFLEX = '\u0302';
-export const LATIN_TILDE = '\u0303';
+export const LATIN_TILDE = '\u0303'; // `Combining Tilde`
+export const GREEK_TILDE = '\u0342'; // `Combining Greek Perispomeni`
 export const MACRON = '\u0304';
 export const BREVE = '\u0306';
 export const DIAERESIS = '\u0308';
 export const SMOOTH_BREATHING = '\u0313';
 export const ROUGH_BREATHING = '\u0314';
+export const DOT_BELOW = '\u0323';
 export const CEDILLA = '\u0327';
-export const GREEK_TILDE = '\u0342'; // `Combining Greek Perispomeni`
 export const IOTA_SUBSCRIPT = '\u0345';
 export const ANO_TELEIA = '\u0387';
 export const MIDDLE_DOT = '\u00B7';
 export const GREEK_QUESTION_MARK = '\u037E';
+export const CAPITAL_LUNATE_SIGMA = '\u03F9';
+export const SMALL_LUNATE_SIGMA = '\u03F2';
+
+const ADDITIONAL_CHARS_VALUES = (): {
+  [k in AdditionalChar]: {
+    [k in any /* @fixme */]: IMappingProperty;
+  };
+} => ({
+  [AdditionalChar.ALL]: {},
+  [AdditionalChar.DIGAMMA]: {
+    CAPITAL_DIGAMMA: {
+      gr: 'Ϝ',
+      bc: 'V',
+      tr: 'W' // Defined by: ALA-LC, BNF
+    },
+    SMALL_DIGAMMA: {
+      gr: 'ϝ',
+      bc: 'v',
+      tr: 'w' // Defined by: ALA-LC, BNF
+    }
+  },
+  [AdditionalChar.YOT]: {
+    CAPITAL_YOT: {
+      gr: '\u037F',
+      bc: 'J',
+      tr: 'J' // Defined by: BNF
+    },
+    SMALL_YOT: {
+      gr: '\u03F3',
+      bc: 'j',
+      tr: 'j' // Defined by: BNF
+    }
+  },
+  [AdditionalChar.LUNATE_SIGMA]: {
+    CAPITAL_LUNATE_SIGMA: {
+      gr: CAPITAL_LUNATE_SIGMA,
+      bc: 'S3',
+      tr: 'C' // Defined by: BNF
+    },
+    SMALL_LUNATE_SIGMA: {
+      gr: SMALL_LUNATE_SIGMA,
+      bc: 's3',
+      tr: 'c' // Defined by: BNF
+    }
+  },
+  [AdditionalChar.STIGMA]: {
+    CAPITAL_STIGMA: {
+      gr: '\u03DA',
+      bc: '*#2',
+      tr: 'C̄' // Defined by: BNF
+    },
+    SMALL_STIGMA: {
+      gr: '\u03DB',
+      bc: '#2',
+      tr: 'c̄' // Defined by: BNF
+    }
+  },
+  [AdditionalChar.KOPPA]: {
+    CAPITAL_KOPPA: {
+      gr: 'Ϟ',
+      bc: '*#1',
+      tr: 'Q' // Defined by: BNF
+    },
+    SMALL_KOPPA: {
+      gr: 'ϟ',
+      bc: '#1',
+      tr: 'q' // Defined by: BNF
+    }
+  },
+  [AdditionalChar.ARCHAIC_KOPPA]: {
+    CAPITAL_ARCHAIC_KOPPA: {
+      gr: 'Ϙ',
+      bc: '*#3',
+      tr: 'Ḳ' // Defined by: ALA-LC
+    },
+    SMALL_ARCHAIC_KOPPA: {
+      gr: 'ϙ',
+      bc: '#3',
+      tr: 'ḳ' // Defined by: ALA-LC
+    }
+  },
+  [AdditionalChar.SAMPI]: {
+    CAPITAL_SAMPI: {
+      gr: 'Ϡ',
+      bc: '*#5',
+      tr: 'S̄' // Defined by: BNF
+    },
+    SMALL_SAMPI: {
+      gr: 'ϡ',
+      bc: '#5',
+      tr: 's̄' // Defined by: BNF
+    }
+  }
+  /*[AdditionalChar.SAN]: {
+    CAPITAL_SAN: {
+      gr: '\u03FA',
+      bc: '*#711',
+      tr: undefined
+    },
+    SMALL_SAN: {
+      gr: 'ϻ',
+      bc: '#711',
+      tr: undefined
+    }
+  }*/
+});
 
 export class Mapping {
   CAPITAL_ALPHA: IMappingProperty = {
@@ -127,6 +232,7 @@ export class Mapping {
     bc: 'U',
     tr: 'U'
   };
+  CAPITAL_ALT_UPSILON: IMappingProperty;
   CAPITAL_PHI: IMappingProperty = {
     gr: 'Φ',
     bc: 'F',
@@ -152,6 +258,7 @@ export class Mapping {
   CAPITAL_LUNATE_SIGMA: IMappingProperty;
   CAPITAL_STIGMA: IMappingProperty;
   CAPITAL_KOPPA: IMappingProperty;
+  CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
   CAPITAL_SAMPI: IMappingProperty;
   CAPITAL_SAN: IMappingProperty;
   SMALL_ALPHA: IMappingProperty = {
@@ -254,6 +361,7 @@ export class Mapping {
     bc: 'u',
     tr: 'u'
   };
+  SMALL_ALT_UPSILON: IMappingProperty;
   SMALL_PHI: IMappingProperty = {
     gr: 'φ',
     bc: 'f',
@@ -279,23 +387,24 @@ export class Mapping {
   SMALL_LUNATE_SIGMA: IMappingProperty;
   SMALL_STIGMA: IMappingProperty;
   SMALL_KOPPA: IMappingProperty;
+  SMALL_ARCHAIC_KOPPA: IMappingProperty;
   SMALL_SAMPI: IMappingProperty;
   SMALL_SAN: IMappingProperty;
   QUESTION_MARK: IMappingProperty = {
     gr: GREEK_QUESTION_MARK,
-    bc: '?',
+    bc: ';',
     tr: '?'
   };
   ANO_TELEIA: IMappingProperty = {
     gr: ANO_TELEIA,
-    bc: ';',
+    bc: ':',
     tr: ';'
   };
   DIACRITICS = {
     SMOOTH_BREATHING: {
       gr: SMOOTH_BREATHING,
       bc: ')',
-      tr: ''
+      tr: SMOOTH_BREATHING
     } as IMappingProperty,
     ROUGH_BREATHING: {
       gr: ROUGH_BREATHING,
@@ -336,269 +445,137 @@ export class Mapping {
       gr: IOTA_SUBSCRIPT,
       bc: '|',
       tr: CEDILLA
+    } as IMappingProperty,
+    DOT_BELOW: {
+      gr: DOT_BELOW,
+      bc: '?',
+      tr: DOT_BELOW
     } as IMappingProperty
   };
 
-  constructor(options?: IConversionOptions) {
-    if (options?.useAdditionalLetters) {
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.DIGAMMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.DIGAMMA))
-      ) {
-        this.CAPITAL_DIGAMMA = {
-          gr: 'Ϝ',
-          bc: 'V',
-          tr: 'W'
-        };
-        this.SMALL_DIGAMMA = {
-          gr: 'ϝ',
-          bc: 'v',
-          tr: 'w'
-        };
-      }
+  #isUpperCase: boolean;
+  //#betaCodeStyle: IBetaCodeStyle;
+  #removeDiacritics: boolean;
+  #transliterationStyle: ITransliterationStyle;
+  #useAdditionalChars: AdditionalChar[] | AdditionalChar;
 
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.YOT ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.YOT))
-      ) {
-        this.CAPITAL_YOT = {
-          gr: '\u037F',
-          bc: 'J',
-          tr: 'J'
-        };
-        this.SMALL_YOT = {
-          gr: '\u03F3',
-          bc: 'j',
-          tr: 'j'
-        };
-      }
+  constructor(options?: IInternalConversionOptions) {
+    if (!options) return;
 
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.LUNATE_SIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.LUNATE_SIGMA))
-      ) {
-        this.CAPITAL_LUNATE_SIGMA = {
-          gr: '\u03F9',
-          bc: 'S3',
-          tr: 'C'
-        };
-        this.SMALL_LUNATE_SIGMA = {
-          gr: '\u03F2',
-          bc: 's3',
-          tr: 'c'
-        };
-      }
+    this.#isUpperCase = options?.isUpperCase;
+    //this.#betaCodeStyle = options?.setBetaCodeStyle;
+    this.#removeDiacritics = options?.removeDiacritics;
+    this.#transliterationStyle = options?.setTransliterationStyle;
+    this.#useAdditionalChars = options?.useAdditionalChars;
 
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.STIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.STIGMA))
-      ) {
-        this.CAPITAL_STIGMA = {
-          gr: '\u03DA',
-          bc: '*#2',
-          tr: 'C̄'
-        };
-        this.SMALL_STIGMA = {
-          gr: '\u03DB',
-          bc: '#2',
-          tr: 'c̄'
-        };
-      }
-
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.KOPPA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.KOPPA))
-      ) {
-        this.CAPITAL_KOPPA = {
-          gr: 'Ϟ',
-          bc: '*#1',
-          tr: 'Q'
-        };
-        this.SMALL_KOPPA = {
-          gr: 'ϟ',
-          bc: '#1',
-          tr: 'q'
-        };
-      }
-
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAMPI ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAMPI))
-      ) {
-        this.CAPITAL_SAMPI = {
-          gr: 'Ϡ',
-          bc: '*#5',
-          tr: 'S̄'
-        };
-        this.SMALL_SAMPI = {
-          gr: 'ϡ',
-          bc: '#5',
-          tr: 's̄'
-        };
-      }
-
-      /*if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAN ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAN))
-      ) {
-        this.CAPITAL_SAN = {
-          gr: '\u03FA',
-          bc: undefined,
-          tr: undefined
-        };
-        this.SMALL_SAN = {
-          gr: 'ϻ',
-          bc: undefined,
-          tr: undefined
-        };
-      }*/
-    }
-
-    if (options?.setTransliterationStyle?.useCxOverMacron) {
-      this.CAPITAL_ETA = {
-        gr: 'Η',
-        bc: 'H',
-        tr: 'Ê'
-      };
-      this.SMALL_ETA = {
-        gr: 'η',
-        bc: 'h',
-        tr: 'ê'
-      };
-      this.CAPITAL_OMEGA = {
-        gr: 'Ω',
-        bc: 'W',
-        tr: 'Ô'
-      };
-      this.SMALL_OMEGA = {
-        gr: 'ω',
-        bc: 'w',
-        tr: 'ô'
-      };
-
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.STIGMA ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.STIGMA))
-      ) {
-        this.CAPITAL_STIGMA = {
-          gr: '\u03DA',
-          bc: undefined,
-          tr: 'Ĉ'
-        };
-        this.SMALL_STIGMA = {
-          gr: '\u03DB',
-          bc: undefined,
-          tr: 'ĉ'
-        };
-      }
-
-      if (
-        options.useAdditionalLetters === additionalLetters.ALL ||
-        options.useAdditionalLetters === additionalLetters.SAMPI ||
-        (Array.isArray(options.useAdditionalLetters) &&
-          options.useAdditionalLetters.includes(additionalLetters.SAMPI))
-      ) {
-        this.CAPITAL_SAMPI = {
-          gr: 'Ϡ',
-          bc: undefined,
-          tr: 'Ŝ'
-        };
-        this.SMALL_SAMPI = {
-          gr: 'ϡ',
-          bc: undefined,
-          tr: 'ŝ'
-        };
+    if (this.#isUpperCase) {
+      for (const [k, v] of Object.entries(this)) {
+        if (k.startsWith('CAPITAL') && v.tr?.length > 1 /* Th, Ph, etc */) {
+          this[k].tr = v.tr.toUpperCase();
+        }
       }
     }
 
-    if (options?.setTransliterationStyle?.chi_kh) {
-      this.CAPITAL_CHI = {
-        gr: 'Χ',
-        bc: 'X',
-        tr: 'Kh'
-      };
-      this.SMALL_CHI = {
-        gr: 'χ',
-        bc: 'x',
-        tr: 'kh'
-      };
+    if (this.#useAdditionalChars) {
+      for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
+        if (
+          this.#useAdditionalChars === AdditionalChar.ALL ||
+          this.#useAdditionalChars === k ||
+          (Array.isArray(this.#useAdditionalChars) &&
+            this.#useAdditionalChars.includes(k as AdditionalChar))
+        ) {
+          for (const [char, props] of Object.entries(v)) this[char] = props;
+        }
+      }
     }
 
-    if (options?.setTransliterationStyle?.xi_ks) {
-      this.CAPITAL_XI = {
-        gr: 'Ξ',
-        bc: 'C',
-        tr: 'Ks'
-      };
-      this.SMALL_XI = {
-        gr: 'ξ',
-        bc: 'c',
-        tr: 'ks'
-      };
+    if (this.#transliterationStyle?.useCxOverMacron) {
+      // Eta
+      this.CAPITAL_ETA.tr = 'Ê';
+      this.SMALL_ETA.tr = 'ê';
+
+      // Omega
+      this.CAPITAL_OMEGA.tr = 'Ô';
+      this.SMALL_OMEGA.tr = 'ô';
+
+      if (this.CAPITAL_STIGMA?.tr) {
+        this.CAPITAL_STIGMA.tr = 'Ĉ';
+        this.SMALL_STIGMA.tr = 'ĉ';
+      }
+
+      if (this.CAPITAL_SAMPI?.tr) {
+        this.CAPITAL_SAMPI.tr = 'Ŝ';
+        this.SMALL_SAMPI.tr = 'ŝ';
+      }
+    }
+
+    if (this.#transliterationStyle?.xi_ks) {
+      this.CAPITAL_XI.tr = 'Ks';
+      this.SMALL_XI.tr = 'ks';
+    }
+
+    if (this.#transliterationStyle?.chi_kh) {
+      this.CAPITAL_CHI.tr = 'Kh';
+      this.SMALL_CHI.tr = 'kh';
+    }
+
+    if (this.#transliterationStyle?.upsilon_y) {
+      this.CAPITAL_UPSILON.tr = 'Y';
+      this.SMALL_UPSILON.tr = 'y';
+    }
+
+    if (this.#transliterationStyle?.lunatesigma_s) {
+      // The lunate sigma might not have been activated using the
+      // `useAdditionalChars` option. So, we need to check if its property exists.
+      if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
+      if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
+
+      if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
+        console.warn(
+          'You must enable `AdditionalChar.LUNATE_SIGMA` for the option',
+          '`setTransliterationStyle.lunatesigma_s` to take effect.'
+        );
+      }
     }
   }
 
-  apply(
-    fromStr: string,
-    fromType: keyType,
-    toType: keyType,
-    options?: IConversionOptions
-  ): string {
+  /**
+   * Returns a converted string.
+   */
+  apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    // Transliteration: join back long wovel marks, which should
-    // not be treated as diacritics, to their associated chars.
-    if (fromType === keyType.TRANSLITERATION) {
-      const { setTransliterationStyle: style } = options;
-      const longVowelMark = style?.useCxOverMacron ? CIRCUMFLEX : MACRON;
-      const letters: string = this.trLettersWithCxOrMacron(options).join('');
+    if (fromType === KeyType.TRANSLITERATION) {
+      fromStr = this.#trJoinSpecialChars(fromStr);
 
-      const re = new RegExp(
-        `(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`,
-        'gu'
-      );
-
-      fromStr = fromStr.replace(re, (match, char, diacritics) => {
-        return (char + longVowelMark).normalize('NFC') + diacritics;
-      });
+      // Add the alternate upsilon form (y/u) to the mapping.
+      if (
+        this.#transliterationStyle?.upsilon_y &&
+        toType !== KeyType.TRANSLITERATION
+      ) {
+        this.CAPITAL_ALT_UPSILON = {
+          bc: this.CAPITAL_UPSILON.bc,
+          gr: this.CAPITAL_UPSILON.gr,
+          tr: 'U'
+        };
+        this.SMALL_ALT_UPSILON = {
+          bc: this.SMALL_UPSILON.bc,
+          gr: this.SMALL_UPSILON.gr,
+          tr: 'u'
+        };
+      }
     }
 
-    // Greek: enforce the right Unicode points for
-    // wrong Unicode canonical equivalences.
-    if (fromType === keyType.GREEK) {
-      fromStr = fromStr
-        .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-        .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
-        .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+    if (fromType === KeyType.GREEK) {
+      fromStr = Mapping.#grBypassUnicodeEquivalences(fromStr);
     }
 
-    const mappingProps = this.#getPropsMapOrderByLengthDesc(
-      fromType,
-      toType,
-      options?.removeDiacritics
-    );
+    const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
     let conversionArr: string[] = new Array(fromStr.length);
 
     // Apply mapped chars.
     for (const [lval, rval] of mappingProps) {
-      // Left value can be empty/undefined.
-      if (!lval) continue;
+      if (!lval) continue; // Left value can be empty/undefined.
 
       const re = new RegExp(sanitizeRegExpString(lval), 'g');
       let matches;
@@ -650,30 +627,30 @@ export class Mapping {
    * The current implementation is `static`, so it wouldn't reflect
    * hypothetical mapped chars changes.
    */
-  static #applyGammaNasals(str: string, type: keyType): string {
+  static #applyGammaNasals(str: string, type: KeyType): string {
     switch (type) {
-      case keyType.BETA_CODE:
+      case KeyType.BETA_CODE:
         return str.replace(/(g)(g|c|k|x)/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
         });
 
-      case keyType.GREEK:
-        return str.replace(/(ν)([γξκχ])/gi, (match, first, second) => {
+      case KeyType.GREEK:
+        return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'Γ' + second;
           else return 'γ' + second;
         });
 
-      case keyType.TRANSLITERATION:
-        // The case of `ITransliterationStyle` options `xi_ks` &
-        // `chi_kh` is covered by letter K.
-        return str.replace(/(g)(g|x|k|ch)/gi, (match, first, second) => {
+      case KeyType.TRANSLITERATION:
+        // The case of `ITransliterationStyle` options `xi_ks` & `chi_kh`
+        // is covered by the letter K.
+        return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
         });
 
       default:
-        console.warn(`keyType '${type}' is not implemented.`);
+        console.warn(`KeyType '${type}' is not implemented.`);
         return str;
     }
   }
@@ -687,26 +664,27 @@ export class Mapping {
    * @param removeDiacritics - If `true`, exclude the `DIACRITICS` property
    */
   #getPropsMapOrderByLengthDesc(
-    fromType: keyType,
-    toType: keyType,
-    removeDiacritics = false
+    fromType: KeyType,
+    toType: KeyType
   ): Map<string, string> {
     let fromProp: string;
     let toProp: string;
 
-    if (fromType === keyType.BETA_CODE) fromProp = 'bc';
-    else if (fromType === keyType.GREEK) fromProp = 'gr';
-    else if (fromType === keyType.TRANSLITERATION) fromProp = 'tr';
-    else console.warn(`keyType '${fromType}' is not implemented.`);
+    if (fromType === KeyType.BETA_CODE) fromProp = 'bc';
+    else if (fromType === KeyType.GREEK) fromProp = 'gr';
+    else if (fromType === KeyType.TRANSLITERATION) fromProp = 'tr';
+    else console.warn(`KeyType '${fromType}' is not implemented.`);
 
-    if (toType === keyType.BETA_CODE) toProp = 'bc';
-    else if (toType === keyType.GREEK) toProp = 'gr';
-    else if (toType === keyType.TRANSLITERATION) toProp = 'tr';
-    else console.warn(`keyType '${toType}' is not implemented.`);
+    if (toType === KeyType.BETA_CODE) toProp = 'bc';
+    else if (toType === KeyType.GREEK) toProp = 'gr';
+    else if (toType === KeyType.TRANSLITERATION) toProp = 'tr';
+    else console.warn(`KeyType '${toType}' is not implemented.`);
 
     let chars = [];
 
-    for (const [i, v] of Object.entries(this)) {
+    for (const [k, v] of Object.entries(this)) {
+      if (this.#isUpperCase && k.startsWith('SMALL')) continue;
+
       if (v[fromProp] !== undefined && v[toProp] !== undefined) {
         chars.push([v[fromProp], v[toProp]]);
       }
@@ -716,10 +694,10 @@ export class Mapping {
       return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
     });
 
-    if (!removeDiacritics) {
+    if (!this.#removeDiacritics) {
       let diacritics = [];
 
-      for (const [i, v] of Object.entries(this.DIACRITICS)) {
+      for (const [k, v] of Object.entries(this.DIACRITICS)) {
         if (v[fromProp] !== undefined && v[toProp] !== undefined) {
           diacritics.push([v[fromProp], v[toProp]]);
         }
@@ -732,6 +710,44 @@ export class Mapping {
   }
 
   /**
+   * Returns a string for which the wrong Unicode canonical equivalences
+   * have been replaced by the right Unicode points.
+   *
+   * @param NFDGreekStr - Expects an `NFD` normalized greek string.
+   */
+  static #grBypassUnicodeEquivalences(NFDGreekStr: string): string {
+    return NFDGreekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+      .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
+      .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+  }
+
+  /**
+   * Returns a string for which some diacritical marks have been joined back
+   * to their letter as they should not be treated separately (e. g. when
+   * a transliterated long vowel occurs).
+   *
+   * @param NFDTransliteratedStr - Expects an `NFD` normalized transliterated string.
+   */
+  #trJoinSpecialChars(NFDTransliteratedStr: string): string {
+    // Join back below dots to archaic koppas.
+    // @fixme: this does not work with adjacent small & capital archaic koppa.
+    if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
+      NFDTransliteratedStr = NFDTransliteratedStr.replace(
+        new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'),
+        (match) => match.normalize('NFC')
+      );
+    }
+
+    // Join back long wovel marks to the letters that carry them.
+    const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
+    const letters: string = this.trLettersWithCxOrMacron().join('');
+    const re = new RegExp(`(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
+    return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
+      return (char + longVowelMark).normalize('NFC') + diacritics;
+    });
+  }
+
+  /**
    * Returns an array containing the transliterated mapped chars tied
    * to a circumflex or a macron, depnding on the context.
    *
@@ -740,7 +756,7 @@ export class Mapping {
    * (2) The current implementation is semi-static as it doesn't check
    * the actual mapped chars.
    */
-  trLettersWithCxOrMacron(options?: IConversionOptions): string[] {
+  trLettersWithCxOrMacron(): string[] {
     let letters = [
       this.CAPITAL_ETA,
       this.SMALL_ETA,
@@ -748,24 +764,16 @@ export class Mapping {
       this.SMALL_OMEGA
     ];
 
-    if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
-    ) {
+    if (this.CAPITAL_STIGMA?.tr) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
-    if (
-      options?.useAdditionalLetters === additionalLetters.ALL ||
-      options?.useAdditionalLetters === additionalLetters.STIGMA ||
-      (Array.isArray(options?.useAdditionalLetters) &&
-        options?.useAdditionalLetters.includes(additionalLetters.STIGMA))
-    ) {
+    if (this.CAPITAL_SAMPI?.tr) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }
 
-    return letters.map((letter) => letter.tr.normalize('NFD').charAt(0));
+    return letters.map((letter) =>
+      letter.tr.normalize('NFD').charAt(0).normalize('NFC')
+    );
   }
 }

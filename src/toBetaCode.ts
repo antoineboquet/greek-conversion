@@ -1,8 +1,10 @@
-import { keyType } from './enums';
-import { IConversionOptions } from './interfaces';
+import { KeyType, MixedPreset, Preset } from './enums';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import { Mapping } from './Mapping';
+import { applyPreset } from './presets';
 import {
   applyUppercaseChars,
+  isUpperCase,
   removeDiacritics,
   removeExtraWhitespace,
   removeGreekVariants
@@ -10,43 +12,48 @@ import {
 
 export function toBetaCode(
   str: string,
-  fromType: keyType,
-  options: IConversionOptions = {},
+  fromType: KeyType,
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  const mapping = declaredMapping ?? new Mapping(options);
+  // Convert named presets to `IConversionOptions` objects.
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
+  }
+
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: isUpperCase(str, fromType),
+    ...options
+  };
+
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
-    case keyType.BETA_CODE:
+    case KeyType.BETA_CODE:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+        str = removeDiacritics(str, KeyType.BETA_CODE);
       }
-      str = mapping.apply(str, keyType.BETA_CODE, keyType.BETA_CODE, options);
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
       str = reorderDiacritics(str);
       break;
 
-    case keyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+    case KeyType.GREEK:
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.BETA_CODE, options);
+      str = mapping.apply(str, KeyType.GREEK, KeyType.BETA_CODE);
       str = reorderDiacritics(str);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      str = mapping.apply(
-        str,
-        keyType.TRANSLITERATION,
-        keyType.BETA_CODE,
-        options
-      );
+      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.BETA_CODE);
 
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION);
+        str = removeDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
@@ -56,7 +63,7 @@ export function toBetaCode(
       break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
   return str;
 }
@@ -73,7 +80,7 @@ export function toBetaCode(
  */
 function trConvertFlaggedBreathings(str: string): string {
   const diphthongs = ['ai', 'au', 'ei', 'eu', 'hu', 'oi', 'ou', 'ui'];
-  const vowels = 'aehiowu';
+  const vowels = 'aehiouw';
   const diacritics = '()\\/+=|';
 
   const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(?<trRough>\\$)?(?<firstV>[${vowels}])(?<firstD>[${diacritics}])?(?<nextV>[${vowels}])?(?<nextD>[${diacritics}])?`, 'gimu'); // prettier-ignore

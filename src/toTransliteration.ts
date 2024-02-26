@@ -1,7 +1,14 @@
-import { keyType } from './enums';
-import { IConversionOptions } from './interfaces';
-import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
+import { KeyType, MixedPreset, Preset } from './enums';
+import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import {
+  DIAERESIS,
+  Mapping,
+  ROUGH_BREATHING,
+  SMOOTH_BREATHING
+} from './Mapping';
+import { applyPreset } from './presets';
+import {
+  isUpperCase,
   normalizeGreek,
   removeDiacritics,
   removeExtraWhitespace,
@@ -10,42 +17,49 @@ import {
 
 export function toTransliteration(
   str: string,
-  fromType: keyType,
-  options: IConversionOptions = {},
+  fromType: KeyType,
+  options: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  const mapping = declaredMapping ?? new Mapping(options);
+  // Convert named presets to `IConversionOptions` objects.
+  if (typeof options === 'string' || Array.isArray(options)) {
+    options = applyPreset(options);
+  }
+
+  const internalOptions: IInternalConversionOptions = {
+    isUpperCase: isUpperCase(str, fromType),
+    ...options
+  };
+
+  const mapping = declaredMapping ?? new Mapping(internalOptions);
 
   switch (fromType) {
-    case keyType.BETA_CODE:
-      str = bcFlagRoughBreathings(str);
-
-      if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.BETA_CODE);
+    case KeyType.BETA_CODE:
+      str = bcFlagRoughBreathings(str, internalOptions);
+      if (options.setTransliterationStyle?.upsilon_y) {
+        str = flagDiaereses(str, KeyType.BETA_CODE);
       }
-
-      str = mapping.apply(
-        str,
-        keyType.BETA_CODE,
-        keyType.TRANSLITERATION,
-        options
-      );
-
-      // Apply flagged rough breathings.
-      str = str.replace(/\$\$/g, 'H').replace(/\$/g, 'h');
+      if (options.removeDiacritics) {
+        str = removeDiacritics(str, KeyType.BETA_CODE);
+      }
+      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
+      str = bcConvertBreathings(str, internalOptions);
       break;
 
-    case keyType.GREEK:
-      str = grConvertBreathings(str);
-      if (options.removeDiacritics) str = removeDiacritics(str, keyType.GREEK);
+    case KeyType.GREEK:
+      str = grConvertBreathings(str, internalOptions);
+      if (options.setTransliterationStyle?.upsilon_y) {
+        str = flagDiaereses(str, KeyType.GREEK);
+      }
+      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
-      str = mapping.apply(str, keyType.GREEK, keyType.TRANSLITERATION, options);
+      str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
-    case keyType.TRANSLITERATION:
+    case KeyType.TRANSLITERATION:
       if (options.removeDiacritics) {
-        str = removeDiacritics(str, keyType.TRANSLITERATION, {
+        str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
           useCxOverMacron: options.setTransliterationStyle?.useCxOverMacron
         });
@@ -53,43 +67,95 @@ export function toTransliteration(
 
       str = mapping.apply(
         str,
-        keyType.TRANSLITERATION,
-        keyType.TRANSLITERATION,
-        options
+        KeyType.TRANSLITERATION,
+        KeyType.TRANSLITERATION
       );
       break;
   }
 
-  if (!options.preserveWhitespace) str = removeExtraWhitespace(str);
+  if (options.setTransliterationStyle?.upsilon_y) {
+    str = applyUpsilonDiphthongs(str);
+    str = str.replace(/@/gm, '');
+  }
 
-  return str;
+  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
+
+  return str.normalize('NFC');
 }
 
 /**
- * Returns a greek string with tranliterated breathings.
+ * Returns a transliterated string with correct upsilon forms.
+ *
+ * @remarks
+ * This applies to the `transliterationStyle.upsilon_y` option.
+ *
+ * @privateRemarks
+ * (1) Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
+ * (2) The given string's diaereses should have been flagged as '@' using
+ * the `flagDiaereses()` function.
+ */
+function applyUpsilonDiphthongs(transliteratedStr: string): string {
+  const vowels = 'aeēioyō';
+  // `vowelsGroup` includes the upsilon ('y'), the diaeresis flag '@'.
+  const reUpsilonDiphthongs = new RegExp(`(?<vowelsGroup>[${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
+
+  return transliteratedStr
+    .normalize('NFD')
+    .replace(reUpsilonDiphthongs, (match, vowelsGroup) => {
+      if (!/y/i.test(vowelsGroup)) return vowelsGroup;
+      if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
+      if (vowelsGroup.normalize('NFC').length === 1) return vowelsGroup;
+
+      return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
+    })
+    .normalize('NFC');
+}
+
+/**
+ * Returns a transliterated string with transliterated breathings.
  *
  * @remarks
  * This function does:
- *   1. remove smooth breathings;
- *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
- *   3. add an `h` after double rhos carrying a rough breathing;
- *   4. add an `h` after a single rho carrying a rough breathing.
+ *   1. convert flagged rough breathings;
+ *   2. enforce rough breathings on rhos if `setTransliterationStyle.rho_rh` is enabled;
+ *   3. remove initial smooth breathings (while keeping coronides);
+ *   4. remove potential smooth breathings on rhos.
+ *   5. transliterate the remaining smooth breathings.
+ *
+ * @param transliteratedStr - Expects an already transliterated string with flagged
+ * rough breathings ('$', '$$').
+ * @param options - Internal conversion options.
  */
-function grConvertBreathings(greekStr: string): string {
-  const reInitialBreathing = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
-  const reDoubleRho = new RegExp(`(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
-  const reSingleRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
+function bcConvertBreathings(
+  transliteratedStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase, setTransliterationStyle } = options;
+  const rho_rh = setTransliterationStyle?.rho_rh;
 
-  return greekStr
-    .normalize('NFD')
-    .replace(new RegExp(SMOOTH_BREATHING, 'g'), '')
-    .replace(reInitialBreathing, (match, vowelsGroup) => {
-      if (vowelsGroup === vowelsGroup.toLowerCase()) return 'h' + vowelsGroup;
-      else return 'H' + vowelsGroup.toLowerCase();
-    })
-    .replace(reDoubleRho, '$1h') // Apply rough breathings on double rhos.
-    .replace(reSingleRho, '$1h') // Apply rough breathings on single rhos.
-    .normalize('NFC');
+  transliteratedStr = transliteratedStr
+    .replace(/\$\$/g, 'H')
+    .replace(/\$/g, 'h');
+
+  if (rho_rh) {
+    transliteratedStr = transliteratedStr
+      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (match) =>
+        match.toUpperCase() === match ? 'RRH' : 'rrh'
+      )
+      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
+        // @fixme(v0.13): case should be checked against the current word.
+        isUpperCase ? match + 'H' : match + 'h'
+      );
+  }
+
+  const vowels = 'aeēiouyō';
+  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
+
+  transliteratedStr = transliteratedStr
+    .replace(reInitialSmooth, '$<vowelsGroup>')
+    .replace(new RegExp(`(?<rho>r)${SMOOTH_BREATHING}`, 'gi'), '$<rho>');
+
+  return transliteratedStr;
 }
 
 /**
@@ -100,10 +166,93 @@ function grConvertBreathings(greekStr: string): string {
  * Rough breathings are ambiguous as letter `h` is transliterated
  * as `ē` or `ê`.
  */
-function bcFlagRoughBreathings(betaCodeStr: string): string {
-  return betaCodeStr.replace(/([aehiowur]+)\(/gi, (match, group) => {
-    if (match.toLowerCase() === 'r(') return group + '$';
-    else if (group === group.toLowerCase()) return '$' + group;
-    else return '$$' + group.toLowerCase();
-  });
+function bcFlagRoughBreathings(
+  betaCodeStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase } = options;
+
+  return betaCodeStr
+    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) => {
+      // @fixme(v0.13): case should be checked against the current word too.
+      if (isUpperCase) return '$$' + vowelsGroup;
+      else {
+        return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
+          ? '$$' + vowelsGroup.toLowerCase()
+          : '$' + vowelsGroup;
+      }
+    })
+    .replace(/(r{1,2})\(/gi, (match, rho) =>
+      isUpperCase ? rho + '$$' : rho + '$'
+    );
+}
+
+/**
+ * Returns a string with added 'commercial at' when diaereses occur
+ * (`\u0308` + `@`) to be able to test the presence of diaereses even
+ * if the diacritics have been removed.
+ */
+function flagDiaereses(str: string, fromType: KeyType): string {
+  switch (fromType) {
+    case KeyType.BETA_CODE:
+      return str.replace(new RegExp('\\+', 'g'), '$&@');
+
+    case KeyType.GREEK:
+    case KeyType.TRANSLITERATION:
+      return str
+        .normalize('NFD')
+        .replace(new RegExp(DIAERESIS, 'g'), '$&@')
+        .normalize('NFC');
+
+    default:
+      console.warn(`KeyType '${fromType}' is not implemented.`);
+      return str;
+  }
+}
+
+/**
+ * Returns a greek string with transliterated breathings.
+ *
+ * @remarks
+ * This function does:
+ *   1. remove initial smooth breathings (while keeping coronides);
+ *   2. add an `h` before a word starting by 1-2 vowels carrying a rough breathing;
+ *   3. add an `h` after double rhos;
+ *   4. add an `h` after a single rho (carrying a rough breathing or not if `rho_rh` is true).
+ */
+function grConvertBreathings(
+  greekStr: string,
+  options: IInternalConversionOptions
+): string {
+  const { isUpperCase, setTransliterationStyle } = options;
+  const rho_rh = setTransliterationStyle?.rho_rh;
+
+  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
+  const reInitialRough = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
+  const reDoubleRhoLazy = new RegExp(`(?<doubleRho>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
+  const reInitialRho = new RegExp(`(?<initialRho>ρ)${ROUGH_BREATHING}`, 'gi');
+  const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(?<initialRho>ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
+
+  // Change the coronis form after `reInitialSmooth`,
+  // by replacing the remaining smooth breathings (e. g.
+  // `.replace(new RegExp(SMOOTH_BREATHING, 'g'), CORONIS)`).
+  return greekStr
+    .normalize('NFD')
+    .replace(reInitialSmooth, '$<vowelsGroup>')
+    .replace(reInitialRough, (match, vowelsGroup) => {
+      // @fixme(v0.13): case should be checked against the current word too.
+      if (isUpperCase) return 'H' + vowelsGroup;
+      else {
+        return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
+          ? 'H' + vowelsGroup.toLowerCase()
+          : 'h' + vowelsGroup;
+      }
+    })
+    .replace(reDoubleRhoLazy, (match, doubleRho) =>
+      doubleRho.toUpperCase() === doubleRho ? 'RRH' : 'rrh'
+    )
+    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
+      isUpperCase ? initialRho + 'H' : initialRho + 'h'
+    )
+    .normalize('NFC');
 }
