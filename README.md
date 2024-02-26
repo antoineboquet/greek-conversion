@@ -151,7 +151,7 @@ toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Pr
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
 ```
 
-#### Using mixed presets
+#### Using a mixed preset
 
 ```ts
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
@@ -169,6 +169,7 @@ const style = {
   }
 }
 
+toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION) // ἸΧΘΥΣ ΖΩΝΤΩΝ
 toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩΝΤΩΝ
 ```
 
