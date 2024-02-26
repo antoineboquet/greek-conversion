@@ -1,4 +1,4 @@
-import { AdditionalChars, KeyType, toBetaCode } from '../src/index'
+import { AdditionalChar, KeyType, toBetaCode } from '../src/index'
 
 /*
  * Special characters:
@@ -68,9 +68,9 @@ describe('From greek to beta code', () => {
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   test('Using additional letters', () => {
-    expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChars.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
-    expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
+    expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
+    expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
   test.each`
@@ -139,8 +139,8 @@ describe('From transliteration to beta code', () => {
 
   // @fixme(v0.13)
   test('Testing the combining dot below', () => {
-    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChars.ALL })).toBe('Pa/tro#3los')
-    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, useAdditionalChars: AdditionalChars.ALL })).toBe('Patro#3los')
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('Pa/tro#3los')
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, useAdditionalChars: AdditionalChar.ALL })).toBe('Patro#3los')
   })
 
   test.each`
@@ -192,9 +192,9 @@ describe('From transliteration to beta code', () => {
   `('Applying upsilon_y', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
   test('Using additional letters', () => {
-    expect(toBetaCode('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChars.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
-    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
+    expect(toBetaCode('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
+    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
   })
 
   // @fixme(v0.13): check if rough breathings diphthongs rules must be overridden when converting from

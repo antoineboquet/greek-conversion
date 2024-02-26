@@ -1,4 +1,4 @@
-import { AdditionalChars, KeyType, Preset, toTransliteration } from '../src/index'
+import { AdditionalChar, KeyType, Preset, toTransliteration } from '../src/index'
 
 /*
  * Special characters:
@@ -89,9 +89,9 @@ describe('From beta code to transliteration', () => {
   `('Applying upsilon_y', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
   test('Using additional letters', () => {
-    expect(toTransliteration('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { useAdditionalChars: AdditionalChars.ALL })).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
-    expect(toTransliteration('vVs3S3', KeyType.BETA_CODE, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('wWcC')
-    expect(toTransliteration('#1*#1#3*#3#5*#5', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('#1*#1#3*#3#5*#5')
+    expect(toTransliteration('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { useAdditionalChars: AdditionalChar.ALL })).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
+    expect(toTransliteration('vVs3S3', KeyType.BETA_CODE, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('wWcC')
+    expect(toTransliteration('#1*#1#3*#3#5*#5', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('#1*#1#3*#3#5*#5')
   })
 
   test.each`
@@ -250,9 +250,9 @@ describe('From greek to transliteration', () => {
   `('Applying upsilon_y', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
   test('Using additional letters', () => {
-    expect(toTransliteration('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChars.ALL })).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
-    expect(toTransliteration('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('wWcC')
-    expect(toTransliteration('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChars.DIGAMMA, AdditionalChars.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
+    expect(toTransliteration('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChar.ALL })).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
+    expect(toTransliteration('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('wWcC')
+    expect(toTransliteration('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
   test.each`

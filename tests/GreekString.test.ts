@@ -1,4 +1,4 @@
-import { KeyType, GreekString, Preset, AdditionalChars } from '../src/index'
+import { AdditionalChar, GreekString, KeyType, Preset } from '../src/index'
 import { IConversionOptions } from '../src/interfaces'
 
 describe('GreekString', () => {
@@ -206,7 +206,7 @@ describe('GreekString', () => {
     expect(gs3.transliteration).toBe('anthrōpos3')
 
     const trStyleGs4: IConversionOptions = {
-      useAdditionalChars: AdditionalChars.DIGAMMA
+      useAdditionalChars: AdditionalChar.DIGAMMA
     }
     const gs4 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs4])
 
@@ -217,7 +217,7 @@ describe('GreekString', () => {
   })
 
   const trStyleGs5: IConversionOptions = {
-    useAdditionalChars: [ AdditionalChars.LUNATE_SIGMA ],
+    useAdditionalChars: AdditionalChar.LUNATE_SIGMA,
     removeExtraWhitespace: true
   }
   const gs5 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs5])
