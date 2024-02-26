@@ -16,6 +16,7 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: false,
   useAdditionalChars: [
     AdditionalChars.DIGAMMA,
     AdditionalChars.YOT,
