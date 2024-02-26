@@ -160,11 +160,10 @@ toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
 const style = {
   setGreekStyle: {
     useLunateSigma: true
-  },
-  useAdditionalChars: AdditionalChars.LUNATE_SIGMA
+  }
 }
 
-toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style ) // ΙΧΘΥϹ ΖΩΝΤΩΝ
+toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩΝΤΩΝ
 
 // Using customized transliteration
 
@@ -218,9 +217,10 @@ person.source // ἄνθρωπος
 
 ## Helper functions
 
-#### `applyGreekVariants (str: string, disableBetaVariant?: boolean): string`
+#### `applyGreekVariants (str: string, options?: IGreekStyle): string`
 
 Applies beta/sigma variants and transforms `πσ` into `ψ`.
+This function evaluates the booleans `disableBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
