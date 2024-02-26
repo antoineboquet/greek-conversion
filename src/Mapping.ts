@@ -558,28 +558,10 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    // @fixme: this section should be cleaned.
     if (fromType === KeyType.TRANSLITERATION) {
-      // Join back below dots to archaic koppas (do not treat them as diacritcs).
-      // @fixme: this does not work with adjacent small & capital archaic koppa.
-      if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
-        const reArchaicKoppa = new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'); // prettier-ignore
-        fromStr = fromStr.replace(reArchaicKoppa, (match) => {
-          return match.normalize('NFC');
-        });
-      }
+      fromStr = this.#trJoinSpecialChars(fromStr);
 
-      // Join back long wovel marks to their chars (do not treat them as diacritcs).
-      const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
-      const letters: string = this.trLettersWithCxOrMacron().join('');
-
-      const re = new RegExp(`(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
-
-      fromStr = fromStr.replace(re, (match, char, diacritics) => {
-        return (char + longVowelMark).normalize('NFC') + diacritics;
-      });
-
-      // Add the alternate upsilon form (y/u) to the mapping if `upsilon_y` is enabled.
+      // Add the alternate upsilon form (y/u) to the mapping.
       if (
         this.#transliterationStyle?.upsilon_y &&
         toType !== KeyType.TRANSLITERATION
@@ -742,13 +724,40 @@ export class Mapping {
 
   /**
    * Returns a string for which the wrong Unicode canonical equivalences
-   * have been replaced by the right Unicode points. The string is supposed
-   * to be a greek string, normalized in `NFD` mode.
+   * have been replaced by the right Unicode points.
+   *
+   * @param NFDGreekStr - Expects an `NFD` normalized greek string.
    */
   static #grBypassUnicodeEquivalences(NFDGreekStr: string): string {
     return NFDGreekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
       .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
       .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+  }
+
+  /**
+   * Returns a string for which some diacritical marks have been joined back
+   * to their letter as they should not be treated separately (e. g. when
+   * a transliterated long vowel occurs).
+   *
+   * @param NFDTransliteratedStr - Expects an `NFD` normalized transliterated string.
+   */
+  #trJoinSpecialChars(NFDTransliteratedStr: string): string {
+    // Join back below dots to archaic koppas.
+    // @fixme: this does not work with adjacent small & capital archaic koppa.
+    if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
+      NFDTransliteratedStr = NFDTransliteratedStr.replace(
+        new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'),
+        (match) => match.normalize('NFC')
+      );
+    }
+
+    // Join back long wovel marks to the letters that carry them.
+    const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
+    const letters: string = this.trLettersWithCxOrMacron().join('');
+    const re = new RegExp(`(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
+    return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
+      return (char + longVowelMark).normalize('NFC') + diacritics;
+    });
   }
 
   /**
