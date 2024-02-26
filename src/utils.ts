@@ -14,7 +14,7 @@ import {
 
 export function applyGreekVariants(
   greekStr: string,
-  options: IGreekStyle
+  options?: IGreekStyle
 ): string {
   // Apply beta variant (lowercase only).
   if (!options?.disableBetaVariant) {
@@ -165,8 +165,8 @@ export function removeDiacritics(
   }
 }
 
-export function removeGreekVariants(str: string): string {
-  return str.replace(/ϐ/g, 'β').replace(/ς/g, 'σ');
+export function removeGreekVariants(greekStr: string): string {
+  return greekStr.replace(/ϐ/g, 'β').replace(/ς/g, 'σ');
 }
 
 export function removeExtraWhitespace(str: string): string {
