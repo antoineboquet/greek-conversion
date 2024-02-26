@@ -696,7 +696,7 @@ export class Mapping {
     let chars = [];
 
     for (const [k, v] of Object.entries(this)) {
-      if (this.#isUpperCase && k.startsWith('SMALL')) break;
+      if (this.#isUpperCase && k.startsWith('SMALL')) continue;
 
       if (v[fromProp] !== undefined && v[toProp] !== undefined) {
         chars.push([v[fromProp], v[toProp]]);
