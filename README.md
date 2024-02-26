@@ -111,26 +111,27 @@ The available presets are:
 
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
 ```ts
-removeDiacritics?: boolean,        // remove diacritics, except those that represent letters
+removeDiacritics?: boolean,      // remove diacritics, except those that represent letters
 
-removeExtraWhitespace?: boolean,   // remove potential extra whitespace
+removeExtraWhitespace?: boolean, // remove potential extra whitespace
 
 setGreekStyle?: {
-  disableBetaVariant?: boolean,    // disable the typographic variant 'ϐ' [U+03D0]
-  useLunateSigma?: boolean         // use the lunate sigma rather than the regular form
+  disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
+  useLunateSigma?: boolean       // use the lunate sigma rather than the regular form
 },
 
 setTransliterationStyle?: {
-  useCxOverMacron?: boolean,       // use a circumflex rather than a macron for 'η', 'ω', etc 
-  xi_ks?: boolean,                 // transliterate 'ξ' as 'ks' (defaults to: 'x')
-  rho_rh?: boolean,                // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
-  chi_kh?: boolean,                // transliterate 'χ' as 'kh' (defaults to: 'ch')
-  upsilon_y?: boolean,             // transliterate 'υ' as 'y' (defaults to: 'u')
-  lunatesigma_s?: boolean          // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
+  useCxOverMacron?: boolean,     // use a circumflex rather than a macron for 'η', 'ω', etc 
+  xi_ks?: boolean,               // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  rho_rh?: boolean,              // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
+  chi_kh?: boolean,              // transliterate 'χ' as 'kh' (defaults to: 'ch')
+  upsilon_y?: boolean,           // transliterate 'υ' as 'y' (defaults to: 'u')
+  lunatesigma_s?: boolean        // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 },
 
-useAdditionalChars?:               // extend the default mapping with additional chars
- AdditionalChar[] | AdditionalChar //   (use AdditionalChar.ALL to enable the whole set)
+useAdditionalChars?:             // extend the default mapping with additional chars
+ AdditionalChar[] |              //   (use AdditionalChar.ALL to enable the whole set)
+ AdditionalChar
 ```
 
 ### Examples
