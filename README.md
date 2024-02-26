@@ -217,16 +217,17 @@ person.source // ἄνθρωπος
 
 ## Helper functions
 
-#### `applyGreekVariants (str: string, options?: IGreekStyle): string`
+#### `applyGreekVariants (greekStr: string, options?: IGreekStyle): string`
 
 Applies beta/sigma variants and transforms `πσ` into `ψ`.
-This function evaluates the booleans `disableBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
+
+This function evaluates booleans `disableBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
 Removes all the diacritics from a given string. The set of diacritical marks depends of the greek string representation.
 
-#### `removeGreekVariants (str: string): string`
+#### `removeGreekVariants (greekStr: string): string`
 
 Removes beta and sigma variants.
 
