@@ -136,27 +136,33 @@ useAdditionalChars?:             // extend the default mapping with additional c
 
 ### Examples
 
-```ts
-// Basic examples
+#### Basic examples
 
+```ts
 toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
 toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
 toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
+```
 
-// Using presets
+#### Using presets
 
+```ts
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aǘpnous núktas íauon
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
+```
 
-// Using mixed presets
+#### Using mixed presets
 
+```ts
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
   Preset.ALA_LC,
   { removeDiacritics: false }
 ]) // aÿ́pnous nýktas íauon
+```
 
-// Using customized greek
+#### Using customized greek
 
+```ts
 const style = {
   setGreekStyle: {
     useLunateSigma: true
@@ -164,9 +170,11 @@ const style = {
 }
 
 toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩΝΤΩΝ
+```
 
-// Using customized transliteration
+#### Using customized transliteration
 
+```ts
 const style = {
   setTransliterationStyle: {
     useCxOverMacron: true,
