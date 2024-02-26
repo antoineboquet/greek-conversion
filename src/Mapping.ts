@@ -498,22 +498,12 @@ export class Mapping {
       this.CAPITAL_OMEGA.tr = 'Ô';
       this.SMALL_OMEGA.tr = 'ô';
 
-      if (
-        this.#useAdditionalChars === AdditionalChar.ALL ||
-        this.#useAdditionalChars === AdditionalChar.STIGMA ||
-        (Array.isArray(this.#useAdditionalChars) &&
-          this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
-      ) {
+      if (this.CAPITAL_STIGMA?.tr) {
         this.CAPITAL_STIGMA.tr = 'Ĉ';
         this.SMALL_STIGMA.tr = 'ĉ';
       }
 
-      if (
-        this.#useAdditionalChars === AdditionalChar.ALL ||
-        this.#useAdditionalChars === AdditionalChar.SAMPI ||
-        (Array.isArray(this.#useAdditionalChars) &&
-          this.#useAdditionalChars.includes(AdditionalChar.SAMPI))
-      ) {
+      if (this.CAPITAL_SAMPI?.tr) {
         this.CAPITAL_SAMPI.tr = 'Ŝ';
         this.SMALL_SAMPI.tr = 'ŝ';
       }
@@ -540,10 +530,7 @@ export class Mapping {
       if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
       if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
 
-      if (
-        !this.CAPITAL_LUNATE_SIGMA?.tr ||
-        (!this.#isUpperCase && !this.SMALL_LUNATE_SIGMA?.tr)
-      ) {
+      if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
         console.warn(
           'You must enable `AdditionalChar.LUNATE_SIGMA` for the option',
           '`setTransliterationStyle.lunatesigma_s` to take effect.'
@@ -777,21 +764,11 @@ export class Mapping {
       this.SMALL_OMEGA
     ];
 
-    if (
-      this.#useAdditionalChars === AdditionalChar.ALL ||
-      this.#useAdditionalChars === AdditionalChar.STIGMA ||
-      (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
-    ) {
+    if (this.CAPITAL_STIGMA?.tr) {
       letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
     }
 
-    if (
-      this.#useAdditionalChars === AdditionalChar.ALL ||
-      this.#useAdditionalChars === AdditionalChar.STIGMA ||
-      (Array.isArray(this.#useAdditionalChars) &&
-        this.#useAdditionalChars.includes(AdditionalChar.STIGMA))
-    ) {
+    if (this.CAPITAL_SAMPI?.tr) {
       letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
     }
 
