@@ -4,6 +4,7 @@ import {
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
   CIRCUMFLEX,
+  GREEK_BETA_SYMBOL,
   GREEK_QUESTION_MARK,
   GREEK_TILDE,
   LATIN_TILDE,
@@ -19,8 +20,8 @@ export function applyGreekVariants(
   // Apply beta variant (lowercase only).
   if (!options?.disableBetaVariant) {
     greekStr = greekStr
-      .replace(/\u03D0/g, 'β')
-      .replace(/(?<!\p{P}|\s|^)β/gmu, '\u03D0');
+      .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
+      .replace(/(?<!\p{P}|\s|^)β/gmu, GREEK_BETA_SYMBOL);
   }
 
   if (options?.useLunateSigma) {
@@ -166,7 +167,9 @@ export function removeDiacritics(
 }
 
 export function removeGreekVariants(greekStr: string): string {
-  return greekStr.replace(/ϐ/g, 'β').replace(/ς/g, 'σ');
+  return greekStr
+    .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
+    .replace(/ς/g, 'σ');
 }
 
 export function removeExtraWhitespace(str: string): string {
