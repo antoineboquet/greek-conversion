@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<title>Search bar example &mdash; greek-conversion</title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+<style>
+  .notice {
+    position: absolute;
+    margin-left: 5em;
+    padding: 0.75em;
+    font-size: 0.75em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  }
+</style>
+
+<header>
+  <h1>Search bar example</h1>
+  <p>
+    This example demonstrates how <code>greek-conversion</code>
+    allows you to manage Greek inputs and fetch Greek data.
+  </p>
+</header>
+
+<main>
+  <input
+    id="search-bar"
+    type="search"
+    placeholder="Search greek forms"
+    style="width: 100%"
+  />
+
+  Input method:
+  <span id="beta-code-notice" class="notice" hidden>
+    <p style="margin: 0 0 0.75em 0">
+      Since it's ugly, the beta code will be converted to Greek
+      &mdash; in real time.<br />Here's the conversion chart:
+    </p>
+    <table style="margin: 0">
+      <tr style="background: white">
+        <td><strong>A</strong> &rarr; Α</td>
+        <td><strong>B</strong> &rarr; Β</td>
+        <td><strong>G</strong> &rarr; Γ</td>
+        <td><strong>D</strong> &rarr; Δ</td>
+        <td><strong>E</strong> &rarr; Ε</td>
+        <td><strong>Z</strong> &rarr; Ζ</td>
+        <td><strong>H</strong> &rarr; Η</td>
+        <td><strong>Q</strong> &rarr; Θ</td>
+      </tr>
+      <tr>
+        <td><strong>I</strong> &rarr; Ι</td>
+        <td><strong>K</strong> &rarr; Κ</td>
+        <td><strong>L</strong> &rarr; Λ</td>
+        <td><strong>M</strong> &rarr; Μ</td>
+        <td><strong>N</strong> &rarr; Ν</td>
+        <td><strong>C</strong> &rarr; Ξ</td>
+        <td><strong>O</strong> &rarr; Ο</td>
+        <td><strong>P</strong> &rarr; Π</td>
+      </tr>
+      <tr style="background: white">
+        <td><strong>R</strong> &rarr; Ρ</td>
+        <td><strong>S</strong> &rarr; Σ</td>
+        <td><strong>T</strong> &rarr; Τ</td>
+        <td><strong>U</strong> &rarr; Υ</td>
+        <td><strong>F</strong> &rarr; Φ</td>
+        <td><strong>X</strong> &rarr; Χ</td>
+        <td><strong>Y</strong> &rarr; Ψ</td>
+        <td><strong>W</strong> &rarr; Ω</td>
+      </tr>
+    </table>
+  </span>
+  <input
+    type="radio"
+    id="beta-code-radio"
+    name="input-method"
+    value="beta-code"
+    checked
+  />
+  <label id="beta-code-label" for="beta-code-radio">beta code</label>
+
+  <span id="translit-notice" class="notice" hidden>
+    <p style="margin: 0 0 0.75em 0">
+      You can type Greek naturally in transliteration mode.<br />
+      Here's the conversion chart:
+    </p>
+    <table style="margin: 0">
+      <tr style="background: white">
+        <td><strong>A</strong> &rarr; Α</td>
+        <td><strong>B</strong> &rarr; Β</td>
+        <td><strong>G</strong> &rarr; Γ</td>
+        <td><strong>D</strong> &rarr; Δ</td>
+        <td><strong>E</strong> &rarr; Ε</td>
+        <td><strong>Z</strong> &rarr; Ζ</td>
+        <td><strong>Ê</strong> &rarr; Η</td>
+        <td><strong>TH</strong> &rarr; Θ</td>
+      </tr>
+      <tr>
+        <td><strong>I</strong> &rarr; Ι</td>
+        <td><strong>K</strong> &rarr; Κ</td>
+        <td><strong>L</strong> &rarr; Λ</td>
+        <td><strong>M</strong> &rarr; Μ</td>
+        <td><strong>N</strong> &rarr; Ν</td>
+        <td><strong>X</strong> &rarr; Ξ</td>
+        <td><strong>O</strong> &rarr; Ο</td>
+        <td><strong>P</strong> &rarr; Π</td>
+      </tr>
+      <tr style="background: white">
+        <td><strong>R</strong> &rarr; Ρ</td>
+        <td><strong>S</strong> &rarr; Σ</td>
+        <td><strong>T</strong> &rarr; Τ</td>
+        <td><strong>U</strong> &rarr; Υ</td>
+        <td><strong>PH</strong> &rarr; Φ</td>
+        <td><strong>CH</strong> &rarr; Χ</td>
+        <td><strong>PS</strong> &rarr; Ψ</td>
+        <td><strong>Ô</strong> &rarr; Ω</td>
+      </tr>
+    </table>
+  </span>
+  <input
+    type="radio"
+    id="translit-radio"
+    name="input-method"
+    value="transliteration"
+  />
+  <label id="translit-label" for="translit-radio">transliteration</label>
+
+  <table id="words-table" hidden style="width: 100%; table-layout: fixed">
+    <thead>
+      <tr>
+        <th>Lemmata</th>
+        <th style="width: 50%">Morphology</th>
+        <th>Dialect</th>
+      </tr>
+    </thead>
+    <tbody id="words-list"></tbody>
+    <tfoot>
+      <tr>
+        <th colspan="3" style="font-size: 0.7rem; text-align: center">
+          These data were collected using Morpheus, a morphological parsing and
+          lemmatising tool provided by the
+          <a href="https://www.perseus.tufts.edu/hopper/">Perseus Project</a>.
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</main>
+
+<script type="module">
+  import {
+    KeyType,
+    toBetaCode,
+    toGreek,
+    toTransliteration
+  } from 'https://www.unpkg.com/greek-conversion';
+
+  function fetchMorpheus(betaCodeStr) {
+    if (!betaCodeStr) {
+      wordsTable.hidden = true;
+      wordsList.innerHTML = '';
+      return;
+    }
+
+    fetch(`https://www.perseus.tufts.edu/hopper/xmlmorph?lang=gr&lookup=${betaCodeStr}`)
+      .then((response) => response.text())
+      .then((data) => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data, 'application/xml');
+        const analyses = xml.getElementsByTagName('analysis');
+
+        let content = '';
+        for (const el of analyses) {
+          const lemma = el.getElementsByTagName('lemma')[0]?.textContent;
+          const pos = el.getElementsByTagName('pos')[0]?.textContent;
+          const person = el.getElementsByTagName('person')[0]?.textContent;
+          const number = el.getElementsByTagName('number')[0]?.textContent;
+          const tense = el.getElementsByTagName('tense')[0]?.textContent;
+          const mood = el.getElementsByTagName('mood')[0]?.textContent;
+          const voice = el.getElementsByTagName('voice')[0]?.textContent;
+          const gender = el.getElementsByTagName('gender')[0]?.textContent;
+          const form = el.getElementsByTagName('case')[0]?.textContent;
+          const dialect = el.getElementsByTagName('dialect')[0]?.textContent;
+
+          let morphology = [];
+          if (['adj', 'noun', 'pron'].includes(pos)) {
+            morphology = [number, gender, form];
+          } else if (pos === 'verb') {
+            morphology = [person, number, tense, mood, voice];
+          }
+
+          content += `
+            <tr>
+              <td><strong>${lemma}</strong></td>
+              <td>(${pos}) ${morphology.filter(Boolean).join(', ')}</td>
+              <td>${dialect}</td>
+            </tr>
+          `;
+        }
+
+        if (!content)
+          content = `
+            <tr>
+              <td colspan=3 style="height:100px;text-align:center;">
+                No lemmata has been found for this form.
+              </td>
+            </tr>
+          `;
+
+        wordsTable.hidden = !content;
+        wordsList.innerHTML = content;
+      })
+      .catch((e) => {
+        console.error(e);
+        wordsTable.hidden = false;
+        wordsList.innerHTML = `
+          <tr>
+            <td colspan=3 style="height:100px;text-align:center;">
+              An error occured when attempting to collect data.
+            </td>
+          </tr>
+        `;
+      });
+  }
+
+  const searchBar = document.getElementById('search-bar');
+
+  searchBar.setSelectionRange(searchBar.value.length, searchBar.value.length);
+  searchBar.focus();
+
+  const betaCodeRadio = document.getElementById('beta-code-radio');
+  const betaCodeLabel = document.getElementById('beta-code-label');
+  const betaCodeNotice = document.getElementById('beta-code-notice');
+  const translitRadio = document.getElementById('translit-radio');
+  const translitLabel = document.getElementById('translit-label');
+  const translitNotice = document.getElementById('translit-notice');
+
+  const wordsTable = document.getElementById('words-table');
+  const wordsList = document.getElementById('words-list');
+
+  const conversionOptions = {
+    removeDiacritics: true,
+    setTransliterationStyle: {
+      useCxOverMacron: true
+    }
+  };
+
+  let inputMethod = betaCodeRadio.checked
+    ? betaCodeRadio.value
+    : translitRadio.value;
+
+  betaCodeRadio.addEventListener('click', (e) => {
+    inputMethod = e.target.value;
+    searchBar.value = toGreek(
+      searchBar.value,
+      KeyType.TRANSLITERATION,
+      conversionOptions
+    );
+  });
+
+  betaCodeLabel.addEventListener('mouseover', (e) => {
+    betaCodeNotice.hidden = !betaCodeNotice.hidden;
+  });
+
+  betaCodeLabel.addEventListener('mouseleave', (e) => {
+    betaCodeNotice.hidden = !betaCodeNotice.hidden;
+  });
+
+  translitRadio.addEventListener('click', (e) => {
+    inputMethod = e.target.value;
+    searchBar.value = toTransliteration(
+      searchBar.value,
+      KeyType.GREEK,
+      conversionOptions
+    );
+  });
+
+  translitLabel.addEventListener('mouseover', (e) => {
+    translitNotice.hidden = !translitNotice.hidden;
+  });
+
+  translitLabel.addEventListener('mouseleave', (e) => {
+    translitNotice.hidden = !translitNotice.hidden;
+  });
+
+  if (searchBar.value) {
+    const fromType = (inputMethod === 'beta-code')
+      ? KeyType.GREEK
+      : KeyType.TRANSLITERATION;
+    fetchMorpheus(toBetaCode(searchBar.value, fromType, conversionOptions));
+  }
+
+  searchBar.addEventListener('input', (e) => {
+    const selection = {
+      start: e.target.selectionStart,
+      end: e.target.selectionEnd
+    };
+
+    if (inputMethod === 'beta-code') {
+      e.target.value = toGreek(
+        e.target.value,
+        KeyType.BETA_CODE,
+        conversionOptions
+      );
+    }
+
+    searchBar.setSelectionRange(selection.start, selection.end);
+  });
+
+  searchBar.addEventListener('keyup', (e) => {
+    const fromType = (inputMethod === 'beta-code')
+      ? KeyType.GREEK
+      : KeyType.TRANSLITERATION;
+    fetchMorpheus(toBetaCode(searchBar.value, fromType, conversionOptions));
+  });
+</script>
