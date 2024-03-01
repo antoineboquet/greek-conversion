@@ -99,6 +99,12 @@ export function toTransliteration(
           .normalize('NFC');
       }
 
+      if (options.setTransliterationStyle?.lunatesigma_s) {
+        str = str.replace(/c(?!h)/gi, (match) =>
+          match.toUpperCase() === match ? 'S' : 's'
+        );
+      }
+
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
