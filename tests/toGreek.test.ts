@@ -271,7 +271,7 @@ describe('Self conversion', () => {
         disableBetaVariant: true
       }
     }
-    expect(toGreek('βαρ\u03D0αρος', KeyType.GREEK)).toBe('βαρ\u03D0αρος')
-    expect(toGreek('βαρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
+    expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρ\u03D0αρος')
+    expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
   })
 })
