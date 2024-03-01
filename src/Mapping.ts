@@ -631,10 +631,7 @@ export class Mapping {
   static #applyGammaNasals(str: string, type: KeyType): string {
     switch (type) {
       case KeyType.BETA_CODE:
-        return str.replace(/(g)(g|c|k|x)/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'N' + second;
-          else return 'n' + second;
-        });
+        return str;
 
       case KeyType.GREEK:
         return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
