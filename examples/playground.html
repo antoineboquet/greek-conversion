@@ -1,12 +1,29 @@
+<!--
+  @todo: input types beta code, transliteration.
+-->
 <!DOCTYPE html>
 <title>Playground example &mdash; greek-conversion</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cousine&display=swap" rel="stylesheet">
+<link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
 <style>
   body {
     grid-template-columns: 1fr min(80rem, 90%) 1fr;
+  }
+
+  #result-area {
+    white-space: pre-wrap;
+    font-family: Cousine, ui-monospace, monospace;
+    background: #fdfdfd;
+  }
+
+  label:has(input[type=checkbox]:disabled) {
+    color: var(--border);
+  }
+
+  input[type=checkbox]:disabled {
+    background: var(--border);
   }
 
   label {
@@ -182,9 +199,7 @@
     </div>
   </form>
 
-  <pre id="result-area" style="white-space: pre-line; background: #fdfdfd;">
-    Conversion results will be displayed here...
-  </pre>
+  <pre id="result-area">Conversion results will be displayed here...</pre>
 </main>
 
 <script type="module">
@@ -198,7 +213,6 @@
   const resultArea = document.getElementById('result-area');
 
   const searchBar = document.getElementById('search-bar');
-
   searchBar.setSelectionRange(searchBar.value.length, searchBar.value.length);
   searchBar.focus();
 
@@ -218,6 +232,9 @@
   translitRadio.addEventListener('click', (e) => inputType = e.target.value);
 
   const checkboxes = document.querySelectorAll('input[name="options"]');
+
+  // Conversion options handling
+
   let conversionOptions = {
     setGreekStyle: {},
     setTransliterationStyle: {}
@@ -225,7 +242,7 @@
   
   function evaluateOptions() {
     let values = [];
-    checkboxes.forEach((checkbox) => (checkbox.checked) ? values.push(checkbox.value) : false );
+    checkboxes.forEach(checkbox => (checkbox.checked) ? values.push(checkbox.value) : false);
 
     // Common options
 
@@ -262,25 +279,49 @@
 
     if (values.includes('upsilon_y')) conversionOptions.setTransliterationStyle.upsilon_y = true;
     else delete conversionOptions.setTransliterationStyle.upsilon_y;
+    
+    if (values.includes('lunatesigma_s')) {
+      conversionOptions.setTransliterationStyle.lunatesigma_s = true;
+      conversionOptions.useAdditionalChars = AdditionalChar.ALL; // enable the whole set for simplicity.
 
-    if (values.includes('lunatesigma_s')) conversionOptions.setTransliterationStyle.lunatesigma_s = true;
-    else delete conversionOptions.setTransliterationStyle.lunatesigma_s;
+      checkboxes.forEach(checkbox => {
+        if (checkbox.value === 'use-additional-chars') {
+          checkbox.checked = true;
+          checkbox.disabled = true;
+        }
+      });
+    }
+    else {
+      delete conversionOptions.setTransliterationStyle.lunatesigma_s;
+      checkboxes.forEach(checkbox => {
+        if (checkbox.value === 'use-additional-chars') {
+          checkbox.disabled = false;
+        }
+      });
+    }
   }
 
   evaluateOptions();
-  console.log(conversionOptions)
 
   checkboxes.forEach((checkbox) => checkbox.addEventListener('click', (e) => {
     evaluateOptions();
     doConversion();
-    console.log(conversionOptions)
   }));
 
+  // Input conversion
 
   function doConversion() {
     let fromType;
     switch (inputType) {
       case 'greek':
+        if (['all', 'lunate-sigma'].includes(conversionOptions?.useAdditionalChars)) {
+          searchBar.value = toGreek(
+            searchBar.value.replace(/Σ3/g, 'S3').replace(/σ3/g, 's3'),
+            KeyType.BETA_CODE, {
+              useAdditionalChars: conversionOptions.useAdditionalChars
+            }
+          );
+        }
         fromType = KeyType.GREEK;
         break;
 
@@ -291,9 +332,6 @@
       case 'beta-code':
         fromType = KeyType.TRANSLITERATION;
         break;
-
-      default:
-        console.error('Bad type found')
     }
 
     const gs = new GreekString(
@@ -302,15 +340,16 @@
       conversionOptions
     );
 
-    resultArea.innerHTML = `\
-      greek&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${gs.greek}</strong>
-      beta code&nbsp;&nbsp;<strong>${gs.betaCode}</strong>
-      translit.&nbsp;&nbsp;<strong>${gs.transliteration}</strong>\n
-      source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gs.source}
-    `;
+    resultArea.innerHTML = 
+      `greek      <strong>${gs.greek}</strong><br>` +
+      `beta code  <strong>${gs.betaCode}</strong><br>` +
+      `translit.  <strong>${gs.transliteration}</strong><br>` +
+      `source     ${gs.source}`;
   }
 
-  if (searchBar.value) doConversion();
+  if (searchBar.value) {
+    doConversion();
+  }
 
   searchBar.addEventListener('input', (e) => {
     const selection = {
@@ -319,7 +358,18 @@
     };
 
     if (inputType === 'greek') {
-      e.target.value = toGreek(e.target.value, KeyType.BETA_CODE);
+      let searchValue = e.target.value;
+
+      if (['all', 'lunate-sigma'].includes(conversionOptions?.useAdditionalChars)) {
+        searchValue = searchValue.replace(/Σ3/g, 'S3').replace(/σ3/g, 's3');
+      }
+
+      e.target.value = toGreek(
+        searchValue,
+        KeyType.BETA_CODE, {
+          useAdditionalChars: conversionOptions?.useAdditionalChars
+        }
+      );
     }
 
     searchBar.setSelectionRange(selection.start, selection.end);
