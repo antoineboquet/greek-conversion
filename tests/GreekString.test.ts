@@ -214,16 +214,27 @@ describe('GreekString', () => {
     expect(gs4.betaCode).toBe('anqrwpos3')
     expect(gs4.greek).toBe('ανθρωποσ3')
     expect(gs4.transliteration).toBe('anthrōpos3')
+
+    const trStyleGs5: IConversionOptions = {
+      useAdditionalChars: AdditionalChar.LUNATE_SIGMA,
+      removeExtraWhitespace: true
+    }
+    const gs5 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs5])
+  
+    expect(gs5.source).toBe('a)/nqrwpos3')
+    expect(gs5.betaCode).toBe('anqrwpos3')
+    expect(gs5.greek).toBe('ανθρωποϲ')
+    expect(gs5.transliteration).toBe('anthrōpos')
   })
 
-  const trStyleGs5: IConversionOptions = {
-    useAdditionalChars: AdditionalChar.LUNATE_SIGMA,
-    removeExtraWhitespace: true
-  }
-  const gs5 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs5])
-
-  expect(gs5.source).toBe('a)/nqrwpos3')
-  expect(gs5.betaCode).toBe('anqrwpos3')
-  expect(gs5.greek).toBe('ανθρωποϲ')
-  expect(gs5.transliteration).toBe('anthrōpos')
+  test('Testing upsilon_y', () => {
+    const options = {
+      setTransliterationStyle: {
+        upsilon_y: true
+      }
+    }
+  
+    const gs = new GreekString("πυρός, οὐρανός, ἄϋλος", KeyType.GREEK, options)
+    expect(gs.transliteration).toBe('pyrós, ouranós, áÿlos')
+  })
 })
