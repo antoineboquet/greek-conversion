@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<title>Playground example &mdash; greek-conversion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+<style>
+  body {
+    grid-template-columns: 1fr min(80rem, 90%) 1fr;
+  }
+
+  label {
+    user-select: none;
+  }
+
+  fieldset {
+    padding: .5rem;
+  }
+
+  fieldset label {
+    display: inline-block;
+    margin: .25rem .75rem;
+  }
+</style>
+
+<header>
+  <h1>Playground example</h1>
+  <p>
+    Test all the conversion options offered by <code>greek-conversion</code> and
+    see the result for each available representation using the GreekString object.
+  </p>
+</header>
+
+<main style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.5rem; margin-bottom: 1.5rem">
+  <form>
+    <div>
+      <input
+        id="search-bar"
+        type="search"
+        placeholder="Type greek"
+        style="width: 100%"
+      />
+
+      Input type:
+      <input
+        type="radio"
+        id="greek-radio"
+        name="input-type"
+        value="greek"
+        checked
+      />
+      <label id="greek-label" for="greek-radio">Greek <sup>[?]</sup></label>
+
+      <input
+        type="radio"
+        id="beta-code-radio"
+        name="input-type"
+        value="beta-code"
+      />
+      <label id="beta-code-label" for="beta-code-radio">beta code <sup>[?]</sup></label>
+
+      <input
+        type="radio"
+        id="translit-radio"
+        name="input-type"
+        value="transliteration"
+      />
+      <label id="translit-label" for="translit-radio">transliteration <sup>[?]</sup></label>
+    </div>
+
+    <div style="margin-top: 1.5rem; padding: .75rem; background: var(--accent-bg); border-radius: var(--standard-border-radius)">
+      <!-- Greek style -->
+      <fieldset>
+        <legend>Common options</legend>
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="remove-diacritics"
+          />
+          Remove diacritics
+        </label>
+        
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="remove-extra-whitespace"
+          />
+          Remove extra whitespace
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="use-additional-chars"
+          />
+          Use additional chars (enable all)
+        </label>
+      </fieldset>
+
+      <!-- Greek style -->
+      <fieldset>
+        <legend>Greek style</legend>
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="disable-beta-variant"
+          />
+          Disable beta variant
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="use-lunate-sigma"
+          />
+          Use lunate sigma
+        </label>
+      </fieldset>
+
+      <!-- Transliteration style -->
+      <fieldset>
+        <legend>Transliteration style</legend>
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="use-cx-over-macron"
+          />
+          Use circumflexes instead of macrons
+        </label>
+        
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="xi_ks"
+          />
+          xi &rarr; ks
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="rho_rh"
+          />
+        rho &rarr; rh (force breathings)
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="chi_kh"
+          />
+          chi &rarr; kh
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="upsilon_y"
+          />
+          upsilon &rarr; y
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="options"
+            value="lunatesigma_s"
+          />
+          lunate sigma &rarr; s
+        </label>
+      </fieldset>
+    </div>
+  </form>
+
+  <pre id="result-area" style="white-space: pre-line; background: #fdfdfd;">
+    Conversion results will be displayed here...
+  </pre>
+</main>
+
+<script type="module">
+  import {
+    AdditionalChar,
+    GreekString,
+    KeyType,
+    toGreek
+  } from 'https://www.unpkg.com/greek-conversion';
+
+  const resultArea = document.getElementById('result-area');
+
+  const searchBar = document.getElementById('search-bar');
+
+  searchBar.setSelectionRange(searchBar.value.length, searchBar.value.length);
+  searchBar.focus();
+
+  const greekRadio = document.getElementById('greek-radio');
+  const greekLabel = document.getElementById('greek-label');
+  const betaCodeRadio = document.getElementById('beta-code-radio');
+  const betaCodeLabel = document.getElementById('beta-code-label');
+  const translitRadio = document.getElementById('translit-radio');
+  const translitLabel = document.getElementById('translit-label');
+
+  let inputType = greekRadio.value;
+  if (betaCodeRadio.checked) inputType = betaCodeRadio.value;
+  else if (translitRadio.checked) inputType = translitRadio.value;
+
+  greekRadio.addEventListener('click', (e) => inputType = e.target.value);
+  betaCodeRadio.addEventListener('click', (e) => inputType = e.target.value);
+  translitRadio.addEventListener('click', (e) => inputType = e.target.value);
+
+  const checkboxes = document.querySelectorAll('input[name="options"]');
+  let conversionOptions = {
+    setGreekStyle: {},
+    setTransliterationStyle: {}
+  };
+  
+  function evaluateOptions() {
+    let values = [];
+    checkboxes.forEach((checkbox) => (checkbox.checked) ? values.push(checkbox.value) : false );
+
+    // Common options
+
+    if (values.includes('remove-diacritics')) conversionOptions.removeDiacritics = true;
+    else delete conversionOptions.removeDiacritics;
+
+    if (values.includes('remove-extra-whitespace')) conversionOptions.removeExtraWhitespace = true;
+    else delete conversionOptions.removeExtraWhitespace;
+
+    if (values.includes('use-additional-chars')) conversionOptions.useAdditionalChars = AdditionalChar.ALL;
+    else delete conversionOptions.useAdditionalChars;
+
+    // Greek style
+
+    if (values.includes('disable-beta-variant')) conversionOptions.setGreekStyle.disableBetaVariant = true;
+    else delete conversionOptions.setGreekStyle.disableBetaVariant;
+
+    if (values.includes('use-lunate-sigma')) conversionOptions.setGreekStyle.useLunateSigma = true;
+    else delete conversionOptions.setGreekStyle.useLunateSigma;
+
+    // Transliteration style
+
+    if (values.includes('use-cx-over-macron')) conversionOptions.setTransliterationStyle.useCxOverMacron = true;
+    else delete conversionOptions.setTransliterationStyle.useCxOverMacron;
+
+    if (values.includes('xi_ks')) conversionOptions.setTransliterationStyle.xi_ks = true;
+    else delete conversionOptions.setTransliterationStyle.xi_ks;
+  
+    if (values.includes('rho_rh')) conversionOptions.setTransliterationStyle.rho_rh = true;
+    else delete conversionOptions.setTransliterationStyle.rho_rh;
+
+    if (values.includes('chi_kh')) conversionOptions.setTransliterationStyle.chi_kh = true;
+    else delete conversionOptions.setTransliterationStyle.chi_kh;
+
+    if (values.includes('upsilon_y')) conversionOptions.setTransliterationStyle.upsilon_y = true;
+    else delete conversionOptions.setTransliterationStyle.upsilon_y;
+
+    if (values.includes('lunatesigma_s')) conversionOptions.setTransliterationStyle.lunatesigma_s = true;
+    else delete conversionOptions.setTransliterationStyle.lunatesigma_s;
+  }
+
+  evaluateOptions();
+  console.log(conversionOptions)
+
+  checkboxes.forEach((checkbox) => checkbox.addEventListener('click', (e) => {
+    evaluateOptions();
+    doConversion();
+    console.log(conversionOptions)
+  }));
+
+
+  function doConversion() {
+    let fromType;
+    switch (inputType) {
+      case 'greek':
+        fromType = KeyType.GREEK;
+        break;
+
+      case 'beta-code':
+        fromType = KeyType.BETA_CODE;
+        break;
+
+      case 'beta-code':
+        fromType = KeyType.TRANSLITERATION;
+        break;
+
+      default:
+        console.error('Bad type found')
+    }
+
+    const gs = new GreekString(
+      searchBar.value,
+      fromType,
+      conversionOptions
+    );
+
+    resultArea.innerHTML = `\
+      greek&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${gs.greek}</strong>
+      beta code&nbsp;&nbsp;<strong>${gs.betaCode}</strong>
+      translit.&nbsp;&nbsp;<strong>${gs.transliteration}</strong>\n
+      source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gs.source}
+    `;
+  }
+
+  if (searchBar.value) doConversion();
+
+  searchBar.addEventListener('input', (e) => {
+    const selection = {
+      start: e.target.selectionStart,
+      end: e.target.selectionEnd
+    };
+
+    if (inputType === 'greek') {
+      e.target.value = toGreek(e.target.value, KeyType.BETA_CODE);
+    }
+
+    searchBar.setSelectionRange(selection.start, selection.end);
+  });
+
+  searchBar.addEventListener('keyup', (e) => {
+    if (!searchBar.value) {
+      resultArea.textContent = '';
+      return;
+    }
+
+    doConversion();
+  });
+</script>
