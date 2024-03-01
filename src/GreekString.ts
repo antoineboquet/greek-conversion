@@ -33,7 +33,7 @@ export class GreekString {
     };
 
     this.#fromType = fromType;
-    this.#options = options;
+    this.#options = internalOptions;
     this.#mapping = new Mapping(internalOptions);
     this.source = str;
 
