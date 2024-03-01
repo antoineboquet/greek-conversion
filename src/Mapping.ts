@@ -24,6 +24,7 @@ export const IOTA_SUBSCRIPT = '\u0345';
 export const ANO_TELEIA = '\u0387';
 export const MIDDLE_DOT = '\u00B7';
 export const GREEK_QUESTION_MARK = '\u037E';
+export const GREEK_BETA_SYMBOL = '\u03D0';
 export const CAPITAL_LUNATE_SIGMA = '\u03F9';
 export const SMALL_LUNATE_SIGMA = '\u03F2';
 
@@ -545,14 +546,14 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    if (fromType === KeyType.TRANSLITERATION) {
+    if (
+      fromType === KeyType.TRANSLITERATION &&
+      toType !== KeyType.TRANSLITERATION
+    ) {
       fromStr = this.#trJoinSpecialChars(fromStr);
 
       // Add the alternate upsilon form (y/u) to the mapping.
-      if (
-        this.#transliterationStyle?.upsilon_y &&
-        toType !== KeyType.TRANSLITERATION
-      ) {
+      if (this.#transliterationStyle?.upsilon_y) {
         this.CAPITAL_ALT_UPSILON = {
           bc: this.CAPITAL_UPSILON.bc,
           gr: this.CAPITAL_UPSILON.gr,
@@ -630,10 +631,7 @@ export class Mapping {
   static #applyGammaNasals(str: string, type: KeyType): string {
     switch (type) {
       case KeyType.BETA_CODE:
-        return str.replace(/(g)(g|c|k|x)/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'N' + second;
-          else return 'n' + second;
-        });
+        return str;
 
       case KeyType.GREEK:
         return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {

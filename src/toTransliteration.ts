@@ -1,7 +1,9 @@
 import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import {
+  CIRCUMFLEX,
   DIAERESIS,
+  MACRON,
   Mapping,
   ROUGH_BREATHING,
   SMOOTH_BREATHING
@@ -33,12 +35,13 @@ export function toTransliteration(
 
   const mapping = declaredMapping ?? new Mapping(internalOptions);
 
+  if (options.setTransliterationStyle?.upsilon_y) {
+    str = flagDiaereses(str, fromType);
+  }
+
   switch (fromType) {
     case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str, internalOptions);
-      if (options.setTransliterationStyle?.upsilon_y) {
-        str = flagDiaereses(str, KeyType.BETA_CODE);
-      }
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.BETA_CODE);
       }
@@ -48,16 +51,60 @@ export function toTransliteration(
 
     case KeyType.GREEK:
       str = grConvertBreathings(str, internalOptions);
-      if (options.setTransliterationStyle?.upsilon_y) {
-        str = flagDiaereses(str, KeyType.GREEK);
-      }
       if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
       str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
+    // @todo: clean this section.
     case KeyType.TRANSLITERATION:
+      if (options.setTransliterationStyle?.useCxOverMacron) {
+        const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
+        str = str
+          .normalize('NFD')
+          .replace(re, `$1${CIRCUMFLEX}`)
+          .normalize('NFC');
+      }
+
+      if (options.setTransliterationStyle?.xi_ks) {
+        str = str.replace(/x/gi, (match) => {
+          if (internalOptions.isUpperCase) return 'KS';
+          else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
+        });
+      }
+
+      if (options.setTransliterationStyle?.chi_kh) {
+        str = str.replace(/ch/gi, (match) => {
+          if (internalOptions.isUpperCase) return 'KH';
+          else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
+        });
+      }
+
+      if (options.setTransliterationStyle?.rho_rh) {
+        str = str
+          .replace(/(?<!^)rr(?!$)/gim, (match) =>
+            match.toUpperCase() === match ? match + 'H' : match + 'h'
+          )
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (match) =>
+            internalOptions.isUpperCase ? match + 'H' : match + 'h'
+          );
+      }
+
+      if (options.setTransliterationStyle?.upsilon_y) {
+        str = str
+          .normalize('NFD')
+          .replace(/U/g, 'Y')
+          .replace(/u/g, 'y')
+          .normalize('NFC');
+      }
+
+      if (options.setTransliterationStyle?.lunatesigma_s) {
+        str = str.replace(/c(?!h)/gi, (match) =>
+          match.toUpperCase() === match ? 'S' : 's'
+        );
+      }
+
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),

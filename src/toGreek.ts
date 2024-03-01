@@ -8,7 +8,8 @@ import {
   isUpperCase,
   normalizeGreek,
   removeDiacritics,
-  removeExtraWhitespace
+  removeExtraWhitespace,
+  removeGreekVariants
 } from './utils';
 
 export function toGreek(
@@ -39,7 +40,8 @@ export function toGreek(
 
     case KeyType.GREEK:
       if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
-      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
+      str = removeGreekVariants(str);
+      str = mapping.apply(str, KeyType.GREEK, KeyType.GREEK);
       break;
 
     case KeyType.TRANSLITERATION:
