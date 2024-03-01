@@ -1,6 +1,3 @@
-<!--
-  @todo: input types beta code, transliteration.
--->
 <!DOCTYPE html>
 <title>Playground example &mdash; greek-conversion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +13,13 @@
     white-space: pre-wrap;
     font-family: Cousine, ui-monospace, monospace;
     background: #fdfdfd;
+  }
+
+  #options-area {
+    margin-top: 1.5rem;
+    padding: .75rem;
+    background: var(--accent-bg);
+    border-radius: var(--standard-border-radius);
   }
 
   label:has(input[type=checkbox]:disabled) {
@@ -66,7 +70,7 @@
         value="greek"
         checked
       />
-      <label id="greek-label" for="greek-radio">Greek <sup>[?]</sup></label>
+      <label id="greek-label" for="greek-radio">greek <sup>[?]</sup></label>
 
       <input
         type="radio"
@@ -85,7 +89,7 @@
       <label id="translit-label" for="translit-radio">transliteration <sup>[?]</sup></label>
     </div>
 
-    <div style="margin-top: 1.5rem; padding: .75rem; background: var(--accent-bg); border-radius: var(--standard-border-radius)">
+    <div id="options-area">
       <!-- Greek style -->
       <fieldset>
         <legend>Common options</legend>
@@ -341,9 +345,9 @@
     );
 
     resultArea.innerHTML = 
-      `greek      <strong>${gs.greek}</strong><br>` +
-      `beta code  <strong>${gs.betaCode}</strong><br>` +
-      `translit.  <strong>${gs.transliteration}</strong><br>` +
+      `greek      <strong>${gs.greek}</strong><br><br>` +
+      `beta code  <strong>${gs.betaCode}</strong><br><br>` +
+      `translit.  <strong>${gs.transliteration}</strong><br><br>` +
       `source     ${gs.source}`;
   }
 
