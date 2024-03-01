@@ -1,7 +1,9 @@
 import { KeyType, MixedPreset, Preset } from './enums';
 import { IConversionOptions, IInternalConversionOptions } from './interfaces';
 import {
+  CIRCUMFLEX,
   DIAERESIS,
+  MACRON,
   Mapping,
   ROUGH_BREATHING,
   SMOOTH_BREATHING
@@ -55,7 +57,40 @@ export function toTransliteration(
       str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
+    // @todo: clean this section.
     case KeyType.TRANSLITERATION:
+      if (options.setTransliterationStyle?.useCxOverMacron) {
+        const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
+        str = str
+          .normalize('NFD')
+          .replace(re, `$1${CIRCUMFLEX}`)
+          .normalize('NFC');
+      }
+
+      if (options.setTransliterationStyle?.xi_ks) {
+        str = str.replace(/x/gi, (match) => {
+          if (internalOptions.isUpperCase) return 'KS';
+          else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
+        });
+      }
+
+      if (options.setTransliterationStyle?.chi_kh) {
+        str = str.replace(/ch/gi, (match) => {
+          if (internalOptions.isUpperCase) return 'KH';
+          else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
+        });
+      }
+
+      if (options.setTransliterationStyle?.rho_rh) {
+        str = str
+          .replace(/(?<!^)rr(?!$)/gim, (match) =>
+            match.toUpperCase() === match ? match + 'H' : match + 'h'
+          )
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (match) =>
+            internalOptions.isUpperCase ? match + 'H' : match + 'h'
+          );
+      }
+
       if (options.setTransliterationStyle?.upsilon_y) {
         str = str
           .normalize('NFD')
@@ -63,6 +98,7 @@ export function toTransliteration(
           .replace(/u/g, 'y')
           .normalize('NFC');
       }
+
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
