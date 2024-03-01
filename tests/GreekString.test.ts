@@ -102,7 +102,7 @@ describe('GreekString', () => {
     const gs2 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK)
 
     expect(gs2.source).toBe('σφίγξ, τυγχάνω')
-    expect(gs2.betaCode).toBe('sfi/nc, tunxa/nw')
+    expect(gs2.betaCode).toBe('sfi/gc, tugxa/nw')
     expect(gs2.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
@@ -114,7 +114,7 @@ describe('GreekString', () => {
     })
 
     expect(gs3.source).toBe('σφίγξ, τυγχάνω')
-    expect(gs3.betaCode).toBe('sfi/nc, tunxa/nw')
+    expect(gs3.betaCode).toBe('sfi/gc, tugxa/nw')
     expect(gs3.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs3.transliteration).toBe('sphínks, tunkhánō')
   })
@@ -123,7 +123,7 @@ describe('GreekString', () => {
     const gs1 = new GreekString('aggelos', KeyType.TRANSLITERATION, { removeDiacritics: true })
 
     expect(gs1.source).toBe('aggelos')
-    expect(gs1.betaCode).toBe('angelos')
+    expect(gs1.betaCode).toBe('aggelos')
     expect(gs1.greek).toBe('αγγελος')
     expect(gs1.transliteration).toBe('angelos')
 
