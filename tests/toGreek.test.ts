@@ -263,3 +263,15 @@ describe('From transliteration to greek', () => {
     expect(toGreek('Rhódos\nRhódos\tRhódos Rhódos Rhódos.', KeyType.TRANSLITERATION)).toBe('Ῥόδος\nῬόδος\tῬόδος Ῥόδος Ῥόδος.')
   })
 })
+
+describe('Self conversion', () => {
+  test('Disabling beta variant', () => {
+    const options = {
+      setGreekStyle: {
+        disableBetaVariant: true
+      }
+    }
+    expect(toGreek('βαρ\u03D0αρος', KeyType.GREEK)).toBe('βαρ\u03D0αρος')
+    expect(toGreek('βαρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
+  })
+})
