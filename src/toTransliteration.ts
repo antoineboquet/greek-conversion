@@ -33,12 +33,13 @@ export function toTransliteration(
 
   const mapping = declaredMapping ?? new Mapping(internalOptions);
 
+  if (options.setTransliterationStyle?.upsilon_y) {
+    str = flagDiaereses(str, fromType);
+  }
+
   switch (fromType) {
     case KeyType.BETA_CODE:
       str = bcFlagRoughBreathings(str, internalOptions);
-      if (options.setTransliterationStyle?.upsilon_y) {
-        str = flagDiaereses(str, KeyType.BETA_CODE);
-      }
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.BETA_CODE);
       }
@@ -48,9 +49,6 @@ export function toTransliteration(
 
     case KeyType.GREEK:
       str = grConvertBreathings(str, internalOptions);
-      if (options.setTransliterationStyle?.upsilon_y) {
-        str = flagDiaereses(str, KeyType.GREEK);
-      }
       if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
       str = removeGreekVariants(str);
       str = normalizeGreek(str);
@@ -58,6 +56,13 @@ export function toTransliteration(
       break;
 
     case KeyType.TRANSLITERATION:
+      if (options.setTransliterationStyle?.upsilon_y) {
+        str = str
+          .normalize('NFD')
+          .replace(/U/g, 'Y')
+          .replace(/u/g, 'y')
+          .normalize('NFC');
+      }
       if (options.removeDiacritics) {
         str = removeDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
