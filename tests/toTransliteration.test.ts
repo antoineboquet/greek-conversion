@@ -415,4 +415,13 @@ describe('Self conversion', () => {
     ${'ý hỹ'}      | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
 
+  // Applying lunatesigma_s
+
+  test.each`
+    str           | expected
+    ${'hagioc'}   | ${'hagios'}
+    ${'Cōkrátēc'} | ${'Sōkrátēs'}
+    ${'ICHTUC'}   | ${'ICHTUS'}
+  `('Applying lunatesigma_s', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { lunatesigma_s: true } })).toBe(expected) })
+
 })
