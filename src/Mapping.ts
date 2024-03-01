@@ -546,14 +546,14 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    if (fromType === KeyType.TRANSLITERATION) {
+    if (
+      fromType === KeyType.TRANSLITERATION &&
+      toType !== KeyType.TRANSLITERATION
+    ) {
       fromStr = this.#trJoinSpecialChars(fromStr);
 
       // Add the alternate upsilon form (y/u) to the mapping.
-      if (
-        this.#transliterationStyle?.upsilon_y &&
-        toType !== KeyType.TRANSLITERATION
-      ) {
+      if (this.#transliterationStyle?.upsilon_y) {
         this.CAPITAL_ALT_UPSILON = {
           bc: this.CAPITAL_UPSILON.bc,
           gr: this.CAPITAL_UPSILON.gr,
