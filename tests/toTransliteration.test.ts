@@ -364,6 +364,35 @@ describe('From greek to transliteration', () => {
 
 describe('Self conversion', () => {
 
+  // Testing rho rules, applying rho_rh
+
+  test.each`
+    str             | expected
+    ${'Ródos'}      | ${'Rhódos'}
+    ${'RÓDOS'}      | ${'RHÓDOS'}
+    ${'polúrrizos'} | ${'polúrrhizos'}
+    ${'POLÚRRIZOS'} | ${'POLÚRRHIZOS'}
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { rho_rh: true } })).toBe(expected))
+
+  // Using circumflex on long vowels
+
+  test.each`
+    str            | expected
+    ${'ánthrōpos'} | ${'ánthrôpos'}
+    ${'chorēgéō'}  | ${'chorêgéô'}
+    ${'Xenophō̃n'}  | ${'Xenophỗn'}
+  `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected))
+
+  // Applying xi_ks / chi_kh
+
+  test.each`
+    str              | expected
+    ${'Xenophō̃n'}    | ${'Ksenophō̃n'}
+    ${'Chorēgéō'}    | ${'khorēgéō'}
+    ${'sphínx'}      | ${'sphínks'}
+    ${'melancholía'} | ${'melankholía'}
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
   // Applying upsilon_y
 
   test.each`
