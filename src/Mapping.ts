@@ -490,7 +490,10 @@ export class Mapping {
       }
     }
 
-    if (this.#transliterationStyle?.useCxOverMacron) {
+    const { useCxOverMacron, xi_ks, chi_kh, rho_rh, upsilon_y, lunatesigma_s } =
+      this.#transliterationStyle ?? {};
+
+    if (useCxOverMacron) {
       this.CAPITAL_ETA.tr = 'Ê';
       this.SMALL_ETA.tr = 'ê';
 
@@ -508,22 +511,22 @@ export class Mapping {
       }
     }
 
-    if (this.#transliterationStyle?.xi_ks) {
+    if (xi_ks) {
       this.CAPITAL_XI.tr = 'Ks';
       this.SMALL_XI.tr = 'ks';
     }
 
-    if (this.#transliterationStyle?.chi_kh) {
+    if (chi_kh) {
       this.CAPITAL_CHI.tr = 'Kh';
       this.SMALL_CHI.tr = 'kh';
     }
 
-    if (this.#transliterationStyle?.upsilon_y) {
+    if (upsilon_y) {
       this.CAPITAL_UPSILON.tr = 'Y';
       this.SMALL_UPSILON.tr = 'y';
     }
 
-    if (this.#transliterationStyle?.lunatesigma_s) {
+    if (lunatesigma_s) {
       // The lunate sigma might not have been activated using the
       // `useAdditionalChars` option. So, we need to check if its property exists.
       if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
