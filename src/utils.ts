@@ -92,7 +92,7 @@ export function normalizeGreek(greekStr: string): string {
   return greekStr
     .normalize('NFD')
     .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-    .normalize('NFC')
+    .normalize()
     .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
     .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
 }
@@ -128,7 +128,7 @@ export function removeDiacritics(
       return str
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
-        .normalize('NFC');
+        .normalize();
 
     case KeyType.TRANSLITERATION:
       const { letters, useCxOverMacron } =
@@ -158,7 +158,7 @@ export function removeDiacritics(
         str = str.replace(/[\u0300-\u036f]/g, '');
       }
 
-      return str.normalize('NFC');
+      return str.normalize();
 
     default:
       console.warn(`KeyType '${type}' is not implemented.`);

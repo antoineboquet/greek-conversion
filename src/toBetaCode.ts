@@ -110,7 +110,7 @@ function trConvertFlaggedBreathings(str: string): string {
     )
     .replace(/(?<!r)(r)\$/gi, '$1(')
     .replace(/\$/g, '')
-    .normalize('NFC');
+    .normalize();
 }
 
 /**

@@ -70,10 +70,7 @@ export function toTransliteration(
 
       if (useCxOverMacron) {
         const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
-        str = str
-          .normalize('NFD')
-          .replace(re, `$1${CIRCUMFLEX}`)
-          .normalize('NFC');
+        str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
       }
 
       if (xi_ks) {
@@ -105,7 +102,7 @@ export function toTransliteration(
           .normalize('NFD')
           .replace(/U/g, 'Y')
           .replace(/u/g, 'y')
-          .normalize('NFC');
+          .normalize();
       }
 
       if (lunatesigma_s) {
@@ -136,7 +133,7 @@ export function toTransliteration(
 
   if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
 
-  return str.normalize('NFC');
+  return str.normalize();
 }
 
 /**
@@ -160,11 +157,11 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
     .replace(reUpsilonDiphthongs, (match, vowelsGroup) => {
       if (!/y/i.test(vowelsGroup)) return vowelsGroup;
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
-      if (vowelsGroup.normalize('NFC').length === 1) return vowelsGroup;
+      if (vowelsGroup.normalize().length === 1) return vowelsGroup;
 
       return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
     })
-    .normalize('NFC');
+    .normalize();
 }
 
 /**
@@ -258,7 +255,7 @@ function flagDiaereses(str: string, fromType: KeyType): string {
       return str
         .normalize('NFD')
         .replace(new RegExp(DIAERESIS, 'g'), '$&@')
-        .normalize('NFC');
+        .normalize();
 
     default:
       console.warn(`KeyType '${fromType}' is not implemented.`);
@@ -310,5 +307,5 @@ function grConvertBreathings(
     .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
       isUpperCase ? initialRho + 'H' : initialRho + 'h'
     )
-    .normalize('NFC');
+    .normalize();
 }

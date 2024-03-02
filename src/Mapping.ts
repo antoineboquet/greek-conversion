@@ -616,7 +616,7 @@ export class Mapping {
       }
     }
 
-    let convertedStr = conversionArr.join('').normalize('NFC');
+    let convertedStr = conversionArr.join('').normalize();
     convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
 
     return convertedStr;
@@ -733,7 +733,7 @@ export class Mapping {
     if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
         new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'),
-        (match) => match.normalize('NFC')
+        (match) => match.normalize()
       );
     }
 
@@ -742,7 +742,7 @@ export class Mapping {
     const letters: string = this.trLettersWithCxOrMacron().join('');
     const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
     return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
-      return (char + longVowelMark).normalize('NFC') + diacritics;
+      return (char + longVowelMark).normalize() + diacritics;
     });
   }
 
@@ -772,7 +772,7 @@ export class Mapping {
     }
 
     return letters.map((letter) =>
-      letter.tr.normalize('NFD').charAt(0).normalize('NFC')
+      letter.tr.normalize('NFD').charAt(0).normalize()
     );
   }
 }

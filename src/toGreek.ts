@@ -97,7 +97,7 @@ function trConvertBreathings(
     .replace(reInitialBreathing, (match, trRough, vowelsGroup) => {
       const breathing = trRough ? ROUGH_BREATHING : SMOOTH_BREATHING;
 
-      vowelsGroup = vowelsGroup.normalize('NFC');
+      vowelsGroup = vowelsGroup.normalize();
 
       // `vowelsGroup` length can be 2+, so define first, next & extra vowels.
       let firstV = vowelsGroup.substring(0, 1).normalize('NFD');
@@ -123,5 +123,5 @@ function trConvertBreathings(
     })
     .replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`)
     .replace(new RegExp('h', 'gi'), '')
-    .normalize('NFC');
+    .normalize();
 }
