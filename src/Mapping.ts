@@ -583,7 +583,9 @@ export class Mapping {
       let matches;
 
       while ((matches = re.exec(fromStr)) !== null) {
-        const lastIndex = matches.index + matches[0].normalize('NFD').length;
+        // <= v0.12.1: `matches.index + matches[0].normalize('NFD').length;`.
+        // This resolves the archaic koppa's bug but might have side effects.
+        const lastIndex = matches.index + matches[0].length;
 
         // Check if the indices have already been filled.
         let isFilled = false;
