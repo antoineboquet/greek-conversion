@@ -1,5 +1,9 @@
-import { KeyType } from './enums';
-import { IGreekStyle } from './interfaces';
+import { KeyType, MixedPreset, Preset } from './enums';
+import {
+  IConversionOptions,
+  IGreekStyle,
+  IInternalConversionOptions
+} from './interfaces';
 import {
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
@@ -12,6 +16,7 @@ import {
   MIDDLE_DOT,
   SMALL_LUNATE_SIGMA
 } from './Mapping';
+import { applyPreset } from './presets';
 
 export function applyGreekVariants(
   greekStr: string,
@@ -57,6 +62,22 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 
     return word;
   });
+}
+
+export function handleOptions(
+  str: string,
+  fromType: KeyType,
+  settings: Preset | MixedPreset | IConversionOptions = {}
+): IInternalConversionOptions {
+  // Convert named presets to `IConversionOptions` objects.
+  if (typeof settings === 'string' || Array.isArray(settings)) {
+    settings = applyPreset(settings);
+  }
+
+  return {
+    isUpperCase: isUpperCase(str, fromType),
+    ...settings
+  };
 }
 
 /**

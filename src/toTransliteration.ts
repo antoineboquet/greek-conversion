@@ -8,51 +8,39 @@ import {
   ROUGH_BREATHING,
   SMOOTH_BREATHING
 } from './Mapping';
-import { applyPreset } from './presets';
 import {
-  isUpperCase,
+  handleOptions,
   normalizeGreek,
-  removeDiacritics,
-  removeExtraWhitespace,
-  removeGreekVariants
+  removeDiacritics as utilRmDiacritics,
+  removeExtraWhitespace as utilRmExtraWhitespace,
+  removeGreekVariants as utilRmGreekVariants
 } from './utils';
 
 export function toTransliteration(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = {},
+  settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  // Convert named presets to `IConversionOptions` objects.
-  if (typeof options === 'string' || Array.isArray(options)) {
-    options = applyPreset(options);
-  }
+  const options = handleOptions(str, fromType, settings);
+  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
+    options;
+  const mapping = declaredMapping ?? new Mapping(options);
 
-  const internalOptions: IInternalConversionOptions = {
-    isUpperCase: isUpperCase(str, fromType),
-    ...options
-  };
-
-  const mapping = declaredMapping ?? new Mapping(internalOptions);
-
-  if (options.setTransliterationStyle?.upsilon_y) {
-    str = flagDiaereses(str, fromType);
-  }
+  if (setTransliterationStyle?.upsilon_y) str = flagDiaereses(str, fromType);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = bcFlagRoughBreathings(str, internalOptions);
-      if (options.removeDiacritics) {
-        str = removeDiacritics(str, KeyType.BETA_CODE);
-      }
+      str = bcFlagRoughBreathings(str, options);
+      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
-      str = bcConvertBreathings(str, internalOptions);
+      str = bcConvertBreathings(str, options);
       break;
 
     case KeyType.GREEK:
-      str = grConvertBreathings(str, internalOptions);
-      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
-      str = removeGreekVariants(str);
+      str = grConvertBreathings(str, options);
+      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      str = utilRmGreekVariants(str);
       str = normalizeGreek(str);
       str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
@@ -66,7 +54,7 @@ export function toTransliteration(
         rho_rh,
         upsilon_y,
         lunatesigma_s
-      } = options.setTransliterationStyle ?? {};
+      } = setTransliterationStyle ?? {};
 
       if (useCxOverMacron) {
         const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
@@ -75,14 +63,14 @@ export function toTransliteration(
 
       if (xi_ks) {
         str = str.replace(/x/gi, (match) => {
-          if (internalOptions.isUpperCase) return 'KS';
+          if (options.isUpperCase) return 'KS';
           else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
         });
       }
 
       if (chi_kh) {
         str = str.replace(/ch/gi, (match) => {
-          if (internalOptions.isUpperCase) return 'KH';
+          if (options.isUpperCase) return 'KH';
           else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
         });
       }
@@ -93,7 +81,7 @@ export function toTransliteration(
             match.toUpperCase() === match ? match + 'H' : match + 'h'
           )
           .replace(/(?<=\p{P}|\s|^)r/gimu, (match) =>
-            internalOptions.isUpperCase ? match + 'H' : match + 'h'
+            options.isUpperCase ? match + 'H' : match + 'h'
           );
       }
 
@@ -111,10 +99,10 @@ export function toTransliteration(
         );
       }
 
-      if (options.removeDiacritics) {
-        str = removeDiacritics(str, KeyType.TRANSLITERATION, {
+      if (removeDiacritics) {
+        str = utilRmDiacritics(str, KeyType.TRANSLITERATION, {
           letters: mapping.trLettersWithCxOrMacron(),
-          useCxOverMacron: options.setTransliterationStyle?.useCxOverMacron
+          useCxOverMacron: setTransliterationStyle?.useCxOverMacron
         });
       }
 
@@ -126,12 +114,12 @@ export function toTransliteration(
       break;
   }
 
-  if (options.setTransliterationStyle?.upsilon_y) {
+  if (setTransliterationStyle?.upsilon_y) {
     str = applyUpsilonDiphthongs(str);
     str = str.replace(/@/gm, '');
   }
 
-  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
+  if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
   return str.normalize();
 }
