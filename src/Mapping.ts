@@ -133,275 +133,275 @@ const ADDITIONAL_CHARS_VALUES = (): {
 });
 
 export class Mapping {
-  CAPITAL_ALPHA: IMappingProperty = {
+  private CAPITAL_ALPHA: IMappingProperty = {
     gr: 'Α',
     bc: 'A',
     tr: 'A'
   };
-  CAPITAL_BETA: IMappingProperty = {
+  private CAPITAL_BETA: IMappingProperty = {
     gr: 'Β',
     bc: 'B',
     tr: 'B'
   };
-  CAPITAL_GAMMA: IMappingProperty = {
+  private CAPITAL_GAMMA: IMappingProperty = {
     gr: 'Γ',
     bc: 'G',
     tr: 'G'
   };
-  CAPITAL_DELTA: IMappingProperty = {
+  private CAPITAL_DELTA: IMappingProperty = {
     gr: 'Δ',
     bc: 'D',
     tr: 'D'
   };
-  CAPITAL_EPSILON: IMappingProperty = {
+  private CAPITAL_EPSILON: IMappingProperty = {
     gr: 'Ε',
     bc: 'E',
     tr: 'E'
   };
-  CAPITAL_ZETA: IMappingProperty = {
+  private CAPITAL_ZETA: IMappingProperty = {
     gr: 'Ζ',
     bc: 'Z',
     tr: 'Z'
   };
-  CAPITAL_ETA: IMappingProperty = {
+  private CAPITAL_ETA: IMappingProperty = {
     gr: 'Η',
     bc: 'H',
     tr: 'Ē'
   };
-  CAPITAL_THETA: IMappingProperty = {
+  private CAPITAL_THETA: IMappingProperty = {
     gr: 'Θ',
     bc: 'Q',
     tr: 'Th'
   };
-  CAPITAL_IOTA: IMappingProperty = {
+  private CAPITAL_IOTA: IMappingProperty = {
     gr: 'Ι',
     bc: 'I',
     tr: 'I'
   };
-  CAPITAL_KAPPA: IMappingProperty = {
+  private CAPITAL_KAPPA: IMappingProperty = {
     gr: 'Κ',
     bc: 'K',
     tr: 'K'
   };
-  CAPITAL_LAMBDA: IMappingProperty = {
+  private CAPITAL_LAMBDA: IMappingProperty = {
     gr: 'Λ',
     bc: 'L',
     tr: 'L'
   };
-  CAPITAL_MU: IMappingProperty = {
+  private CAPITAL_MU: IMappingProperty = {
     gr: 'Μ',
     bc: 'M',
     tr: 'M'
   };
-  CAPITAL_NU: IMappingProperty = {
+  private CAPITAL_NU: IMappingProperty = {
     gr: 'Ν',
     bc: 'N',
     tr: 'N'
   };
-  CAPITAL_XI: IMappingProperty = {
+  private CAPITAL_XI: IMappingProperty = {
     gr: 'Ξ',
     bc: 'C',
     tr: 'X'
   };
-  CAPITAL_OMICRON: IMappingProperty = {
+  private CAPITAL_OMICRON: IMappingProperty = {
     gr: 'Ο',
     bc: 'O',
     tr: 'O'
   };
-  CAPITAL_PI: IMappingProperty = {
+  private CAPITAL_PI: IMappingProperty = {
     gr: 'Π',
     bc: 'P',
     tr: 'P'
   };
-  CAPITAL_RHO: IMappingProperty = {
+  private CAPITAL_RHO: IMappingProperty = {
     gr: 'Ρ',
     bc: 'R',
     tr: 'R'
   };
-  CAPITAL_SIGMA: IMappingProperty = {
+  private CAPITAL_SIGMA: IMappingProperty = {
     gr: 'Σ',
     bc: 'S',
     tr: 'S'
   };
-  CAPITAL_TAU: IMappingProperty = {
+  private CAPITAL_TAU: IMappingProperty = {
     gr: 'Τ',
     bc: 'T',
     tr: 'T'
   };
-  CAPITAL_UPSILON: IMappingProperty = {
+  private CAPITAL_UPSILON: IMappingProperty = {
     gr: 'Υ',
     bc: 'U',
     tr: 'U'
   };
-  CAPITAL_ALT_UPSILON: IMappingProperty;
-  CAPITAL_PHI: IMappingProperty = {
+  private CAPITAL_ALT_UPSILON: IMappingProperty;
+  private CAPITAL_PHI: IMappingProperty = {
     gr: 'Φ',
     bc: 'F',
     tr: 'Ph'
   };
-  CAPITAL_CHI: IMappingProperty = {
+  private CAPITAL_CHI: IMappingProperty = {
     gr: 'Χ',
     bc: 'X',
     tr: 'Ch'
   };
-  CAPITAL_PSI: IMappingProperty = {
+  private CAPITAL_PSI: IMappingProperty = {
     gr: 'Ψ',
     bc: 'Y',
     tr: 'Ps'
   };
-  CAPITAL_OMEGA: IMappingProperty = {
+  private CAPITAL_OMEGA: IMappingProperty = {
     gr: 'Ω',
     bc: 'W',
     tr: 'Ō'
   };
-  CAPITAL_DIGAMMA: IMappingProperty;
-  CAPITAL_YOT: IMappingProperty;
-  CAPITAL_LUNATE_SIGMA: IMappingProperty;
-  CAPITAL_STIGMA: IMappingProperty;
-  CAPITAL_KOPPA: IMappingProperty;
-  CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
-  CAPITAL_SAMPI: IMappingProperty;
-  CAPITAL_SAN: IMappingProperty;
-  SMALL_ALPHA: IMappingProperty = {
+  private CAPITAL_DIGAMMA: IMappingProperty;
+  private CAPITAL_YOT: IMappingProperty;
+  private CAPITAL_LUNATE_SIGMA: IMappingProperty;
+  private CAPITAL_STIGMA: IMappingProperty;
+  private CAPITAL_KOPPA: IMappingProperty;
+  private CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
+  private CAPITAL_SAMPI: IMappingProperty;
+  private CAPITAL_SAN: IMappingProperty;
+  private SMALL_ALPHA: IMappingProperty = {
     gr: 'α',
     bc: 'a',
     tr: 'a'
   };
-  SMALL_BETA: IMappingProperty = {
+  private SMALL_BETA: IMappingProperty = {
     gr: 'β',
     bc: 'b',
     tr: 'b'
   };
-  SMALL_GAMMA: IMappingProperty = {
+  private SMALL_GAMMA: IMappingProperty = {
     gr: 'γ',
     bc: 'g',
     tr: 'g'
   };
-  SMALL_DELTA: IMappingProperty = {
+  private SMALL_DELTA: IMappingProperty = {
     gr: 'δ',
     bc: 'd',
     tr: 'd'
   };
-  SMALL_EPSILON: IMappingProperty = {
+  private SMALL_EPSILON: IMappingProperty = {
     gr: 'ε',
     bc: 'e',
     tr: 'e'
   };
-  SMALL_ZETA: IMappingProperty = {
+  private SMALL_ZETA: IMappingProperty = {
     gr: 'ζ',
     bc: 'z',
     tr: 'z'
   };
-  SMALL_ETA: IMappingProperty = {
+  private SMALL_ETA: IMappingProperty = {
     gr: 'η',
     bc: 'h',
     tr: 'ē'
   };
-  SMALL_THETA: IMappingProperty = {
+  private SMALL_THETA: IMappingProperty = {
     gr: 'θ',
     bc: 'q',
     tr: 'th'
   };
-  SMALL_IOTA: IMappingProperty = {
+  private SMALL_IOTA: IMappingProperty = {
     gr: 'ι',
     bc: 'i',
     tr: 'i'
   };
-  SMALL_KAPPA: IMappingProperty = {
+  private SMALL_KAPPA: IMappingProperty = {
     gr: 'κ',
     bc: 'k',
     tr: 'k'
   };
-  SMALL_LAMBDA: IMappingProperty = {
+  private SMALL_LAMBDA: IMappingProperty = {
     gr: 'λ',
     bc: 'l',
     tr: 'l'
   };
-  SMALL_MU: IMappingProperty = {
+  private SMALL_MU: IMappingProperty = {
     gr: 'μ',
     bc: 'm',
     tr: 'm'
   };
-  SMALL_NU: IMappingProperty = {
+  private SMALL_NU: IMappingProperty = {
     gr: 'ν',
     bc: 'n',
     tr: 'n'
   };
-  SMALL_XI: IMappingProperty = {
+  private SMALL_XI: IMappingProperty = {
     gr: 'ξ',
     bc: 'c',
     tr: 'x'
   };
-  SMALL_OMICRON: IMappingProperty = {
+  private SMALL_OMICRON: IMappingProperty = {
     gr: 'ο',
     bc: 'o',
     tr: 'o'
   };
-  SMALL_PI: IMappingProperty = {
+  private SMALL_PI: IMappingProperty = {
     gr: 'π',
     bc: 'p',
     tr: 'p'
   };
-  SMALL_RHO: IMappingProperty = {
+  private SMALL_RHO: IMappingProperty = {
     gr: 'ρ',
     bc: 'r',
     tr: 'r'
   };
-  SMALL_SIGMA: IMappingProperty = {
+  private SMALL_SIGMA: IMappingProperty = {
     gr: 'σ',
     bc: 's',
     tr: 's'
   };
-  SMALL_TAU: IMappingProperty = {
+  private SMALL_TAU: IMappingProperty = {
     gr: 'τ',
     bc: 't',
     tr: 't'
   };
-  SMALL_UPSILON: IMappingProperty = {
+  private SMALL_UPSILON: IMappingProperty = {
     gr: 'υ',
     bc: 'u',
     tr: 'u'
   };
-  SMALL_ALT_UPSILON: IMappingProperty;
-  SMALL_PHI: IMappingProperty = {
+  private SMALL_ALT_UPSILON: IMappingProperty;
+  private SMALL_PHI: IMappingProperty = {
     gr: 'φ',
     bc: 'f',
     tr: 'ph'
   };
-  SMALL_CHI: IMappingProperty = {
+  private SMALL_CHI: IMappingProperty = {
     gr: 'χ',
     bc: 'x',
     tr: 'ch'
   };
-  SMALL_PSI: IMappingProperty = {
+  private SMALL_PSI: IMappingProperty = {
     gr: 'ψ',
     bc: 'y',
     tr: 'ps'
   };
-  SMALL_OMEGA: IMappingProperty = {
+  private SMALL_OMEGA: IMappingProperty = {
     gr: 'ω',
     bc: 'w',
     tr: 'ō'
   };
-  SMALL_DIGAMMA: IMappingProperty;
-  SMALL_YOT: IMappingProperty;
-  SMALL_LUNATE_SIGMA: IMappingProperty;
-  SMALL_STIGMA: IMappingProperty;
-  SMALL_KOPPA: IMappingProperty;
-  SMALL_ARCHAIC_KOPPA: IMappingProperty;
-  SMALL_SAMPI: IMappingProperty;
-  SMALL_SAN: IMappingProperty;
-  QUESTION_MARK: IMappingProperty = {
+  private SMALL_DIGAMMA: IMappingProperty;
+  private SMALL_YOT: IMappingProperty;
+  private SMALL_LUNATE_SIGMA: IMappingProperty;
+  private SMALL_STIGMA: IMappingProperty;
+  private SMALL_KOPPA: IMappingProperty;
+  private SMALL_ARCHAIC_KOPPA: IMappingProperty;
+  private SMALL_SAMPI: IMappingProperty;
+  private SMALL_SAN: IMappingProperty;
+  private QUESTION_MARK: IMappingProperty = {
     gr: GREEK_QUESTION_MARK,
     bc: ';',
     tr: '?'
   };
-  ANO_TELEIA: IMappingProperty = {
+  private ANO_TELEIA: IMappingProperty = {
     gr: ANO_TELEIA,
     bc: ':',
     tr: ';'
   };
-  DIACRITICS = {
+  private DIACRITICS = {
     SMOOTH_BREATHING: {
       gr: SMOOTH_BREATHING,
       bc: ')',
