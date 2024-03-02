@@ -491,11 +491,9 @@ export class Mapping {
     }
 
     if (this.#transliterationStyle?.useCxOverMacron) {
-      // Eta
       this.CAPITAL_ETA.tr = 'Ê';
       this.SMALL_ETA.tr = 'ê';
 
-      // Omega
       this.CAPITAL_OMEGA.tr = 'Ô';
       this.SMALL_OMEGA.tr = 'ô';
 
