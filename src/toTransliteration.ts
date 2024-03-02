@@ -59,7 +59,16 @@ export function toTransliteration(
 
     // @todo: clean this section.
     case KeyType.TRANSLITERATION:
-      if (options.setTransliterationStyle?.useCxOverMacron) {
+      const {
+        useCxOverMacron,
+        xi_ks,
+        chi_kh,
+        rho_rh,
+        upsilon_y,
+        lunatesigma_s
+      } = options.setTransliterationStyle ?? {};
+
+      if (useCxOverMacron) {
         const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
         str = str
           .normalize('NFD')
@@ -67,21 +76,21 @@ export function toTransliteration(
           .normalize('NFC');
       }
 
-      if (options.setTransliterationStyle?.xi_ks) {
+      if (xi_ks) {
         str = str.replace(/x/gi, (match) => {
           if (internalOptions.isUpperCase) return 'KS';
           else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
         });
       }
 
-      if (options.setTransliterationStyle?.chi_kh) {
+      if (chi_kh) {
         str = str.replace(/ch/gi, (match) => {
           if (internalOptions.isUpperCase) return 'KH';
           else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
         });
       }
 
-      if (options.setTransliterationStyle?.rho_rh) {
+      if (rho_rh) {
         str = str
           .replace(/(?<!^)rr(?!$)/gim, (match) =>
             match.toUpperCase() === match ? match + 'H' : match + 'h'
@@ -91,7 +100,7 @@ export function toTransliteration(
           );
       }
 
-      if (options.setTransliterationStyle?.upsilon_y) {
+      if (upsilon_y) {
         str = str
           .normalize('NFD')
           .replace(/U/g, 'Y')
@@ -99,7 +108,7 @@ export function toTransliteration(
           .normalize('NFC');
       }
 
-      if (options.setTransliterationStyle?.lunatesigma_s) {
+      if (lunatesigma_s) {
         str = str.replace(/c(?!h)/gi, (match) =>
           match.toUpperCase() === match ? 'S' : 's'
         );
