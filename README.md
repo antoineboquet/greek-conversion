@@ -79,12 +79,12 @@ Functions signature is consistently:
 ```ts
 str: string,
 fromType: KeyType,
-options: Preset | MixedPreset | IConversionOptions = {}
+settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
 The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
-The **`options`** parameter can be filled with:
+The **`settings`** parameter can be filled with:
 1. a `Preset`;
 2. a user-defined `IConversionOptions` object;
 3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
@@ -199,12 +199,12 @@ As multiple conversions can be destructive, <abbr title="Object-Oriented Program
 ```ts
 str: string,
 fromType: KeyType,
-options?: Preset | MixedPreset | IConversionOptions
+settings?: Preset | MixedPreset | IConversionOptions
 ```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that the `options` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
+Note that the `settings` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 
