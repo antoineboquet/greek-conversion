@@ -740,7 +740,7 @@ export class Mapping {
     // Join back long wovel marks to the letters that carry them.
     const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
     const letters: string = this.trLettersWithCxOrMacron().join('');
-    const re = new RegExp(`(?<char>[${letters}])(?<diacritics>\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
+    const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
     return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
       return (char + longVowelMark).normalize('NFC') + diacritics;
     });

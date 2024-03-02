@@ -153,7 +153,7 @@ export function toTransliteration(
 function applyUpsilonDiphthongs(transliteratedStr: string): string {
   const vowels = 'aeēioyō';
   // `vowelsGroup` includes the upsilon ('y'), the diaeresis flag '@'.
-  const reUpsilonDiphthongs = new RegExp(`(?<vowelsGroup>[${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
+  const reUpsilonDiphthongs = new RegExp(`([${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
 
   return transliteratedStr
     .normalize('NFD')
@@ -205,11 +205,11 @@ function bcConvertBreathings(
   }
 
   const vowels = 'aeēiouyō';
-  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
+  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
 
   transliteratedStr = transliteratedStr
-    .replace(reInitialSmooth, '$<vowelsGroup>')
-    .replace(new RegExp(`(?<rho>r)${SMOOTH_BREATHING}`, 'gi'), '$<rho>');
+    .replace(reInitialSmooth, '$1')
+    .replace(new RegExp(`(r)${SMOOTH_BREATHING}`, 'gi'), '$1');
 
   return transliteratedStr;
 }
@@ -283,18 +283,18 @@ function grConvertBreathings(
   const { isUpperCase, setTransliterationStyle } = options;
   const rho_rh = setTransliterationStyle?.rho_rh;
 
-  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)(?<vowelsGroup>[αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
-  const reInitialRough = new RegExp(`(?<vowelsGroup>[αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
-  const reDoubleRhoLazy = new RegExp(`(?<doubleRho>ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
-  const reInitialRho = new RegExp(`(?<initialRho>ρ)${ROUGH_BREATHING}`, 'gi');
-  const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(?<initialRho>ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
+  const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
+  const reInitialRough = new RegExp(`([αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
+  const reDoubleRhoLazy = new RegExp(`(ρ${SMOOTH_BREATHING}?ρ)${ROUGH_BREATHING}?`, 'gi'); //prettier-ignore
+  const reInitialRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
+  const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
 
   // Change the coronis form after `reInitialSmooth`,
   // by replacing the remaining smooth breathings (e. g.
   // `.replace(new RegExp(SMOOTH_BREATHING, 'g'), CORONIS)`).
   return greekStr
     .normalize('NFD')
-    .replace(reInitialSmooth, '$<vowelsGroup>')
+    .replace(reInitialSmooth, '$1')
     .replace(reInitialRough, (match, vowelsGroup) => {
       // @fixme(v0.13): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;

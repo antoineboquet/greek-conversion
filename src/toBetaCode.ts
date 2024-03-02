@@ -83,7 +83,8 @@ function trConvertFlaggedBreathings(str: string): string {
   const vowels = 'aehiouw';
   const diacritics = '()\\/+=|';
 
-  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(?<trRough>\\$)?(?<firstV>[${vowels}])(?<firstD>[${diacritics}])?(?<nextV>[${vowels}])?(?<nextD>[${diacritics}])?`, 'gimu'); // prettier-ignore
+  // $1: trRough, $2: firstV, $3: firstD, $4: nextV, $5: nextD.
+  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(\\$)?([${vowels}])([${diacritics}])?([${vowels}])?([${diacritics}])?`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
