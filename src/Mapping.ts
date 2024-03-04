@@ -30,7 +30,7 @@ export const SMALL_LUNATE_SIGMA = '\u03F2';
 
 const ADDITIONAL_CHARS_VALUES = (): {
   [k in AdditionalChar]: {
-    [k in any /* @fixme */]: IMappingProperty;
+    [k in string]: IMappingProperty;
   };
 } => ({
   [AdditionalChar.ALL]: {},
@@ -480,12 +480,14 @@ export class Mapping {
     if (this.#useAdditionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
         if (
-          this.#useAdditionalChars === AdditionalChar.ALL ||
-          this.#useAdditionalChars === k ||
+          this.#useAdditionalChars === (AdditionalChar.ALL as number) ||
+          this.#useAdditionalChars === (Number(k) as AdditionalChar) ||
           (Array.isArray(this.#useAdditionalChars) &&
-            this.#useAdditionalChars.includes(k as AdditionalChar))
+            this.#useAdditionalChars.includes(Number(k) as AdditionalChar))
         ) {
-          for (const [char, props] of Object.entries(v)) this[char] = props;
+          for (const [char, props] of Object.entries(v)) {
+            this[char] = props;
+          }
         }
       }
     }

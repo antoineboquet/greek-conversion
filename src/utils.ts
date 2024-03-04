@@ -69,8 +69,8 @@ export function handleOptions(
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {}
 ): IInternalConversionOptions {
-  // Convert named presets to `IConversionOptions` objects.
-  if (typeof settings === 'string' || Array.isArray(settings)) {
+  // Convert named presets (= numeric enum) to `IConversionOptions` objects.
+  if (typeof settings === 'number' || Array.isArray(settings)) {
     settings = applyPreset(settings);
   }
 
