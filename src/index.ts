@@ -1,3 +1,9 @@
+/**
+ * greek-conversion
+ * Copyright (C) 2021, 2022, 2023, 2024 Antoine Boquet
+ * @license AGPL-3.0
+ */
+
 import { AdditionalChar, KeyType, Preset } from './enums';
 import { GreekString } from './GreekString';
 import { toBetaCode } from './toBetaCode';
