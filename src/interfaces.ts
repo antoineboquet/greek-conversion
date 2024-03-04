@@ -1,4 +1,4 @@
-import { AdditionalChar } from './enums';
+import { AdditionalChar, Preset } from './enums';
 
 export interface IConversionOptions {
   removeDiacritics?: boolean;
@@ -12,6 +12,8 @@ export interface IConversionOptions {
 export interface IInternalConversionOptions extends IConversionOptions {
   isUpperCase?: boolean;
 }
+
+export type MixedPreset = [Preset, IConversionOptions];
 
 // v0.13
 /*export interface IBetaCodeStyle {

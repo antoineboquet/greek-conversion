@@ -1,5 +1,9 @@
-import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions, IInternalConversionOptions } from './interfaces';
+import { KeyType, Preset } from './enums';
+import {
+  IConversionOptions,
+  IInternalConversionOptions,
+  MixedPreset
+} from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGreekVariants,

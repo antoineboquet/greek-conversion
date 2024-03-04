@@ -1,5 +1,3 @@
-import { IConversionOptions } from './interfaces';
-
 export enum AdditionalChar {
   ALL = 1,
   DIGAMMA,
@@ -25,5 +23,3 @@ export enum Preset {
   SBL
   //TLG
 }
-
-export type MixedPreset = [Preset, IConversionOptions];

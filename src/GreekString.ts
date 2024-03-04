@@ -1,5 +1,5 @@
-import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { KeyType, Preset } from './enums';
+import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';

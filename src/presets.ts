@@ -1,5 +1,5 @@
-import { AdditionalChar, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { AdditionalChar, Preset } from './enums';
+import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,

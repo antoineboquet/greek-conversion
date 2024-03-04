@@ -1,8 +1,9 @@
-import { KeyType, MixedPreset, Preset } from './enums';
+import { KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IGreekStyle,
-  IInternalConversionOptions
+  IInternalConversionOptions,
+  MixedPreset
 } from './interfaces';
 import {
   ANO_TELEIA,
