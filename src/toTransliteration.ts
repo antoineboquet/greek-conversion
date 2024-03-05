@@ -49,7 +49,6 @@ export function toTransliteration(
       str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
-    // @todo: clean this section.
     case KeyType.TRANSLITERATION:
       const {
         useCxOverMacron,
@@ -104,10 +103,12 @@ export function toTransliteration(
       }
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, KeyType.TRANSLITERATION, {
-          letters: mapping.trLettersWithCxOrMacron(),
-          useCxOverMacron: setTransliterationStyle?.useCxOverMacron
-        });
+        str = utilRmDiacritics(
+          str,
+          KeyType.TRANSLITERATION,
+          mapping.trLettersWithCxOrMacron(),
+          useCxOverMacron
+        );
       }
 
       str = mapping.apply(

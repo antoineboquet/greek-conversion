@@ -127,19 +127,16 @@ export function normalizeGreek(greekStr: string): string {
  *
  * @param str - The input string
  * @param type - The kind of representation associated to the input string
- * @param trPreserveLettersWithCxOrMacron - Transliteration only: preserve
- * some letters that are paired with a diacritic
- * @param trPreserveLettersWithCxOrMacron.letters - An array of letters
- * @param trPreserveLettersWithCxOrMacron.useCxOverMacron - The diacritic
- * associated to these letters (default to the \u0304 macron)
+ * @param trPreserveLetters - An array of letters paired with a diacritical
+ * mark (see the next parameter) to preserve.
+ * @param trUseCxOverMacron - The diacritical mark to match (defaults to
+ * the macron [\u0304]).
  */
 export function removeDiacritics(
   str: string,
   type: KeyType,
-  trPreserveLettersWithCxOrMacron?: {
-    letters: string[];
-    useCxOverMacron: boolean;
-  }
+  trPreserveLetters?: string[],
+  trUseCxOverMacron?: boolean
 ): string {
   switch (type) {
     case KeyType.BETA_CODE:
@@ -153,29 +150,17 @@ export function removeDiacritics(
         .normalize();
 
     case KeyType.TRANSLITERATION:
-      const { letters, useCxOverMacron } =
-        trPreserveLettersWithCxOrMacron || {};
-
       str = str.normalize('NFD');
 
-      if (letters?.length) {
-        const cxOrMacron = useCxOverMacron ? CIRCUMFLEX : MACRON;
-        const rePreservedLetters = new RegExp(
-          `(?<![${letters.join('')}])(\\p{M}*?)${cxOrMacron}`,
-          'gu'
-        );
+      if (trPreserveLetters?.length) {
+        const rePreservedLetters = new RegExp(`(?<![${trPreserveLetters.join('')}])(\\p{M}*?)${trUseCxOverMacron ? CIRCUMFLEX : MACRON}`, 'gu'); // prettier-ignore
 
-        if (useCxOverMacron) {
-          // Exclude the circumflex [\u0302] from the range.
-          str = str
-            .replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
-            .replace(rePreservedLetters, '');
-        } else {
-          // Exclude the macron [\u0304] from the range.
-          str = str
-            .replace(/[\u0300-\u0303-\u0305-\u036f]/g, '')
-            .replace(rePreservedLetters, '');
-        }
+        // Exclude circumflexes [\u0302] or macrons [\u0304] from the range.
+        str = trUseCxOverMacron
+          ? str.replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
+          : str.replace(/[\u0300-\u0303-\u0305-\u036f]/g, '');
+
+        str = str.replace(rePreservedLetters, '');
       } else {
         str = str.replace(/[\u0300-\u036f]/g, '');
       }
@@ -183,8 +168,7 @@ export function removeDiacritics(
       return str.normalize();
 
     default:
-      console.warn(`KeyType '${type}' is not implemented.`);
-      return str;
+      throw new RangeError(`KeyType '${type}' is not implemented.`);
   }
 }
 
