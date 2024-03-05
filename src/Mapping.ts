@@ -8,8 +8,6 @@ import { sanitizeRegExpString } from './utils';
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
-export const TONOS = '\u0384';
-export const OXIA = '\u1FFD';
 export const CIRCUMFLEX = '\u0302';
 export const LATIN_TILDE = '\u0303'; // `Combining Tilde`
 export const GREEK_TILDE = '\u0342'; // `Combining Greek Perispomeni`
