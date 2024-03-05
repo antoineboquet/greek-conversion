@@ -236,7 +236,7 @@ This function evaluates booleans `disableBetaVariant` & `useLunateSigma` provide
 
 Removes all the diacritics from a given string. The set of diacritical marks depends of the greek string representation.
 
-#### `removeGreekVariants (greekStr: string): string`
+#### `removeGreekVariants (greekStr: string, removeLunateSigma?: boolean): string`
 
 Removes beta and sigma variants.
 
