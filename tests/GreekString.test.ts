@@ -161,13 +161,11 @@ describe('GreekString', () => {
   })
 
   test('Testing presets', () => {
-    // Preset ALA_LC is not reversible; so, for instance, 's' are converted back
-    // to lunate sigmas (as option `lunatesigma_s` is activated).
     const gs = new GreekString('ánthrōpos', KeyType.TRANSLITERATION, Preset.ALA_LC)
 
     expect(gs.source).toBe('ánthrōpos')
-    expect(gs.betaCode).toBe('anqrwpos3')
-    expect(gs.greek).toBe('ανθρωποϲ')
+    expect(gs.betaCode).toBe('anqrwpos')
+    expect(gs.greek).toBe('ανθρωπος')
     expect(gs.transliteration).toBe('anthrōpos')
   })
 
@@ -179,8 +177,8 @@ describe('GreekString', () => {
     )
 
     expect(gs1.source).toBe('ánthrōpos')
-    expect(gs1.betaCode).toBe('a)/nqrwpos3')
-    expect(gs1.greek).toBe('ἄνθρωποϲ')
+    expect(gs1.betaCode).toBe('a)/nqrwpos')
+    expect(gs1.greek).toBe('ἄνθρωπος')
     expect(gs1.transliteration).toBe('ánthrōpos')
 
     const trStyleGs2: IConversionOptions = {
@@ -236,5 +234,19 @@ describe('GreekString', () => {
   
     const gs = new GreekString("πυρός, οὐρανός, ἄϋλος", KeyType.GREEK, options)
     expect(gs.transliteration).toBe('pyrós, ouranós, áÿlos')
+  })
+
+  test('Testing lunatesigma_s w/ additional chars enabled', () => {
+    const options = {
+      setTransliterationStyle: {
+        lunatesigma_s: true
+      },
+      useAdditionalChars: AdditionalChar.ALL
+    }
+  
+    const gs = new GreekString('purós, ouranós, aülos', KeyType.TRANSLITERATION, options)
+    expect(gs.betaCode).toBe('puro/s, ou)rano/s, a)u+los')
+    expect(gs.greek).toBe('πυρός, οὐρανός, ἀϋλος')
+    expect(gs.transliteration).toBe('purós, ouranós, aülos')
   })
 })
