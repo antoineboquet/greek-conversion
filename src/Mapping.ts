@@ -652,10 +652,6 @@ export class Mapping {
           if (first === first.toUpperCase()) return 'N' + second;
           else return 'n' + second;
         });
-
-      default:
-        console.warn(`KeyType '${type}' is not implemented.`);
-        return str;
     }
   }
 

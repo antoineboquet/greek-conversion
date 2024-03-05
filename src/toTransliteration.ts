@@ -249,10 +249,6 @@ function flagDiaereses(str: string, fromType: KeyType): string {
         .normalize('NFD')
         .replace(new RegExp(DIAERESIS, 'g'), '$&@')
         .normalize();
-
-    default:
-      console.warn(`KeyType '${fromType}' is not implemented.`);
-      return str;
   }
 }
 
