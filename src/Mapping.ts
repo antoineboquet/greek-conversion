@@ -676,15 +676,29 @@ export class Mapping {
     let fromProp: string;
     let toProp: string;
 
-    if (fromType === KeyType.BETA_CODE) fromProp = 'bc';
-    else if (fromType === KeyType.GREEK) fromProp = 'gr';
-    else if (fromType === KeyType.TRANSLITERATION) fromProp = 'tr';
-    else console.warn(`KeyType '${fromType}' is not implemented.`);
+    switch (fromType) {
+      case KeyType.BETA_CODE:
+        fromProp = 'bc';
+        break;
+      case KeyType.GREEK:
+        fromProp = 'gr';
+        break;
+      case KeyType.TRANSLITERATION:
+        fromProp = 'tr';
+        break;
+    }
 
-    if (toType === KeyType.BETA_CODE) toProp = 'bc';
-    else if (toType === KeyType.GREEK) toProp = 'gr';
-    else if (toType === KeyType.TRANSLITERATION) toProp = 'tr';
-    else console.warn(`KeyType '${toType}' is not implemented.`);
+    switch (toType) {
+      case KeyType.BETA_CODE:
+        toProp = 'bc';
+        break;
+      case KeyType.GREEK:
+        toProp = 'gr';
+        break;
+      case KeyType.TRANSLITERATION:
+        toProp = 'tr';
+        break;
+    }
 
     let chars = [];
 
