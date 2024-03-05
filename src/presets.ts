@@ -79,7 +79,7 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       break;*/
 
     default:
-      console.warn(`preset '${options}' is not implemented.`);
+      throw new RangeError(`Preset '${preset}' is not implemented.`);
   }
 
   if (Object.keys(mixedOptions).length !== 0) {
