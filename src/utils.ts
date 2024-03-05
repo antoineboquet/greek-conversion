@@ -65,6 +65,10 @@ export function applyUppercaseChars(transliteratedStr: string): string {
   });
 }
 
+/**
+ * Returns an `IInternalConversionOptions` from a (mixed) preset or
+ * a plain `IConversionOptions` object submitted by an end user.
+ */
 export function handleOptions(
   str: string,
   fromType: KeyType,
