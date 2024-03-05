@@ -2,7 +2,7 @@
   "name": "greek-conversion",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "A small library to convert a polytonic greek string from/into various representations.",
   "keywords": [
     "greek",
