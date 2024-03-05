@@ -492,7 +492,7 @@ export class Mapping {
       }
     }
 
-    const { useCxOverMacron, xi_ks, chi_kh, rho_rh, upsilon_y, lunatesigma_s } =
+    const { useCxOverMacron, xi_ks, chi_kh, upsilon_y, lunatesigma_s } =
       this.#transliterationStyle ?? {};
 
     if (useCxOverMacron) {
