@@ -535,10 +535,7 @@ export class Mapping {
       if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
 
       if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
-        console.warn(
-          'You must enable `AdditionalChar.LUNATE_SIGMA` for the option',
-          '`setTransliterationStyle.lunatesigma_s` to take effect.'
-        );
+        console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `setTransliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
       }
     }
   }
