@@ -20,7 +20,10 @@
     "TLG"
   ],
   "homepage": "https://github.com/antoineboquet/greek-conversion#readme",
-  "repository": "github:antoineboquet/greek-conversion.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoineboquet/greek-conversion.git"
+  },
   "source": "./src/index.ts",
   "types": "./dist/greekConversion.d.ts",
   "main": "./dist/greekConversion.cjs.js",
