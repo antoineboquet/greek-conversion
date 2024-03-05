@@ -469,14 +469,6 @@ export class Mapping {
     this.#transliterationStyle = options?.setTransliterationStyle;
     this.#useAdditionalChars = options?.useAdditionalChars;
 
-    if (this.#isUpperCase) {
-      for (const [k, v] of Object.entries(this)) {
-        if (k.startsWith('CAPITAL') && v.tr?.length > 1 /* Th, Ph, etc */) {
-          this[k].tr = v.tr.toUpperCase();
-        }
-      }
-    }
-
     if (this.#useAdditionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
         if (
@@ -536,6 +528,14 @@ export class Mapping {
 
       if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
         console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `setTransliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
+      }
+    }
+
+    if (this.#isUpperCase) {
+      for (const [k, v] of Object.entries(this)) {
+        if (k.startsWith('CAPITAL') && v.tr?.length > 1 /* Th, Ph, etc */) {
+          this[k].tr = v.tr.toUpperCase();
+        }
       }
     }
   }
