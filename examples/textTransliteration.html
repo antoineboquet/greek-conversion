@@ -37,7 +37,7 @@
   <table style="width: 100%; table-layout: fixed">
     <thead>
       <tr>
-        <th style="position: sticky; top: 0;">
+        <th style="position: sticky; top: 0">
           <span class="flex-head">
             Greek source
             <select id="text-selection">
@@ -63,9 +63,9 @@
             <span>
               <select id="preset-selection">
                 <option value="" disabled>Presets</option>
-                <option value="ala-lc" selected>ALA-LC</option>
-                <option value="bnf">BNF</option>
-                <option value="sbl">SBL</option>
+                <option value="ALA_LC" selected>ALA-LC</option>
+                <option value="BNF">BNF</option>
+                <option value="SBL">SBL</option>
               </select>
               <button id="conversion-button">Convert</button>
             </span>
@@ -244,7 +244,7 @@
     transliteratatedText.textContent = toTransliteration(
       greekSource.textContent,
       KeyType.GREEK,
-      currentPreset
+      Preset[currentPreset]
     );
   });
 </script>
