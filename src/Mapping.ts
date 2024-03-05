@@ -565,6 +565,12 @@ export class Mapping {
           tr: 'u'
         };
       }
+
+      // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
+      if (this.#transliterationStyle?.lunatesigma_s) {
+        this.CAPITAL_LUNATE_SIGMA.tr = undefined;
+        this.SMALL_LUNATE_SIGMA.tr = undefined;
+      }
     }
 
     if (fromType === KeyType.GREEK) {
