@@ -1,46 +1,39 @@
-import { KeyType, MixedPreset, Preset } from './enums';
-import { IConversionOptions, IInternalConversionOptions } from './interfaces';
+import { KeyType, Preset } from './enums';
+import {
+  IConversionOptions,
+  IInternalConversionOptions,
+  MixedPreset
+} from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
-import { applyPreset } from './presets';
 import {
   applyGreekVariants,
   applyUppercaseChars,
-  isUpperCase,
+  handleOptions,
   normalizeGreek,
-  removeDiacritics,
-  removeExtraWhitespace,
-  removeGreekVariants
+  removeDiacritics as utilRmDiacritics,
+  removeExtraWhitespace as utilRmExtraWhitespace,
+  removeGreekVariants as utilRmGreekVariants
 } from './utils';
 
 export function toGreek(
   str: string,
   fromType: KeyType,
-  options: Preset | MixedPreset | IConversionOptions = {},
+  settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  // Convert named presets to `IConversionOptions` objects.
-  if (typeof options === 'string' || Array.isArray(options)) {
-    options = applyPreset(options);
-  }
-
-  const internalOptions: IInternalConversionOptions = {
-    isUpperCase: isUpperCase(str, fromType),
-    ...options
-  };
-
-  const mapping = declaredMapping ?? new Mapping(internalOptions);
+  const options = handleOptions(str, fromType, settings);
+  const { removeDiacritics, removeExtraWhitespace, setGreekStyle } = options;
+  const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      if (options.removeDiacritics) {
-        str = removeDiacritics(str, KeyType.BETA_CODE);
-      }
+      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
       break;
 
     case KeyType.GREEK:
-      if (options.removeDiacritics) str = removeDiacritics(str, KeyType.GREEK);
-      str = removeGreekVariants(str);
+      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      str = utilRmGreekVariants(str);
       str = mapping.apply(str, KeyType.GREEK, KeyType.GREEK);
       break;
 
@@ -48,21 +41,19 @@ export function toGreek(
       str = applyUppercaseChars(str);
       str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
 
-      if (options.removeDiacritics) {
-        str = removeDiacritics(str, KeyType.TRANSLITERATION);
+      if (removeDiacritics) {
+        str = utilRmDiacritics(str, KeyType.TRANSLITERATION);
         str = str.replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str, internalOptions);
+        str = trConvertBreathings(str, options);
       }
-
-      str = normalizeGreek(str);
       break;
   }
 
-  str = applyGreekVariants(str, options.setGreekStyle);
-  if (options.removeExtraWhitespace) str = removeExtraWhitespace(str);
+  str = applyGreekVariants(str, setGreekStyle);
+  if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return str;
+  return normalizeGreek(str);
 }
 
 /**
@@ -90,14 +81,14 @@ function trConvertBreathings(
 
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
-  const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(?<trRough>h)?(?<vowelsGroup>[${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
+  const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(h)?([${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
     .replace(reInitialBreathing, (match, trRough, vowelsGroup) => {
       const breathing = trRough ? ROUGH_BREATHING : SMOOTH_BREATHING;
 
-      vowelsGroup = vowelsGroup.normalize('NFC');
+      vowelsGroup = vowelsGroup.normalize();
 
       // `vowelsGroup` length can be 2+, so define first, next & extra vowels.
       let firstV = vowelsGroup.substring(0, 1).normalize('NFD');
@@ -123,5 +114,5 @@ function trConvertBreathings(
     })
     .replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`)
     .replace(new RegExp('h', 'gi'), '')
-    .normalize('NFC');
+    .normalize();
 }

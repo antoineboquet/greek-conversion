@@ -1,5 +1,10 @@
-import { KeyType } from './enums';
-import { IGreekStyle } from './interfaces';
+import { KeyType, Preset } from './enums';
+import {
+  IConversionOptions,
+  IGreekStyle,
+  IInternalConversionOptions,
+  MixedPreset
+} from './interfaces';
 import {
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
@@ -12,6 +17,7 @@ import {
   MIDDLE_DOT,
   SMALL_LUNATE_SIGMA
 } from './Mapping';
+import { applyPreset } from './presets';
 
 export function applyGreekVariants(
   greekStr: string,
@@ -60,6 +66,26 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
+ * Returns an `IInternalConversionOptions` from a (mixed) preset or
+ * a plain `IConversionOptions` object submitted by an end user.
+ */
+export function handleOptions(
+  str: string,
+  fromType: KeyType,
+  settings: Preset | MixedPreset | IConversionOptions = {}
+): IInternalConversionOptions {
+  // Convert named presets (= numeric enum) to `IConversionOptions` objects.
+  if (typeof settings === 'number' || Array.isArray(settings)) {
+    settings = applyPreset(settings);
+  }
+
+  return {
+    isUpperCase: isUpperCase(str, fromType),
+    ...settings
+  };
+}
+
+/**
  * Returns a boolean that indicates if the given string is uppercase or not.
  *
  * @remarks
@@ -92,7 +118,7 @@ export function normalizeGreek(greekStr: string): string {
   return greekStr
     .normalize('NFD')
     .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-    .normalize('NFC')
+    .normalize()
     .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
     .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
 }
@@ -105,19 +131,16 @@ export function normalizeGreek(greekStr: string): string {
  *
  * @param str - The input string
  * @param type - The kind of representation associated to the input string
- * @param trPreserveLettersWithCxOrMacron - Transliteration only: preserve
- * some letters that are paired with a diacritic
- * @param trPreserveLettersWithCxOrMacron.letters - An array of letters
- * @param trPreserveLettersWithCxOrMacron.useCxOverMacron - The diacritic
- * associated to these letters (default to the \u0304 macron)
+ * @param trPreserveLetters - An array of letters paired with a diacritical
+ * mark (see the next parameter) to preserve.
+ * @param trUseCxOverMacron - The diacritical mark to match (defaults to
+ * the macron [\u0304]).
  */
 export function removeDiacritics(
   str: string,
   type: KeyType,
-  trPreserveLettersWithCxOrMacron?: {
-    letters: string[];
-    useCxOverMacron: boolean;
-  }
+  trPreserveLetters?: string[],
+  trUseCxOverMacron?: boolean
 ): string {
   switch (type) {
     case KeyType.BETA_CODE:
@@ -128,45 +151,41 @@ export function removeDiacritics(
       return str
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
-        .normalize('NFC');
+        .normalize();
 
     case KeyType.TRANSLITERATION:
-      const { letters, useCxOverMacron } =
-        trPreserveLettersWithCxOrMacron || {};
-
       str = str.normalize('NFD');
 
-      if (letters?.length) {
-        const cxOrMacron = useCxOverMacron ? CIRCUMFLEX : MACRON;
-        const rePreservedLetters = new RegExp(
-          `(?<![${letters.join('')}])(\\p{M}*?)${cxOrMacron}`,
-          'gu'
-        );
+      if (trPreserveLetters?.length) {
+        const rePreservedLetters = new RegExp(`(?<![${trPreserveLetters.join('')}])(\\p{M}*?)${trUseCxOverMacron ? CIRCUMFLEX : MACRON}`, 'gu'); // prettier-ignore
 
-        if (useCxOverMacron) {
-          // Exclude the circumflex [\u0302] from the range.
-          str = str
-            .replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
-            .replace(rePreservedLetters, '');
-        } else {
-          // Exclude the macron [\u0304] from the range.
-          str = str
-            .replace(/[\u0300-\u0303-\u0305-\u036f]/g, '')
-            .replace(rePreservedLetters, '');
-        }
+        // Exclude circumflexes [\u0302] or macrons [\u0304] from the range.
+        str = trUseCxOverMacron
+          ? str.replace(/[\u0300-\u0301-\u0303-\u036f]/g, '')
+          : str.replace(/[\u0300-\u0303-\u0305-\u036f]/g, '');
+
+        str = str.replace(rePreservedLetters, '');
       } else {
         str = str.replace(/[\u0300-\u036f]/g, '');
       }
 
-      return str.normalize('NFC');
+      return str.normalize();
 
     default:
-      console.warn(`KeyType '${type}' is not implemented.`);
-      return str;
+      throw new RangeError(`KeyType '${type}' is not implemented.`);
   }
 }
 
-export function removeGreekVariants(greekStr: string): string {
+export function removeGreekVariants(
+  greekStr: string,
+  removeLunateSigma?: boolean
+): string {
+  if (removeLunateSigma) {
+    greekStr = greekStr
+      .replace(new RegExp(CAPITAL_LUNATE_SIGMA, 'g'), 'Σ')
+      .replace(new RegExp(SMALL_LUNATE_SIGMA, 'g'), 'ς');
+  }
+
   return greekStr
     .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
     .replace(/ς/g, 'σ');

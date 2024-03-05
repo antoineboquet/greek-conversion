@@ -1,5 +1,5 @@
-import { AdditionalChar, MixedPreset, Preset } from './enums';
-import { IConversionOptions } from './interfaces';
+import { AdditionalChar, Preset } from './enums';
+import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
@@ -79,7 +79,7 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       break;*/
 
     default:
-      console.warn(`preset '${options}' is not implemented.`);
+      throw new RangeError(`Preset '${preset}' is not implemented.`);
   }
 
   if (Object.keys(mixedOptions).length !== 0) {

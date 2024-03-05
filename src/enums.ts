@@ -1,29 +1,25 @@
-import { IConversionOptions } from './interfaces';
-
 export enum AdditionalChar {
-  ALL = 'all',
-  DIGAMMA = 'digamma',
-  YOT = 'yot',
-  LUNATE_SIGMA = 'lunate-sigma',
-  STIGMA = 'stigma',
-  KOPPA = 'koppa',
-  ARCHAIC_KOPPA = 'archaic-koppa',
-  SAMPI = 'sampi'
-  //SAN = 'san'
+  ALL = 1,
+  DIGAMMA,
+  YOT,
+  LUNATE_SIGMA,
+  STIGMA,
+  KOPPA,
+  ARCHAIC_KOPPA,
+  SAMPI
+  //SAN
 }
 
 export enum KeyType {
-  GREEK = 'greek',
-  BETA_CODE = 'beta-code',
-  TRANSLITERATION = 'transliteration'
+  GREEK,
+  BETA_CODE,
+  TRANSLITERATION
 }
 
 export enum Preset {
-  ALA_LC = 'ala-lc',
-  BNF = 'bnf',
-  MODERN_BC = 'modern-bc',
-  SBL = 'sbl'
-  //TLG = 'tlg'
+  ALA_LC,
+  BNF,
+  MODERN_BC,
+  SBL
+  //TLG
 }
-
-export type MixedPreset = [Preset, IConversionOptions];
