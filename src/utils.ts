@@ -188,7 +188,16 @@ export function removeDiacritics(
   }
 }
 
-export function removeGreekVariants(greekStr: string): string {
+export function removeGreekVariants(
+  greekStr: string,
+  removeLunateSigma?: boolean
+): string {
+  if (removeLunateSigma) {
+    greekStr = greekStr
+      .replace(new RegExp(CAPITAL_LUNATE_SIGMA, 'g'), 'Σ')
+      .replace(new RegExp(SMALL_LUNATE_SIGMA, 'g'), 'ς');
+  }
+
   return greekStr
     .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
     .replace(/ς/g, 'σ');
