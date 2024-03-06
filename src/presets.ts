@@ -1,4 +1,4 @@
-import { AdditionalChar, Preset } from './enums';
+import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
@@ -30,6 +30,7 @@ const BNF_OPTIONS = (): IConversionOptions => ({
 const ISO_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
   setTransliterationStyle: {
+    setCoronisStyle: Coronis.APOSTROPHE,
     beta_v: true,
     eta_i: true,
     phi_f: true,
