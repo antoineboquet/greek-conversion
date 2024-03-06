@@ -482,25 +482,25 @@ export class Mapping {
       }
     }
 
-    const { useCxOverMacron, xi_ks, chi_kh, upsilon_y, lunatesigma_s } =
-      this.#transliterationStyle ?? {};
+    const {
+      useCxOverMacron,
+      beta_v,
+      eta_i,
+      xi_ks,
+      chi_kh,
+      phi_f,
+      upsilon_y,
+      lunatesigma_s
+    } = this.#transliterationStyle ?? {};
 
-    if (useCxOverMacron) {
-      this.CAPITAL_ETA.tr = 'Ê';
-      this.SMALL_ETA.tr = 'ê';
+    if (beta_v) {
+      this.CAPITAL_BETA.tr = 'V';
+      this.SMALL_BETA.tr = 'v';
+    }
 
-      this.CAPITAL_OMEGA.tr = 'Ô';
-      this.SMALL_OMEGA.tr = 'ô';
-
-      if (this.CAPITAL_STIGMA?.tr) {
-        this.CAPITAL_STIGMA.tr = 'Ĉ';
-        this.SMALL_STIGMA.tr = 'ĉ';
-      }
-
-      if (this.CAPITAL_SAMPI?.tr) {
-        this.CAPITAL_SAMPI.tr = 'Ŝ';
-        this.SMALL_SAMPI.tr = 'ŝ';
-      }
+    if (eta_i) {
+      this.CAPITAL_ETA.tr = 'Ī';
+      this.SMALL_ETA.tr = 'ī';
     }
 
     if (xi_ks) {
@@ -511,6 +511,11 @@ export class Mapping {
     if (chi_kh) {
       this.CAPITAL_CHI.tr = 'Kh';
       this.SMALL_CHI.tr = 'kh';
+    }
+
+    if (phi_f) {
+      this.CAPITAL_PHI.tr = 'F';
+      this.SMALL_PHI.tr = 'f';
     }
 
     if (upsilon_y) {
@@ -526,6 +531,29 @@ export class Mapping {
 
       if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
         console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `setTransliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
+      }
+    }
+
+    if (useCxOverMacron) {
+      if (eta_i) {
+        this.CAPITAL_ETA.tr = 'Î';
+        this.SMALL_ETA.tr = 'î';
+      } else {
+        this.CAPITAL_ETA.tr = 'Ê';
+        this.SMALL_ETA.tr = 'ê';
+      }
+
+      this.CAPITAL_OMEGA.tr = 'Ô';
+      this.SMALL_OMEGA.tr = 'ô';
+
+      if (this.CAPITAL_STIGMA?.tr) {
+        this.CAPITAL_STIGMA.tr = 'Ĉ';
+        this.SMALL_STIGMA.tr = 'ĉ';
+      }
+
+      if (this.CAPITAL_SAMPI?.tr) {
+        this.CAPITAL_SAMPI.tr = 'Ŝ';
+        this.SMALL_SAMPI.tr = 'ŝ';
       }
     }
 

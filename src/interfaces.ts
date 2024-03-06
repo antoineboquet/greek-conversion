@@ -33,8 +33,11 @@ export interface IMappingProperty {
 
 export interface ITransliterationStyle {
   useCxOverMacron?: boolean;
+  beta_v?: boolean;
+  eta_i?: boolean;
   xi_ks?: boolean;
   rho_rh?: boolean;
+  phi_f?: boolean;
   chi_kh?: boolean;
   upsilon_y?: boolean;
   lunatesigma_s?: boolean;
