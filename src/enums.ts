@@ -10,6 +10,12 @@ export enum AdditionalChar {
   //SAN
 }
 
+export enum Coronis {
+  PSILI,
+  APOSTROPHE,
+  NO
+}
+
 export enum KeyType {
   GREEK,
   BETA_CODE,

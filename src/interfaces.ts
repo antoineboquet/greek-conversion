@@ -1,4 +1,4 @@
-import { AdditionalChar, Preset } from './enums';
+import { AdditionalChar, Coronis, Preset } from './enums';
 
 export interface IConversionOptions {
   removeDiacritics?: boolean;
@@ -32,6 +32,7 @@ export interface IMappingProperty {
 }
 
 export interface ITransliterationStyle {
+  setCoronisStyle?: Coronis;
   useCxOverMacron?: boolean;
   beta_v?: boolean;
   eta_i?: boolean;
