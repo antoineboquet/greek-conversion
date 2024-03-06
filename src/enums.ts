@@ -19,6 +19,7 @@ export enum KeyType {
 export enum Preset {
   ALA_LC,
   BNF,
+  ISO,
   MODERN_BC,
   SBL
   //TLG

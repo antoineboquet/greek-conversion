@@ -27,6 +27,22 @@ const BNF_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
+const ISO_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: true,
+  setTransliterationStyle: {
+    beta_v: true,
+    eta_i: true,
+    phi_f: true,
+    upsilon_y: true,
+    lunatesigma_s: true
+  },
+  useAdditionalChars: [
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.YOT,
+    AdditionalChar.LUNATE_SIGMA
+  ]
+});
+
 const MODERN_BC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
   useAdditionalChars: AdditionalChar.ALL
@@ -63,6 +79,10 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
 
     case Preset.BNF:
       options = BNF_OPTIONS();
+      break;
+
+    case Preset.ISO:
+      options = ISO_OPTIONS();
       break;
 
     case Preset.MODERN_BC:
