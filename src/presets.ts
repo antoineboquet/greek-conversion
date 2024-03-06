@@ -3,16 +3,16 @@ import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
-  useAdditionalChars: [
-    AdditionalChar.DIGAMMA,
-    AdditionalChar.ARCHAIC_KOPPA,
-    AdditionalChar.LUNATE_SIGMA
-  ],
   setTransliterationStyle: {
     rho_rh: true,
     upsilon_y: true,
     lunatesigma_s: true
-  }
+  },
+  useAdditionalChars: [
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.ARCHAIC_KOPPA,
+    AdditionalChar.LUNATE_SIGMA
+  ]
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
