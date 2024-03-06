@@ -174,6 +174,28 @@ describe('From transliteration to beta code', () => {
     ${'Xenophỗn'}  | ${'Cenofw=n'}
   `('Using circumflex on long vowels', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
 
+  test('Applying beta_v', () => {
+    expect(toBetaCode('várvaros', KeyType.TRANSLITERATION, { setTransliterationStyle: { beta_v: true } }))
+      .toBe('ba/rbaros')
+  })
+
+  test('Applying eta_i', () => {
+    expect(toBetaCode('hīdonī́', KeyType.TRANSLITERATION, { setTransliterationStyle: { eta_i: true } }))
+      .toBe('h(donh/')
+  })
+
+  test('Applying eta_i', () => {
+    expect(toBetaCode('hîdonî́', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+      .toBe('h(donh/')
+  })
+  
+  test.each`
+    str            | expected
+    ${'fantasía'}  | ${'fantasi/a'}
+    ${'Fainṓ'}     | ${'Fainw/'}
+    ${'FILOSOFIA'} | ${'FILOSOFIA'}
+  `('Applying phi_f', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
+
   test.each`
     str            | expected
     ${'Ksenophȭn'} | ${'Cenofw=n'}

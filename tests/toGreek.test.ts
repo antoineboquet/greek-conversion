@@ -220,6 +220,28 @@ describe('From transliteration to greek', () => {
     ${'mármaros'}    | ${'μάρμαρος'}
   `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
+  test('Applying beta_v', () => {
+    expect(toGreek('várvaros', KeyType.TRANSLITERATION, { setTransliterationStyle: { beta_v: true } }))
+      .toBe('βάρ\u03D0αρος')
+  })
+
+  test('Applying eta_i', () => {
+    expect(toGreek('hīdonī́', KeyType.TRANSLITERATION, { setTransliterationStyle: { eta_i: true } }))
+      .toBe('ἡδονή')
+  })
+
+  test('Applying eta_i', () => {
+    expect(toGreek('hîdonî́', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+      .toBe('ἡδονή')
+  })
+  
+  test.each`
+    str            | expected
+    ${'fantasía'}  | ${'φαντασία'}
+    ${'Fainṓ'}     | ${'Φαινώ'}
+    ${'FILOSOFIA'} | ${'ΦΙΛΟΣΟΦΙΑ'}
+  `('Applying phi_f', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
+
   test.each`
     str            | expected
     ${'Ksenophȭn'} | ${'Ξενοφῶν'}
