@@ -28,7 +28,7 @@ const BNF_OPTIONS = (): IConversionOptions => ({
 });
 
 const ISO_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: true,
+  removeDiacritics: false,
   setTransliterationStyle: {
     beta_v: true,
     eta_i: true,
