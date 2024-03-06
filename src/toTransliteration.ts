@@ -189,7 +189,7 @@ function bcConvertBreathings(
         match.toUpperCase() === match ? 'RRH' : 'rrh'
       )
       .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
-        // @fixme(v0.13): case should be checked against the current word.
+        // @fixme(v0.14): case should be checked against the current word.
         isUpperCase ? match + 'H' : match + 'h'
       );
   }
@@ -220,7 +220,7 @@ function bcFlagRoughBreathings(
 
   return betaCodeStr
     .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) => {
-      // @fixme(v0.13): case should be checked against the current word too.
+      // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return '$$' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
@@ -282,7 +282,7 @@ function grConvertBreathings(
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
     .replace(reInitialRough, (match, vowelsGroup) => {
-      // @fixme(v0.13): case should be checked against the current word too.
+      // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)

@@ -94,7 +94,7 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       options = SBL_OPTIONS();
       break;
 
-    // v0.13
+    // v0.14
     /*case Preset.TLG:
       options = TLG_OPTIONS();
       break;*/
