@@ -1,4 +1,4 @@
-import { Coronis, KeyType, Preset } from './enums';
+import { KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IGreekStyle,
@@ -15,9 +15,7 @@ import {
   LATIN_TILDE,
   MACRON,
   MIDDLE_DOT,
-  RIGHT_SINGLE_QUOTATION_MARK,
-  SMALL_LUNATE_SIGMA,
-  SMOOTH_BREATHING
+  SMALL_LUNATE_SIGMA
 } from './Mapping';
 import { applyPreset } from './presets';
 
