@@ -29,9 +29,17 @@ export function toTransliteration(
   const options = handleOptions(str, fromType, settings);
   const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
     options;
+  const {
+    useCxOverMacron,
+    xi_ks,
+    chi_kh,
+    rho_rh,
+    upsilon_y,
+    lunatesigma_s
+  } = setTransliterationStyle ?? {};
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (setTransliterationStyle?.upsilon_y) str = flagDiaereses(str, fromType);
+  if (upsilon_y) str = flagDiaereses(str, fromType);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
@@ -50,15 +58,6 @@ export function toTransliteration(
       break;
 
     case KeyType.TRANSLITERATION:
-      const {
-        useCxOverMacron,
-        xi_ks,
-        chi_kh,
-        rho_rh,
-        upsilon_y,
-        lunatesigma_s
-      } = setTransliterationStyle ?? {};
-
       if (useCxOverMacron) {
         const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
         str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
@@ -119,10 +118,7 @@ export function toTransliteration(
       break;
   }
 
-  if (setTransliterationStyle?.upsilon_y) {
-    str = applyUpsilonDiphthongs(str);
-    str = str.replace(/@/gm, '');
-  }
+  if (upsilon_y) str = applyUpsilonDiphthongs(str).replace(/@/gm, '');
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
@@ -267,7 +263,7 @@ function grConvertBreathings(
   options: IInternalConversionOptions
 ): string {
   const { isUpperCase, setTransliterationStyle } = options;
-  const rho_rh = setTransliterationStyle?.rho_rh;
+  const { rho_rh } = setTransliterationStyle ?? {};
 
   const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
   const reInitialRough = new RegExp(`([αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
