@@ -3,6 +3,6 @@
     "useDefineForClassFields": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "target": "ES2022"
+    "target": "ES2018"
   }
 }
