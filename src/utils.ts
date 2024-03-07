@@ -195,6 +195,6 @@ export function removeExtraWhitespace(str: string): string {
   return str.replace(/(\s)+/g, '$1').trim();
 }
 
-export function sanitizeRegExpString(str): string {
+export function sanitizeRegExpString(str: string): string {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
 }
