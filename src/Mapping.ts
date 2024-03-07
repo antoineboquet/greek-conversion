@@ -21,6 +21,7 @@ export const CEDILLA = '\u0327';
 export const IOTA_SUBSCRIPT = '\u0345';
 export const ANO_TELEIA = '\u0387';
 export const MIDDLE_DOT = '\u00B7';
+export const RIGHT_SINGLE_QUOTATION_MARK = '\u2019';
 export const GREEK_QUESTION_MARK = '\u037E';
 export const GREEK_BETA_SYMBOL = '\u03D0';
 export const CAPITAL_LUNATE_SIGMA = '\u03F9';
