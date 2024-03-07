@@ -119,11 +119,11 @@ function reorderDiacritics(betaCodeStr: string): string {
   return betaCodeStr.replace(
     /([\(\)\\\/\+=\|\?]{2,})/gi,
     (match, diacritics) => {
-      const diacriticsOrder = [')', '(', '+', '/', '\\', '=', '|', '?'];
-      return diacritics
-        .split('')
-        .sort((a, b) => diacriticsOrder.indexOf(a) - diacriticsOrder.indexOf(b))
-        .join('');
+      const sortDiacritics = (a: string, b: string) => {
+        const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+        order.indexOf(a) - order.indexOf(b);
+      };
+      return diacritics.split('').sort(sortDiacritics).join('');
     }
   );
 }
