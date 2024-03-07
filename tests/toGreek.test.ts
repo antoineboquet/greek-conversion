@@ -127,7 +127,7 @@ describe('From beta code to greek', () => {
   })
 
   // Applying various diacritics order
-  
+
   // v0.14
   // Broken orders: `w|=(`, `w=(|`, `w=|(`.
   /*test.each`
@@ -139,6 +139,7 @@ describe('From beta code to greek', () => {
     ${'w=(|'} | ${'ᾧ'}
     ${'w=|('} | ${'ᾧ'} 
   `('Applying various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })*/
+
 })
 
 describe('From transliteration to greek', () => {
@@ -370,6 +371,7 @@ describe('From transliteration to greek', () => {
     expect(toGreek('Ródos\nRódos\tRódos Ródos Ródos.', KeyType.TRANSLITERATION)).toBe('Ρόδος\nΡόδος\tΡόδος Ρόδος Ρόδος.')
     expect(toGreek('Rhódos\nRhódos\tRhódos Rhódos Rhódos.', KeyType.TRANSLITERATION)).toBe('Ῥόδος\nῬόδος\tῬόδος Ῥόδος Ῥόδος.')
   })
+  
 })
 
 describe('Self conversion', () => {
