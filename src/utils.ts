@@ -68,24 +68,6 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
- * Returns the char associated to a predefined coronis style.
- *
- * @remarks
- * Defaults to smooth breathing (or 'psili').
- */
-export function getCoronisChar(coronisStyle?: Coronis): string {
-  switch (coronisStyle) {
-    case Coronis.APOSTROPHE:
-      return RIGHT_SINGLE_QUOTATION_MARK;
-    case Coronis.NO:
-      return '';
-    case Coronis.PSILI:
-    default:
-      return SMOOTH_BREATHING;
-  }
-}
-
-/**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */

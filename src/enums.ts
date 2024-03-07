@@ -1,3 +1,5 @@
+import { RIGHT_SINGLE_QUOTATION_MARK, SMOOTH_BREATHING } from './Mapping';
+
 export enum AdditionalChar {
   ALL = 1,
   DIGAMMA,
@@ -11,9 +13,9 @@ export enum AdditionalChar {
 }
 
 export enum Coronis {
-  PSILI,
-  APOSTROPHE,
-  NO
+  PSILI = SMOOTH_BREATHING,
+  APOSTROPHE = RIGHT_SINGLE_QUOTATION_MARK,
+  NO = ''
 }
 
 export enum KeyType {
