@@ -493,7 +493,7 @@ describe('Self conversion', () => {
     ${'ka̓gṓ'}  | ${'ka̓gṓ'}
     ${'ka̓́n'}   | ${'ka̓́n'}
     ${'ka’gṓ'} | ${'ka̓gṓ'}
-    ${'κá’ν'}  | ${'ka̓́n'}
+    ${'ká’n'}  | ${'ka̓́n'}
   `('Testing coronides', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION)).toBe(expected))
 
   // Testing coronides, using coronis style
@@ -502,21 +502,21 @@ describe('Self conversion', () => {
     str        | expected
     ${'ka̓gṓ'}  | ${'ka̓gṓ'}
     ${'ka’gṓ'} | ${'ka̓gṓ'}
-    ${'κá’ν'}  | ${'ka̓́n'}
+    ${'ká’n'}  | ${'ka̓́n'}
   `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
     str        | expected
     ${'ka̓gṓ'}  | ${'ka’gṓ'}
     ${'ka’gṓ'} | ${'ka’gṓ'}
-    ${'ka̓́n'}   | ${'κá’ν'}
+    ${'ka̓́n'}   | ${'ká’n'}
   `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
     str        | expected
     ${'ka̓gṓ'}  | ${'kagṓ'}
     ${'ka’gṓ'} | ${'kagṓ'}
-    ${'κá’ν'}  | ${'κáν'}
+    ${'ká’n'}  | ${'kán'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules, applying rho_rh
