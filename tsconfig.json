@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "target": "ES2018"
   }
