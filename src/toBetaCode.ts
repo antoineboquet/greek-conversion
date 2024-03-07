@@ -105,11 +105,19 @@ function trConvertFlaggedBreathings(str: string): string {
 /**
  * Returns a beta code string with a correct diacritics order.
  *
- * @privateRemarks
- * This function should reorder all the diacritics defined for the beta code
- * representation. Currently, it only reorders breathings/accents in relation
- * to the iota subscript.
+ * @remarks
+ * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
+ * (4) iota subscript; (5) dot below.
  */
 function reorderDiacritics(betaCodeStr: string): string {
-  return betaCodeStr.replace(/(\|)([()\\/+=]+)/g, '$2$1');
+  return betaCodeStr.replace(
+    /([\(\)\\\/\+=\|\?]{2,})/gi,
+    (match, diacritics) => {
+      const diacriticsOrder = [')', '(', '+', '/', '\\', '=', '|', '?'];
+      return diacritics
+        .split('')
+        .sort((a, b) => diacriticsOrder.indexOf(a) - diacriticsOrder.indexOf(b))
+        .join('');
+    }
+  );
 }
