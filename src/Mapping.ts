@@ -232,7 +232,7 @@ export class Mapping {
     bc: 'U',
     tr: 'U'
   };
-  private CAPITAL_ALT_UPSILON: IMappingProperty;
+  private declare CAPITAL_ALT_UPSILON: IMappingProperty;
   private CAPITAL_PHI: IMappingProperty = {
     gr: 'Φ',
     bc: 'F',
@@ -253,14 +253,14 @@ export class Mapping {
     bc: 'W',
     tr: 'Ō'
   };
-  private CAPITAL_DIGAMMA: IMappingProperty;
-  private CAPITAL_YOT: IMappingProperty;
-  private CAPITAL_LUNATE_SIGMA: IMappingProperty;
-  private CAPITAL_STIGMA: IMappingProperty;
-  private CAPITAL_KOPPA: IMappingProperty;
-  private CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
-  private CAPITAL_SAMPI: IMappingProperty;
-  private CAPITAL_SAN: IMappingProperty;
+  private declare CAPITAL_DIGAMMA: IMappingProperty;
+  private declare CAPITAL_YOT: IMappingProperty;
+  private declare CAPITAL_LUNATE_SIGMA: IMappingProperty;
+  private declare CAPITAL_STIGMA: IMappingProperty;
+  private declare CAPITAL_KOPPA: IMappingProperty;
+  private declare CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
+  private declare CAPITAL_SAMPI: IMappingProperty;
+  private declare CAPITAL_SAN: IMappingProperty;
   private SMALL_ALPHA: IMappingProperty = {
     gr: 'α',
     bc: 'a',
@@ -361,7 +361,7 @@ export class Mapping {
     bc: 'u',
     tr: 'u'
   };
-  private SMALL_ALT_UPSILON: IMappingProperty;
+  private declare SMALL_ALT_UPSILON: IMappingProperty;
   private SMALL_PHI: IMappingProperty = {
     gr: 'φ',
     bc: 'f',
@@ -382,14 +382,14 @@ export class Mapping {
     bc: 'w',
     tr: 'ō'
   };
-  private SMALL_DIGAMMA: IMappingProperty;
-  private SMALL_YOT: IMappingProperty;
-  private SMALL_LUNATE_SIGMA: IMappingProperty;
-  private SMALL_STIGMA: IMappingProperty;
-  private SMALL_KOPPA: IMappingProperty;
-  private SMALL_ARCHAIC_KOPPA: IMappingProperty;
-  private SMALL_SAMPI: IMappingProperty;
-  private SMALL_SAN: IMappingProperty;
+  private declare SMALL_DIGAMMA: IMappingProperty;
+  private declare SMALL_YOT: IMappingProperty;
+  private declare SMALL_LUNATE_SIGMA: IMappingProperty;
+  private declare SMALL_STIGMA: IMappingProperty;
+  private declare SMALL_KOPPA: IMappingProperty;
+  private declare SMALL_ARCHAIC_KOPPA: IMappingProperty;
+  private declare SMALL_SAMPI: IMappingProperty;
+  private declare SMALL_SAN: IMappingProperty;
   private QUESTION_MARK: IMappingProperty = {
     gr: GREEK_QUESTION_MARK,
     bc: ';',
