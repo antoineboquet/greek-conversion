@@ -236,7 +236,7 @@
     </div>
 
     <div id="options-area">
-      <!-- Greek style -->
+      <!-- Common options -->
       <fieldset>
         <legend>Common options</legend>
         <label>
@@ -282,6 +282,16 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="beta_v" />
+          beta &rarr; v
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="eta_i" />
+          eta &rarr; ī
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="xi_ks" />
           xi &rarr; ks
         </label>
@@ -289,6 +299,11 @@
         <label>
           <input type="checkbox" name="options" value="rho_rh" />
           rho &rarr; rh (force breathings)
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="phi_f" />
+          phi &rarr; f
         </label>
 
         <label>
@@ -432,6 +447,14 @@
       conversionOptions.setTransliterationStyle.useCxOverMacron = true;
     else delete conversionOptions.setTransliterationStyle.useCxOverMacron;
 
+    if (values.includes('beta_v'))
+      conversionOptions.setTransliterationStyle.beta_v = true;
+    else delete conversionOptions.setTransliterationStyle.beta_v;
+
+    if (values.includes('eta_i'))
+      conversionOptions.setTransliterationStyle.eta_i = true;
+    else delete conversionOptions.setTransliterationStyle.eta_i;
+
     if (values.includes('xi_ks'))
       conversionOptions.setTransliterationStyle.xi_ks = true;
     else delete conversionOptions.setTransliterationStyle.xi_ks;
@@ -439,6 +462,10 @@
     if (values.includes('rho_rh'))
       conversionOptions.setTransliterationStyle.rho_rh = true;
     else delete conversionOptions.setTransliterationStyle.rho_rh;
+
+    if (values.includes('phi_f'))
+      conversionOptions.setTransliterationStyle.phi_f = true;
+    else delete conversionOptions.setTransliterationStyle.phi_f;
 
     if (values.includes('chi_kh'))
       conversionOptions.setTransliterationStyle.chi_kh = true;
