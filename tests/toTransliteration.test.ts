@@ -71,16 +71,23 @@ describe('From beta code to transliteration', () => {
 
   // Testing coronides, using coronis style
 
-  test('Testing coronides, using coronis style', () => {
-    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
-    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
+  test.each`
+    str       | expected
+    ${'ka)gw/'} | ${'ka̓gṓ'}
+    ${'ka)/n'}  | ${'ka̓́n'}
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
-    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
-    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ká’n')
+  test.each`
+    str       | expected
+    ${'ka)gw/'} | ${'ka’gṓ'}
+    ${'ka)/n'}  | ${'ká’n'}
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
-    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
-    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kán')
-  })
+  test.each`
+    str       | expected
+    ${'ka)gw/'} | ${'kagṓ'}
+    ${'ka)/n'}  | ${'kán'}
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules
 
@@ -262,16 +269,23 @@ describe('From greek to transliteration', () => {
 
   // Testing coronides, using coronis style
 
-  test('Testing coronides, using coronis style', () => {
-    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
-    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
+  test.each`
+    str       | expected
+    ${'κἀγώ'} | ${'ka̓gṓ'}
+    ${'κἄν'}  | ${'ka̓́n'}
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
-    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
-    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ká’n')
+  test.each`
+    str       | expected
+    ${'κἀγώ'} | ${'ka’gṓ'}
+    ${'κἄν'}  | ${'ká’n'}
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
-    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
-    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kán')
-  })
+  test.each`
+    str       | expected
+    ${'κἀγώ'} | ${'kagṓ'}
+    ${'κἄν'}  | ${'kán'}
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing gamma nasals
 
@@ -484,20 +498,26 @@ describe('Self conversion', () => {
 
   // Testing coronides, using coronis style
   
-  test('Testing coronides, using coronis style', () => {
-    // Coronis.PSILI
-    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
-    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
-    expect(toTransliteration('κá’ν', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
-    // Coronis.APOSTROPHE
-    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
-    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
-    expect(toTransliteration('ka̓́n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('κá’ν')
-    // Coronis.NO
-    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
-    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
-    expect(toTransliteration('κá’ν', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('κáν')
-  })
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'ka̓gṓ'}
+    ${'ka’gṓ'} | ${'ka̓gṓ'}
+    ${'κá’ν'}  | ${'ka̓́n'}
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
+
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'ka’gṓ'}
+    ${'ka’gṓ'} | ${'ka’gṓ'}
+    ${'ka̓́n'}   | ${'κá’ν'}
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'kagṓ'}
+    ${'ka’gṓ'} | ${'kagṓ'}
+    ${'κá’ν'}  | ${'κáν'}
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules, applying rho_rh
 
