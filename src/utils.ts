@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IGreekStyle,
@@ -15,7 +15,9 @@ import {
   LATIN_TILDE,
   MACRON,
   MIDDLE_DOT,
-  SMALL_LUNATE_SIGMA
+  RIGHT_SINGLE_QUOTATION_MARK,
+  SMALL_LUNATE_SIGMA,
+  SMOOTH_BREATHING
 } from './Mapping';
 import { applyPreset } from './presets';
 
@@ -63,6 +65,24 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 
     return word;
   });
+}
+
+/**
+ * Returns the char associated to a predefined coronis style.
+ *
+ * @remarks
+ * Defaults to smooth breathing (or 'psili').
+ */
+export function getCoronisChar(coronisStyle?: Coronis): string {
+  switch (coronisStyle) {
+    case Coronis.APOSTROPHE:
+      return RIGHT_SINGLE_QUOTATION_MARK;
+    case Coronis.NO:
+      return '';
+    case Coronis.PSILI:
+    default:
+      return SMOOTH_BREATHING;
+  }
 }
 
 /**
