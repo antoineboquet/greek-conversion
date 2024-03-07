@@ -1,4 +1,4 @@
-import { AdditionalChar, KeyType, toBetaCode } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, toBetaCode } from '../src/index'
 
 /*
  * Special characters:
@@ -137,7 +137,6 @@ describe('From transliteration to beta code', () => {
     ${aristotle.tr}     | ${aristotle.bcNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
 
-  // @fixme(v0.13)
   test('Testing the combining dot below', () => {
     expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('Pa/tro#3los')
     expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, useAdditionalChars: AdditionalChar.ALL })).toBe('Patro#3los')
@@ -152,11 +151,20 @@ describe('From transliteration to beta code', () => {
     ${'huḯdion'}    | ${'u(i+/dion'}
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
-  test.each`
-    str           | expected
-    ${'ka̓́n'}      | ${'ka)/n'}
-    ${'tau̓tó'}    | ${'tau)to/'}
-  `('Testing coronides', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+  test('Testing coronides', () => {
+    expect(toBetaCode('ka̓gṓ', KeyType.TRANSLITERATION)).toBe('ka)gw/')
+    expect(toBetaCode('ka̓́n', KeyType.TRANSLITERATION)).toBe('ka)/n')
+    expect(toBetaCode('tau̓tó', KeyType.TRANSLITERATION)).toBe('tau)to/')
+
+    expect(toBetaCode('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka)gw/')
+    expect(toBetaCode('ka̓́n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka)/n')
+
+    expect(toBetaCode('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka)gw/')
+    expect(toBetaCode('ká’n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka)/n')
+
+    expect(toBetaCode('kagṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('ka)gw/')
+    expect(toBetaCode('kán', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('ka)/n')
+  })
 
   test.each`
     str              | expected

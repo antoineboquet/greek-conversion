@@ -1,4 +1,4 @@
-import { AdditionalChar, KeyType, Preset, toTransliteration } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, Preset, toTransliteration } from '../src/index'
 
 /*
  * Special characters:
@@ -59,6 +59,28 @@ describe('From beta code to transliteration', () => {
     ${'a%26a%27h'}         | ${'aaē'}
     ${aristotle.bc}        | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected))
+
+  // Testing coronides
+
+  test.each`
+    str          | expected
+    ${'ka)gw/'}  | ${'ka̓gṓ'}
+    ${'ka)/n'}   | ${'ka̓́n'}
+    ${'tau)to/'} | ${'tau̓tó'}
+  `('Testing coronides', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
+
+  // Testing coronides, using coronis style
+
+  test('Testing coronides, using coronis style', () => {
+    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
+    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
+
+    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
+    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ká’n')
+
+    expect(toTransliteration('ka)gw/', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
+    expect(toTransliteration('ka)/n', KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kán')
+  })
 
   // Testing rho rules
 
@@ -232,10 +254,24 @@ describe('From greek to transliteration', () => {
   // Testing coronides
 
   test.each`
-    str           | expected
-    ${'κἄν'}      | ${'ka̓́n'}
-    ${'ταὐτό'}    | ${'tau̓tó'}
+    str        | expected
+    ${'κἀγώ'}  | ${'ka̓gṓ'}
+    ${'κἄν'}   | ${'ka̓́n'}
+    ${'ταὐτό'} | ${'tau̓tó'}
   `('Testing coronides', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK)).toBe(expected))
+
+  // Testing coronides, using coronis style
+
+  test('Testing coronides, using coronis style', () => {
+    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
+    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
+
+    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
+    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ká’n')
+
+    expect(toTransliteration('κἀγώ', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
+    expect(toTransliteration('κἄν', KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kán')
+  })
 
   // Testing gamma nasals
 
@@ -435,6 +471,33 @@ describe('From greek to transliteration', () => {
 })
 
 describe('Self conversion', () => {
+
+  // Testing coronides
+
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'ka̓gṓ'}
+    ${'ka̓́n'}   | ${'ka̓́n'}
+    ${'ka’gṓ'} | ${'ka̓gṓ'}
+    ${'κá’ν'}  | ${'ka̓́n'}
+  `('Testing coronides', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION)).toBe(expected))
+
+  // Testing coronides, using coronis style
+  
+  test('Testing coronides, using coronis style', () => {
+    // Coronis.PSILI
+    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
+    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓gṓ')
+    expect(toTransliteration('κá’ν', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('ka̓́n')
+    // Coronis.APOSTROPHE
+    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
+    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('ka’gṓ')
+    expect(toTransliteration('ka̓́n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('κá’ν')
+    // Coronis.NO
+    expect(toTransliteration('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
+    expect(toTransliteration('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('kagṓ')
+    expect(toTransliteration('κá’ν', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('κáν')
+  })
 
   // Testing rho rules, applying rho_rh
 
