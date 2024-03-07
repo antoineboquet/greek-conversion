@@ -105,6 +105,7 @@ The available presets are:
 | ------ | ----------- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
 
 ### Conversion options
