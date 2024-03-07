@@ -1,6 +1,6 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
-import { Mapping } from './Mapping';
+import { Mapping, SMOOTH_BREATHING } from './Mapping';
 import {
   applyUppercaseChars,
   handleOptions,
@@ -16,7 +16,8 @@ export function toBetaCode(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace } = options;
+  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
+    options;
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
@@ -33,6 +34,13 @@ export function toBetaCode(
 
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
+
+      if (setTransliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+        str = str.replace(
+          new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+          SMOOTH_BREATHING
+        );
+      }
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');

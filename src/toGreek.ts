@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -22,7 +22,12 @@ export function toGreek(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, setGreekStyle } = options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    setGreekStyle,
+    setTransliterationStyle
+  } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
@@ -40,6 +45,16 @@ export function toGreek(
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
       str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
+
+      if (setTransliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+        str = str
+          .normalize('NFD')
+          .replace(
+            new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+            SMOOTH_BREATHING
+          )
+          .normalize();
+      }
 
       if (removeDiacritics) {
         str = utilRmDiacritics(str, KeyType.TRANSLITERATION);

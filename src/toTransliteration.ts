@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -30,6 +30,7 @@ export function toTransliteration(
   const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
     options;
   const {
+    setCoronisStyle,
     useCxOverMacron,
     xi_ks,
     chi_kh,
@@ -121,6 +122,8 @@ export function toTransliteration(
   if (upsilon_y) str = applyUpsilonDiphthongs(str).replace(/@/gm, '');
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
+
+  str = trApplyCoronis(str, setCoronisStyle);
 
   return str.normalize();
 }
@@ -271,9 +274,6 @@ function grConvertBreathings(
   const reInitialRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
   const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
 
-  // Change the coronis form after `reInitialSmooth`,
-  // by replacing the remaining smooth breathings (e. g.
-  // `.replace(new RegExp(SMOOTH_BREATHING, 'g'), CORONIS)`).
   return greekStr
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
@@ -293,4 +293,50 @@ function grConvertBreathings(
       isUpperCase ? initialRho + 'H' : initialRho + 'h'
     )
     .normalize();
+}
+
+/**
+ * Returns a transliterated string with converted coronides, following
+ * the given `coronisStyle`.
+ *
+ * @privateRemarks
+ * It's not clear if this function should convert Coronis.APOSTROPHE to
+ * smooth breathings if the `coronisStyle` option hasn't been set.
+ */
+function trApplyCoronis(
+  transliteratedStr: string,
+  coronisStyle?: Coronis
+): string {
+  transliteratedStr = transliteratedStr
+    .normalize('NFD')
+    .replace(
+      new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+      SMOOTH_BREATHING
+    );
+
+  switch (coronisStyle) {
+    case Coronis.APOSTROPHE:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(`(${SMOOTH_BREATHING})(\\p{M}*)`, 'gu'),
+        (m, $1, $2) => $2 + Coronis.APOSTROPHE
+      );
+      break;
+
+    case Coronis.NO:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(SMOOTH_BREATHING, 'g'),
+        ''
+      );
+      break;
+
+    case Coronis.PSILI:
+    default:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(`(\\p{M}*)(${SMOOTH_BREATHING})`, 'gu'),
+        (m, $1, $2) => $2 + $1
+      );
+      break;
+  }
+
+  return transliteratedStr.normalize();
 }
