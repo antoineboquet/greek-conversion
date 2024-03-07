@@ -24,6 +24,9 @@ const plato = {
 }
 
 describe('From beta code to greek', () => {
+
+  // Basic conversion
+
   test.each`
     str                                | expected
     ${'a)/nqrwpos'}                    | ${'ἄνθρωπος'}
@@ -38,6 +41,8 @@ describe('From beta code to greek', () => {
     ${'a)%27a%26ehi%27i%26owu%27u%26'} | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
     ${aristotle.bc}                    | ${aristotle.gr}
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+
+  // Removing diacritics
 
   test.each`
     str                                | expected
@@ -54,6 +59,8 @@ describe('From beta code to greek', () => {
     ${aristotle.bc}                    | ${aristotle.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
+  // Testing TLG preset
+
   // v0.14
   /*test.each`
     str             | expected
@@ -67,14 +74,20 @@ describe('From beta code to greek', () => {
     ${'(/AGIOS3'}   | ${'ἅγιοσ3'}
   `('Testing TLG preset', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected) })*/
 
+  // Disabling beta variant
+
   test('Disabling beta variant', () => {
     expect(toGreek('ba/rbaros', KeyType.BETA_CODE, { setGreekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
   })
+
+  // Using lunate sigma
 
   test('Using lunate sigma', () => {
     expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
     expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE, { setGreekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
   })
+
+  // Testing rho rules
 
   test.each`
     str                | expected
@@ -85,11 +98,15 @@ describe('From beta code to greek', () => {
     ${'ma/rmaros'}     | ${'μάρμαρος'}
   `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
+  // Using additional letters
+
   test('Using additional letters', () => {
     expect(toGreek('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { useAdditionalChars: AdditionalChar.ALL })).toBe('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ')
     expect(toGreek('vVs3S3', KeyType.BETA_CODE, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
     expect(toGreek('#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('#1*#1#3*#3#5*#5')
   })
+
+  // Testing uppercase writing
 
   test.each`
     str               | expected
@@ -102,11 +119,15 @@ describe('From beta code to greek', () => {
     ${'UI(O/S'}       | ${'ὙΙΌΣ'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
+  // Testing whitespace behavior
+
   test('Testing whitespace behavior', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ   κριός')
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
+  // Applying various diacritics order
+  
   // v0.14
   // Broken orders: `w|=(`, `w=(|`, `w=|(`.
   /*test.each`
@@ -121,6 +142,9 @@ describe('From beta code to greek', () => {
 })
 
 describe('From transliteration to greek', () => {
+
+  // Basic conversion
+
   test.each`
     str                 | expected
     ${'ánthrōpos'}      | ${'ἄνθρωπος'}
@@ -141,6 +165,8 @@ describe('From transliteration to greek', () => {
     ${'ēēȩ̄̃ōōō̧'}         | ${'ἠηῇωωῳ'}
     ${plato.tr}         | ${plato.gr} 
   `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  // Removing diacritics
 
   test.each`
     str                 | expected
@@ -163,6 +189,8 @@ describe('From transliteration to greek', () => {
     ${thucydides.trNoAcc} | ${thucydides.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
 
+  // Testing breathings placement rules
+
   test.each`
     str             | expected
     ${'Ēṓs'}        | ${'Ἠώς'}
@@ -172,20 +200,41 @@ describe('From transliteration to greek', () => {
     ${'huḯdion'}    | ${'ὑΐδιον'}
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
-  test('Testing coronides', () => {
-    expect(toGreek('ka̓gṓ', KeyType.TRANSLITERATION)).toBe('κἀγώ')
-    expect(toGreek('ka̓́n', KeyType.TRANSLITERATION)).toBe('κἄν')
-    expect(toGreek('tau̓tó', KeyType.TRANSLITERATION)).toBe('ταὐτό')
+  // Testing coronides
 
-    expect(toGreek('ka̓gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('κἀγώ')
-    expect(toGreek('ka̓́n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe('κἄν')
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'κἀγώ'}
+    ${'ka̓́n'}   | ${'κἄν'}
+    ${'ka’gṓ'} | ${'κα’γώ'}
+    ${'ká’n'}  | ${'κά’ν'}
+  `('Testing coronides', ({ str, expected }) => expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected))
 
-    expect(toGreek('ka’gṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('κἀγώ')
-    expect(toGreek('ká’n', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe('κἄν')
+  // Testing coronides, using coronis style
+  
+  test.each`
+    str       | expected
+    ${'ka̓gṓ'} | ${'κἀγώ'}
+    ${'ka̓́n'}  | ${'κἄν'}
+    ${'ká’n'} | ${'κά’ν'}
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
-    expect(toGreek('kagṓ', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('κἀγώ')
-    expect(toGreek('kán', KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe('κἄν')
-  })
+  test.each`
+    str        | expected
+    ${'ka’gṓ'} | ${'κἀγώ'}
+    ${'ká’n'}  | ${'κἄν'}
+    ${'ka̓́n'}   | ${'κἄν'}
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+
+  test.each`
+    str        | expected
+    ${'ka̓gṓ'}  | ${'κἀγώ'}
+    ${'ka’gṓ'} | ${'κα’γώ'}
+    ${'ka̓́n'}   | ${'κἄν'}
+    ${'ká’n'}  | ${'κά’ν'}
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+
+  // Testing gamma nasals
 
   test.each`
     str           | expected
@@ -196,20 +245,28 @@ describe('From transliteration to greek', () => {
     ${'tunchánō'} | ${'τυγχάνω'}
   `('Testing gamma nasals', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
+  // Testing gamma nasals with xi_ks / chi_kh enabled
+
   test.each`
     str           | expected
     ${'sphínks'}  | ${'σφίγξ'}
     ${'tunkhánō'} | ${'τυγχάνω'}
   `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
+  // Disabling beta variant
+
   test('Disabling beta variant', () => {
     expect(toGreek('bárbaros', KeyType.TRANSLITERATION, { setGreekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
   })
+
+  // Using lunate sigma
 
   test('Using lunate sigma', () => {
     expect(toGreek('Iēsoũs Christòs Theoũ Huiòs Sōtḗr', KeyType.TRANSLITERATION)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
     expect(toGreek('Iēsoũs Christòs Theoũ Huiòs Sōtḗr', KeyType.TRANSLITERATION, { setGreekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
   })
+
+  // Using circumflex on long vowels
 
   test.each`
     str            | expected
@@ -218,6 +275,8 @@ describe('From transliteration to greek', () => {
     ${'Xenophỗn'}  | ${'Ξενοφῶν'}
     ${plato.trCx}  | ${plato.gr}
   `('Using circumflex on long vowels', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
+
+  // Testing rho rules
 
   test.each`
     str              | expected
@@ -228,21 +287,28 @@ describe('From transliteration to greek', () => {
     ${'mármaros'}    | ${'μάρμαρος'}
   `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
+  // Applying beta_v
   test('Applying beta_v', () => {
     expect(toGreek('várvaros', KeyType.TRANSLITERATION, { setTransliterationStyle: { beta_v: true } }))
       .toBe('βάρ\u03D0αρος')
   })
+
+  // Applying eta_i
 
   test('Applying eta_i', () => {
     expect(toGreek('hīdonī́', KeyType.TRANSLITERATION, { setTransliterationStyle: { eta_i: true } }))
       .toBe('ἡδονή')
   })
 
+  // Applying eta_i, using circumflex
+
   test('Applying eta_i', () => {
     expect(toGreek('hîdonî́', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('ἡδονή')
   })
   
+  // Applying phi_f
+
   test.each`
     str            | expected
     ${'fantasía'}  | ${'φαντασία'}
@@ -250,11 +316,15 @@ describe('From transliteration to greek', () => {
     ${'FILOSOFIA'} | ${'ΦΙΛΟΣΟΦΙΑ'}
   `('Applying phi_f', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
 
+  // Applying xi_ks / chi_kh
+
   test.each`
     str            | expected
     ${'Ksenophȭn'} | ${'Ξενοφῶν'}
     ${'khorēgéō'}  | ${'χορηγέω'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
+  // Applying upsilon_y
 
   test.each`
     str            | expected
@@ -267,11 +337,15 @@ describe('From transliteration to greek', () => {
     ${'ý hỹ'}      | ${'ὔ ὗ'}
   `('Applying upsilon_y', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
+  // Using additional letters
+
   test('Using additional letters', () => {
     expect(toGreek('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ')
     expect(toGreek('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
     expect(toGreek('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQκ̣Κ̣σ̄Σ̄')
   })
+
+  // Testing uppercase writing
 
   test.each`
     str              | expected
@@ -283,10 +357,14 @@ describe('From transliteration to greek', () => {
     ${'HUIÓS'}       | ${'ὙΙΌΣ'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
+  // Testing whitespace behavior
+
   test('Testing whitespace behavior', () => {
     expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION)).toBe('αἴξ   κριός')
     expect(toGreek('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
+
+  // Testing correctness with various word separators
 
   test('Testing correctness with various word separators', () => {
     expect(toGreek('Ródos\nRódos\tRódos Ródos Ródos.', KeyType.TRANSLITERATION)).toBe('Ρόδος\nΡόδος\tΡόδος Ρόδος Ρόδος.')
@@ -295,6 +373,9 @@ describe('From transliteration to greek', () => {
 })
 
 describe('Self conversion', () => {
+
+  // Disabling beta variant
+
   test('Disabling beta variant', () => {
     const options = {
       setGreekStyle: {
@@ -304,4 +385,5 @@ describe('Self conversion', () => {
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρ\u03D0αρος')
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
   })
+  
 })
