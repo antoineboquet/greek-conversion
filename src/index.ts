@@ -4,7 +4,7 @@
  * @license AGPL-3.0
  */
 
-import { AdditionalChar, KeyType, Preset } from './enums';
+import { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 import { GreekString } from './GreekString';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
@@ -15,7 +15,7 @@ import {
   removeGreekVariants
 } from './utils';
 
-export { AdditionalChar, KeyType, Preset } from './enums';
+export { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 export { GreekString } from './GreekString';
 export { toBetaCode } from './toBetaCode';
 export { toGreek } from './toGreek';
@@ -28,6 +28,7 @@ export {
 
 export default {
   AdditionalChar,
+  Coronis,
   KeyType,
   Preset,
   GreekString,
