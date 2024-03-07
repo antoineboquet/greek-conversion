@@ -23,14 +23,12 @@ export function toBetaCode(
     case KeyType.BETA_CODE:
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
-      str = reorderDiacritics(str);
       break;
 
     case KeyType.GREEK:
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
       str = utilRmGreekVariants(str);
       str = mapping.apply(str, KeyType.GREEK, KeyType.BETA_CODE);
-      str = reorderDiacritics(str);
       break;
 
     case KeyType.TRANSLITERATION:
@@ -47,10 +45,10 @@ export function toBetaCode(
       } else {
         str = trConvertFlaggedBreathings(str);
       }
-
-      str = reorderDiacritics(str);
       break;
   }
+
+  str = reorderDiacritics(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
