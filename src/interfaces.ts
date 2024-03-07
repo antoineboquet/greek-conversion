@@ -22,6 +22,7 @@ export type MixedPreset = [Preset, IConversionOptions];
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
+  useGreekQuestionMark?: boolean;
   useLunateSigma?: boolean;
 }
 
