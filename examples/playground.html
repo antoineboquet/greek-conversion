@@ -70,7 +70,7 @@
 </header>
 
 <main>
-  <form>
+  <form id="form">
     <div>
       <input
         id="search-bar"
@@ -334,6 +334,9 @@
     KeyType,
     toGreek
   } from 'https://www.unpkg.com/greek-conversion';
+
+  const form = document.getElementById('form');
+  form.addEventListener('submit', (e) => e.preventDefault());
 
   const resultArea = document.getElementById('result-area');
 
