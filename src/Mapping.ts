@@ -453,20 +453,20 @@ export class Mapping {
     } as IMappingProperty
   };
 
-  #isUpperCase: boolean;
+  #isUpperCase: boolean = false;
   //#betaCodeStyle: IBetaCodeStyle;
-  #removeDiacritics: boolean;
-  #transliterationStyle: ITransliterationStyle;
-  #useAdditionalChars: AdditionalChar[] | AdditionalChar;
+  #removeDiacritics: boolean = false;
+  #transliterationStyle: ITransliterationStyle = {};
+  #useAdditionalChars: AdditionalChar[] | AdditionalChar = [];
 
   constructor(options?: IInternalConversionOptions) {
     if (!options) return;
 
-    this.#isUpperCase = options?.isUpperCase;
+    this.#isUpperCase = Boolean(options?.isUpperCase);
     //this.#betaCodeStyle = options?.setBetaCodeStyle;
-    this.#removeDiacritics = options?.removeDiacritics;
-    this.#transliterationStyle = options?.setTransliterationStyle;
-    this.#useAdditionalChars = options?.useAdditionalChars;
+    this.#removeDiacritics = Boolean(options?.removeDiacritics);
+    this.#transliterationStyle = options?.setTransliterationStyle ?? {};
+    this.#useAdditionalChars = options?.useAdditionalChars ?? [];
 
     if (this.#useAdditionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
@@ -633,7 +633,7 @@ export class Mapping {
         // Nullish subsequent array indices if necessary.
         if (lval.length > 1) {
           for (let i = 1; i < lval.length; i++) {
-            conversionArr[matches.index + i] = null;
+            conversionArr[matches.index + i] = '';
           }
         }
       }

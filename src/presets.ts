@@ -111,7 +111,7 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
 }
 
 function mergeOptions(target: IConversionOptions, source: IConversionOptions) {
-  const isObject = (obj) => obj && typeof obj === 'object';
+  const isObject = (obj: object) => obj && typeof obj === 'object';
 
   for (const key in source) {
     if (Array.isArray(target[key]) && Array.isArray(source[key])) {
