@@ -106,7 +106,7 @@ export function handleOptions(
   return {
     isUpperCase: !settings.setBetaCodeStyle?.useTLGStyle
       ? isUpperCase(str, fromType)
-      : false,
+      : undefined,
     ...settings
   };
 }
