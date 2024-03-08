@@ -391,5 +391,16 @@ describe('Self conversion', () => {
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρ\u03D0αρος')
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
   })
+
+  // Using lunate sigma
+
+  test('Using lunate sigma', () => {
+    const options = {
+      setGreekStyle: {
+        useLunateSigma: true
+      }
+    }
+    expect(toGreek('ἅγιος', KeyType.GREEK, options)).toBe('ἅγιο\u03F2')
+  })
   
 })
