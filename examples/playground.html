@@ -305,7 +305,7 @@
       <fieldset>
         <legend>Transliteration style</legend>
         <label>Set coronis style
-          <select id="set-coronis-style">
+          <select id="select-coronis-style">
             <option value="PSILI">Psili</option>
             <option value="APOSTROPHE">Apostrophe</option>
             <option value="NO">No</option>
@@ -366,10 +366,11 @@
 <script type="module">
   import {
     AdditionalChar,
+    Coronis,
     GreekString,
     KeyType,
     toGreek
-  } from 'https://www.unpkg.com/greek-conversion';
+  } from './greekConversion.min.js';
 
   const form = document.getElementById('form');
   form.addEventListener('submit', (e) => e.preventDefault());
@@ -446,6 +447,9 @@
   const checkboxes = document.querySelectorAll('input[name="options"]');
   checkboxes.forEach((checkbox) => checkbox.checked = false);
 
+  const selectCoronisStyle = document.getElementById('select-coronis-style');
+  selectCoronisStyle.value = 'PSILI';
+  
   // Conversion options handling
 
   let conversionOptions = {
@@ -496,6 +500,9 @@
 
     // Transliteration style
 
+    console.log("coronis style:", selectCoronisStyle.value)
+    conversionOptions.setTransliterationStyle.setCoronisStyle = Coronis[selectCoronisStyle.value];
+    console.log(conversionOptions)
     if (values.includes('use-cx-over-macron'))
       conversionOptions.setTransliterationStyle.useCxOverMacron = true;
     else delete conversionOptions.setTransliterationStyle.useCxOverMacron;
@@ -552,9 +559,12 @@
   checkboxes.forEach((checkbox) =>
     checkbox.addEventListener('click', (e) => {
       evaluateOptions();
-      if (searchBar.value) doConversion();
     })
   );
+
+  selectCoronisStyle.addEventListener('change', (e) => {
+    evaluateOptions()
+  });
 
   // Input conversion
 
