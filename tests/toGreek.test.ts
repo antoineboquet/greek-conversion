@@ -4,6 +4,7 @@ import { AdditionalChar, Coronis, KeyType, Preset, toGreek } from '../src/index'
  * Special characters:
  *   - \u03D0 = Greek Beta Symbol
  *   - \u03F2 = Greek Lunate Sigma Symbol
+ *   - \u037E = Greek Question Mark
  */
 
 const aristotle = {
@@ -20,7 +21,7 @@ const thucydides = {
 const plato = {
   tr: 'Chalepón gé se elénxai, ō̃ Sṓkrates; all\' ouchì ka̓̀n paĩs se elénxeien hóti ouk alēthē̃ légeis?',
   trCx: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì ka̓̀n paĩs se elénxeien hóti ouk alêthễ légeis?',
-  gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κἂν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις\u037E'
+  gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κἂν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις;'
 }
 
 describe('From beta code to greek', () => {
@@ -390,6 +391,20 @@ describe('Self conversion', () => {
     }
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρ\u03D0αρος')
     expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
+  })
+
+  // Using greek question mark
+
+  test('Using greek question mark', () => {
+    const options = {
+      setGreekStyle: {
+        useGreekQuestionMark: true
+      }
+    }
+    expect(toGreek('πῶς;', KeyType.GREEK)).toBe('πῶς;')
+    expect(toGreek('πῶς\u037E', KeyType.GREEK)).toBe('πῶς;')
+    expect(toGreek('πῶς;', KeyType.GREEK, options)).toBe('πῶς\u037E')
+    expect(toGreek('πῶς\u037E', KeyType.GREEK, options)).toBe('πῶς\u037E')
   })
 
   // Using lunate sigma
