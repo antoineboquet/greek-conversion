@@ -16,7 +16,6 @@ import {
   bcReorderDiacritics,
   fromTLG,
   handleOptions,
-  normalizeGreek,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -65,7 +64,6 @@ export function toTransliteration(
       str = grConvertBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
       str = utilRmGreekVariants(str);
-      str = normalizeGreek(str);
       str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
       break;
 
