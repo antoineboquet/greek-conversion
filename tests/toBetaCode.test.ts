@@ -1,4 +1,4 @@
-import { AdditionalChar, Coronis, KeyType, toBetaCode } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, Preset, toBetaCode } from '../src/index'
 
 /*
  * Special characters:
@@ -52,6 +52,20 @@ describe('From greek to beta code', () => {
     ${'ἀ̆ᾱεηῐῑοωῠῡ'}    | ${'aaehiiowuu'}
     ${aristotle.gr}    | ${aristotle.bcNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true })).toBe(expected) })
+
+  // Testing useTLGStyle / TLG preset
+
+  test.each`
+    str           | expected
+    ${'ἄνθρωπος'} | ${'A)/NQRWPOS'}
+    ${'Ὁπλίτης'}  | ${'*(OPLI/THS'}
+    ${'Ἄϊδα'}     | ${'*)/AI+DA'}
+    ${'ΠΟΙῌ͂'}    | ${'*P*O*I*=H|'}
+    ${'ῬΌΔΟΣ'}    | ${'*(R*/O*D*O*S'}
+  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
+    expect(toBetaCode(str, KeyType.GREEK, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.GREEK, Preset.TLG)).toBe(expected)
+  })
 
   // Disabling beta variant
 
@@ -161,6 +175,20 @@ describe('From transliteration to beta code', () => {
     ${'āăē'}            | ${'aah'}
     ${aristotle.tr}     | ${aristotle.bcNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
+
+  // Testing useTLGStyle / TLG preset
+
+  test.each`
+    str            | expected
+    ${'ánthrōpos'} | ${'A)/NQRWPOS'}
+    ${'Hoplítēs'}  | ${'*(OPLI/THS'}
+    ${'Áïda'}      | ${'*)/AI+DA'}
+    ${'POIȨ̄̃'}      | ${'*P*O*I*=H|'}
+    ${'RHÓDOS'}    | ${'*(R*/O*D*O*S'}
+  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
+    expect(toBetaCode(str, KeyType.TRANSLITERATION, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.TRANSLITERATION, Preset.TLG)).toBe(expected)
+  })
 
   // Testing the combining dot below
 
