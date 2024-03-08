@@ -59,10 +59,10 @@ const SBL_OPTIONS = (): IConversionOptions => ({
 
 const TLG_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
-  useAdditionalChars: AdditionalChar.ALL
-  /*setBetaCodeStyle: {
+  setBetaCodeStyle: {
     useTLGStyle: true
-  }*/
+  },
+  useAdditionalChars: AdditionalChar.ALL
 });
 
 export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
@@ -94,10 +94,9 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       options = SBL_OPTIONS();
       break;
 
-    // v0.14
-    /*case Preset.TLG:
+    case Preset.TLG:
       options = TLG_OPTIONS();
-      break;*/
+      break;
 
     default:
       throw new RangeError(`Preset '${preset}' is not implemented.`);
