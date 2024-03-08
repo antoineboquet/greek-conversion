@@ -60,7 +60,7 @@ describe('From greek to beta code', () => {
     ${'ἄνθρωπος'} | ${'A)/NQRWPOS'}
     ${'Ὁπλίτης'}  | ${'*(OPLI/THS'}
     ${'Ἄϊδα'}     | ${'*)/AI+DA'}
-    ${'ΠΟΙῌ͂'}    | ${'*P*O*I*=H|'}
+    ${'ΠΟΙῌ͂'}     | ${'*P*O*I*=H|'}
     ${'ῬΌΔΟΣ'}    | ${'*(R*/O*D*O*S'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
     expect(toBetaCode(str, KeyType.GREEK, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
@@ -343,4 +343,22 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
   })
 
+})
+
+describe('Self conversion', () => {
+
+  // Testing useTLGStyle / TLG preset
+
+  test.each`
+    str               | expected
+    ${'a)/nqrwpos'}   | ${'A)/NQRWPOS'}
+    ${'O(pli/ths'}    | ${'*(OPLI/THS'}
+    ${'A)/i+da'}      | ${'*)/AI+DA'}
+    ${'POIH=|'}       | ${'*P*O*I*=H|'}
+    ${'R(O/DOS'}      | ${'*(R*/O*D*O*S'}
+  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
+    expect(toBetaCode(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
+  })
+  
 })
