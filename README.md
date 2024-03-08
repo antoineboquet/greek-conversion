@@ -82,9 +82,9 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
-The **`settings`** parameter can be filled with:
+**`settings`** can be filled with:
 1. a `Preset`;
 2. a user-defined `IConversionOptions` object;
 3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
@@ -98,6 +98,7 @@ The available presets are:
 | Preset | Description |
 | ------ | ----------- |
 | [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | `greek-conversion`'s own modernized style |
+| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
 
@@ -115,6 +116,10 @@ The **`IConversionOptions`** interface provides the following controls over the 
 removeDiacritics?: boolean,       // remove diacritics, except those that represent letters
 
 removeExtraWhitespace?: boolean,  // remove potential extra whitespace
+
+setBetaCodeStyle?: {
+  useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. '*)/AI+DI' → 'Ἄϊδι'
+},
 
 setGreekStyle?: {
   disableBetaVariant?: boolean,   // disable the typographic variant 'ϐ' [U+03D0]
@@ -191,6 +196,18 @@ const style = {
 
 toTransliteration('τέχνη', KeyType.GREEK) // téchnē
 toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
+```
+
+#### Self conversion (reflect settings)
+
+```ts
+toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
+
+const grStyle = { setGreekStyle: { useLunateSigma: true } }
+toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
+
+const trStyle = { setTransliterationStyle: { lunatesigma_s: true } }
+toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
 ## OOP style
