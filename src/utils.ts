@@ -166,13 +166,24 @@ export function isUpperCase(str: string, type: KeyType): boolean {
  * (2) Due to the poor Unicode canonical equivalences, any subsequent
  * normalization may break the replacements made by this function.
  */
-export function normalizeGreek(greekStr: string): string {
-  return greekStr
-    .normalize('NFD')
-    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-    .normalize()
-    .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
-    .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+export function normalizeGreek(
+  greekStr: string,
+  useGreekQuestionMark: boolean = false,
+  skipUnicodeNormalization: boolean = false
+): string {
+  if (!skipUnicodeNormalization) greekStr = greekStr.normalize('NFD');
+
+  greekStr = greekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+
+  if (!skipUnicodeNormalization) greekStr = greekStr.normalize();
+
+  greekStr = greekStr.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
+
+  if (useGreekQuestionMark) {
+    greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+  }
+
+  return greekStr;
 }
 
 /**

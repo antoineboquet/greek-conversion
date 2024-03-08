@@ -4,7 +4,7 @@ import {
   IMappingProperty,
   ITransliterationStyle
 } from './interfaces';
-import { sanitizeRegExpString } from './utils';
+import { normalizeGreek, sanitizeRegExpString } from './utils';
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
@@ -601,7 +601,7 @@ export class Mapping {
     }
 
     if (fromType === KeyType.GREEK) {
-      fromStr = Mapping.#grBypassUnicodeEquivalences(fromStr);
+      fromStr = normalizeGreek(fromStr, true, true);
     }
 
     const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
@@ -750,18 +750,6 @@ export class Mapping {
     }
 
     return new Map(sortedChars);
-  }
-
-  /**
-   * Returns a string for which the wrong Unicode canonical equivalences
-   * have been replaced by the right Unicode points.
-   *
-   * @param NFDGreekStr - Expects an `NFD` normalized greek string.
-   */
-  static #grBypassUnicodeEquivalences(NFDGreekStr: string): string {
-    return NFDGreekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-      .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
-      .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
   }
 
   /**
