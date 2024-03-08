@@ -13,6 +13,7 @@ import {
   SMOOTH_BREATHING
 } from './Mapping';
 import {
+  bcReorderDiacritics,
   handleOptions,
   normalizeGreek,
   removeDiacritics as utilRmDiacritics,
@@ -44,6 +45,7 @@ export function toTransliteration(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);

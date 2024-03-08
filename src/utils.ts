@@ -66,6 +66,26 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
+ * Returns a beta code string with a correct diacritics order.
+ *
+ * @remarks
+ * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
+ * (4) iota subscript; (5) dot below.
+ */
+export function bcReorderDiacritics(betaCodeStr: string): string {
+  return betaCodeStr.replace(
+    /([\(\)\\\/\+=\|\?]{2,})/gi,
+    (match, diacritics) => {
+      const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+      return diacritics
+        .split('')
+        .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+        .join('');
+    }
+  );
+}
+
+/**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */
