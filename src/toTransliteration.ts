@@ -73,16 +73,16 @@ export function toTransliteration(
       }
 
       if (xi_ks) {
-        str = str.replace(/x/gi, (match) => {
+        str = str.replace(/x/gi, (m) => {
           if (options.isUpperCase) return 'KS';
-          else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
+          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Ks' : 'ks';
         });
       }
 
       if (chi_kh) {
-        str = str.replace(/ch/gi, (match) => {
+        str = str.replace(/ch/gi, (m) => {
           if (options.isUpperCase) return 'KH';
-          else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
+          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Kh' : 'kh';
         });
       }
 
