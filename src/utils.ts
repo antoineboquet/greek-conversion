@@ -66,6 +66,17 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
+ * Takes a TLG beta code string and returns a beta code string following
+ * the `greek-conversion` convention.
+ */
+export function bcFromTLG(TLGbetaCodeStr: string): string {
+  return TLGbetaCodeStr.toLowerCase().replace(
+    /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
+    (m, $1, $2, $3) => $3.toUpperCase() + $2
+  );
+}
+
+/**
  * Returns a beta code string with a correct diacritics order.
  *
  * @remarks
@@ -88,10 +99,6 @@ export function bcReorderDiacritics(betaCodeStr: string): string {
 /**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
- *
- * @privateRemarks
- * As the case isn't easy to determine when `setBetaCodeStyle.useTLGStyle`
- * is enabled, it's set to false and may be evaluated in conversion functions.
  */
 export function handleOptions(
   str: string,
@@ -103,10 +110,11 @@ export function handleOptions(
     settings = applyPreset(settings);
   }
 
+  // Determining the case of a TLG string involves converting it.
+  if (settings.setBetaCodeStyle?.useTLGStyle) str = bcFromTLG(str);
+
   return {
-    isUpperCase: !settings.setBetaCodeStyle?.useTLGStyle
-      ? isUpperCase(str, fromType)
-      : undefined,
+    isUpperCase: isUpperCase(str, fromType),
     ...settings
   };
 }
