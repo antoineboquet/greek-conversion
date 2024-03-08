@@ -38,7 +38,10 @@ export function toTransliteration(
   const {
     setCoronisStyle,
     useCxOverMacron,
+    beta_v,
+    eta_i,
     xi_ks,
+    phi_f,
     chi_kh,
     rho_rh,
     upsilon_y,
@@ -72,11 +75,29 @@ export function toTransliteration(
         str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
       }
 
+      if (beta_v) {
+        str = str.replace(/b/gi, (match) =>
+          match.toUpperCase() === match ? 'V' : 'v'
+        );
+      }
+
+      if (eta_i) {
+        str = str.replace(/ē/gi, (match) =>
+          match.toUpperCase() === match ? 'Ī' : 'ī'
+        );
+      }
+
       if (xi_ks) {
         str = str.replace(/x/gi, (m) => {
           if (options.isUpperCase) return 'KS';
           else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Ks' : 'ks';
         });
+      }
+
+      if (phi_f) {
+        str = str.replace(/ph/gi, (m) =>
+          m.charAt(0).toUpperCase() === m.charAt(0) ? 'F' : 'f'
+        );
       }
 
       if (chi_kh) {
