@@ -13,8 +13,8 @@ import {
   SMOOTH_BREATHING
 } from './Mapping';
 import {
-  bcFromTLG,
   bcReorderDiacritics,
+  fromTLG,
   handleOptions,
   normalizeGreek,
   removeDiacritics as utilRmDiacritics,
@@ -50,7 +50,7 @@ export function toTransliteration(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      if (setBetaCodeStyle?.useTLGStyle) str = bcFromTLG(str);
+      if (setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
       str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);

@@ -69,11 +69,29 @@ export function applyUppercaseChars(transliteratedStr: string): string {
  * Takes a TLG beta code string and returns a beta code string following
  * the `greek-conversion` convention.
  */
-export function bcFromTLG(TLGbetaCodeStr: string): string {
-  return TLGbetaCodeStr.toLowerCase().replace(
-    /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
-    (m, $1, $2, $3) => $3.toUpperCase() + $2
-  );
+export function fromTLG(betaCodeStr: string): string {
+  return betaCodeStr
+    .toLowerCase()
+    .replace(
+      /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
+      (m, $1, $2, $3) => $3.toUpperCase() + $2
+    );
+}
+
+/**
+ * Takes a beta code string following the `greek-conversion` convention
+ * and returns a TLG beta code string.
+ *
+ * @remarks
+ * The iota subscript must remain after its base letter.
+ */
+export function toTLG(betaCodeStr: string): string {
+  return betaCodeStr
+    .replace(/([a-z])([\(\)\\\/\+=\?]*)/gi, (m, $1, $2) => {
+      if ($1.toUpperCase() === $1) return '*' + $2 + $1;
+      else return m;
+    })
+    .toUpperCase();
 }
 
 /**
@@ -111,7 +129,7 @@ export function handleOptions(
   }
 
   // Determining the case of a TLG string involves converting it.
-  if (settings.setBetaCodeStyle?.useTLGStyle) str = bcFromTLG(str);
+  if (settings.setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
 
   return {
     isUpperCase: isUpperCase(str, fromType),

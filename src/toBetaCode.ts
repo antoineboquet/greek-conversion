@@ -5,6 +5,7 @@ import {
   applyUppercaseChars,
   bcReorderDiacritics,
   handleOptions,
+  toTLG,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -17,8 +18,12 @@ export function toBetaCode(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
-    options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    setBetaCodeStyle,
+    setTransliterationStyle
+  } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
@@ -58,6 +63,7 @@ export function toBetaCode(
   }
 
   str = bcReorderDiacritics(str);
+  if (setBetaCodeStyle?.useTLGStyle) str = toTLG(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 

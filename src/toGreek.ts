@@ -8,8 +8,8 @@ import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGreekVariants,
   applyUppercaseChars,
-  bcFromTLG,
   bcReorderDiacritics,
+  fromTLG,
   handleOptions,
   normalizeGreek,
   removeDiacritics as utilRmDiacritics,
@@ -38,7 +38,7 @@ export function toGreek(
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       else str = bcReorderDiacritics(str);
 
-      if (setBetaCodeStyle?.useTLGStyle) str = bcFromTLG(str);
+      if (setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
 
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
 
