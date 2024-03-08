@@ -3,7 +3,7 @@ import { AdditionalChar, Coronis, Preset } from './enums';
 export interface IConversionOptions {
   removeDiacritics?: boolean;
   removeExtraWhitespace?: boolean;
-  //setBetaCodeStyle?: IBetaCodeStyle;
+  setBetaCodeStyle?: IBetaCodeStyle;
   setGreekStyle?: IGreekStyle;
   setTransliterationStyle?: ITransliterationStyle;
   useAdditionalChars?: AdditionalChar[] | AdditionalChar;
@@ -15,10 +15,9 @@ export interface IInternalConversionOptions extends IConversionOptions {
 
 export type MixedPreset = [Preset, IConversionOptions];
 
-// v0.14
-/*export interface IBetaCodeStyle {
+export interface IBetaCodeStyle {
   useTLGStyle?: boolean;
-}*/
+}
 
 export interface IGreekStyle {
   disableBetaVariant?: boolean;
