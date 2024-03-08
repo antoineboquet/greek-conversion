@@ -11,7 +11,7 @@
 
   main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 1.5rem;
     margin-bottom: 1.5rem;
   }
@@ -24,7 +24,7 @@
 
   #options-area {
     margin-top: 1.5rem;
-    padding: 0.75rem;
+    padding: .75rem;
     background: var(--accent-bg);
     border-radius: var(--standard-border-radius);
   }
@@ -33,10 +33,10 @@
     z-index: 999;
     position: absolute;
     margin-left: 5em;
-    padding: 0.75em;
-    font-size: 0.75em;
+    padding: .75em;
+    font-size: .75em;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+      rgba(0, 0, 0, .3) 0px 18px 36px -18px;
   }
 
   label:has(input[type='checkbox']:disabled) {
@@ -52,12 +52,26 @@
   }
 
   fieldset {
-    padding: 0.5rem;
+    padding: .125em .5em;
+  }
+
+  fieldset:last-child {
+    margin-bottom: 0;
+  }
+
+  legend {
+    font-variant: small-caps;
+    font-size: .75em;
+    font-weight: bold;
   }
 
   fieldset label {
     display: inline-block;
-    margin: 0.25rem 0.75rem;
+    margin: .25rem .75rem;
+  }
+
+  fieldset select {
+    margin: auto;
   }
 </style>
 
@@ -80,7 +94,7 @@
 
       Input type:
       <span id="greek-notice" class="notice" hidden>
-        <p style="margin: 0 0 0.75em 0">
+        <p style="margin: 0 0 .75em 0">
           Configure your keyboard in Greek or type it using beta code.<br>
           Here's the conversion chart:
         </p>
@@ -268,17 +282,39 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="use-greek-question-mark" />
+          Use greek question mark
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="use-lunate-sigma" />
           Use lunate sigma
+        </label>
+      </fieldset>
+
+      <!-- Beta code style -->
+      <fieldset>
+        <legend>Beta code style</legend>
+        <label>
+          <input type="checkbox" name="options" value="use-tlg-style" />
+          Use TLG style (= <code>Preset.TLG</code>)
         </label>
       </fieldset>
 
       <!-- Transliteration style -->
       <fieldset>
         <legend>Transliteration style</legend>
+        <label>Set coronis style
+          <select id="set-coronis-style">
+            <option value="PSILI">Psili</option>
+            <option value="APOSTROPHE">Apostrophe</option>
+            <option value="NO">No</option>
+          </select>
+        </label>
+
         <label>
           <input type="checkbox" name="options" value="use-cx-over-macron" />
-          Use circumflexes instead of macrons
+          Use circumflexes (ê/ô)
         </label>
 
         <label>
@@ -297,11 +333,6 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="rho_rh" />
-          rho &rarr; rh (force breathings)
-        </label>
-
-        <label>
           <input type="checkbox" name="options" value="phi_f" />
           phi &rarr; f
         </label>
@@ -317,6 +348,11 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="rho_rh" />
+          rho &rarr; rh (force breathings)
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="lunatesigma_s" />
           lunate sigma &rarr; s
         </label>
@@ -324,7 +360,7 @@
     </div>
   </form>
 
-  <pre id="result-area">Conversion results will be displayed here...</pre>
+  <pre id="result-area"></pre>
 </main>
 
 <script type="module">
@@ -339,6 +375,8 @@
   form.addEventListener('submit', (e) => e.preventDefault());
 
   const resultArea = document.getElementById('result-area');
+  const resultAreaPlaceholder = 'Conversion results will be displayed here...';
+  resultArea.textContent = resultAreaPlaceholder;
 
   const searchBar = document.getElementById('search-bar');
   searchBar.value = '';
@@ -365,43 +403,44 @@
   translitLabel.addEventListener('mouseenter', (e) => translitNotice.hidden = false);
   translitLabel.addEventListener('mouseleave', (e) => translitNotice.hidden = true);
 
+  const inputGreekPlaceholder = 'Type greek (press ENTER to do conversion)';
+  const inputBetaCodePlaceholder = 'Type beta code (press ENTER to do conversion)';
+  const inputTranslitPlaceholder = 'Type transliterated greek (press ENTER to do conversion)';
+
   let inputType = greekRadio.value;
   greekRadio.checked = true;
   
   if (greekRadio.checked) {
     inputType = greekRadio.value;
-    searchBar.placeholder = 'Type greek';
+    searchBar.placeholder = inputGreekPlaceholder;
   }
 
   if (betaCodeRadio.checked) {
     inputType = betaCodeRadio.value;
-    searchBar.placeholder = 'Type beta code';
+    searchBar.placeholder = inputBetaCodePlaceholder;
   }
 
   if (translitRadio.checked) {
     inputType = translitRadio.value;
-    searchBar.placeholder = 'Type transliterated greek';
+    searchBar.placeholder = inputTranslitPlaceholder;
   }
 
   greekRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type greek';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputGreekPlaceholder;
   });
 
   betaCodeRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type beta code';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputBetaCodePlaceholder;
   });
 
   translitRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type transliterated greek';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputTranslitPlaceholder;
   });
 
   const checkboxes = document.querySelectorAll('input[name="options"]');
@@ -410,6 +449,7 @@
   // Conversion options handling
 
   let conversionOptions = {
+    setBetaCodeStyle: {},
     setGreekStyle: {},
     setTransliterationStyle: {}
   };
@@ -440,9 +480,19 @@
       conversionOptions.setGreekStyle.disableBetaVariant = true;
     else delete conversionOptions.setGreekStyle.disableBetaVariant;
 
+    if (values.includes('use-greek-question-mark'))
+      conversionOptions.setGreekStyle.useGreekQuestionMark = true;
+    else delete conversionOptions.setGreekStyle.useGreekQuestionMark;
+
     if (values.includes('use-lunate-sigma'))
       conversionOptions.setGreekStyle.useLunateSigma = true;
     else delete conversionOptions.setGreekStyle.useLunateSigma;
+
+    // Beta code style
+    
+    if (values.includes('use-tlg-style'))
+      conversionOptions.setBetaCodeStyle.useTLGStyle = true;
+    else delete conversionOptions.setBetaCodeStyle.useTLGStyle;
 
     // Transliteration style
 
@@ -502,7 +552,7 @@
   checkboxes.forEach((checkbox) =>
     checkbox.addEventListener('click', (e) => {
       evaluateOptions();
-      doConversion();
+      if (searchBar.value) doConversion();
     })
   );
 
@@ -538,11 +588,15 @@
 
     const gs = new GreekString(searchBar.value, fromType, conversionOptions);
 
+    const lastResult = resultArea.innerHTML;
+
     resultArea.innerHTML =
-      `greek      <strong>${gs.greek}</strong><br><br>` +
-      `beta code  <strong>${gs.betaCode}</strong><br><br>` +
-      `translit.  <strong>${gs.transliteration}</strong><br><br>` +
-      `source     ${gs.source}`;
+      `source     ${gs.source} (${inputType})<br><br>` +
+      `greek      <strong>${gs.greek}</strong><br>` +
+      `beta code  <strong>${gs.betaCode}</strong><br>` +
+      `translit.  <strong>${gs.transliteration}</strong>`;
+
+    if (lastResult) resultArea.innerHTML += `<br><br>${lastResult}`;
   }
 
   searchBar.addEventListener('input', (e) => {
@@ -567,11 +621,14 @@
   });
 
   searchBar.addEventListener('keyup', (e) => {
-    if (!searchBar.value) {
+    if (searchBar.value.trim()) {
+      if (e.key === 'Enter') {
+        if (resultArea.textContent === resultAreaPlaceholder) {
       resultArea.textContent = '';
-      return;
+        }
+        doConversion();
+        searchBar.value = '';
+      }
     }
-
-    doConversion();
   });
 </script>
