@@ -17,6 +17,9 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
 
 const BNF_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: false,
+  setGreekStyle: {
+    useGreekQuestionMark: true
+  },
   useAdditionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.YOT,
