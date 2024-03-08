@@ -186,18 +186,17 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('aíx kriós')
   })
 
-  // Applying various diacritics order
+  // Testing various diacritics order
   
-  // v0.14 - broken orders: `w|=(`, `w=(|`, `w=|(`.
-  /*test.each`
+  test.each`
     str       | expected
-    ${'w(|='} | ${'ᾧ'}
-    ${'w(=|'} | ${'ᾧ'}
-    ${'w|(='} | ${'ᾧ'}
-    ${'w|=('} | ${'ᾧ'}
-    ${'w=(|'} | ${'ᾧ'}
-    ${'w=|('} | ${'ᾧ'} 
-  `('Applying various diacritics order', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))*/
+    ${'w(|='} | ${'hō̧̃'}
+    ${'w(=|'} | ${'hō̧̃'}
+    ${'w|(='} | ${'hō̧̃'}
+    ${'w|=('} | ${'hō̧̃'}
+    ${'w=(|'} | ${'hō̧̃'}
+    ${'w=|('} | ${'hō̧̃'} 
+  `('Testing various diacritics order', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
 
 })
 

@@ -126,11 +126,9 @@ describe('From beta code to greek', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
-  // Applying various diacritics order
+  // Testing various diacritics order
 
-  // v0.14
-  // Broken orders: `w|=(`, `w=(|`, `w=|(`.
-  /*test.each`
+  test.each`
     str       | expected
     ${'w(|='} | ${'ᾧ'}
     ${'w(=|'} | ${'ᾧ'}
@@ -138,7 +136,7 @@ describe('From beta code to greek', () => {
     ${'w|=('} | ${'ᾧ'}
     ${'w=(|'} | ${'ᾧ'}
     ${'w=|('} | ${'ᾧ'} 
-  `('Applying various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })*/
+  `('Testing various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
 })
 
