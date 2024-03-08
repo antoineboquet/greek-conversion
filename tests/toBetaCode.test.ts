@@ -126,6 +126,15 @@ describe('From greek to beta code', () => {
     expect(toBetaCode('Ῥόδος\nῬόδος\tῬόδος Ῥόδος', KeyType.GREEK)).toBe('R(o/dos\nR(o/dos\tR(o/dos R(o/dos')
   })
 
+  // Testing diacritics order
+
+  test.each`
+    str        | expected
+    ${'ἀΰλως'} | ${'a)u+/lws'}
+    ${'ᾖ'}     | ${'h)=|'}
+    ${'ᾧ'}     | ${'w(=|'}
+  `('Testing diacritics order', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
+
 })
 
 describe('From transliteration to beta code', () => {
@@ -207,7 +216,6 @@ describe('From transliteration to beta code', () => {
     ${'áülos'}      | ${'a)/u+los'}
     ${'huḯdion'}    | ${'u(i+/dion'}
   `('Testing breathings placement rules', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
-
 
   // Testing coronides
 
@@ -343,6 +351,15 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('aíx   kriós', KeyType.TRANSLITERATION, { removeExtraWhitespace: true })).toBe('ai)/c krio/s')
   })
 
+  // Testing diacritics order
+
+  test.each`
+    str        | expected
+    ${'aǘlōs'} | ${'a)u+/lws'}
+    ${'ȩ̄̃'}     | ${'h)=|'}
+    ${'hō̧̃'}    | ${'w(=|'}
+  `('Testing diacritics order', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
 })
 
 describe('Self conversion', () => {
@@ -360,5 +377,14 @@ describe('Self conversion', () => {
     expect(toBetaCode(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
     expect(toBetaCode(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
   })
+
+  // Testing diacritics order
+
+  test.each`
+    str           | expected
+    ${'a)u/+lws'} | ${'a)u+/lws'}
+    ${'h|)='}     | ${'h)=|'}
+    ${'w|(='}     | ${'w(=|'}
+  `('Testing diacritics order', ({ str, expected }) => { expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected) })
   
 })
