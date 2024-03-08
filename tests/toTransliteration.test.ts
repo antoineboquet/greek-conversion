@@ -93,19 +93,19 @@ describe('From beta code to transliteration', () => {
   // Testing coronides, using coronis style
 
   test.each`
-    str       | expected
+    str         | expected
     ${'ka)gw/'} | ${'ka̓gṓ'}
     ${'ka)/n'}  | ${'ka̓́n'}
   `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
-    str       | expected
+    str         | expected
     ${'ka)gw/'} | ${'ka’gṓ'}
     ${'ka)/n'}  | ${'ká’n'}
   `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
-    str       | expected
+    str         | expected
     ${'ka)gw/'} | ${'kagṓ'}
     ${'ka)/n'}  | ${'kán'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
@@ -404,7 +404,9 @@ describe('From greek to transliteration', () => {
 
   test.each`
     str             | expected
+    ${'ΞΕΝΟΦΩΝ'}    | ${'KSENOPHŌN'}
     ${'Ξενοφῶν'}    | ${'Ksenophō̃n'}
+    ${'ΧΟΡΗΓΕΩ'}    | ${'KHORĒGEŌ'}
     ${'χορηγέω'}    | ${'khorēgéō'}
     ${'σφίγξ'}      | ${'sphínks'}
     ${'μελαγχολία'} | ${'melankholía'}
@@ -564,8 +566,12 @@ describe('Self conversion', () => {
 
   test.each`
     str              | expected
+    ${'XENOPHŌN'}    | ${'KSENOPHŌN'}
     ${'Xenophō̃n'}    | ${'Ksenophō̃n'}
-    ${'Chorēgéō'}    | ${'khorēgéō'}
+    ${'xenophō̃n'}    | ${'ksenophō̃n'}
+    ${'CHORĒGEŌ'}    | ${'KHORĒGEŌ'}
+    ${'Chorēgéō'}    | ${'Khorēgéō'}
+    ${'chorēgéō'}    | ${'khorēgéō'}
     ${'sphínx'}      | ${'sphínks'}
     ${'melancholía'} | ${'melankholía'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
