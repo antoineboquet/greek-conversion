@@ -29,6 +29,6 @@ export enum Preset {
   BNF,
   ISO,
   MODERN_BC,
-  SBL
-  //TLG
+  SBL,
+  TLG
 }
