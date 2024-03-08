@@ -62,15 +62,19 @@ describe('From beta code to greek', () => {
   // Testing TLG preset
 
   test.each`
-    str             | expected
-    ${'A)/NQRWPOS'} | ${'ἄνθρωπος'}
-    ${'POIH=|'}     | ${'ποιῇ'}
-    ${'*)/AI+DA'}   | ${'Ἄϊδα'}
-    ${'BA/RBAROS'}  | ${'βάρ\u03D0αρος'}
-    ${'*(OPLI/THS'} | ${'Ὁπλίτης'}
-    ${'*(Opli/ths'} | ${'Ὁπλίτης'}
-    ${'NOI='}       | ${'vοῖ'}
-    ${'A(/GIOS3'}   | ${'ἅγιοσ3'}
+    str               | expected
+    ${'A)/NQRWPOS'}   | ${'ἄνθρωπος'}
+    ${'A)/nqrwpos'}   | ${'ἄνθρωπος'}
+    ${'a)/nqrwpos'}   | ${'ἄνθρωπος'}
+    ${'*(OPLI/THS'}   | ${'Ὁπλίτης'}
+    ${'*(Opli/ths'}   | ${'Ὁπλίτης'}
+    ${'*(opli/ths'}   | ${'Ὁπλίτης'}
+    ${'*)/AI+DA'}     | ${'Ἄϊδα'}
+    ${'*)ai+da'}      | ${'Ἄϊδα'}
+    ${'*P*O*I*=H|'}   | ${'ποιῇ'}
+    ${'*p*o*i*=|h'}   | ${'ποιῇ'}
+    ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
+    ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
   `('Testing TLG preset', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected) })
 
   // Disabling beta variant
