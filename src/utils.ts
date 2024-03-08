@@ -88,6 +88,10 @@ export function bcReorderDiacritics(betaCodeStr: string): string {
 /**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
+ *
+ * @privateRemarks
+ * As the case isn't easy to determine when `setBetaCodeStyle.useTLGStyle`
+ * is enabled, it's set to false and may be evaluated in conversion functions.
  */
 export function handleOptions(
   str: string,
@@ -100,7 +104,9 @@ export function handleOptions(
   }
 
   return {
-    isUpperCase: isUpperCase(str, fromType),
+    isUpperCase: !settings.setBetaCodeStyle?.useTLGStyle
+      ? isUpperCase(str, fromType)
+      : false,
     ...settings
   };
 }
