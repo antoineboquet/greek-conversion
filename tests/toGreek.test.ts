@@ -1,4 +1,4 @@
-import { AdditionalChar, Coronis, KeyType, toGreek } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, Preset, toGreek } from '../src/index'
 
 /*
  * Special characters:
@@ -61,18 +61,17 @@ describe('From beta code to greek', () => {
 
   // Testing TLG preset
 
-  // v0.14
-  /*test.each`
+  test.each`
     str             | expected
-    ${')/ANQRWPOS'} | ${'ἄνθρωπος'}
-    ${'POIH|='}     | ${'ποιῇ'}
-    ${')/*AI+DA'}   | ${'Ἄϊδα'}
+    ${'A)/NQRWPOS'} | ${'ἄνθρωπος'}
+    ${'POIH=|'}     | ${'ποιῇ'}
+    ${'*)/AI+DA'}   | ${'Ἄϊδα'}
     ${'BA/RBAROS'}  | ${'βάρ\u03D0αρος'}
-    ${'(*OPLI/THS'} | ${'Ὁπλίτης'}
-    ${'(*Opli/ths'} | ${'Ὁπλίτης'}
+    ${'*(OPLI/THS'} | ${'Ὁπλίτης'}
+    ${'*(Opli/ths'} | ${'Ὁπλίτης'}
     ${'NOI='}       | ${'vοῖ'}
-    ${'(/AGIOS3'}   | ${'ἅγιοσ3'}
-  `('Testing TLG preset', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected) })*/
+    ${'A(/GIOS3'}   | ${'ἅγιοσ3'}
+  `('Testing TLG preset', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected) })
 
   // Disabling beta variant
 
