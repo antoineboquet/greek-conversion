@@ -59,7 +59,7 @@ describe('From beta code to greek', () => {
     ${aristotle.bc}                    | ${aristotle.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
-  // Testing TLG preset
+  // Testing useTLGStyle / TLG preset
 
   test.each`
     str               | expected
@@ -70,12 +70,15 @@ describe('From beta code to greek', () => {
     ${'*(Opli/ths'}   | ${'Ὁπλίτης'}
     ${'*(opli/ths'}   | ${'Ὁπλίτης'}
     ${'*)/AI+DA'}     | ${'Ἄϊδα'}
-    ${'*)/ai+da'}      | ${'Ἄϊδα'}
+    ${'*)/ai+da'}     | ${'Ἄϊδα'}
     ${'*P*O*I*=H|'}   | ${'ΠΟΙῌ͂'}
     ${'*p*o*i*=|h'}   | ${'ΠΟΙῌ͂'}
     ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
     ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
-  `('Testing TLG preset', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected) })
+  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
+    expect(toGreek(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
+  })
 
   // Disabling beta variant
 

@@ -60,6 +60,27 @@ describe('From beta code to transliteration', () => {
     ${aristotle.bc}        | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected))
 
+  // Testing useTLGStyle / TLG preset
+
+  test.each`
+    str               | expected
+    ${'A)/NQRWPOS'}   | ${'ánthrōpos'}
+    ${'A)/nqrwpos'}   | ${'ánthrōpos'}
+    ${'a)/nqrwpos'}   | ${'ánthrōpos'}
+    ${'*(OPLI/THS'}   | ${'Hoplítēs'}
+    ${'*(Opli/ths'}   | ${'Hoplítēs'}
+    ${'*(opli/ths'}   | ${'Hoplítēs'}
+    ${'*)/AI+DA'}     | ${'Áïda'}
+    ${'*)/ai+da'}     | ${'Áïda'}
+    ${'*P*O*I*=H|'}   | ${'POIȨ̄̃'}
+    ${'*p*o*i*=|h'}   | ${'POIȨ̄̃'}
+    ${'*(R*/O*D*O*S'} | ${'RHÓDOS'}
+    ${'*(r*/o*d*o*s'} | ${'RHÓDOS'}
+  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
+    expect(toTransliteration(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toTransliteration(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
+  })
+
   // Testing coronides
 
   test.each`
@@ -157,6 +178,8 @@ describe('From beta code to transliteration', () => {
     ${'U(/bla'}      | ${'Hýbla'}
     ${'u)/ u(='}     | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+
+  // Using additional letters
 
   test('Using additional letters', () => {
     const enableAll = { useAdditionalChars: AdditionalChar.ALL }
