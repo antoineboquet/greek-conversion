@@ -801,38 +801,23 @@ export class Mapping {
   }
 
   /**
-   * Returns an array containing the transliterated mapped chars tied
-   * to a circumflex or a macron, depnding on the context.
+   * Returns an array containing the transliterated chars that carry
+   * a circumflex or a macron (depnding on the context).
    *
    * @remarks
-   * (1) Letters are returned without their diacritical sign.
-   * (2) The current implementation is semi-static as it doesn't check
-   * the actual mapped chars.
+   * Letters are returned without their diacritical sign.
    */
   trLettersWithCxOrMacron(): string[] {
-    let letters = [
-      this.#capitalLetters.CAPITAL_ETA,
-      this.#smallLetters.SMALL_ETA,
-      this.#capitalLetters.CAPITAL_OMEGA,
-      this.#smallLetters.SMALL_OMEGA
-    ];
+    const letters = Object.assign(this.#capitalLetters, this.#smallLetters);
 
-    if (this.#capitalLetters.CAPITAL_STIGMA?.tr) {
-      letters.push(
-        this.#capitalLetters.CAPITAL_STIGMA,
-        this.#smallLetters.SMALL_STIGMA
-      );
+    const found = [];
+    for (const [k, v] of Object.entries(letters)) {
+      const el = v?.tr ? v.tr.normalize('NFD') : '';
+      if (/\u0302|\u0304/.test(el)) {
+        found.push(el);
+      }
     }
 
-    if (this.#capitalLetters.CAPITAL_SAMPI?.tr) {
-      letters.push(
-        this.#capitalLetters.CAPITAL_SAMPI,
-        this.#smallLetters.SMALL_SAMPI
-      );
-    }
-
-    return letters.map((letter) =>
-      letter.tr.normalize('NFD').charAt(0).normalize()
-    );
+    return found.map((el) => el.charAt(0).normalize());
   }
 }
