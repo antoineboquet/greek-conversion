@@ -21,6 +21,7 @@ export enum Coronis {
 export enum KeyType {
   GREEK,
   BETA_CODE,
+  TLG_BETA_CODE,
   TRANSLITERATION
 }
 
