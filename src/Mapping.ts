@@ -595,10 +595,7 @@ export class Mapping {
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
     fromStr = fromStr.normalize('NFD');
 
-    if (
-      fromType === KeyType.TRANSLITERATION &&
-      toType !== KeyType.TRANSLITERATION
-    ) {
+    if (fromType === KeyType.TRANSLITERATION && toType !== fromType) {
       fromStr = this.#trJoinSpecialChars(fromStr);
 
       // Add the alternate upsilon form (y/u) to the mapping.
