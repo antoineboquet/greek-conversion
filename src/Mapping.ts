@@ -454,7 +454,6 @@ export class Mapping {
   };
 
   #isUpperCase: boolean = false;
-  //#betaCodeStyle: IBetaCodeStyle;
   #removeDiacritics: boolean = false;
   #transliterationStyle: ITransliterationStyle = {};
   #useAdditionalChars: AdditionalChar[] | AdditionalChar = [];
@@ -463,7 +462,6 @@ export class Mapping {
     if (!options) return;
 
     this.#isUpperCase = Boolean(options?.isUpperCase);
-    //this.#betaCodeStyle = options?.setBetaCodeStyle;
     this.#removeDiacritics = Boolean(options?.removeDiacritics);
     this.#transliterationStyle = options?.setTransliterationStyle ?? {};
     this.#useAdditionalChars = options?.useAdditionalChars ?? [];
@@ -488,8 +486,8 @@ export class Mapping {
       beta_v,
       eta_i,
       xi_ks,
-      chi_kh,
       phi_f,
+      chi_kh,
       upsilon_y,
       lunatesigma_s
     } = this.#transliterationStyle ?? {};
@@ -509,14 +507,14 @@ export class Mapping {
       this.SMALL_XI.tr = 'ks';
     }
 
-    if (chi_kh) {
-      this.CAPITAL_CHI.tr = 'Kh';
-      this.SMALL_CHI.tr = 'kh';
-    }
-
     if (phi_f) {
       this.CAPITAL_PHI.tr = 'F';
       this.SMALL_PHI.tr = 'f';
+    }
+
+    if (chi_kh) {
+      this.CAPITAL_CHI.tr = 'Kh';
+      this.SMALL_CHI.tr = 'kh';
     }
 
     if (upsilon_y) {
