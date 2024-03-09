@@ -28,12 +28,8 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const {
-    removeDiacritics,
-    removeExtraWhitespace,
-    setBetaCodeStyle,
-    setTransliterationStyle
-  } = options;
+  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
+    options;
   const {
     setCoronisStyle,
     useCxOverMacron,
@@ -78,15 +74,11 @@ export function toTransliteration(
       }
 
       if (beta_v) {
-        str = str.replace(/b/gi, (match) =>
-          match.toUpperCase() === match ? 'V' : 'v'
-        );
+        str = str.replace(/b/gi, (m) => (m.toUpperCase() === m ? 'V' : 'v'));
       }
 
       if (eta_i) {
-        str = str.replace(/ē/gi, (match) =>
-          match.toUpperCase() === match ? 'Ī' : 'ī'
-        );
+        str = str.replace(/ē/gi, (m) => (m.toUpperCase() === m ? 'Ī' : 'ī'));
       }
 
       if (xi_ks) {
@@ -111,11 +103,11 @@ export function toTransliteration(
 
       if (rho_rh) {
         str = str
-          .replace(/(?<!^)rr(?!$)/gim, (match) =>
-            match.toUpperCase() === match ? match + 'H' : match + 'h'
+          .replace(/(?<!^)rr(?!$)/gim, (m) =>
+            m.toUpperCase() === m ? m + 'H' : m + 'h'
           )
-          .replace(/(?<=\p{P}|\s|^)r/gimu, (match) =>
-            options.isUpperCase ? match + 'H' : match + 'h'
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
+            options.isUpperCase ? m + 'H' : m + 'h'
           );
       }
 
@@ -128,8 +120,8 @@ export function toTransliteration(
       }
 
       if (lunatesigma_s) {
-        str = str.replace(/c(?!h)/gi, (match) =>
-          match.toUpperCase() === match ? 'S' : 's'
+        str = str.replace(/c(?!h)/gi, (m) =>
+          m.toUpperCase() === m ? 'S' : 's'
         );
       }
 
@@ -228,12 +220,12 @@ function bcConvertBreathings(
 
   if (setTransliterationStyle?.rho_rh) {
     transliteratedStr = transliteratedStr
-      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (match) =>
-        match.toUpperCase() === match ? 'RRH' : 'rrh'
+      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (m) =>
+        m.toUpperCase() === m ? 'RRH' : 'rrh'
       )
-      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
+      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (m) =>
         // @fixme(v0.14): case should be checked against the current word.
-        isUpperCase ? match + 'H' : match + 'h'
+        isUpperCase ? m + 'H' : m + 'h'
       );
   }
 
@@ -262,7 +254,7 @@ function bcFlagRoughBreathings(
   const { isUpperCase } = options;
 
   return betaCodeStr
-    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) => {
+    .replace(/([aehiouw]{1,2})\(/gi, (m, vowelsGroup) => {
       // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return '$$' + vowelsGroup;
       else {
@@ -271,7 +263,7 @@ function bcFlagRoughBreathings(
           : '$' + vowelsGroup;
       }
     })
-    .replace(/(r{1,2})\(/gi, (match, rho) =>
+    .replace(/(r{1,2})\(/gi, (m, rho) =>
       isUpperCase ? rho + '$$' : rho + '$'
     );
 }
@@ -321,7 +313,7 @@ function grConvertBreathings(
   return greekStr
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
-    .replace(reInitialRough, (match, vowelsGroup) => {
+    .replace(reInitialRough, (m, vowelsGroup) => {
       // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
@@ -330,10 +322,10 @@ function grConvertBreathings(
           : 'h' + vowelsGroup;
       }
     })
-    .replace(reDoubleRhoLazy, (match, doubleRho) =>
+    .replace(reDoubleRhoLazy, (m, doubleRho) =>
       doubleRho.toUpperCase() === doubleRho ? 'RRH' : 'rrh'
     )
-    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
+    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (m, initialRho) =>
       isUpperCase ? initialRho + 'H' : initialRho + 'h'
     )
     .normalize();
