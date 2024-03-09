@@ -50,9 +50,13 @@ export function toTransliteration(
 
   if (upsilon_y) str = flagDiaereses(str, fromType);
 
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    str = fromTLG(str);
+    fromType = KeyType.BETA_CODE;
+  }
+
   switch (fromType) {
     case KeyType.BETA_CODE:
-      if (setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
       str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);

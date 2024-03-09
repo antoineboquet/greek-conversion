@@ -27,18 +27,20 @@ export function toGreek(
   const {
     removeDiacritics,
     removeExtraWhitespace,
-    setBetaCodeStyle,
     setGreekStyle,
     setTransliterationStyle
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    str = fromTLG(str);
+    fromType = KeyType.BETA_CODE;
+  }
+
   switch (fromType) {
     case KeyType.BETA_CODE:
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       else str = bcReorderDiacritics(str);
-
-      if (setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
 
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
 

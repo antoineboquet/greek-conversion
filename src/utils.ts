@@ -129,7 +129,7 @@ export function handleOptions(
   }
 
   // Determining the case of a TLG string involves converting it.
-  if (settings.setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
+  if (fromType === KeyType.TLG_BETA_CODE) str = fromTLG(str);
 
   return {
     isUpperCase: isUpperCase(str, fromType),
