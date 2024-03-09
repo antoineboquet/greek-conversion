@@ -4,6 +4,7 @@ import { Mapping, SMOOTH_BREATHING } from './Mapping';
 import {
   applyUppercaseChars,
   bcReorderDiacritics,
+  fromTLG,
   handleOptions,
   toTLG,
   removeDiacritics as utilRmDiacritics,
@@ -65,8 +66,10 @@ export function toBetaCode(
 
   str = bcReorderDiacritics(str);
 
-  if (fromType !== KeyType.TLG_BETA_CODE && setBetaCodeStyle?.useTLGStyle) {
-    str = toTLG(str);
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    if (!setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
+  } else {
+    if (setBetaCodeStyle?.useTLGStyle) str = toTLG(str);
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
