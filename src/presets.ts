@@ -16,7 +16,6 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
   setGreekStyle: {
     useGreekQuestionMark: true
   },
@@ -34,7 +33,6 @@ const BNF_OPTIONS = (): IConversionOptions => ({
 });
 
 const ISO_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
   setTransliterationStyle: {
     setCoronisStyle: Coronis.APOSTROPHE,
     beta_v: true,
@@ -51,7 +49,6 @@ const ISO_OPTIONS = (): IConversionOptions => ({
 });
 
 const MODERN_BC_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
   useAdditionalChars: AdditionalChar.ALL
 });
 
@@ -64,7 +61,6 @@ const SBL_OPTIONS = (): IConversionOptions => ({
 });
 
 const TLG_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
   setBetaCodeStyle: {
     useTLGStyle: true
   },
