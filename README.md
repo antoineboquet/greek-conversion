@@ -82,7 +82,7 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-**`fromType`** can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
 **`settings`** can be filled with:
 1. a `Preset`;
@@ -106,7 +106,7 @@ The available presets are:
 | ------ | ----------- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
-| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — Type 1 (Transliteration) |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
 
 ### Conversion options
@@ -118,7 +118,7 @@ removeDiacritics?: boolean,       // remove diacritics, except those that repres
 removeExtraWhitespace?: boolean,  // remove potential extra whitespace
 
 setBetaCodeStyle?: {
-  useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. '*)/AI+DI' → 'Ἄϊδι'
+  useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
 },
 
 setGreekStyle?: {
@@ -152,6 +152,7 @@ useAdditionalChars?:              // extend the default mapping with additional 
 ```ts
 toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
 toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
+toGreek('*)/AI+DA', KeyType.TLG_BETA_CODE) // Ἄϊδα
 toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
 ```
 
@@ -202,6 +203,7 @@ toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 
 ```ts
 toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
+toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 
 const grStyle = { setGreekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
