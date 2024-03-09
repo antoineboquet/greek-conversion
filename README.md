@@ -82,7 +82,7 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-**`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
 **`settings`** can be filled with:
 1. a `Preset`;
@@ -106,7 +106,7 @@ The available presets are:
 | ------ | ----------- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
-| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — Type 1 (Transliteration) |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — type 1 (transliteration) |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
 
 ### Conversion options
