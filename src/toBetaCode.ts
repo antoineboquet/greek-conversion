@@ -28,6 +28,7 @@ export function toBetaCode(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+    case KeyType.TLG_BETA_CODE:
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
       break;
@@ -63,7 +64,10 @@ export function toBetaCode(
   }
 
   str = bcReorderDiacritics(str);
-  if (setBetaCodeStyle?.useTLGStyle) str = toTLG(str);
+
+  if (fromType !== KeyType.TLG_BETA_CODE && setBetaCodeStyle?.useTLGStyle) {
+    str = toTLG(str);
+  }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
