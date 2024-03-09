@@ -500,9 +500,8 @@
 
     // Transliteration style
 
-    console.log("coronis style:", selectCoronisStyle.value)
     conversionOptions.setTransliterationStyle.setCoronisStyle = Coronis[selectCoronisStyle.value];
-    console.log(conversionOptions)
+
     if (values.includes('use-cx-over-macron'))
       conversionOptions.setTransliterationStyle.useCxOverMacron = true;
     else delete conversionOptions.setTransliterationStyle.useCxOverMacron;
