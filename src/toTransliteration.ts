@@ -150,7 +150,9 @@ export function toTransliteration(
       break;
   }
 
-  if (upsilon_y) str = applyUpsilonDiphthongs(str).replace(/@/gm, '');
+  if (upsilon_y) {
+    str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
+  }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
@@ -163,24 +165,40 @@ export function toTransliteration(
  * Returns a transliterated string with correct upsilon forms.
  *
  * @remarks
- * This applies to the `transliterationStyle.upsilon_y` option.
+ * This applies to the `transliterationStyle.upsilon_y` option. If its
+ * value has been set to `Preset.ISO`, diphthongs 'au', 'eu', 'ou' only
+ * will be preserved.
  *
  * @privateRemarks
- * (1) Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
+ * (1) The expected input form of the upsilon is 'y'.
+ * (2) Upsilon diphthongs to preserve are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
  * (2) The given string's diaereses should have been flagged as '@' using
  * the `flagDiaereses()` function.
  */
-function applyUpsilonDiphthongs(transliteratedStr: string): string {
-  const vowels = 'aeēioyō';
-  // `vowelsGroup` includes the upsilon ('y'), the diaeresis flag '@'.
-  const reUpsilonDiphthongs = new RegExp(`([${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
+function applyUpsilonDiphthongs(
+  transliteratedStr: string,
+  options: IInternalConversionOptions,
+  mapping: Mapping
+): string {
+  const { setTransliterationStyle } = options;
+  const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
 
   return transliteratedStr
     .normalize('NFD')
-    .replace(reUpsilonDiphthongs, (match, vowelsGroup) => {
+    .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
       if (!/y/i.test(vowelsGroup)) return vowelsGroup;
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
       if (vowelsGroup.normalize().length === 1) return vowelsGroup;
+
+      if (setTransliterationStyle?.upsilon_y === Preset.ISO) {
+        const unaccentedGroup = utilRmDiacritics(
+          vowelsGroup,
+          KeyType.TRANSLITERATION,
+          mapping.trLettersWithCxOrMacron(),
+          setTransliterationStyle?.useCxOverMacron
+        );
+        if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
+      }
 
       return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
     })

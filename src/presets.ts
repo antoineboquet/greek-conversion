@@ -20,6 +20,9 @@ const BNF_OPTIONS = (): IConversionOptions => ({
   setGreekStyle: {
     useGreekQuestionMark: true
   },
+  setTransliterationStyle: {
+    upsilon_y: Preset.ISO
+  },
   useAdditionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.YOT,
@@ -37,7 +40,7 @@ const ISO_OPTIONS = (): IConversionOptions => ({
     beta_v: true,
     eta_i: true,
     phi_f: true,
-    upsilon_y: true,
+    upsilon_y: Preset.ISO,
     lunatesigma_s: true
   },
   useAdditionalChars: [

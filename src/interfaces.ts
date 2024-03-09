@@ -40,6 +40,9 @@ export interface ITransliterationStyle {
   rho_rh?: boolean;
   phi_f?: boolean;
   chi_kh?: boolean;
-  upsilon_y?: boolean;
+  upsilon_y?: boolean | Preset.ISO; // (¹)
   lunatesigma_s?: boolean;
 }
+
+// ¹ Preset.ISO: only preserve 'au', 'eu', 'ou'.
+//   Note that this is undoubtedly poorly designed.
