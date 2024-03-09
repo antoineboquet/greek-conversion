@@ -715,32 +715,15 @@ export class Mapping {
     fromType: KeyType,
     toType: KeyType
   ): Map<string, string> {
-    let fromProp: string;
-    let toProp: string;
+    let fromProp, toProp: string;
 
-    switch (fromType) {
-      case KeyType.BETA_CODE:
-        fromProp = 'bc';
-        break;
-      case KeyType.GREEK:
-        fromProp = 'gr';
-        break;
-      case KeyType.TRANSLITERATION:
-        fromProp = 'tr';
-        break;
-    }
+    if (fromType === KeyType.BETA_CODE) fromProp = 'bc';
+    else if (fromType === KeyType.GREEK) fromProp = 'gr';
+    else fromProp = 'tr';
 
-    switch (toType) {
-      case KeyType.BETA_CODE:
-        toProp = 'bc';
-        break;
-      case KeyType.GREEK:
-        toProp = 'gr';
-        break;
-      case KeyType.TRANSLITERATION:
-        toProp = 'tr';
-        break;
-    }
+    if (toType === KeyType.BETA_CODE) toProp = 'bc';
+    else if (toType === KeyType.GREEK) toProp = 'gr';
+    else toProp = 'tr';
 
     let chars = [];
 
@@ -751,9 +734,7 @@ export class Mapping {
     );
 
     for (const [k, v] of Object.entries(props)) {
-      if (v[fromProp] !== undefined && v[toProp] !== undefined) {
-        chars.push([v[fromProp], v[toProp]]);
-      }
+      if (v[fromProp] && v[toProp]) chars.push([v[fromProp], v[toProp]]);
     }
 
     const sortedChars = chars.sort((a, b) => {
@@ -764,9 +745,7 @@ export class Mapping {
       let diacritics = [];
 
       for (const [k, v] of Object.entries(this.#diacritics)) {
-        if (v[fromProp] !== undefined && v[toProp] !== undefined) {
-          diacritics.push([v[fromProp], v[toProp]]);
-        }
+        if (v[fromProp] && v[toProp]) diacritics.push([v[fromProp], v[toProp]]);
       }
 
       return new Map([...sortedChars, ...diacritics]);
