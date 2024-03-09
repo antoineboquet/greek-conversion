@@ -382,6 +382,7 @@ describe('Self conversion', () => {
 
   test('Testing TLG beta code input', () => {
     expect(toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE)).toBe('O(pli/ths')
+    expect(toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE, Preset.TLG)).toBe('*(OPLI/THS')
   })
 
   // Testing diacritics order
