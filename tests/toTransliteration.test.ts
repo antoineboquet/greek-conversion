@@ -77,8 +77,8 @@ describe('From beta code to transliteration', () => {
     ${'*(R*/O*D*O*S'} | ${'RHÓDOS'}
     ${'*(r*/o*d*o*s'} | ${'RHÓDOS'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toTransliteration(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
-    expect(toTransliteration(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
+    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
+    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
   })
 
   // Testing coronides

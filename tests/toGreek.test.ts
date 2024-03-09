@@ -77,8 +77,8 @@ describe('From beta code to greek', () => {
     ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
     ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toGreek(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
-    expect(toGreek(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
+    expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected)
+    expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected)
   })
 
   // Disabling beta variant
