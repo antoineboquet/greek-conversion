@@ -1,0 +1,7 @@
+{
+  "mangle": {
+    "properties": {
+      "regex": "^CAPITAL|^SMALL|^PUNCT|^DIA"
+    }
+  }
+}
