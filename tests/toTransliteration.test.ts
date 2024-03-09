@@ -179,6 +179,19 @@ describe('From beta code to transliteration', () => {
     ${'u)/ u(='}     | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
 
+  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+
+  test.each`
+    str            | expected
+    ${'SOUIDAS'}   | ${'SOUIDAS'}
+    ${'mauli/s'}   | ${'maulís'}
+    ${'pneu=ma'}   | ${'pneũma'}
+    ${'hu)/dwn'}   | ${'ēýdōn'}
+    ${'pou='}      | ${'poũ'}
+    ${'mui/agros'} | ${'myíagros'}
+    ${'wuto/s'}    | ${'ōytós'}
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+
   // Using additional letters
 
   test('Using additional letters', () => {
@@ -286,7 +299,7 @@ describe('From greek to transliteration', () => {
     str        | expected
     ${'κἀγώ'}  | ${'ka̓gṓ'}
     ${'κἄν'}   | ${'ka̓́n'}
-    ${'ταὐτό'} | ${'tau̓tó'}
+    ${'κηὖ'}   | ${'kēu̓̃'}
   `('Testing coronides', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK)).toBe(expected))
 
   // Testing coronides, using coronis style
@@ -427,6 +440,19 @@ describe('From greek to transliteration', () => {
     ${'Ὕϐλα'}      | ${'Hýbla'}
     ${'ὔ ὗ'}       | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+
+  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+
+  test.each`
+    str           | expected
+    ${'ΣΟΥΙΔΑΣ'}  | ${'SOUIDAS'}
+    ${'μαυλίς'}   | ${'maulís'}
+    ${'πνεῦμα'}   | ${'pneũma'}
+    ${'ηὔδων'}    | ${'ēýdōn'}
+    ${'ποῦ'}      | ${'poũ'}
+    ${'μυίαγρος'} | ${'myíagros'}
+    ${'ωὐτός'}    | ${'ōytós'}
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
@@ -597,6 +623,19 @@ describe('Self conversion', () => {
     ${'ú hũ'}      | ${'ý hỹ'}
     ${'ý hỹ'}      | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+
+  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+
+  test.each`
+    str           | expected
+    ${'SOYIDAS'}  | ${'SOUIDAS'}
+    ${'maylís'}   | ${'maulís'}
+    ${'pneỹma'}   | ${'pneũma'}
+    ${'ēúdōn'}    | ${'ēýdōn'}
+    ${'poỹ'}      | ${'poũ'}
+    ${'muíagros'} | ${'myíagros'}
+    ${'ōutós'}    | ${'ōytós'}
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Applying lunatesigma_s
 
