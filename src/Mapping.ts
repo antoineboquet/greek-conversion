@@ -131,327 +131,349 @@ const ADDITIONAL_CHARS_VALUES = (): {
   }*/
 });
 
-export class Mapping {
-  private CAPITAL_ALPHA: IMappingProperty = {
+const CAPITAL_LETTERS = (): {
+  [k in string]: IMappingProperty;
+} => ({
+  CAPITAL_ALPHA: {
     gr: 'Α',
     bc: 'A',
     tr: 'A'
-  };
-  private CAPITAL_BETA: IMappingProperty = {
+  },
+  CAPITAL_BETA: {
     gr: 'Β',
     bc: 'B',
     tr: 'B'
-  };
-  private CAPITAL_GAMMA: IMappingProperty = {
+  },
+  CAPITAL_GAMMA: {
     gr: 'Γ',
     bc: 'G',
     tr: 'G'
-  };
-  private CAPITAL_DELTA: IMappingProperty = {
+  },
+  CAPITAL_DELTA: {
     gr: 'Δ',
     bc: 'D',
     tr: 'D'
-  };
-  private CAPITAL_EPSILON: IMappingProperty = {
+  },
+  CAPITAL_EPSILON: {
     gr: 'Ε',
     bc: 'E',
     tr: 'E'
-  };
-  private CAPITAL_ZETA: IMappingProperty = {
+  },
+  CAPITAL_ZETA: {
     gr: 'Ζ',
     bc: 'Z',
     tr: 'Z'
-  };
-  private CAPITAL_ETA: IMappingProperty = {
+  },
+  CAPITAL_ETA: {
     gr: 'Η',
     bc: 'H',
     tr: 'Ē'
-  };
-  private CAPITAL_THETA: IMappingProperty = {
+  },
+  CAPITAL_THETA: {
     gr: 'Θ',
     bc: 'Q',
     tr: 'Th'
-  };
-  private CAPITAL_IOTA: IMappingProperty = {
+  },
+  CAPITAL_IOTA: {
     gr: 'Ι',
     bc: 'I',
     tr: 'I'
-  };
-  private CAPITAL_KAPPA: IMappingProperty = {
+  },
+  CAPITAL_KAPPA: {
     gr: 'Κ',
     bc: 'K',
     tr: 'K'
-  };
-  private CAPITAL_LAMBDA: IMappingProperty = {
+  },
+  CAPITAL_LAMBDA: {
     gr: 'Λ',
     bc: 'L',
     tr: 'L'
-  };
-  private CAPITAL_MU: IMappingProperty = {
+  },
+  CAPITAL_MU: {
     gr: 'Μ',
     bc: 'M',
     tr: 'M'
-  };
-  private CAPITAL_NU: IMappingProperty = {
+  },
+  CAPITAL_NU: {
     gr: 'Ν',
     bc: 'N',
     tr: 'N'
-  };
-  private CAPITAL_XI: IMappingProperty = {
+  },
+  CAPITAL_XI: {
     gr: 'Ξ',
     bc: 'C',
     tr: 'X'
-  };
-  private CAPITAL_OMICRON: IMappingProperty = {
+  },
+  CAPITAL_OMICRON: {
     gr: 'Ο',
     bc: 'O',
     tr: 'O'
-  };
-  private CAPITAL_PI: IMappingProperty = {
+  },
+  CAPITAL_PI: {
     gr: 'Π',
     bc: 'P',
     tr: 'P'
-  };
-  private CAPITAL_RHO: IMappingProperty = {
+  },
+  CAPITAL_RHO: {
     gr: 'Ρ',
     bc: 'R',
     tr: 'R'
-  };
-  private CAPITAL_SIGMA: IMappingProperty = {
+  },
+  CAPITAL_SIGMA: {
     gr: 'Σ',
     bc: 'S',
     tr: 'S'
-  };
-  private CAPITAL_TAU: IMappingProperty = {
+  },
+  CAPITAL_TAU: {
     gr: 'Τ',
     bc: 'T',
     tr: 'T'
-  };
-  private CAPITAL_UPSILON: IMappingProperty = {
+  },
+  CAPITAL_UPSILON: {
     gr: 'Υ',
     bc: 'U',
     tr: 'U'
-  };
-  private declare CAPITAL_ALT_UPSILON: IMappingProperty;
-  private CAPITAL_PHI: IMappingProperty = {
+  },
+  CAPITAL_PHI: {
     gr: 'Φ',
     bc: 'F',
     tr: 'Ph'
-  };
-  private CAPITAL_CHI: IMappingProperty = {
+  },
+  CAPITAL_CHI: {
     gr: 'Χ',
     bc: 'X',
     tr: 'Ch'
-  };
-  private CAPITAL_PSI: IMappingProperty = {
+  },
+  CAPITAL_PSI: {
     gr: 'Ψ',
     bc: 'Y',
     tr: 'Ps'
-  };
-  private CAPITAL_OMEGA: IMappingProperty = {
+  },
+  CAPITAL_OMEGA: {
     gr: 'Ω',
     bc: 'W',
     tr: 'Ō'
-  };
-  private declare CAPITAL_DIGAMMA: IMappingProperty;
-  private declare CAPITAL_YOT: IMappingProperty;
-  private declare CAPITAL_LUNATE_SIGMA: IMappingProperty;
-  private declare CAPITAL_STIGMA: IMappingProperty;
-  private declare CAPITAL_KOPPA: IMappingProperty;
-  private declare CAPITAL_ARCHAIC_KOPPA: IMappingProperty;
-  private declare CAPITAL_SAMPI: IMappingProperty;
-  private declare CAPITAL_SAN: IMappingProperty;
-  private SMALL_ALPHA: IMappingProperty = {
+  },
+  CAPITAL_ALT_UPSILON: {} as IMappingProperty,
+  CAPITAL_DIGAMMA: {} as IMappingProperty,
+  CAPITAL_YOT: {} as IMappingProperty,
+  CAPITAL_LUNATE_SIGMA: {} as IMappingProperty,
+  CAPITAL_STIGMA: {} as IMappingProperty,
+  CAPITAL_KOPPA: {} as IMappingProperty,
+  CAPITAL_ARCHAIC_KOPPA: {} as IMappingProperty,
+  CAPITAL_SAMPI: {} as IMappingProperty,
+  CAPITAL_SAN: {} as IMappingProperty
+});
+
+const SMALL_LETTERS = (): {
+  [k in string]: IMappingProperty;
+} => ({
+  SMALL_ALPHA: {
     gr: 'α',
     bc: 'a',
     tr: 'a'
-  };
-  private SMALL_BETA: IMappingProperty = {
+  },
+  SMALL_BETA: {
     gr: 'β',
     bc: 'b',
     tr: 'b'
-  };
-  private SMALL_GAMMA: IMappingProperty = {
+  },
+  SMALL_GAMMA: {
     gr: 'γ',
     bc: 'g',
     tr: 'g'
-  };
-  private SMALL_DELTA: IMappingProperty = {
+  },
+  SMALL_DELTA: {
     gr: 'δ',
     bc: 'd',
     tr: 'd'
-  };
-  private SMALL_EPSILON: IMappingProperty = {
+  },
+  SMALL_EPSILON: {
     gr: 'ε',
     bc: 'e',
     tr: 'e'
-  };
-  private SMALL_ZETA: IMappingProperty = {
+  },
+  SMALL_ZETA: {
     gr: 'ζ',
     bc: 'z',
     tr: 'z'
-  };
-  private SMALL_ETA: IMappingProperty = {
+  },
+  SMALL_ETA: {
     gr: 'η',
     bc: 'h',
     tr: 'ē'
-  };
-  private SMALL_THETA: IMappingProperty = {
+  },
+  SMALL_THETA: {
     gr: 'θ',
     bc: 'q',
     tr: 'th'
-  };
-  private SMALL_IOTA: IMappingProperty = {
+  },
+  SMALL_IOTA: {
     gr: 'ι',
     bc: 'i',
     tr: 'i'
-  };
-  private SMALL_KAPPA: IMappingProperty = {
+  },
+  SMALL_KAPPA: {
     gr: 'κ',
     bc: 'k',
     tr: 'k'
-  };
-  private SMALL_LAMBDA: IMappingProperty = {
+  },
+  SMALL_LAMBDA: {
     gr: 'λ',
     bc: 'l',
     tr: 'l'
-  };
-  private SMALL_MU: IMappingProperty = {
+  },
+  SMALL_MU: {
     gr: 'μ',
     bc: 'm',
     tr: 'm'
-  };
-  private SMALL_NU: IMappingProperty = {
+  },
+  SMALL_NU: {
     gr: 'ν',
     bc: 'n',
     tr: 'n'
-  };
-  private SMALL_XI: IMappingProperty = {
+  },
+  SMALL_XI: {
     gr: 'ξ',
     bc: 'c',
     tr: 'x'
-  };
-  private SMALL_OMICRON: IMappingProperty = {
+  },
+  SMALL_OMICRON: {
     gr: 'ο',
     bc: 'o',
     tr: 'o'
-  };
-  private SMALL_PI: IMappingProperty = {
+  },
+  SMALL_PI: {
     gr: 'π',
     bc: 'p',
     tr: 'p'
-  };
-  private SMALL_RHO: IMappingProperty = {
+  },
+  SMALL_RHO: {
     gr: 'ρ',
     bc: 'r',
     tr: 'r'
-  };
-  private SMALL_SIGMA: IMappingProperty = {
+  },
+  SMALL_SIGMA: {
     gr: 'σ',
     bc: 's',
     tr: 's'
-  };
-  private SMALL_TAU: IMappingProperty = {
+  },
+  SMALL_TAU: {
     gr: 'τ',
     bc: 't',
     tr: 't'
-  };
-  private SMALL_UPSILON: IMappingProperty = {
+  },
+  SMALL_UPSILON: {
     gr: 'υ',
     bc: 'u',
     tr: 'u'
-  };
-  private declare SMALL_ALT_UPSILON: IMappingProperty;
-  private SMALL_PHI: IMappingProperty = {
+  },
+  SMALL_PHI: {
     gr: 'φ',
     bc: 'f',
     tr: 'ph'
-  };
-  private SMALL_CHI: IMappingProperty = {
+  },
+  SMALL_CHI: {
     gr: 'χ',
     bc: 'x',
     tr: 'ch'
-  };
-  private SMALL_PSI: IMappingProperty = {
+  },
+  SMALL_PSI: {
     gr: 'ψ',
     bc: 'y',
     tr: 'ps'
-  };
-  private SMALL_OMEGA: IMappingProperty = {
+  },
+  SMALL_OMEGA: {
     gr: 'ω',
     bc: 'w',
     tr: 'ō'
-  };
-  private declare SMALL_DIGAMMA: IMappingProperty;
-  private declare SMALL_YOT: IMappingProperty;
-  private declare SMALL_LUNATE_SIGMA: IMappingProperty;
-  private declare SMALL_STIGMA: IMappingProperty;
-  private declare SMALL_KOPPA: IMappingProperty;
-  private declare SMALL_ARCHAIC_KOPPA: IMappingProperty;
-  private declare SMALL_SAMPI: IMappingProperty;
-  private declare SMALL_SAN: IMappingProperty;
-  private QUESTION_MARK: IMappingProperty = {
+  },
+  SMALL_ALT_UPSILON: {} as IMappingProperty,
+  SMALL_DIGAMMA: {} as IMappingProperty,
+  SMALL_YOT: {} as IMappingProperty,
+  SMALL_LUNATE_SIGMA: {} as IMappingProperty,
+  SMALL_STIGMA: {} as IMappingProperty,
+  SMALL_KOPPA: {} as IMappingProperty,
+  SMALL_ARCHAIC_KOPPA: {} as IMappingProperty,
+  SMALL_SAMPI: {} as IMappingProperty,
+  SMALL_SAN: {} as IMappingProperty
+});
+
+const PUNCTUATION = (): {
+  [k in string]: IMappingProperty;
+} => ({
+  PUNCT_QUESTION_MARK: {
     gr: GREEK_QUESTION_MARK,
     bc: ';',
     tr: '?'
-  };
-  private ANO_TELEIA: IMappingProperty = {
+  },
+  PUNCT_ANO_TELEIA: {
     gr: ANO_TELEIA,
     bc: ':',
     tr: ';'
-  };
-  private DIACRITICS = {
-    SMOOTH_BREATHING: {
-      gr: SMOOTH_BREATHING,
-      bc: ')',
-      tr: SMOOTH_BREATHING
-    } as IMappingProperty,
-    ROUGH_BREATHING: {
-      gr: ROUGH_BREATHING,
-      bc: '(',
-      tr: undefined
-    } as IMappingProperty,
-    ACCUTE_ACCENT: {
-      gr: ACUTE_ACCENT,
-      bc: '/',
-      tr: ACUTE_ACCENT
-    } as IMappingProperty,
-    GRAVE_ACCENT: {
-      gr: GRAVE_ACCENT,
-      bc: '\\',
-      tr: GRAVE_ACCENT
-    } as IMappingProperty,
-    MACRON: {
-      gr: MACRON,
-      bc: '%26',
-      tr: MACRON
-    } as IMappingProperty,
-    BREVE: {
-      gr: BREVE,
-      bc: '%27',
-      tr: BREVE
-    } as IMappingProperty,
-    TILDE: {
-      gr: GREEK_TILDE,
-      bc: '=',
-      tr: LATIN_TILDE
-    } as IMappingProperty,
-    DIAERESIS: {
-      gr: DIAERESIS,
-      bc: '+',
-      tr: DIAERESIS
-    } as IMappingProperty,
-    IOTA_SUBSCRIPT: {
-      gr: IOTA_SUBSCRIPT,
-      bc: '|',
-      tr: CEDILLA
-    } as IMappingProperty,
-    DOT_BELOW: {
-      gr: DOT_BELOW,
-      bc: '?',
-      tr: DOT_BELOW
-    } as IMappingProperty
-  };
+  }
+});
+
+const DIACRITICS = (): {
+  [k in string]: IMappingProperty;
+} => ({
+  DIA_SMOOTH_BREATHING: {
+    gr: SMOOTH_BREATHING,
+    bc: ')',
+    tr: SMOOTH_BREATHING
+  },
+  DIA_ROUGH_BREATHING: {
+    gr: ROUGH_BREATHING,
+    bc: '(',
+    tr: undefined
+  },
+  DIA_ACCUTE_ACCENT: {
+    gr: ACUTE_ACCENT,
+    bc: '/',
+    tr: ACUTE_ACCENT
+  },
+  DIA_GRAVE_ACCENT: {
+    gr: GRAVE_ACCENT,
+    bc: '\\',
+    tr: GRAVE_ACCENT
+  },
+  DIA_MACRON: {
+    gr: MACRON,
+    bc: '%26',
+    tr: MACRON
+  },
+  DIA_BREVE: {
+    gr: BREVE,
+    bc: '%27',
+    tr: BREVE
+  },
+  DIA_TILDE: {
+    gr: GREEK_TILDE,
+    bc: '=',
+    tr: LATIN_TILDE
+  },
+  DIA_DIAERESIS: {
+    gr: DIAERESIS,
+    bc: '+',
+    tr: DIAERESIS
+  },
+  DIA_IOTA_SUBSCRIPT: {
+    gr: IOTA_SUBSCRIPT,
+    bc: '|',
+    tr: CEDILLA
+  },
+  DIA_DOT_BELOW: {
+    gr: DOT_BELOW,
+    bc: '?',
+    tr: DOT_BELOW
+  }
+});
+
+export class Mapping {
+  #capitalLetters = CAPITAL_LETTERS();
+  #smallLetters = SMALL_LETTERS();
+  #punctuation = PUNCTUATION();
+  #diacritics = DIACRITICS();
 
   #isUpperCase: boolean = false;
   #removeDiacritics: boolean = false;
@@ -474,9 +496,9 @@ export class Mapping {
           (Array.isArray(this.#useAdditionalChars) &&
             this.#useAdditionalChars.includes(Number(k) as AdditionalChar))
         ) {
-          for (const [char, props] of Object.entries(v)) {
-            this[char] = props;
-          }
+          const keys = Object.keys(v);
+          if (keys[0]) this.#capitalLetters[keys[0]] = v[keys[0]];
+          if (keys[1]) this.#smallLetters[keys[1]] = v[keys[1]];
         }
       }
     }
@@ -493,73 +515,75 @@ export class Mapping {
     } = this.#transliterationStyle ?? {};
 
     if (beta_v) {
-      this.CAPITAL_BETA.tr = 'V';
-      this.SMALL_BETA.tr = 'v';
+      this.#capitalLetters.CAPITAL_BETA.tr = 'V';
+      this.#smallLetters.SMALL_BETA.tr = 'v';
     }
 
     if (eta_i) {
-      this.CAPITAL_ETA.tr = 'Ī';
-      this.SMALL_ETA.tr = 'ī';
+      this.#capitalLetters.CAPITAL_ETA.tr = 'Ī';
+      this.#smallLetters.SMALL_ETA.tr = 'ī';
     }
 
     if (xi_ks) {
-      this.CAPITAL_XI.tr = 'Ks';
-      this.SMALL_XI.tr = 'ks';
+      this.#capitalLetters.CAPITAL_XI.tr = 'Ks';
+      this.#smallLetters.SMALL_XI.tr = 'ks';
     }
 
     if (phi_f) {
-      this.CAPITAL_PHI.tr = 'F';
-      this.SMALL_PHI.tr = 'f';
+      this.#capitalLetters.CAPITAL_PHI.tr = 'F';
+      this.#smallLetters.SMALL_PHI.tr = 'f';
     }
 
     if (chi_kh) {
-      this.CAPITAL_CHI.tr = 'Kh';
-      this.SMALL_CHI.tr = 'kh';
+      this.#capitalLetters.CAPITAL_CHI.tr = 'Kh';
+      this.#smallLetters.SMALL_CHI.tr = 'kh';
     }
 
     if (upsilon_y) {
-      this.CAPITAL_UPSILON.tr = 'Y';
-      this.SMALL_UPSILON.tr = 'y';
+      this.#capitalLetters.CAPITAL_UPSILON.tr = 'Y';
+      this.#smallLetters.SMALL_UPSILON.tr = 'y';
     }
 
     if (lunatesigma_s) {
       // The lunate sigma might not have been activated using the
       // `useAdditionalChars` option. So, we need to check if its property exists.
-      if (this.CAPITAL_LUNATE_SIGMA?.tr) this.CAPITAL_LUNATE_SIGMA.tr = 'S';
-      if (this.SMALL_LUNATE_SIGMA?.tr) this.SMALL_LUNATE_SIGMA.tr = 's';
+      if (this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr)
+        this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
+      if (this.#smallLetters.SMALL_LUNATE_SIGMA?.tr)
+        this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
 
-      if (!this.CAPITAL_LUNATE_SIGMA?.tr) {
+      if (!this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr) {
         console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `setTransliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
       }
     }
 
     if (useCxOverMacron) {
       if (eta_i) {
-        this.CAPITAL_ETA.tr = 'Î';
-        this.SMALL_ETA.tr = 'î';
+        this.#capitalLetters.CAPITAL_ETA.tr = 'Î';
+        this.#smallLetters.SMALL_ETA.tr = 'î';
       } else {
-        this.CAPITAL_ETA.tr = 'Ê';
-        this.SMALL_ETA.tr = 'ê';
+        this.#capitalLetters.CAPITAL_ETA.tr = 'Ê';
+        this.#smallLetters.SMALL_ETA.tr = 'ê';
       }
 
-      this.CAPITAL_OMEGA.tr = 'Ô';
-      this.SMALL_OMEGA.tr = 'ô';
+      this.#capitalLetters.CAPITAL_OMEGA.tr = 'Ô';
+      this.#smallLetters.SMALL_OMEGA.tr = 'ô';
 
-      if (this.CAPITAL_STIGMA?.tr) {
-        this.CAPITAL_STIGMA.tr = 'Ĉ';
-        this.SMALL_STIGMA.tr = 'ĉ';
+      if (this.#capitalLetters.CAPITAL_STIGMA?.tr) {
+        this.#capitalLetters.CAPITAL_STIGMA.tr = 'Ĉ';
+        this.#smallLetters.SMALL_STIGMA.tr = 'ĉ';
       }
 
-      if (this.CAPITAL_SAMPI?.tr) {
-        this.CAPITAL_SAMPI.tr = 'Ŝ';
-        this.SMALL_SAMPI.tr = 'ŝ';
+      if (this.#capitalLetters.CAPITAL_SAMPI?.tr) {
+        this.#capitalLetters.CAPITAL_SAMPI.tr = 'Ŝ';
+        this.#smallLetters.SMALL_SAMPI.tr = 'ŝ';
       }
     }
 
     if (this.#isUpperCase) {
-      for (const [k, v] of Object.entries(this)) {
-        if (k.startsWith('CAPITAL') && v.tr?.length > 1 /* Th, Ph, etc */) {
-          this[k].tr = v.tr.toUpperCase();
+      for (const [k, v] of Object.entries(this.#capitalLetters)) {
+        if (v.tr?.length > 1 /* Th, Ph, etc */) {
+          this.#capitalLetters[k].tr = v.tr.toUpperCase();
         }
       }
     }
@@ -579,22 +603,22 @@ export class Mapping {
 
       // Add the alternate upsilon form (y/u) to the mapping.
       if (this.#transliterationStyle?.upsilon_y) {
-        this.CAPITAL_ALT_UPSILON = {
-          bc: this.CAPITAL_UPSILON.bc,
-          gr: this.CAPITAL_UPSILON.gr,
+        this.#capitalLetters.CAPITAL_ALT_UPSILON = {
+          bc: this.#capitalLetters.CAPITAL_UPSILON.bc,
+          gr: this.#capitalLetters.CAPITAL_UPSILON.gr,
           tr: 'U'
         };
-        this.SMALL_ALT_UPSILON = {
-          bc: this.SMALL_UPSILON.bc,
-          gr: this.SMALL_UPSILON.gr,
+        this.#smallLetters.SMALL_ALT_UPSILON = {
+          bc: this.#smallLetters.SMALL_UPSILON.bc,
+          gr: this.#smallLetters.SMALL_UPSILON.gr,
           tr: 'u'
         };
       }
 
       // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
       if (this.#transliterationStyle?.lunatesigma_s) {
-        this.CAPITAL_LUNATE_SIGMA.tr = undefined;
-        this.SMALL_LUNATE_SIGMA.tr = undefined;
+        this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = undefined;
+        this.#smallLetters.SMALL_LUNATE_SIGMA.tr = undefined;
       }
     }
 
@@ -688,7 +712,7 @@ export class Mapping {
    *
    * @param fromType - The left value of the resulting `Map`
    * @param toType - The right value of the resulting `Map`
-   * @param removeDiacritics - If `true`, exclude the `DIACRITICS` property
+   * @param removeDiacritics - If `true`, exclude `this.#diacritics`
    */
   #getPropsMapOrderByLengthDesc(
     fromType: KeyType,
@@ -723,9 +747,13 @@ export class Mapping {
 
     let chars = [];
 
-    for (const [k, v] of Object.entries(this)) {
-      if (this.#isUpperCase && k.startsWith('SMALL')) continue;
+    const props = Object.assign(
+      this.#capitalLetters,
+      !this.#isUpperCase ? this.#smallLetters : {},
+      this.#punctuation
+    );
 
+    for (const [k, v] of Object.entries(props)) {
       if (v[fromProp] !== undefined && v[toProp] !== undefined) {
         chars.push([v[fromProp], v[toProp]]);
       }
@@ -738,7 +766,7 @@ export class Mapping {
     if (!this.#removeDiacritics) {
       let diacritics = [];
 
-      for (const [k, v] of Object.entries(this.DIACRITICS)) {
+      for (const [k, v] of Object.entries(this.#diacritics)) {
         if (v[fromProp] !== undefined && v[toProp] !== undefined) {
           diacritics.push([v[fromProp], v[toProp]]);
         }
@@ -759,10 +787,9 @@ export class Mapping {
    */
   #trJoinSpecialChars(NFDTransliteratedStr: string): string {
     // Join back below dots to archaic koppas.
-    // @fixme: this does not work with adjacent small & capital archaic koppa.
-    if (this.CAPITAL_ARCHAIC_KOPPA?.tr) {
+    if (this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
-        new RegExp(`${this.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'),
+        new RegExp(`${this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'), // prettier-ignore
         (match) => match.normalize()
       );
     }
@@ -787,18 +814,24 @@ export class Mapping {
    */
   trLettersWithCxOrMacron(): string[] {
     let letters = [
-      this.CAPITAL_ETA,
-      this.SMALL_ETA,
-      this.CAPITAL_OMEGA,
-      this.SMALL_OMEGA
+      this.#capitalLetters.CAPITAL_ETA,
+      this.#smallLetters.SMALL_ETA,
+      this.#capitalLetters.CAPITAL_OMEGA,
+      this.#smallLetters.SMALL_OMEGA
     ];
 
-    if (this.CAPITAL_STIGMA?.tr) {
-      letters.push(this.CAPITAL_STIGMA, this.SMALL_STIGMA);
+    if (this.#capitalLetters.CAPITAL_STIGMA?.tr) {
+      letters.push(
+        this.#capitalLetters.CAPITAL_STIGMA,
+        this.#smallLetters.SMALL_STIGMA
+      );
     }
 
-    if (this.CAPITAL_SAMPI?.tr) {
-      letters.push(this.CAPITAL_SAMPI, this.SMALL_SAMPI);
+    if (this.#capitalLetters.CAPITAL_SAMPI?.tr) {
+      letters.push(
+        this.#capitalLetters.CAPITAL_SAMPI,
+        this.#smallLetters.SMALL_SAMPI
+      );
     }
 
     return letters.map((letter) =>
