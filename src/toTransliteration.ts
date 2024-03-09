@@ -59,16 +59,16 @@ export function toTransliteration(
     case KeyType.BETA_CODE:
       str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
+      str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
       str = bcConvertBreathings(str, options);
       break;
 
     case KeyType.GREEK:
       str = grConvertBreathings(str, options);
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
+      str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
       break;
 
     case KeyType.TRANSLITERATION:
@@ -136,17 +136,13 @@ export function toTransliteration(
       if (removeDiacritics) {
         str = utilRmDiacritics(
           str,
-          KeyType.TRANSLITERATION,
+          fromType,
           mapping.trLettersWithCxOrMacron(),
           useCxOverMacron
         );
       }
 
-      str = mapping.apply(
-        str,
-        KeyType.TRANSLITERATION,
-        KeyType.TRANSLITERATION
-      );
+      str = mapping.apply(str, fromType, fromType);
       break;
   }
 
@@ -225,13 +221,12 @@ function bcConvertBreathings(
   options: IInternalConversionOptions
 ): string {
   const { isUpperCase, setTransliterationStyle } = options;
-  const rho_rh = setTransliterationStyle?.rho_rh;
 
   transliteratedStr = transliteratedStr
     .replace(/\$\$/g, 'H')
     .replace(/\$/g, 'h');
 
-  if (rho_rh) {
+  if (setTransliterationStyle?.rho_rh) {
     transliteratedStr = transliteratedStr
       .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (match) =>
         match.toUpperCase() === match ? 'RRH' : 'rrh'
@@ -345,12 +340,8 @@ function grConvertBreathings(
 }
 
 /**
- * Returns a transliterated string with converted coronides, following
- * the given `coronisStyle`.
- *
- * @privateRemarks
- * It's not clear if this function should convert Coronis.APOSTROPHE to
- * smooth breathings if the `coronisStyle` option hasn't been set.
+ * Returns a transliterated string with converted coronides,
+ * following the given `coronisStyle`.
  */
 function trApplyCoronis(
   transliteratedStr: string,

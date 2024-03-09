@@ -39,22 +39,22 @@ export function toGreek(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       else str = bcReorderDiacritics(str);
 
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
+      str = mapping.apply(str, fromType, KeyType.GREEK);
 
       break;
 
     case KeyType.GREEK:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.GREEK);
+      str = mapping.apply(str, fromType, fromType);
       break;
 
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
-      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
+      str = mapping.apply(str, fromType, KeyType.GREEK);
 
       if (setTransliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
         str = str
@@ -67,7 +67,7 @@ export function toGreek(
       }
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, KeyType.TRANSLITERATION);
+        str = utilRmDiacritics(str, fromType);
         str = str.replace(/h/gi, '');
       } else {
         str = trConvertBreathings(str, options);

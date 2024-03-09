@@ -35,9 +35,9 @@ export function toBetaCode(
       break;
 
     case KeyType.GREEK:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.BETA_CODE);
+      str = mapping.apply(str, fromType, KeyType.BETA_CODE);
       break;
 
     case KeyType.TRANSLITERATION:
@@ -53,10 +53,10 @@ export function toBetaCode(
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.BETA_CODE);
+      str = mapping.apply(str, fromType, KeyType.BETA_CODE);
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, KeyType.TRANSLITERATION);
+        str = utilRmDiacritics(str, fromType);
         str = str.replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
