@@ -24,19 +24,35 @@
     "type": "git",
     "url": "git+https://github.com/antoineboquet/greek-conversion.git"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/greekConversion.min.js",
+      "require": "./dist/greekConversion.min.cjs"
+    }
+  },
   "source": "./src/index.ts",
   "types": "./dist/greekConversion.d.ts",
-  "main": "./dist/greekConversion.cjs.js",
-  "module": "./dist/greekConversion.esm.js",
+  "main": "./dist/greekConversion.min.cjs",
+  "module": "./dist/greekConversion.min.js",
   "unpkg": "./dist/greekConversion.min.js",
   "targets": {
-    "unpkg": {
+    "main": {
+      "context": "node",
+      "isLibrary": true,
+      "optimize": true,
+      "outputFormat": "commonjs"
+    },
+    "module": {
+      "context": "browser",
       "isLibrary": true,
       "optimize": true,
       "outputFormat": "esmodule"
     }
   },
   "browserslist": "defaults",
+  "engines": {
+    "node": ">= 18"
+  },
   "files": [
     "/dist"
   ],
