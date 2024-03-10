@@ -63,14 +63,14 @@ describe('From greek to beta code', () => {
     ${'ΠΟΙῌ͂'}     | ${'*P*O*I*=H|'}
     ${'ῬΌΔΟΣ'}    | ${'*(R*/O*D*O*S'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toBetaCode(str, KeyType.GREEK, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.GREEK, { betaCodeStyle: { useTLGStyle: true } })).toBe(expected)
     expect(toBetaCode(str, KeyType.GREEK, Preset.TLG)).toBe(expected)
   })
 
   // Disabling beta variant
 
   test('Disabling beta variant', () => {
-    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
+    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
   })
 
   // Testing rho rules
@@ -90,14 +90,14 @@ describe('From greek to beta code', () => {
     str          | expected
     ${'Ξενοφῶν'} | ${'Cenofw=n'}
     ${'χορηγέω'} | ${'xorhge/w'}
-  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Using additional letters
 
   test('Using additional letters', () => {
-    expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { useAdditionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
-    expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
+    expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { additionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
+    expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
   // Testing uppercase writing
@@ -195,15 +195,15 @@ describe('From transliteration to beta code', () => {
     ${'POIȨ̄̃'}      | ${'*P*O*I*=H|'}
     ${'RHÓDOS'}    | ${'*(R*/O*D*O*S'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toBetaCode(str, KeyType.TRANSLITERATION, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.TRANSLITERATION, { betaCodeStyle: { useTLGStyle: true } })).toBe(expected)
     expect(toBetaCode(str, KeyType.TRANSLITERATION, Preset.TLG)).toBe(expected)
   })
 
   // Testing the combining dot below
 
   test('Testing the combining dot below', () => {
-    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('Pa/tro#3los')
-    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, useAdditionalChars: AdditionalChar.ALL })).toBe('Patro#3los')
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { additionalChars: AdditionalChar.ALL })).toBe('Pa/tro#3los')
+    expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, additionalChars: AdditionalChar.ALL })).toBe('Patro#3los')
   })
 
   // Testing breathings placement rules
@@ -234,14 +234,14 @@ describe('From transliteration to beta code', () => {
     ${'ka̓gṓ'} | ${'ka)gw/'}
     ${'ka̓́n'}  | ${'ka)/n'}
     ${'ká’n'} | ${'ka/’n'}
-  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
     str        | expected
     ${'ka’gṓ'} | ${'ka)gw/'}
     ${'ká’n'}  | ${'ka)/n'}
     ${'ka̓́n'}   | ${'ka)/n'}
-  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
     str        | expected
@@ -249,7 +249,7 @@ describe('From transliteration to beta code', () => {
     ${'ka’gṓ'} | ${'ka’gw/'}
     ${'ka̓́n'}   | ${'ka)/n'}
     ${'ká’n'}  | ${'ka/’n'}
-  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules
 
@@ -269,26 +269,26 @@ describe('From transliteration to beta code', () => {
     ${'ánthrôpos'} | ${'a)/nqrwpos'}
     ${'Hoplítês'}  | ${'O(pli/ths'}
     ${'Xenophỗn'}  | ${'Cenofw=n'}
-  `('Using circumflex on long vowels', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
+  `('Using circumflex on long vowels', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected) })
 
   // Applying beta_v
 
   test('Applying beta_v', () => {
-    expect(toBetaCode('várvaros', KeyType.TRANSLITERATION, { setTransliterationStyle: { beta_v: true } }))
+    expect(toBetaCode('várvaros', KeyType.TRANSLITERATION, { transliterationStyle: { beta_v: true } }))
       .toBe('ba/rbaros')
   })
 
   // Applying eta_i
 
   test('Applying eta_i', () => {
-    expect(toBetaCode('hīdonī́', KeyType.TRANSLITERATION, { setTransliterationStyle: { eta_i: true } }))
+    expect(toBetaCode('hīdonī́', KeyType.TRANSLITERATION, { transliterationStyle: { eta_i: true } }))
       .toBe('h(donh/')
   })
 
   // Applying eta_i, using circumflex
 
   test('Applying eta_i, using circumflex', () => {
-    expect(toBetaCode('hîdonî́', KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+    expect(toBetaCode('hîdonî́', KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('h(donh/')
   })
 
@@ -299,7 +299,7 @@ describe('From transliteration to beta code', () => {
     ${'fantasía'}  | ${'fantasi/a'}
     ${'Fainṓ'}     | ${'Fainw/'}
     ${'FILOSOFIA'} | ${'FILOSOFIA'}
-  `('Applying phi_f', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
+  `('Applying phi_f', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { phi_f: true } })).toBe(expected) })
 
   // Applying xi_ks / chi_kh
 
@@ -307,7 +307,7 @@ describe('From transliteration to beta code', () => {
     str            | expected
     ${'Ksenophȭn'} | ${'Cenofw=n'}
     ${'khorēgéō'}  | ${'xorhge/w'}
-  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Applying upsilon_y
 
@@ -320,14 +320,14 @@ describe('From transliteration to beta code', () => {
     ${'hýdōr'}     | ${'u(/dwr'}
     ${'Hýbla'}     | ${'U(/bla'}
     ${'ý hỹ'}      | ${'u)/ u(='}
-  `('Applying upsilon_y', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected) })
+  `('Applying upsilon_y', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
   // Using additional letters
 
   test('Using additional letters', () => {
-    expect(toBetaCode('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
-    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
+    expect(toBetaCode('wWjJcCc̄C̄qQḳḲs̄S̄', KeyType.TRANSLITERATION, { additionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
+    expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
+    expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
   })
 
   // Testing uppercase writing
@@ -374,7 +374,7 @@ describe('Self conversion', () => {
     ${'POIH=|'}       | ${'*P*O*I*=H|'}
     ${'R(O/DOS'}      | ${'*(R*/O*D*O*S'}
   `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toBetaCode(str, KeyType.BETA_CODE, { setBetaCodeStyle: { useTLGStyle: true } })).toBe(expected)
+    expect(toBetaCode(str, KeyType.BETA_CODE, { betaCodeStyle: { useTLGStyle: true } })).toBe(expected)
     expect(toBetaCode(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
   })
 

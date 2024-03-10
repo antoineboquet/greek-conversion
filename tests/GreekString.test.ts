@@ -75,7 +75,7 @@ describe('GreekString', () => {
   test('From gr: Enabling/Disabling beta variant', () => {
     const gs1 = new GreekString('βάρβαρος', KeyType.GREEK)
     const gs2 = new GreekString('βάρβαρος', KeyType.GREEK, {
-      setGreekStyle: {
+      greekStyle: {
         disableBetaVariant: true
       }
     })
@@ -107,7 +107,7 @@ describe('GreekString', () => {
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
     const gs3 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK, {
-      setTransliterationStyle: {
+      transliterationStyle: {
         xi_ks: true,
         chi_kh: true
       }
@@ -135,7 +135,7 @@ describe('GreekString', () => {
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
     const gs3 = new GreekString('sphínks, tunkhánō', KeyType.TRANSLITERATION, {
-      setTransliterationStyle: {
+      transliterationStyle: {
         xi_ks: true,
         chi_kh: true
       }
@@ -149,7 +149,7 @@ describe('GreekString', () => {
 
   test('From tr: using circumflex on long vowels', () => {
     const gs = new GreekString('ánthrôpos', KeyType.TRANSLITERATION, {
-      setTransliterationStyle: {
+      transliterationStyle: {
         useCxOverMacron: true
       }
     })
@@ -182,7 +182,7 @@ describe('GreekString', () => {
     expect(gs1.transliteration).toBe('ánthrōpos')
 
     const trStyleGs2: IConversionOptions = {
-      setTransliterationStyle: {
+      transliterationStyle: {
         lunatesigma_s: false
       }
     }
@@ -194,7 +194,7 @@ describe('GreekString', () => {
     expect(gs2.transliteration).toBe('anthrōpos')
 
     const trStyleGs3: IConversionOptions = {
-      useAdditionalChars: undefined
+      additionalChars: undefined
     }
     const gs3 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs3])
 
@@ -204,7 +204,7 @@ describe('GreekString', () => {
     expect(gs3.transliteration).toBe('anthrōpos3')
 
     const trStyleGs4: IConversionOptions = {
-      useAdditionalChars: AdditionalChar.DIGAMMA
+      additionalChars: AdditionalChar.DIGAMMA
     }
     const gs4 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs4])
 
@@ -214,7 +214,7 @@ describe('GreekString', () => {
     expect(gs4.transliteration).toBe('anthrōpos3')
 
     const trStyleGs5: IConversionOptions = {
-      useAdditionalChars: AdditionalChar.LUNATE_SIGMA,
+      additionalChars: AdditionalChar.LUNATE_SIGMA,
       removeExtraWhitespace: true
     }
     const gs5 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs5])
@@ -227,7 +227,7 @@ describe('GreekString', () => {
 
   test('Testing upsilon_y', () => {
     const options = {
-      setTransliterationStyle: {
+      transliterationStyle: {
         upsilon_y: true
       }
     }
@@ -238,10 +238,10 @@ describe('GreekString', () => {
 
   test('Testing lunatesigma_s w/ additional chars enabled', () => {
     const options = {
-      setTransliterationStyle: {
+      transliterationStyle: {
         lunatesigma_s: true
       },
-      useAdditionalChars: AdditionalChar.ALL
+      additionalChars: AdditionalChar.ALL
     }
   
     const gs = new GreekString('purós, ouranós, aülos', KeyType.TRANSLITERATION, options)

@@ -96,19 +96,19 @@ describe('From beta code to transliteration', () => {
     str         | expected
     ${'ka)gw/'} | ${'ka̓gṓ'}
     ${'ka)/n'}  | ${'ka̓́n'}
-  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
     str         | expected
     ${'ka)gw/'} | ${'ka’gṓ'}
     ${'ka)/n'}  | ${'ká’n'}
-  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
     str         | expected
     ${'ka)gw/'} | ${'kagṓ'}
     ${'ka)/n'}  | ${'kán'}
-  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules
 
@@ -134,26 +134,26 @@ describe('From beta code to transliteration', () => {
     ${'POLU/RRIZOS'}   | ${'POLÚRRHIZOS'}
     ${'polu/r)r(izos'} | ${'polúrrhizos'}
     ${'ma/rmaros'}     | ${'mármaros'}
-  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { rho_rh: true } })).toBe(expected))
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { rho_rh: true } })).toBe(expected))
 
   // Applying beta_v
 
   test('Applying beta_v', () => {
-    expect(toTransliteration('ba/rbaros', KeyType.BETA_CODE, { setTransliterationStyle: { beta_v: true } }))
+    expect(toTransliteration('ba/rbaros', KeyType.BETA_CODE, { transliterationStyle: { beta_v: true } }))
       .toBe('várvaros')
   })
 
   // Applying eta_i
 
   test('Applying eta_i', () => {
-    expect(toTransliteration('h(donh/', KeyType.BETA_CODE, { setTransliterationStyle: { eta_i: true } }))
+    expect(toTransliteration('h(donh/', KeyType.BETA_CODE, { transliterationStyle: { eta_i: true } }))
       .toBe('hīdonī́')
   })
 
   // Applying eta_i, using circumflex
 
   test('Applying eta_i', () => {
-    expect(toTransliteration('h(donh/', KeyType.BETA_CODE, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+    expect(toTransliteration('h(donh/', KeyType.BETA_CODE, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('hîdonî́')
   })
   
@@ -164,7 +164,7 @@ describe('From beta code to transliteration', () => {
     ${'fantasi/a'} | ${'fantasía'}
     ${'Fainw/'}    | ${'Fainṓ'}
     ${'FILOSOFIA'} | ${'FILOSOFIA'}
-  `('Applying phi_f', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
+  `('Applying phi_f', ({ str, expected }) => { expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { phi_f: true } })).toBe(expected) })
 
   // Applying upsilon_y
 
@@ -177,7 +177,7 @@ describe('From beta code to transliteration', () => {
     ${'u(/dwr'}      | ${'hýdōr'}
     ${'U(/bla'}      | ${'Hýbla'}
     ${'u)/ u(='}     | ${'ý hỹ'}
-  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
   // Applying upsilon_y, preserving diphthongs au/eu/ou only
 
@@ -190,15 +190,15 @@ describe('From beta code to transliteration', () => {
     ${'pou='}      | ${'poũ'}
     ${'mui/agros'} | ${'myíagros'}
     ${'wuto/s'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
   test('Using additional letters', () => {
-    const enableAll = { useAdditionalChars: AdditionalChar.ALL }
+    const enableAll = { additionalChars: AdditionalChar.ALL }
     expect(toTransliteration('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.BETA_CODE, enableAll)).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
     
-    const enableDigammaAndLunateSigma = { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA]}
+    const enableDigammaAndLunateSigma = { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA]}
     expect(toTransliteration('vVs3S3', KeyType.BETA_CODE, enableDigammaAndLunateSigma)).toBe('wWcC')
     expect(toTransliteration('#1*#1#3*#3#5*#5', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('#1*#1#3*#3#5*#5')
   })
@@ -308,19 +308,19 @@ describe('From greek to transliteration', () => {
     str       | expected
     ${'κἀγώ'} | ${'ka̓gṓ'}
     ${'κἄν'}  | ${'ka̓́n'}
-  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
     str       | expected
     ${'κἀγώ'} | ${'ka’gṓ'}
     ${'κἄν'}  | ${'ká’n'}
-  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
     str       | expected
     ${'κἀγώ'} | ${'kagṓ'}
     ${'κἄν'}  | ${'kán'}
-  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing gamma nasals
 
@@ -339,12 +339,12 @@ describe('From greek to transliteration', () => {
     str          | expected
     ${'σφίγξ'}   | ${'sphínks'}
     ${'τυγχάνω'} | ${'tunkhánō'}
-  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected))
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected))
 
   // Disabling beta variant
 
   test('Disabling beta variant', () => {
-    expect(toTransliteration('βάρβαρος', KeyType.GREEK, { setGreekStyle: { disableBetaVariant: true } })).toBe('bárbaros')
+    expect(toTransliteration('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('bárbaros')
   })
 
   // Testing rho rules
@@ -371,7 +371,7 @@ describe('From greek to transliteration', () => {
     ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLÚRRHIZOS'}
     ${'πολύῤῥιζος'} | ${'polúrrhizos'}
     ${'μάρμαρος'}   | ${'mármaros'}
-  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { rho_rh: true } })).toBe(expected))
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { rho_rh: true } })).toBe(expected))
 
   // Using circumflex on long vowels
 
@@ -381,26 +381,26 @@ describe('From greek to transliteration', () => {
     ${'Ὁπλίτης'}  | ${'Hoplítês'}
     ${'Ξενοφῶν'}  | ${'Xenophỗn'}
     ${plato.gr}   | ${plato.trCrx}
-  `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected))
+  `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected))
 
   // Applying beta_v
 
   test('Applying beta_v', () => {
-    expect(toTransliteration('βάρ\u03D0αρος', KeyType.GREEK, { setTransliterationStyle: { beta_v: true } }))
+    expect(toTransliteration('βάρ\u03D0αρος', KeyType.GREEK, { transliterationStyle: { beta_v: true } }))
       .toBe('várvaros')
   })
 
   // Applying eta_i
 
   test('Applying eta_i', () => {
-    expect(toTransliteration('ἡδονή', KeyType.GREEK, { setTransliterationStyle: { eta_i: true } }))
+    expect(toTransliteration('ἡδονή', KeyType.GREEK, { transliterationStyle: { eta_i: true } }))
       .toBe('hīdonī́')
   })
 
   // Applying eta_i, using circumflex
 
   test('Applying eta_i', () => {
-    expect(toTransliteration('ἡδονή', KeyType.GREEK, { setTransliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+    expect(toTransliteration('ἡδονή', KeyType.GREEK, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('hîdonî́')
   })
 
@@ -411,7 +411,7 @@ describe('From greek to transliteration', () => {
     ${'φαντασία'}   | ${'fantasía'}
     ${'Φαινώ'}      | ${'Fainṓ'}
     ${'ΦΙΛΟΣΟΦΙΑ'}  | ${'FILOSOFIA'}
-  `('Applying phi_f', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { phi_f: true } })).toBe(expected) })
+  `('Applying phi_f', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { phi_f: true } })).toBe(expected) })
 
   // Applying xi_ks / chi_kh
 
@@ -425,7 +425,7 @@ describe('From greek to transliteration', () => {
     ${'μελαγχολία'} | ${'melankholía'}
     ${'σφίνξ'}      | ${'sphínks'}
     ${'μελανχολία'} | ${'melankholía'}
-  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Applying upsilon_y
 
@@ -439,7 +439,7 @@ describe('From greek to transliteration', () => {
     ${'ὕδωρ'}      | ${'hýdōr'}
     ${'Ὕϐλα'}      | ${'Hýbla'}
     ${'ὔ ὗ'}       | ${'ý hỹ'}
-  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
   // Applying upsilon_y, preserving diphthongs au/eu/ou only
 
@@ -452,15 +452,15 @@ describe('From greek to transliteration', () => {
     ${'ποῦ'}      | ${'poũ'}
     ${'μυίαγρος'} | ${'myíagros'}
     ${'ωὐτός'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
   test('Using additional letters', () => {
-    const enableAll = { useAdditionalChars: AdditionalChar.ALL }
+    const enableAll = { additionalChars: AdditionalChar.ALL }
     expect(toTransliteration('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, enableAll)).toBe('wWjJcCc̄C̄qQḳḲs̄S̄')
     
-    const enableDigammaAndLunateSigma = { useAdditionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA]}
+    const enableDigammaAndLunateSigma = { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA]}
     expect(toTransliteration('ϝϜ\u03F2\u03F9', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('wWcC')
     expect(toTransliteration('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
@@ -553,21 +553,21 @@ describe('Self conversion', () => {
     ${'ka̓gṓ'}  | ${'ka̓gṓ'}
     ${'ka’gṓ'} | ${'ka̓gṓ'}
     ${'ká’n'}  | ${'ka̓́n'}
-  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
+  `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
     str        | expected
     ${'ka̓gṓ'}  | ${'ka’gṓ'}
     ${'ka’gṓ'} | ${'ka’gṓ'}
     ${'ka̓́n'}   | ${'ká’n'}
-  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
+  `('Testing coronides, using coronis style (APOSTROPHE)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.APOSTROPHE } })).toBe(expected))
 
   test.each`
     str        | expected
     ${'ka̓gṓ'}  | ${'kagṓ'}
     ${'ka’gṓ'} | ${'kagṓ'}
     ${'ká’n'}  | ${'kán'}
-  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+  `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing rho rules, applying rho_rh
 
@@ -577,7 +577,7 @@ describe('Self conversion', () => {
     ${'RÓDOS'}      | ${'RHÓDOS'}
     ${'polúrrizos'} | ${'polúrrhizos'}
     ${'POLÚRRIZOS'} | ${'POLÚRRHIZOS'}
-  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { rho_rh: true } })).toBe(expected))
+  `('Testing rho rules, applying rho_rh', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { rho_rh: true } })).toBe(expected))
 
   // Using circumflex on long vowels
 
@@ -586,7 +586,7 @@ describe('Self conversion', () => {
     ${'ánthrōpos'} | ${'ánthrôpos'}
     ${'chorēgéō'}  | ${'chorêgéô'}
     ${'Xenophō̃n'}  | ${'Xenophỗn'}
-  `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { useCxOverMacron: true } })).toBe(expected))
+  `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected))
 
   // Applying xi_ks / chi_kh
 
@@ -600,7 +600,7 @@ describe('Self conversion', () => {
     ${'chorēgéō'}    | ${'khorēgéō'}
     ${'sphínx'}      | ${'sphínks'}
     ${'melancholía'} | ${'melankholía'}
-  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+  `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Applying upsilon_y
 
@@ -622,7 +622,7 @@ describe('Self conversion', () => {
     ${'Hýbla'}     | ${'Hýbla'}
     ${'ú hũ'}      | ${'ý hỹ'}
     ${'ý hỹ'}      | ${'ý hỹ'}
-  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: true } })).toBe(expected))
+  `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
   // Applying upsilon_y, preserving diphthongs au/eu/ou only
 
@@ -635,7 +635,7 @@ describe('Self conversion', () => {
     ${'poỹ'}      | ${'poũ'}
     ${'muíagros'} | ${'myíagros'}
     ${'ōutós'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Applying lunatesigma_s
 
@@ -644,6 +644,6 @@ describe('Self conversion', () => {
     ${'hagioc'}   | ${'hagios'}
     ${'Cōkrátēc'} | ${'Sōkrátēs'}
     ${'ICHTUC'}   | ${'ICHTUS'}
-  `('Applying lunatesigma_s', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { setTransliterationStyle: { lunatesigma_s: true } })).toBe(expected) })
+  `('Applying lunatesigma_s', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { lunatesigma_s: true } })).toBe(expected) })
 
 })
