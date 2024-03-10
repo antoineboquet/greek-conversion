@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -13,8 +13,9 @@ import {
   SMOOTH_BREATHING
 } from './Mapping';
 import {
+  bcReorderDiacritics,
+  fromTLG,
   handleOptions,
-  normalizeGreek,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -27,64 +28,94 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
+  const { removeDiacritics, removeExtraWhitespace, transliterationStyle } =
     options;
+  const {
+    setCoronisStyle,
+    useCxOverMacron,
+    beta_v,
+    eta_i,
+    xi_ks,
+    phi_f,
+    chi_kh,
+    rho_rh,
+    upsilon_y,
+    lunatesigma_s
+  } = transliterationStyle ?? {};
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (setTransliterationStyle?.upsilon_y) str = flagDiaereses(str, fromType);
+  if (upsilon_y) str = flagDiaereses(str, fromType);
+
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    str = fromTLG(str);
+    fromType = KeyType.BETA_CODE;
+  }
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.TRANSLITERATION);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
+      str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
       str = bcConvertBreathings(str, options);
       break;
 
     case KeyType.GREEK:
       str = grConvertBreathings(str, options);
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = normalizeGreek(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.TRANSLITERATION);
+      str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
       break;
 
     case KeyType.TRANSLITERATION:
-      const {
-        useCxOverMacron,
-        xi_ks,
-        chi_kh,
-        rho_rh,
-        upsilon_y,
-        lunatesigma_s
-      } = setTransliterationStyle ?? {};
-
       if (useCxOverMacron) {
         const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
         str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
       }
 
+      if (beta_v) {
+        str = str.replace(/b/gi, (m) => (m.toUpperCase() === m ? 'V' : 'v'));
+      }
+
+      if (eta_i) {
+        str = str
+          .normalize('NFD')
+          .replace(/(e)(\p{M}+)/giu, (m, $1, $2) => {
+            if ((useCxOverMacron && /\u0302/.test(m)) || /\u0304/.test(m)) {
+              return $1.toUpperCase() === $1 ? 'I' + $2 : 'i' + $2;
+            }
+            return m;
+          })
+          .normalize();
+      }
+
       if (xi_ks) {
-        str = str.replace(/x/gi, (match) => {
+        str = str.replace(/x/gi, (m) => {
           if (options.isUpperCase) return 'KS';
-          else return match.charAt(0).toUpperCase() === match ? 'Ks' : 'ks';
+          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Ks' : 'ks';
         });
       }
 
+      if (phi_f) {
+        str = str.replace(/ph/gi, (m) =>
+          m.charAt(0).toUpperCase() === m.charAt(0) ? 'F' : 'f'
+        );
+      }
+
       if (chi_kh) {
-        str = str.replace(/ch/gi, (match) => {
+        str = str.replace(/ch/gi, (m) => {
           if (options.isUpperCase) return 'KH';
-          else return match.charAt(0).toUpperCase() === match ? 'Kh' : 'kh';
+          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Kh' : 'kh';
         });
       }
 
       if (rho_rh) {
         str = str
-          .replace(/(?<!^)rr(?!$)/gim, (match) =>
-            match.toUpperCase() === match ? match + 'H' : match + 'h'
+          .replace(/(?<!^)rr(?!$)/gim, (m) =>
+            m.toUpperCase() === m ? m + 'H' : m + 'h'
           )
-          .replace(/(?<=\p{P}|\s|^)r/gimu, (match) =>
-            options.isUpperCase ? match + 'H' : match + 'h'
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
+            options.isUpperCase ? m + 'H' : m + 'h'
           );
       }
 
@@ -97,34 +128,31 @@ export function toTransliteration(
       }
 
       if (lunatesigma_s) {
-        str = str.replace(/c(?!h)/gi, (match) =>
-          match.toUpperCase() === match ? 'S' : 's'
+        str = str.replace(/c(?!h)/gi, (m) =>
+          m.toUpperCase() === m ? 'S' : 's'
         );
       }
 
       if (removeDiacritics) {
         str = utilRmDiacritics(
           str,
-          KeyType.TRANSLITERATION,
+          fromType,
           mapping.trLettersWithCxOrMacron(),
           useCxOverMacron
         );
       }
 
-      str = mapping.apply(
-        str,
-        KeyType.TRANSLITERATION,
-        KeyType.TRANSLITERATION
-      );
+      str = mapping.apply(str, fromType, fromType);
       break;
   }
 
-  if (setTransliterationStyle?.upsilon_y) {
-    str = applyUpsilonDiphthongs(str);
-    str = str.replace(/@/gm, '');
+  if (upsilon_y) {
+    str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
+
+  str = trApplyCoronis(str, setCoronisStyle);
 
   return str.normalize();
 }
@@ -133,24 +161,40 @@ export function toTransliteration(
  * Returns a transliterated string with correct upsilon forms.
  *
  * @remarks
- * This applies to the `transliterationStyle.upsilon_y` option.
+ * This applies to the `transliterationStyle.upsilon_y` option. If its
+ * value has been set to `Preset.ISO`, diphthongs 'au', 'eu', 'ou' only
+ * will be preserved.
  *
  * @privateRemarks
- * (1) Upsilon diphthongs are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
+ * (1) The expected input form of the upsilon is 'y'.
+ * (2) Upsilon diphthongs to preserve are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
  * (2) The given string's diaereses should have been flagged as '@' using
  * the `flagDiaereses()` function.
  */
-function applyUpsilonDiphthongs(transliteratedStr: string): string {
-  const vowels = 'aeēioyō';
-  // `vowelsGroup` includes the upsilon ('y'), the diaeresis flag '@'.
-  const reUpsilonDiphthongs = new RegExp(`([${vowels}\\p{M}@]{2,})`, 'gimu'); // prettier-ignore
+function applyUpsilonDiphthongs(
+  transliteratedStr: string,
+  options: IInternalConversionOptions,
+  mapping: Mapping
+): string {
+  const { transliterationStyle } = options;
+  const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
 
   return transliteratedStr
     .normalize('NFD')
-    .replace(reUpsilonDiphthongs, (match, vowelsGroup) => {
+    .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
       if (!/y/i.test(vowelsGroup)) return vowelsGroup;
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
       if (vowelsGroup.normalize().length === 1) return vowelsGroup;
+
+      if (transliterationStyle?.upsilon_y === Preset.ISO) {
+        const unaccentedGroup = utilRmDiacritics(
+          vowelsGroup,
+          KeyType.TRANSLITERATION,
+          mapping.trLettersWithCxOrMacron(),
+          transliterationStyle?.useCxOverMacron
+        );
+        if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
+      }
 
       return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
     })
@@ -163,7 +207,7 @@ function applyUpsilonDiphthongs(transliteratedStr: string): string {
  * @remarks
  * This function does:
  *   1. convert flagged rough breathings;
- *   2. enforce rough breathings on rhos if `setTransliterationStyle.rho_rh` is enabled;
+ *   2. enforce rough breathings on rhos if `transliterationStyle.rho_rh` is enabled;
  *   3. remove initial smooth breathings (while keeping coronides);
  *   4. remove potential smooth breathings on rhos.
  *   5. transliterate the remaining smooth breathings.
@@ -176,21 +220,20 @@ function bcConvertBreathings(
   transliteratedStr: string,
   options: IInternalConversionOptions
 ): string {
-  const { isUpperCase, setTransliterationStyle } = options;
-  const rho_rh = setTransliterationStyle?.rho_rh;
+  const { isUpperCase, transliterationStyle } = options;
 
   transliteratedStr = transliteratedStr
     .replace(/\$\$/g, 'H')
     .replace(/\$/g, 'h');
 
-  if (rho_rh) {
+  if (transliterationStyle?.rho_rh) {
     transliteratedStr = transliteratedStr
-      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (match) =>
-        match.toUpperCase() === match ? 'RRH' : 'rrh'
+      .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (m) =>
+        m.toUpperCase() === m ? 'RRH' : 'rrh'
       )
-      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (match) =>
-        // @fixme(v0.13): case should be checked against the current word.
-        isUpperCase ? match + 'H' : match + 'h'
+      .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (m) =>
+        // @fixme(v0.14): case should be checked against the current word.
+        isUpperCase ? m + 'H' : m + 'h'
       );
   }
 
@@ -219,8 +262,8 @@ function bcFlagRoughBreathings(
   const { isUpperCase } = options;
 
   return betaCodeStr
-    .replace(/([aehiouw]{1,2})\(/gi, (match, vowelsGroup) => {
-      // @fixme(v0.13): case should be checked against the current word too.
+    .replace(/([aehiouw]{1,2})\(/gi, (m, vowelsGroup) => {
+      // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return '$$' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
@@ -228,7 +271,7 @@ function bcFlagRoughBreathings(
           : '$' + vowelsGroup;
       }
     })
-    .replace(/(r{1,2})\(/gi, (match, rho) =>
+    .replace(/(r{1,2})\(/gi, (m, rho) =>
       isUpperCase ? rho + '$$' : rho + '$'
     );
 }
@@ -266,8 +309,8 @@ function grConvertBreathings(
   greekStr: string,
   options: IInternalConversionOptions
 ): string {
-  const { isUpperCase, setTransliterationStyle } = options;
-  const rho_rh = setTransliterationStyle?.rho_rh;
+  const { isUpperCase, transliterationStyle } = options;
+  const { rho_rh } = transliterationStyle ?? {};
 
   const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
   const reInitialRough = new RegExp(`([αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore
@@ -275,14 +318,11 @@ function grConvertBreathings(
   const reInitialRho = new RegExp(`(ρ)${ROUGH_BREATHING}`, 'gi');
   const reInitialRhoLazy = new RegExp(`(?<=\\p{P}|\\s|^)(ρ)${ROUGH_BREATHING}?`, 'gimu'); // prettier-ignore
 
-  // Change the coronis form after `reInitialSmooth`,
-  // by replacing the remaining smooth breathings (e. g.
-  // `.replace(new RegExp(SMOOTH_BREATHING, 'g'), CORONIS)`).
   return greekStr
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
-    .replace(reInitialRough, (match, vowelsGroup) => {
-      // @fixme(v0.13): case should be checked against the current word too.
+    .replace(reInitialRough, (m, vowelsGroup) => {
+      // @fixme(v0.14): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
@@ -290,11 +330,53 @@ function grConvertBreathings(
           : 'h' + vowelsGroup;
       }
     })
-    .replace(reDoubleRhoLazy, (match, doubleRho) =>
+    .replace(reDoubleRhoLazy, (m, doubleRho) =>
       doubleRho.toUpperCase() === doubleRho ? 'RRH' : 'rrh'
     )
-    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (match, initialRho) =>
+    .replace(rho_rh ? reInitialRhoLazy : reInitialRho, (m, initialRho) =>
       isUpperCase ? initialRho + 'H' : initialRho + 'h'
     )
     .normalize();
+}
+
+/**
+ * Returns a transliterated string with converted coronides,
+ * following the given `coronisStyle`.
+ */
+function trApplyCoronis(
+  transliteratedStr: string,
+  coronisStyle?: Coronis
+): string {
+  transliteratedStr = transliteratedStr
+    .normalize('NFD')
+    .replace(
+      new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+      SMOOTH_BREATHING
+    );
+
+  switch (coronisStyle) {
+    case Coronis.APOSTROPHE:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(`(${SMOOTH_BREATHING})(\\p{M}*)`, 'gu'),
+        (m, $1, $2) => $2 + Coronis.APOSTROPHE
+      );
+      break;
+
+    case Coronis.NO:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(SMOOTH_BREATHING, 'g'),
+        ''
+      );
+      break;
+
+    case Coronis.PSILI:
+    default:
+      transliteratedStr = transliteratedStr.replace(
+        new RegExp(`(\\p{M}*)(${SMOOTH_BREATHING})`, 'gu'),
+        (m, $1, $2) => $2 + $1
+      );
+      break;
+  }
+
+  return transliteratedStr.normalize();
 }

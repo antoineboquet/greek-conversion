@@ -66,6 +66,55 @@ export function applyUppercaseChars(transliteratedStr: string): string {
 }
 
 /**
+ * Takes a TLG beta code string and returns a beta code string following
+ * the `greek-conversion` convention.
+ */
+export function fromTLG(betaCodeStr: string): string {
+  return betaCodeStr
+    .toLowerCase()
+    .replace(
+      /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
+      (m, $1, $2, $3) => $3.toUpperCase() + $2
+    );
+}
+
+/**
+ * Takes a beta code string following the `greek-conversion` convention
+ * and returns a TLG beta code string.
+ *
+ * @remarks
+ * The iota subscript must remain after its base letter.
+ */
+export function toTLG(betaCodeStr: string): string {
+  return betaCodeStr
+    .replace(/([a-z])([\(\)\\\/\+=\?]*)/gi, (m, $1, $2) => {
+      if ($1.toUpperCase() === $1) return '*' + $2 + $1;
+      else return m;
+    })
+    .toUpperCase();
+}
+
+/**
+ * Returns a beta code string with a correct diacritics order.
+ *
+ * @remarks
+ * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
+ * (4) iota subscript; (5) dot below.
+ */
+export function bcReorderDiacritics(betaCodeStr: string): string {
+  return betaCodeStr.replace(
+    /([\(\)\\\/\+=\|\?]{2,})/gi,
+    (match, diacritics) => {
+      const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+      return diacritics
+        .split('')
+        .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+        .join('');
+    }
+  );
+}
+
+/**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */
@@ -78,6 +127,9 @@ export function handleOptions(
   if (typeof settings === 'number' || Array.isArray(settings)) {
     settings = applyPreset(settings);
   }
+
+  // Determining the case of a TLG string involves converting it.
+  if (fromType === KeyType.TLG_BETA_CODE) str = fromTLG(str);
 
   return {
     isUpperCase: isUpperCase(str, fromType),
@@ -114,13 +166,24 @@ export function isUpperCase(str: string, type: KeyType): boolean {
  * (2) Due to the poor Unicode canonical equivalences, any subsequent
  * normalization may break the replacements made by this function.
  */
-export function normalizeGreek(greekStr: string): string {
-  return greekStr
-    .normalize('NFD')
-    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
-    .normalize()
-    .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA)
-    .replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+export function normalizeGreek(
+  greekStr: string,
+  useGreekQuestionMark: boolean = false,
+  skipUnicodeNormalization: boolean = false
+): string {
+  if (!skipUnicodeNormalization) greekStr = greekStr.normalize('NFD');
+
+  greekStr = greekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+
+  if (!skipUnicodeNormalization) greekStr = greekStr.normalize();
+
+  greekStr = greekStr.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
+
+  if (useGreekQuestionMark) {
+    greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
+  }
+
+  return greekStr;
 }
 
 /**
@@ -195,6 +258,6 @@ export function removeExtraWhitespace(str: string): string {
   return str.replace(/(\s)+/g, '$1').trim();
 }
 
-export function sanitizeRegExpString(str): string {
+export function sanitizeRegExpString(str: string): string {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
 }

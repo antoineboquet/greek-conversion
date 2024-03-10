@@ -1,3 +1,5 @@
+import { RIGHT_SINGLE_QUOTATION_MARK, SMOOTH_BREATHING } from './Mapping';
+
 export enum AdditionalChar {
   ALL = 1,
   DIGAMMA,
@@ -10,16 +12,24 @@ export enum AdditionalChar {
   //SAN
 }
 
+export enum Coronis {
+  PSILI = SMOOTH_BREATHING,
+  APOSTROPHE = RIGHT_SINGLE_QUOTATION_MARK,
+  NO = ''
+}
+
 export enum KeyType {
   GREEK,
   BETA_CODE,
+  TLG_BETA_CODE,
   TRANSLITERATION
 }
 
 export enum Preset {
   ALA_LC,
   BNF,
+  ISO,
   MODERN_BC,
-  SBL
-  //TLG
+  SBL,
+  TLG
 }

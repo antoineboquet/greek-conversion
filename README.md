@@ -82,9 +82,9 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-The **`fromType`** parameter can be set to `BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
 
-The **`settings`** parameter can be filled with:
+**`settings`** can be filled with:
 1. a `Preset`;
 2. a user-defined `IConversionOptions` object;
 3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
@@ -98,6 +98,7 @@ The available presets are:
 | Preset | Description |
 | ------ | ----------- |
 | [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | `greek-conversion`'s own modernized style |
+| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
 
@@ -105,34 +106,47 @@ The available presets are:
 | ------ | ----------- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — type 1 (transliteration) |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
 
 ### Conversion options
 
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
+
 ```ts
-removeDiacritics?: boolean,      // remove diacritics, except those that represent letters
+removeDiacritics?: boolean,       // remove diacritics, except those that represent letters
 
-removeExtraWhitespace?: boolean, // remove potential extra whitespace
+removeExtraWhitespace?: boolean,  // remove potential extra whitespace
 
-setGreekStyle?: {
-  disableBetaVariant?: boolean,  // disable the typographic variant 'ϐ' [U+03D0]
-  useLunateSigma?: boolean       // use the lunate sigma rather than the regular form
+betaCodeStyle?: {
+  useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
 },
 
-setTransliterationStyle?: {
-  useCxOverMacron?: boolean,     // use a circumflex rather than a macron for 'η', 'ω', etc 
-  xi_ks?: boolean,               // transliterate 'ξ' as 'ks' (defaults to: 'x')
-  rho_rh?: boolean,              // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
-  chi_kh?: boolean,              // transliterate 'χ' as 'kh' (defaults to: 'ch')
-  upsilon_y?: boolean,           // transliterate 'υ' as 'y' (defaults to: 'u')
-  lunatesigma_s?: boolean        // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
+greekStyle?: {
+  disableBetaVariant?: boolean,   // disable the typographic variant 'ϐ' [U+03D0]
+  useGreekQuestionMark?: boolean, // use greek question marks ';' [U+037E] rather than regular semicolons
+  useLunateSigma?: boolean        // use lunate sigmas 'ϲ, Ϲ' rather than regular sigmas
 },
 
-useAdditionalChars?:             // extend the default mapping with additional chars
- AdditionalChar[] |              //   (use AdditionalChar.ALL to enable the whole set)
+transliterationStyle?: {
+  setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
+  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for 'η', 'ω', etc
+  beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
+  eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
+  xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  rho_rh?: boolean,               // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
+  phi_f?: boolean,                // transliterate 'φ' as 'f' (defaults to: 'ph')
+  chi_kh?: boolean,               // transliterate 'χ' as 'kh' (defaults to: 'ch')
+  upsilon_y?: boolean,            // transliterate 'υ' as 'y' (defaults to: 'u')
+  lunatesigma_s?: boolean         // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
+},
+
+additionalChars?:                 // extend the default mapping with additional chars
+ AdditionalChar[] |               //   (use AdditionalChar.ALL to enable the whole set)
  AdditionalChar
 ```
+
+A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
 
 ### Examples
 
@@ -141,6 +155,7 @@ useAdditionalChars?:             // extend the default mapping with additional c
 ```ts
 toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
 toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
+toGreek('*)/AI+DA', KeyType.TLG_BETA_CODE) // Ἄϊδα
 toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
 ```
 
@@ -164,7 +179,7 @@ toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
 
 ```ts
 const style = {
-  setGreekStyle: {
+  greekStyle: {
     useLunateSigma: true
   }
 }
@@ -177,7 +192,7 @@ toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩ�
 
 ```ts
 const style = {
-  setTransliterationStyle: {
+  transliterationStyle: {
     useCxOverMacron: true,
     chi_kh: true
   }
@@ -185,6 +200,19 @@ const style = {
 
 toTransliteration('τέχνη', KeyType.GREEK) // téchnē
 toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
+```
+
+#### Self conversion (reflect settings)
+
+```ts
+toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
+toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
+
+const grStyle = { greekStyle: { useLunateSigma: true } }
+toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
+
+const trStyle = { transliterationStyle: { lunatesigma_s: true } }
+toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
 ## OOP style

@@ -1,9 +1,12 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
-import { Mapping } from './Mapping';
+import { Mapping, SMOOTH_BREATHING } from './Mapping';
 import {
   applyUppercaseChars,
+  bcReorderDiacritics,
+  fromTLG,
   handleOptions,
+  toTLG,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -16,40 +19,57 @@ export function toBetaCode(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace } = options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    betaCodeStyle,
+    transliterationStyle
+  } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+    case KeyType.TLG_BETA_CODE:
       if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
       str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
-      str = reorderDiacritics(str);
       break;
 
     case KeyType.GREEK:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.BETA_CODE);
-      str = reorderDiacritics(str);
+      str = mapping.apply(str, fromType, KeyType.BETA_CODE);
       break;
 
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
 
+      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+        str = str.replace(
+          new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+          SMOOTH_BREATHING
+        );
+      }
+
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
 
-      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.BETA_CODE);
+      str = mapping.apply(str, fromType, KeyType.BETA_CODE);
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, KeyType.TRANSLITERATION);
+        str = utilRmDiacritics(str, fromType);
         str = str.replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
       }
-
-      str = reorderDiacritics(str);
       break;
+  }
+
+  str = bcReorderDiacritics(str);
+
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    if (!betaCodeStyle?.useTLGStyle) str = fromTLG(str);
+  } else {
+    if (betaCodeStyle?.useTLGStyle) str = toTLG(str);
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
@@ -100,16 +120,4 @@ function trConvertFlaggedBreathings(str: string): string {
     .replace(/(?<!r)(r)\$/gi, '$1(')
     .replace(/\$/g, '')
     .normalize();
-}
-
-/**
- * Returns a beta code string with a correct diacritics order.
- *
- * @privateRemarks
- * This function should reorder all the diacritics defined for the beta code
- * representation. Currently, it only reorders breathings/accents in relation
- * to the iota subscript.
- */
-function reorderDiacritics(betaCodeStr: string): string {
-  return betaCodeStr.replace(/(\|)([()\\/+=]+)/g, '$2$1');
 }

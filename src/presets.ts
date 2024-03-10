@@ -1,23 +1,28 @@
-import { AdditionalChar, Preset } from './enums';
+import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
-  useAdditionalChars: [
-    AdditionalChar.DIGAMMA,
-    AdditionalChar.ARCHAIC_KOPPA,
-    AdditionalChar.LUNATE_SIGMA
-  ],
-  setTransliterationStyle: {
+  transliterationStyle: {
     rho_rh: true,
     upsilon_y: true,
     lunatesigma_s: true
-  }
+  },
+  additionalChars: [
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.ARCHAIC_KOPPA,
+    AdditionalChar.LUNATE_SIGMA
+  ]
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
-  useAdditionalChars: [
+  greekStyle: {
+    useGreekQuestionMark: true
+  },
+  transliterationStyle: {
+    upsilon_y: Preset.ISO
+  },
+  additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.YOT,
     AdditionalChar.LUNATE_SIGMA,
@@ -27,25 +32,39 @@ const BNF_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
+const ISO_OPTIONS = (): IConversionOptions => ({
+  transliterationStyle: {
+    setCoronisStyle: Coronis.APOSTROPHE,
+    beta_v: true,
+    eta_i: true,
+    phi_f: true,
+    upsilon_y: Preset.ISO,
+    lunatesigma_s: true
+  },
+  additionalChars: [
+    AdditionalChar.DIGAMMA,
+    AdditionalChar.YOT,
+    AdditionalChar.LUNATE_SIGMA
+  ]
+});
+
 const MODERN_BC_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
-  useAdditionalChars: AdditionalChar.ALL
+  additionalChars: AdditionalChar.ALL
 });
 
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
-  setTransliterationStyle: {
+  transliterationStyle: {
     rho_rh: true,
     upsilon_y: true
   }
 });
 
 const TLG_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: false,
-  useAdditionalChars: AdditionalChar.ALL
-  /*setBetaCodeStyle: {
+  betaCodeStyle: {
     useTLGStyle: true
-  }*/
+  },
+  additionalChars: AdditionalChar.ALL
 });
 
 export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
@@ -65,6 +84,10 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       options = BNF_OPTIONS();
       break;
 
+    case Preset.ISO:
+      options = ISO_OPTIONS();
+      break;
+
     case Preset.MODERN_BC:
       options = MODERN_BC_OPTIONS();
       break;
@@ -73,10 +96,9 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       options = SBL_OPTIONS();
       break;
 
-    // v0.13
-    /*case Preset.TLG:
+    case Preset.TLG:
       options = TLG_OPTIONS();
-      break;*/
+      break;
 
     default:
       throw new RangeError(`Preset '${preset}' is not implemented.`);
@@ -90,7 +112,7 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
 }
 
 function mergeOptions(target: IConversionOptions, source: IConversionOptions) {
-  const isObject = (obj) => obj && typeof obj === 'object';
+  const isObject = (obj: object) => obj && typeof obj === 'object';
 
   for (const key in source) {
     if (Array.isArray(target[key]) && Array.isArray(source[key])) {

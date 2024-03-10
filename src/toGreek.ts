@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -8,6 +8,8 @@ import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGreekVariants,
   applyUppercaseChars,
+  bcReorderDiacritics,
+  fromTLG,
   handleOptions,
   normalizeGreek,
   removeDiacritics as utilRmDiacritics,
@@ -22,27 +24,50 @@ export function toGreek(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, setGreekStyle } = options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    greekStyle,
+    transliterationStyle
+  } = options;
   const mapping = declaredMapping ?? new Mapping(options);
+
+  if (fromType === KeyType.TLG_BETA_CODE) {
+    str = fromTLG(str);
+    fromType = KeyType.BETA_CODE;
+  }
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
+      else str = bcReorderDiacritics(str);
+
+      str = mapping.apply(str, fromType, KeyType.GREEK);
+
       break;
 
     case KeyType.GREEK:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.GREEK);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, KeyType.GREEK, KeyType.GREEK);
+      str = mapping.apply(str, fromType, fromType);
       break;
 
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
-      str = mapping.apply(str, KeyType.TRANSLITERATION, KeyType.GREEK);
+      str = mapping.apply(str, fromType, KeyType.GREEK);
+
+      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+        str = str
+          .normalize('NFD')
+          .replace(
+            new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
+            SMOOTH_BREATHING
+          )
+          .normalize();
+      }
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, KeyType.TRANSLITERATION);
+        str = utilRmDiacritics(str, fromType);
         str = str.replace(/h/gi, '');
       } else {
         str = trConvertBreathings(str, options);
@@ -50,10 +75,10 @@ export function toGreek(
       break;
   }
 
-  str = applyGreekVariants(str, setGreekStyle);
+  str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str);
+  return normalizeGreek(str, greekStyle?.useGreekQuestionMark);
 }
 
 /**

@@ -11,7 +11,7 @@
 
   main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 1.5rem;
     margin-bottom: 1.5rem;
   }
@@ -24,7 +24,7 @@
 
   #options-area {
     margin-top: 1.5rem;
-    padding: 0.75rem;
+    padding: .75rem;
     background: var(--accent-bg);
     border-radius: var(--standard-border-radius);
   }
@@ -33,10 +33,10 @@
     z-index: 999;
     position: absolute;
     margin-left: 5em;
-    padding: 0.75em;
-    font-size: 0.75em;
+    padding: .75em;
+    font-size: .75em;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+      rgba(0, 0, 0, .3) 0px 18px 36px -18px;
   }
 
   label:has(input[type='checkbox']:disabled) {
@@ -52,12 +52,26 @@
   }
 
   fieldset {
-    padding: 0.5rem;
+    padding: .125em .5em;
+  }
+
+  fieldset:last-child {
+    margin-bottom: 0;
+  }
+
+  legend {
+    font-variant: small-caps;
+    font-size: .75em;
+    font-weight: bold;
   }
 
   fieldset label {
     display: inline-block;
-    margin: 0.25rem 0.75rem;
+    margin: .25rem .75rem;
+  }
+
+  fieldset select {
+    margin: auto;
   }
 </style>
 
@@ -70,7 +84,7 @@
 </header>
 
 <main>
-  <form>
+  <form id="form">
     <div>
       <input
         id="search-bar"
@@ -80,7 +94,7 @@
 
       Input type:
       <span id="greek-notice" class="notice" hidden>
-        <p style="margin: 0 0 0.75em 0">
+        <p style="margin: 0 0 .75em 0">
           Configure your keyboard in Greek or type it using beta code.<br>
           Here's the conversion chart:
         </p>
@@ -236,7 +250,7 @@
     </div>
 
     <div id="options-area">
-      <!-- Greek style -->
+      <!-- Common options -->
       <fieldset>
         <legend>Common options</legend>
         <label>
@@ -254,7 +268,7 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-additional-chars" />
+          <input type="checkbox" name="options" value="additional-chars" />
           Use additional chars (enable all)
         </label>
       </fieldset>
@@ -268,17 +282,49 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="use-greek-question-mark" />
+          Use greek question mark
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="use-lunate-sigma" />
           Use lunate sigma
+        </label>
+      </fieldset>
+
+      <!-- Beta code style -->
+      <fieldset>
+        <legend>Beta code style</legend>
+        <label>
+          <input type="checkbox" name="options" value="use-tlg-style" />
+          Use TLG style (= <code>Preset.TLG</code>)
         </label>
       </fieldset>
 
       <!-- Transliteration style -->
       <fieldset>
         <legend>Transliteration style</legend>
+        <label>Set coronis style
+          <select id="select-coronis-style">
+            <option value="PSILI">Psili</option>
+            <option value="APOSTROPHE">Apostrophe</option>
+            <option value="NO">No</option>
+          </select>
+        </label>
+
         <label>
           <input type="checkbox" name="options" value="use-cx-over-macron" />
-          Use circumflexes instead of macrons
+          Use circumflexes (ê/ô)
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="beta_v" />
+          beta &rarr; v
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="eta_i" />
+          eta &rarr; ī
         </label>
 
         <label>
@@ -287,8 +333,8 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="rho_rh" />
-          rho &rarr; rh (force breathings)
+          <input type="checkbox" name="options" value="phi_f" />
+          phi &rarr; f
         </label>
 
         <label>
@@ -302,6 +348,11 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="rho_rh" />
+          rho &rarr; rh (force breathings)
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="lunatesigma_s" />
           lunate sigma &rarr; s
         </label>
@@ -309,18 +360,24 @@
     </div>
   </form>
 
-  <pre id="result-area">Conversion results will be displayed here...</pre>
+  <pre id="result-area"></pre>
 </main>
 
 <script type="module">
   import {
     AdditionalChar,
+    Coronis,
     GreekString,
     KeyType,
     toGreek
   } from 'https://www.unpkg.com/greek-conversion';
 
+  const form = document.getElementById('form');
+  form.addEventListener('submit', (e) => e.preventDefault());
+
   const resultArea = document.getElementById('result-area');
+  const resultAreaPlaceholder = 'Conversion results will be displayed here...';
+  resultArea.textContent = resultAreaPlaceholder;
 
   const searchBar = document.getElementById('search-bar');
   searchBar.value = '';
@@ -347,53 +404,58 @@
   translitLabel.addEventListener('mouseenter', (e) => translitNotice.hidden = false);
   translitLabel.addEventListener('mouseleave', (e) => translitNotice.hidden = true);
 
+  const inputGreekPlaceholder = 'Type greek (press ENTER to do conversion)';
+  const inputBetaCodePlaceholder = 'Type beta code (press ENTER to do conversion)';
+  const inputTranslitPlaceholder = 'Type transliterated greek (press ENTER to do conversion)';
+
   let inputType = greekRadio.value;
   greekRadio.checked = true;
   
   if (greekRadio.checked) {
     inputType = greekRadio.value;
-    searchBar.placeholder = 'Type greek';
+    searchBar.placeholder = inputGreekPlaceholder;
   }
 
   if (betaCodeRadio.checked) {
     inputType = betaCodeRadio.value;
-    searchBar.placeholder = 'Type beta code';
+    searchBar.placeholder = inputBetaCodePlaceholder;
   }
 
   if (translitRadio.checked) {
     inputType = translitRadio.value;
-    searchBar.placeholder = 'Type transliterated greek';
+    searchBar.placeholder = inputTranslitPlaceholder;
   }
 
   greekRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type greek';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputGreekPlaceholder;
   });
 
   betaCodeRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type beta code';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputBetaCodePlaceholder;
   });
 
   translitRadio.addEventListener('click', (e) => {
     inputType = e.target.value;
     searchBar.value = '';
-    searchBar.placeholder = 'Type transliterated greek';
-    resultArea.innerHTML = '';
+    searchBar.placeholder = inputTranslitPlaceholder;
   });
 
   const checkboxes = document.querySelectorAll('input[name="options"]');
   checkboxes.forEach((checkbox) => checkbox.checked = false);
 
+  const selectCoronisStyle = document.getElementById('select-coronis-style');
+  selectCoronisStyle.value = 'PSILI';
+  
   // Conversion options handling
 
   let conversionOptions = {
-    setGreekStyle: {},
-    setTransliterationStyle: {}
+    betaCodeStyle: {},
+    greekStyle: {},
+    transliterationStyle: {}
   };
 
   function evaluateOptions() {
@@ -412,55 +474,79 @@
       conversionOptions.removeExtraWhitespace = true;
     else delete conversionOptions.removeExtraWhitespace;
 
-    if (values.includes('use-additional-chars'))
-      conversionOptions.useAdditionalChars = AdditionalChar.ALL;
-    else delete conversionOptions.useAdditionalChars;
+    if (values.includes('additional-chars'))
+      conversionOptions.additionalChars = AdditionalChar.ALL;
+    else delete conversionOptions.additionalChars;
 
     // Greek style
 
     if (values.includes('disable-beta-variant'))
-      conversionOptions.setGreekStyle.disableBetaVariant = true;
-    else delete conversionOptions.setGreekStyle.disableBetaVariant;
+      conversionOptions.greekStyle.disableBetaVariant = true;
+    else delete conversionOptions.greekStyle.disableBetaVariant;
+
+    if (values.includes('use-greek-question-mark'))
+      conversionOptions.greekStyle.useGreekQuestionMark = true;
+    else delete conversionOptions.greekStyle.useGreekQuestionMark;
 
     if (values.includes('use-lunate-sigma'))
-      conversionOptions.setGreekStyle.useLunateSigma = true;
-    else delete conversionOptions.setGreekStyle.useLunateSigma;
+      conversionOptions.greekStyle.useLunateSigma = true;
+    else delete conversionOptions.greekStyle.useLunateSigma;
+
+    // Beta code style
+    
+    if (values.includes('use-tlg-style'))
+      conversionOptions.betaCodeStyle.useTLGStyle = true;
+    else delete conversionOptions.betaCodeStyle.useTLGStyle;
 
     // Transliteration style
 
+    conversionOptions.transliterationStyle.setCoronisStyle = Coronis[selectCoronisStyle.value];
+
     if (values.includes('use-cx-over-macron'))
-      conversionOptions.setTransliterationStyle.useCxOverMacron = true;
-    else delete conversionOptions.setTransliterationStyle.useCxOverMacron;
+      conversionOptions.transliterationStyle.useCxOverMacron = true;
+    else delete conversionOptions.transliterationStyle.useCxOverMacron;
+
+    if (values.includes('beta_v'))
+      conversionOptions.transliterationStyle.beta_v = true;
+    else delete conversionOptions.transliterationStyle.beta_v;
+
+    if (values.includes('eta_i'))
+      conversionOptions.transliterationStyle.eta_i = true;
+    else delete conversionOptions.transliterationStyle.eta_i;
 
     if (values.includes('xi_ks'))
-      conversionOptions.setTransliterationStyle.xi_ks = true;
-    else delete conversionOptions.setTransliterationStyle.xi_ks;
+      conversionOptions.transliterationStyle.xi_ks = true;
+    else delete conversionOptions.transliterationStyle.xi_ks;
 
     if (values.includes('rho_rh'))
-      conversionOptions.setTransliterationStyle.rho_rh = true;
-    else delete conversionOptions.setTransliterationStyle.rho_rh;
+      conversionOptions.transliterationStyle.rho_rh = true;
+    else delete conversionOptions.transliterationStyle.rho_rh;
+
+    if (values.includes('phi_f'))
+      conversionOptions.transliterationStyle.phi_f = true;
+    else delete conversionOptions.transliterationStyle.phi_f;
 
     if (values.includes('chi_kh'))
-      conversionOptions.setTransliterationStyle.chi_kh = true;
-    else delete conversionOptions.setTransliterationStyle.chi_kh;
+      conversionOptions.transliterationStyle.chi_kh = true;
+    else delete conversionOptions.transliterationStyle.chi_kh;
 
     if (values.includes('upsilon_y'))
-      conversionOptions.setTransliterationStyle.upsilon_y = true;
-    else delete conversionOptions.setTransliterationStyle.upsilon_y;
+      conversionOptions.transliterationStyle.upsilon_y = true;
+    else delete conversionOptions.transliterationStyle.upsilon_y;
 
     if (values.includes('lunatesigma_s')) {
-      conversionOptions.setTransliterationStyle.lunatesigma_s = true;
-      conversionOptions.useAdditionalChars = AdditionalChar.ALL;
+      conversionOptions.transliterationStyle.lunatesigma_s = true;
+      conversionOptions.additionalChars = AdditionalChar.ALL;
       checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'use-additional-chars') {
+        if (checkbox.value === 'additional-chars') {
           checkbox.checked = true;
           checkbox.disabled = true;
         }
       });
     } else {
-      delete conversionOptions.setTransliterationStyle.lunatesigma_s;
+      delete conversionOptions.transliterationStyle.lunatesigma_s;
       checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'use-additional-chars') {
+        if (checkbox.value === 'additional-chars') {
           checkbox.disabled = false;
         }
       });
@@ -472,9 +558,12 @@
   checkboxes.forEach((checkbox) =>
     checkbox.addEventListener('click', (e) => {
       evaluateOptions();
-      doConversion();
     })
   );
+
+  selectCoronisStyle.addEventListener('change', (e) => {
+    evaluateOptions()
+  });
 
   // Input conversion
 
@@ -482,7 +571,7 @@
     let fromType;
     switch (inputType) {
       case 'greek':
-        if (conversionOptions?.useAdditionalChars === 'all') {
+        if (conversionOptions?.additionalChars === 'all') {
           searchBar.value = searchBar.value
             .replace(/Σ3/g, 'S3')
             .replace(/σ3/g, 's3');
@@ -490,7 +579,7 @@
           searchBar.value = toGreek(
             searchBar.value,
             KeyType.BETA_CODE, {
-              useAdditionalChars: conversionOptions.useAdditionalChars
+              additionalChars: conversionOptions.additionalChars
             }
           );
         }
@@ -508,11 +597,15 @@
 
     const gs = new GreekString(searchBar.value, fromType, conversionOptions);
 
+    const lastResult = resultArea.innerHTML;
+
     resultArea.innerHTML =
-      `greek      <strong>${gs.greek}</strong><br><br>` +
-      `beta code  <strong>${gs.betaCode}</strong><br><br>` +
-      `translit.  <strong>${gs.transliteration}</strong><br><br>` +
-      `source     ${gs.source}`;
+      `source     ${gs.source} (${inputType})<br><br>` +
+      `greek      <strong>${gs.greek}</strong><br>` +
+      `beta code  <strong>${gs.betaCode}</strong><br>` +
+      `translit.  <strong>${gs.transliteration}</strong>`;
+
+    if (lastResult) resultArea.innerHTML += `<br><br>${lastResult}`;
   }
 
   searchBar.addEventListener('input', (e) => {
@@ -524,12 +617,12 @@
     if (inputType === 'greek') {
       let searchValue = e.target.value;
 
-      if (conversionOptions?.useAdditionalChars === 'all') {
+      if (conversionOptions?.additionalChars === 'all') {
         searchValue = searchValue.replace(/Σ3/g, 'S3').replace(/σ3/g, 's3');
       }
 
       e.target.value = toGreek(searchValue, KeyType.BETA_CODE, {
-        useAdditionalChars: conversionOptions?.useAdditionalChars
+        additionalChars: conversionOptions?.additionalChars
       });
     }
 
@@ -537,11 +630,14 @@
   });
 
   searchBar.addEventListener('keyup', (e) => {
-    if (!searchBar.value) {
+    if (searchBar.value.trim()) {
+      if (e.key === 'Enter') {
+        if (resultArea.textContent === resultAreaPlaceholder) {
       resultArea.textContent = '';
-      return;
+        }
+        doConversion();
+        searchBar.value = '';
+      }
     }
-
-    doConversion();
   });
 </script>

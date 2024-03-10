@@ -2,7 +2,7 @@
   "name": "greek-conversion",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
-  "version": "0.12.3",
+  "version": "0.13.0",
   "description": "A small library to convert a polytonic greek string from/into various representations.",
   "keywords": [
     "greek",
@@ -24,19 +24,35 @@
     "type": "git",
     "url": "git+https://github.com/antoineboquet/greek-conversion.git"
   },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/greekConversion.min.js",
+      "require": "./dist/greekConversion.min.cjs"
+    }
+  },
   "source": "./src/index.ts",
   "types": "./dist/greekConversion.d.ts",
-  "main": "./dist/greekConversion.cjs.js",
-  "module": "./dist/greekConversion.esm.js",
-  "unpkg": "./dist/greekConversion.min.js",
+  "main": "./dist/greekConversion.min.js",
+  "commonjs": "./dist/greekConversion.min.cjs",
   "targets": {
-    "unpkg": {
+    "main": {
+      "context": "browser",
       "isLibrary": true,
       "optimize": true,
       "outputFormat": "esmodule"
+    },
+    "commonjs": {
+      "context": "node",
+      "isLibrary": true,
+      "optimize": true,
+      "outputFormat": "commonjs"
     }
   },
   "browserslist": "defaults",
+  "engines": {
+    "node": ">= 18"
+  },
   "files": [
     "/dist"
   ],
