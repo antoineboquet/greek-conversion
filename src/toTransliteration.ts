@@ -78,7 +78,15 @@ export function toTransliteration(
       }
 
       if (eta_i) {
-        str = str.replace(/ē/gi, (m) => (m.toUpperCase() === m ? 'Ī' : 'ī'));
+        str = str
+          .normalize('NFD')
+          .replace(/(e)(\p{M}+)/giu, (m, $1, $2) => {
+            if ((useCxOverMacron && /\u0302/.test(m)) || /\u0304/.test(m)) {
+              return $1.toUpperCase() === $1 ? 'I' + $2 : 'i' + $2;
+            }
+            return m;
+          })
+          .normalize();
       }
 
       if (xi_ks) {
