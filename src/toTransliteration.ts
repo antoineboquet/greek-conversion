@@ -28,7 +28,7 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, setTransliterationStyle } =
+  const { removeDiacritics, removeExtraWhitespace, transliterationStyle } =
     options;
   const {
     setCoronisStyle,
@@ -41,7 +41,7 @@ export function toTransliteration(
     rho_rh,
     upsilon_y,
     lunatesigma_s
-  } = setTransliterationStyle ?? {};
+  } = transliterationStyle ?? {};
   const mapping = declaredMapping ?? new Mapping(options);
 
   if (upsilon_y) str = flagDiaereses(str, fromType);
@@ -168,7 +168,7 @@ function applyUpsilonDiphthongs(
   options: IInternalConversionOptions,
   mapping: Mapping
 ): string {
-  const { setTransliterationStyle } = options;
+  const { transliterationStyle } = options;
   const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
 
   return transliteratedStr
@@ -178,12 +178,12 @@ function applyUpsilonDiphthongs(
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
       if (vowelsGroup.normalize().length === 1) return vowelsGroup;
 
-      if (setTransliterationStyle?.upsilon_y === Preset.ISO) {
+      if (transliterationStyle?.upsilon_y === Preset.ISO) {
         const unaccentedGroup = utilRmDiacritics(
           vowelsGroup,
           KeyType.TRANSLITERATION,
           mapping.trLettersWithCxOrMacron(),
-          setTransliterationStyle?.useCxOverMacron
+          transliterationStyle?.useCxOverMacron
         );
         if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
       }
@@ -199,7 +199,7 @@ function applyUpsilonDiphthongs(
  * @remarks
  * This function does:
  *   1. convert flagged rough breathings;
- *   2. enforce rough breathings on rhos if `setTransliterationStyle.rho_rh` is enabled;
+ *   2. enforce rough breathings on rhos if `transliterationStyle.rho_rh` is enabled;
  *   3. remove initial smooth breathings (while keeping coronides);
  *   4. remove potential smooth breathings on rhos.
  *   5. transliterate the remaining smooth breathings.
@@ -212,13 +212,13 @@ function bcConvertBreathings(
   transliteratedStr: string,
   options: IInternalConversionOptions
 ): string {
-  const { isUpperCase, setTransliterationStyle } = options;
+  const { isUpperCase, transliterationStyle } = options;
 
   transliteratedStr = transliteratedStr
     .replace(/\$\$/g, 'H')
     .replace(/\$/g, 'h');
 
-  if (setTransliterationStyle?.rho_rh) {
+  if (transliterationStyle?.rho_rh) {
     transliteratedStr = transliteratedStr
       .replace(new RegExp(`(r${SMOOTH_BREATHING}?r)(?!h)`, 'gi'), (m) =>
         m.toUpperCase() === m ? 'RRH' : 'rrh'
@@ -301,8 +301,8 @@ function grConvertBreathings(
   greekStr: string,
   options: IInternalConversionOptions
 ): string {
-  const { isUpperCase, setTransliterationStyle } = options;
-  const { rho_rh } = setTransliterationStyle ?? {};
+  const { isUpperCase, transliterationStyle } = options;
+  const { rho_rh } = transliterationStyle ?? {};
 
   const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([αεηιουω]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
   const reInitialRough = new RegExp(`([αεηιοωυ]{1,2})(${ROUGH_BREATHING})`, 'gi'); // prettier-ignore

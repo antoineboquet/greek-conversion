@@ -22,8 +22,8 @@ export function toBetaCode(
   const {
     removeDiacritics,
     removeExtraWhitespace,
-    setBetaCodeStyle,
-    setTransliterationStyle
+    betaCodeStyle,
+    transliterationStyle
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
@@ -43,7 +43,7 @@ export function toBetaCode(
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
 
-      if (setTransliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
         str = str.replace(
           new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
           SMOOTH_BREATHING
@@ -67,9 +67,9 @@ export function toBetaCode(
   str = bcReorderDiacritics(str);
 
   if (fromType === KeyType.TLG_BETA_CODE) {
-    if (!setBetaCodeStyle?.useTLGStyle) str = fromTLG(str);
+    if (!betaCodeStyle?.useTLGStyle) str = fromTLG(str);
   } else {
-    if (setBetaCodeStyle?.useTLGStyle) str = toTLG(str);
+    if (betaCodeStyle?.useTLGStyle) str = toTLG(str);
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);

@@ -3,10 +3,10 @@ import { AdditionalChar, Coronis, Preset } from './enums';
 export interface IConversionOptions {
   removeDiacritics?: boolean;
   removeExtraWhitespace?: boolean;
-  setBetaCodeStyle?: IBetaCodeStyle;
-  setGreekStyle?: IGreekStyle;
-  setTransliterationStyle?: ITransliterationStyle;
-  useAdditionalChars?: AdditionalChar[] | AdditionalChar;
+  betaCodeStyle?: IBetaCodeStyle;
+  greekStyle?: IGreekStyle;
+  transliterationStyle?: ITransliterationStyle;
+  additionalChars?: AdditionalChar[] | AdditionalChar;
 }
 
 export interface IInternalConversionOptions extends IConversionOptions {

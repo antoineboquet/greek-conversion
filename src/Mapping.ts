@@ -478,23 +478,23 @@ export class Mapping {
   #isUpperCase: boolean = false;
   #removeDiacritics: boolean = false;
   #transliterationStyle: ITransliterationStyle = {};
-  #useAdditionalChars: AdditionalChar[] | AdditionalChar = [];
+  #additionalChars: AdditionalChar[] | AdditionalChar = [];
 
   constructor(options?: IInternalConversionOptions) {
     if (!options) return;
 
     this.#isUpperCase = Boolean(options?.isUpperCase);
     this.#removeDiacritics = Boolean(options?.removeDiacritics);
-    this.#transliterationStyle = options?.setTransliterationStyle ?? {};
-    this.#useAdditionalChars = options?.useAdditionalChars ?? [];
+    this.#transliterationStyle = options?.transliterationStyle ?? {};
+    this.#additionalChars = options?.additionalChars ?? [];
 
-    if (this.#useAdditionalChars) {
+    if (this.#additionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
         if (
-          this.#useAdditionalChars === (AdditionalChar.ALL as number) ||
-          this.#useAdditionalChars === (Number(k) as AdditionalChar) ||
-          (Array.isArray(this.#useAdditionalChars) &&
-            this.#useAdditionalChars.includes(Number(k) as AdditionalChar))
+          this.#additionalChars === (AdditionalChar.ALL as number) ||
+          this.#additionalChars === (Number(k) as AdditionalChar) ||
+          (Array.isArray(this.#additionalChars) &&
+            this.#additionalChars.includes(Number(k) as AdditionalChar))
         ) {
           const keys = Object.keys(v);
           if (keys[0]) this.#capitalLetters[keys[0]] = v[keys[0]];
@@ -546,14 +546,14 @@ export class Mapping {
 
     if (lunatesigma_s) {
       // The lunate sigma might not have been activated using the
-      // `useAdditionalChars` option. So, we need to check if its property exists.
+      // `additionalChars` option. So, we need to check if its property exists.
       if (this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr)
         this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
       if (this.#smallLetters.SMALL_LUNATE_SIGMA?.tr)
         this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
 
       if (!this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr) {
-        console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `setTransliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
+        console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `transliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
       }
     }
 

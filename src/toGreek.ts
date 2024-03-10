@@ -27,8 +27,8 @@ export function toGreek(
   const {
     removeDiacritics,
     removeExtraWhitespace,
-    setGreekStyle,
-    setTransliterationStyle
+    greekStyle,
+    transliterationStyle
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
@@ -56,7 +56,7 @@ export function toGreek(
       str = applyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
 
-      if (setTransliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
+      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
         str = str
           .normalize('NFD')
           .replace(
@@ -75,10 +75,10 @@ export function toGreek(
       break;
   }
 
-  str = applyGreekVariants(str, setGreekStyle);
+  str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str, setGreekStyle?.useGreekQuestionMark);
+  return normalizeGreek(str, greekStyle?.useGreekQuestionMark);
 }
 
 /**

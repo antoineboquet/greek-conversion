@@ -3,12 +3,12 @@ import { IConversionOptions, MixedPreset } from './interfaces';
 
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
-  setTransliterationStyle: {
+  transliterationStyle: {
     rho_rh: true,
     upsilon_y: true,
     lunatesigma_s: true
   },
-  useAdditionalChars: [
+  additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.ARCHAIC_KOPPA,
     AdditionalChar.LUNATE_SIGMA
@@ -16,13 +16,13 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
-  setGreekStyle: {
+  greekStyle: {
     useGreekQuestionMark: true
   },
-  setTransliterationStyle: {
+  transliterationStyle: {
     upsilon_y: Preset.ISO
   },
-  useAdditionalChars: [
+  additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.YOT,
     AdditionalChar.LUNATE_SIGMA,
@@ -33,7 +33,7 @@ const BNF_OPTIONS = (): IConversionOptions => ({
 });
 
 const ISO_OPTIONS = (): IConversionOptions => ({
-  setTransliterationStyle: {
+  transliterationStyle: {
     setCoronisStyle: Coronis.APOSTROPHE,
     beta_v: true,
     eta_i: true,
@@ -41,7 +41,7 @@ const ISO_OPTIONS = (): IConversionOptions => ({
     upsilon_y: Preset.ISO,
     lunatesigma_s: true
   },
-  useAdditionalChars: [
+  additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.YOT,
     AdditionalChar.LUNATE_SIGMA
@@ -49,22 +49,22 @@ const ISO_OPTIONS = (): IConversionOptions => ({
 });
 
 const MODERN_BC_OPTIONS = (): IConversionOptions => ({
-  useAdditionalChars: AdditionalChar.ALL
+  additionalChars: AdditionalChar.ALL
 });
 
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
-  setTransliterationStyle: {
+  transliterationStyle: {
     rho_rh: true,
     upsilon_y: true
   }
 });
 
 const TLG_OPTIONS = (): IConversionOptions => ({
-  setBetaCodeStyle: {
+  betaCodeStyle: {
     useTLGStyle: true
   },
-  useAdditionalChars: AdditionalChar.ALL
+  additionalChars: AdditionalChar.ALL
 });
 
 export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
