@@ -162,7 +162,7 @@ toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // a
 #### Using presets
 
 ```ts
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aǘpnous núktas íauon
+toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aÿ́pnous nýktas íauon
 toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
 ```
 
