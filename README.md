@@ -112,6 +112,7 @@ The available presets are:
 ### Conversion options
 
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
+
 ```ts
 removeDiacritics?: boolean,       // remove diacritics, except those that represent letters
 
@@ -144,6 +145,8 @@ useAdditionalChars?:              // extend the default mapping with additional 
  AdditionalChar[] |               //   (use AdditionalChar.ALL to enable the whole set)
  AdditionalChar
 ```
+
+A more detailed description of the conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
 
 ### Examples
 
