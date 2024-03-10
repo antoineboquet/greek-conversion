@@ -588,6 +588,36 @@ describe('Self conversion', () => {
     ${'Xenophō̃n'}  | ${'Xenophỗn'}
   `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected))
 
+  // Applying beta_v
+
+  test('Applying beta_v', () => {
+    expect(toTransliteration('bárbaros', KeyType.TRANSLITERATION, { transliterationStyle: { beta_v: true } }))
+      .toBe('várvaros')
+  })
+
+  // Applying eta_i
+
+  test('Applying eta_i', () => {
+    expect(toTransliteration('hēdonḗ', KeyType.TRANSLITERATION, { transliterationStyle: { eta_i: true } }))
+      .toBe('hīdonī́')
+  })
+
+  // Applying eta_i, using circumflex
+
+  test('Applying eta_i', () => {
+    expect(toTransliteration('hêdonế', KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
+      .toBe('hîdonî́')
+  })
+
+  // Applying phi_f
+
+  test.each`
+    str             | expected
+    ${'phantasía'}  | ${'fantasía'}
+    ${'Phainṓ'}     | ${'Fainṓ'}
+    ${'PHILOSOFIA'} | ${'FILOSOFIA'}
+  `('Applying phi_f', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { phi_f: true } })).toBe(expected) })
+
   // Applying xi_ks / chi_kh
 
   test.each`

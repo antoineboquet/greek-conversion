@@ -332,7 +332,7 @@ describe('From transliteration to beta code', () => {
 
   // Testing uppercase writing
 
-  // @fixme(v0.13): check if rough breathings diphthongs rules must be overridden when converting from
+  // @fixme(v0.13.1): check if rough breathings diphthongs rules must be overridden when converting from
   // transliteration to beta code, as 'HUIÓS' -> 'UI(O/S' but 'ὙΙΌΣ' produces 'U(IO/S' (greek to beta code).
   test.each`
     str             | expected
