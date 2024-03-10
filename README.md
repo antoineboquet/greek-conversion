@@ -118,17 +118,17 @@ removeDiacritics?: boolean,       // remove diacritics, except those that repres
 
 removeExtraWhitespace?: boolean,  // remove potential extra whitespace
 
-setBetaCodeStyle?: {
+betaCodeStyle?: {
   useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
 },
 
-setGreekStyle?: {
+greekStyle?: {
   disableBetaVariant?: boolean,   // disable the typographic variant 'ϐ' [U+03D0]
   useGreekQuestionMark?: boolean, // use greek question marks ';' [U+037E] rather than regular semicolons
   useLunateSigma?: boolean        // use lunate sigmas 'ϲ, Ϲ' rather than regular sigmas
 },
 
-setTransliterationStyle?: {
+transliterationStyle?: {
   setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
   useCxOverMacron?: boolean,      // use a circumflex rather than a macron for 'η', 'ω', etc
   beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
@@ -141,12 +141,12 @@ setTransliterationStyle?: {
   lunatesigma_s?: boolean         // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 },
 
-useAdditionalChars?:              // extend the default mapping with additional chars
+additionalChars?:                 // extend the default mapping with additional chars
  AdditionalChar[] |               //   (use AdditionalChar.ALL to enable the whole set)
  AdditionalChar
 ```
 
-A more detailed description of the conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
+A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
 
 ### Examples
 
@@ -179,7 +179,7 @@ toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
 
 ```ts
 const style = {
-  setGreekStyle: {
+  greekStyle: {
     useLunateSigma: true
   }
 }
@@ -192,7 +192,7 @@ toGreek('ICHTHUS ZŌNTŌN', KeyType.TRANSLITERATION, style) // ἸΧΘΥϹ ΖΩ�
 
 ```ts
 const style = {
-  setTransliterationStyle: {
+  transliterationStyle: {
     useCxOverMacron: true,
     chi_kh: true
   }
@@ -208,10 +208,10 @@ toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
 toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 
-const grStyle = { setGreekStyle: { useLunateSigma: true } }
+const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
 
-const trStyle = { setTransliterationStyle: { lunatesigma_s: true } }
+const trStyle = { transliterationStyle: { lunatesigma_s: true } }
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
