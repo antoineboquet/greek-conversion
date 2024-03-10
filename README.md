@@ -130,7 +130,7 @@ greekStyle?: {
 
 transliterationStyle?: {
   setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
-  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for 'η', 'ω', etc
+  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for eta, omega, etc
   beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
   eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
   xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
