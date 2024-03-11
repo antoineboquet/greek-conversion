@@ -162,17 +162,17 @@ toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // a
 #### Using presets
 
 ```ts
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aÿ́pnous nýktas íauon
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, Preset.ISO) // Fílīvos ī̀ Perì hīdonī̃s
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, Preset.ALA_LC) // Philēbos ē Peri hēdonēs
 ```
 
 #### Using a mixed preset
 
 ```ts
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, [
   Preset.ALA_LC,
   { removeDiacritics: false }
-]) // aÿ́pnous nýktas íauon
+]) // Phílēbos ḕ Perì hēdonē̃s
 ```
 
 #### Using customized greek
@@ -221,7 +221,7 @@ toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátē
 
 You can use the **`GreekString`** object if you want to manage several representations of a greek string.
 
-As multiple conversions can be destructive, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
+As multiple conversions can be irreversible, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentially irreversible conversions or creating a lot of variables. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
