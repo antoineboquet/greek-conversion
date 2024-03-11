@@ -104,10 +104,11 @@ The available presets are:
 
 | Preset | Description | Scope |
 | ------ | ----------- | ----- |
-| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress | Ancient/Medieval Greek (before 1454) |
-| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France | Ancient Greek |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc) | American Library Association – Library of Congress | Ancient/Medieval Greek (before 1454) |
+| [**`ALA_LC_MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc-modern) | *Alternative form of the preceding* (planned for **v0.14**) | Modern Greek (after 1453) |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#bnf) | Bibliothèque nationale de France | Ancient Greek |
 | [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) type 1 (transliteration) | Ancient and Modern Greek |
-| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature | Ancient Greek |
+| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#sbl) | Society of Biblical Literature | Ancient Greek |
 
 ### Conversion options
 
