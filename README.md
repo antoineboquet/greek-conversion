@@ -102,12 +102,12 @@ The available presets are:
 
 2. **For transliteration:**
 
-| Preset | Description |
-| ------ | ----------- |
-| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
-| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
-| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — type 1 (transliteration) |
-| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
+| Preset | Description | Scope |
+| ------ | ----------- | ----- |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress | Ancient and Medieval Greek |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France | Ancient Greek |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) &mdash; Type 1 (transliteration) | Ancient and Modern Greek |
+| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature | Ancient Greek |
 
 ### Conversion options
 
