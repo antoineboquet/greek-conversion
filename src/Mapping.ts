@@ -481,8 +481,6 @@ export class Mapping {
   #additionalChars: AdditionalChar[] | AdditionalChar = [];
 
   constructor(options?: IInternalConversionOptions) {
-    if (!options) return;
-
     this.#isUpperCase = Boolean(options?.isUpperCase);
     this.#removeDiacritics = Boolean(options?.removeDiacritics);
     this.#transliterationStyle = options?.transliterationStyle ?? {};
