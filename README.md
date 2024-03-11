@@ -104,9 +104,9 @@ The available presets are:
 
 | Preset | Description | Scope |
 | ------ | ----------- | ----- |
-| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress | Ancient and Medieval Greek |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress | Ancient and Medieval Greek (before 1454) |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France | Ancient Greek |
-| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) &mdash; Type 1 (transliteration) | Ancient and Modern Greek |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) type 1 (transliteration) | Ancient and Modern Greek |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature | Ancient Greek |
 
 ### Conversion options
@@ -211,7 +211,10 @@ toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
 
-const trStyle = { transliterationStyle: { lunatesigma_s: true } }
+const trStyle = {
+  transliterationStyle: { lunatesigma_s: true },
+  additionalChars: AdditionalChar.LUNATE_SIGMA
+}
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
