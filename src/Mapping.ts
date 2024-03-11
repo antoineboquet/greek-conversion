@@ -669,11 +669,9 @@ export class Mapping {
 
     let convertedStr = conversionArr.join('').normalize();
 
-    if (fromType !== KeyType.BETA_CODE) {
-      convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
-    }
-
-    return convertedStr;
+    return toType !== KeyType.BETA_CODE
+      ? Mapping.#applyGammaNasals(convertedStr, toType)
+      : convertedStr;
   }
 
   /**
@@ -759,7 +757,7 @@ export class Mapping {
     if (this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
         new RegExp(`${this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'), // prettier-ignore
-        (match) => match.normalize()
+        (m) => m.normalize()
       );
     }
 
@@ -767,7 +765,7 @@ export class Mapping {
     const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
     const letters: string = this.trLettersWithCxOrMacron().join('');
     const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
-    return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
+    return NFDTransliteratedStr.replace(re, (m, char, diacritics) => {
       return (char + longVowelMark).normalize() + diacritics;
     });
   }
