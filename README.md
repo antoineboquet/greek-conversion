@@ -104,7 +104,7 @@ The available presets are:
 
 | Preset | Description | Scope |
 | ------ | ----------- | ----- |
-| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc) | American Library Association – Library of Congress | Ancient/Medieval Greek (before 1454) |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc) | American Library Association – Library of Congress | Ancient and Medieval Greek (before 1454) |
 | [**`ALA_LC_MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc-modern) | *Alternative form of the preceding* (planned for **v0.14**) | Modern Greek (after 1453) |
 | [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#bnf) | Bibliothèque nationale de France | Ancient Greek |
 | [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) type 1 (transliteration) | Ancient and Modern Greek |
