@@ -728,9 +728,10 @@ export class Mapping {
       if (v[fromProp] && v[toProp]) chars.push([v[fromProp], v[toProp]]);
     }
 
-    const sortedChars = chars.sort((a, b) => {
-      return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
-    });
+    const sortedChars = chars.sort(
+      (a: string, b: string) =>
+        b[0].normalize('NFD').length - a[0].normalize('NFD').length
+    );
 
     if (!this.#removeDiacritics) {
       let diacritics = [];
