@@ -481,8 +481,6 @@ export class Mapping {
   #additionalChars: AdditionalChar[] | AdditionalChar = [];
 
   constructor(options?: IInternalConversionOptions) {
-    if (!options) return;
-
     this.#isUpperCase = Boolean(options?.isUpperCase);
     this.#removeDiacritics = Boolean(options?.removeDiacritics);
     this.#transliterationStyle = options?.transliterationStyle ?? {};
@@ -670,37 +668,30 @@ export class Mapping {
     }
 
     let convertedStr = conversionArr.join('').normalize();
-    convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
 
-    return convertedStr;
+    return toType !== KeyType.BETA_CODE
+      ? Mapping.#applyGammaNasals(convertedStr, toType)
+      : convertedStr;
   }
 
   /**
    * Returns a string with the right representation of gamma nasals.
-   *
-   * @remarks
-   * The current implementation is `static`, so it wouldn't reflect
-   * hypothetical mapped chars changes.
    */
   static #applyGammaNasals(str: string, type: KeyType): string {
-    switch (type) {
-      case KeyType.BETA_CODE:
-        return str;
-
-      case KeyType.GREEK:
-        return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'Γ' + second;
-          else return 'γ' + second;
-        });
-
-      case KeyType.TRANSLITERATION:
-        // The case of `ITransliterationStyle` options `xi_ks` & `chi_kh`
-        // is covered by the letter K.
-        return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'N' + second;
-          else return 'n' + second;
-        });
+    if (type === KeyType.GREEK) {
+      return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
+        $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
+      );
     }
+
+    if (type === KeyType.TRANSLITERATION) {
+      // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
+      return str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
+        $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
+      );
+    }
+
+    throw new RangeError(`KeyType '${type}' is not implemented.`);
   }
 
   /**
@@ -737,9 +728,10 @@ export class Mapping {
       if (v[fromProp] && v[toProp]) chars.push([v[fromProp], v[toProp]]);
     }
 
-    const sortedChars = chars.sort((a, b) => {
-      return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
-    });
+    const sortedChars = chars.sort(
+      (a: string, b: string) =>
+        b[0].normalize('NFD').length - a[0].normalize('NFD').length
+    );
 
     if (!this.#removeDiacritics) {
       let diacritics = [];
@@ -766,7 +758,7 @@ export class Mapping {
     if (this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
         new RegExp(`${this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'), // prettier-ignore
-        (match) => match.normalize()
+        (m) => m.normalize()
       );
     }
 
@@ -774,7 +766,7 @@ export class Mapping {
     const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
     const letters: string = this.trLettersWithCxOrMacron().join('');
     const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
-    return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
+    return NFDTransliteratedStr.replace(re, (m, char, diacritics) => {
       return (char + longVowelMark).normalize() + diacritics;
     });
   }

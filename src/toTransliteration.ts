@@ -127,6 +127,8 @@ export function toTransliteration(
           .normalize();
       }
 
+      // @fixme: lunatesigma_s should work only with `additionalChars` set to
+      // `AdditionalChar.LUNATE_SIGMA`, `AdditionalChar.ALL` & `[...AdditionalChar.LUNATE_SIGMA]`.
       if (lunatesigma_s) {
         str = str.replace(/c(?!h)/gi, (m) =>
           m.toUpperCase() === m ? 'S' : 's'
