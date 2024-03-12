@@ -102,12 +102,13 @@ The available presets are:
 
 2. **For transliteration:**
 
-| Preset | Description |
-| ------ | ----------- |
-| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ALA-LC) | American Library Association – Library of Congress |
-| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#BNF) | Bibliothèque nationale de France |
-| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) — type 1 (transliteration) |
-| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#SBL) | Society of Biblical Literature |
+| Preset | Description | Scope |
+| ------ | ----------- | ----- |
+| [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc) | American Library Association – Library of Congress | Ancient and Medieval Greek (before 1454) |
+| [**`ALA_LC_MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc-modern) | *Alternative form of the preceding* (planned for **v0.14**) | Modern Greek (after 1453) |
+| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#bnf) | Bibliothèque nationale de France | Ancient Greek |
+| [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) type 1 (transliteration) | Ancient and Modern Greek |
+| [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#sbl) | Society of Biblical Literature | Ancient Greek |
 
 ### Conversion options
 
@@ -130,7 +131,7 @@ greekStyle?: {
 
 transliterationStyle?: {
   setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
-  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for 'η', 'ω', etc
+  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for eta, omega, etc
   beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
   eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
   xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
@@ -162,17 +163,17 @@ toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // a
 #### Using presets
 
 ```ts
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.BNF) // aǘpnous núktas íauon
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, Preset.ALA_LC) // aypnous nyktas iauon
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, Preset.ISO) // Fílīvos ī̀ Perì hīdonī̃s
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, Preset.ALA_LC) // Philēbos ē Peri hēdonēs
 ```
 
 #### Using a mixed preset
 
 ```ts
-toTransliteration('ἀΰπνους νύκτας ἴαυον', KeyType.GREEK, [
+toTransliteration('Φίληβος ἢ Περὶ ἡδονῆς', KeyType.GREEK, [
   Preset.ALA_LC,
   { removeDiacritics: false }
-]) // aÿ́pnous nýktas íauon
+]) // Phílēbos ḕ Perì hēdonē̃s
 ```
 
 #### Using customized greek
@@ -211,7 +212,10 @@ toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
 
-const trStyle = { transliterationStyle: { lunatesigma_s: true } }
+const trStyle = {
+  transliterationStyle: { lunatesigma_s: true },
+  additionalChars: AdditionalChar.LUNATE_SIGMA
+}
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
@@ -221,7 +225,7 @@ toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátē
 
 You can use the **`GreekString`** object if you want to manage several representations of a greek string.
 
-As multiple conversions can be destructive, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentialy-destructive conversions or creating a lot of variables. Conversions are made only as necessary.
+As multiple conversions can be irreversible, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentially irreversible conversions or creating a lot of variables. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
