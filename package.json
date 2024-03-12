@@ -74,7 +74,7 @@
   "scripts": {
     "build": "parcel build",
     "esbuild": "npm run typings && node esbuild.config.js",
-    "typings": "tsc -p tsconfig.json --moduleResolution bundler --declaration --emitDeclarationOnly",
+    "typings": "tsc -p tsconfig.json --moduleResolution bundler --declaration --declarationDir ./dist --emitDeclarationOnly",
     "prepare": "npm run build",
     "test": "jest",
     "test-coverage": "jest --coverage"
