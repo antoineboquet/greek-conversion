@@ -669,29 +669,34 @@ export class Mapping {
 
     let convertedStr = conversionArr.join('').normalize();
 
-    return toType !== KeyType.BETA_CODE
-      ? Mapping.#applyGammaNasals(convertedStr, toType)
-      : convertedStr;
+    convertedStr = this.#applyGammaNasals(convertedStr, toType);
+
+    return convertedStr;
   }
 
   /**
    * Returns a string with the right representation of gamma nasals.
    */
-  static #applyGammaNasals(str: string, type: KeyType): string {
-    if (type === KeyType.GREEK) {
-      return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
-        $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
-      );
-    }
+  #applyGammaNasals(str: string, type: KeyType): string {
+    switch (type) {
+      case KeyType.GREEK:
+        return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
+          $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
+        );
 
-    if (type === KeyType.TRANSLITERATION) {
-      // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
-      return str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
-        $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
-      );
-    }
+      case KeyType.TRANSLITERATION:
+        const { gammaNasal_n } = this.#transliterationStyle ?? {};
 
-    throw new RangeError(`KeyType '${type}' is not implemented.`);
+        if (!gammaNasal_n) return str;
+
+        // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
+        return str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
+          $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
+        );
+
+      default:
+        return str;
+    }
   }
 
   /**
