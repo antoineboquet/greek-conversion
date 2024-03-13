@@ -323,6 +323,11 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="gammaNasal_n" />
+          gamma nasal &rarr; n
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="eta_i" />
           eta &rarr; ī
         </label>
@@ -330,6 +335,11 @@
         <label>
           <input type="checkbox" name="options" value="xi_ks" />
           xi &rarr; ks
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="rho_rh" />
+          rho &rarr; rh (force breathings)
         </label>
 
         <label>
@@ -345,11 +355,6 @@
         <label>
           <input type="checkbox" name="options" value="upsilon_y" />
           upsilon &rarr; y
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="rho_rh" />
-          rho &rarr; rh (force breathings)
         </label>
 
         <label>
@@ -509,6 +514,10 @@
     if (values.includes('beta_v'))
       conversionOptions.transliterationStyle.beta_v = true;
     else delete conversionOptions.transliterationStyle.beta_v;
+
+    if (values.includes('gammaNasal_n'))
+      conversionOptions.transliterationStyle.gammaNasal_n = true;
+    else delete conversionOptions.transliterationStyle.gammaNasal_n;
 
     if (values.includes('eta_i'))
       conversionOptions.transliterationStyle.eta_i = true;
