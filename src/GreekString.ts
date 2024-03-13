@@ -32,10 +32,21 @@ export class GreekString {
   }
 
   #handleConversion(toType: KeyType): void {
+    const conversionSource = (): string => {
+      switch (this.#fromType) {
+        case KeyType.BETA_CODE:
+          return this.#betaCode ?? this.#source;
+        case KeyType.TRANSLITERATION:
+          return this.#transliteration ?? this.#source;
+        case KeyType.GREEK:
+          return this.#greek ?? this.#source;
+      }
+    };
+
     switch (toType) {
       case KeyType.BETA_CODE:
         this.#betaCode = toBetaCode(
-          this.#source,
+          conversionSource(),
           this.#fromType,
           this.#options,
           this.#mapping
@@ -44,7 +55,7 @@ export class GreekString {
 
       case KeyType.GREEK:
         this.#greek = toGreek(
-          this.#source,
+          conversionSource(),
           this.#fromType,
           this.#options,
           this.#mapping
@@ -53,7 +64,7 @@ export class GreekString {
 
       case KeyType.TRANSLITERATION:
         this.#transliteration = toTransliteration(
-          this.#source,
+          conversionSource(),
           this.#fromType,
           this.#options,
           this.#mapping
