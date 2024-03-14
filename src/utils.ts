@@ -1,4 +1,4 @@
-import { KeyType, Preset } from './enums';
+import { AdditionalChar, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IGreekStyle,
@@ -128,8 +128,28 @@ export function handleOptions(
     settings = applyPreset(settings);
   }
 
+  let { greekStyle, transliterationStyle, additionalChars } = settings ?? {};
+
   // Determining the case of a TLG string involves converting it.
   if (fromType === KeyType.TLG_BETA_CODE) str = fromTLG(str);
+
+  // Silently enable `AdditionalChar.LUNATE_SIGMA` if related options are enabled.
+  if (greekStyle?.useLunateSigma || transliterationStyle?.lunatesigma_s) {
+    if (!additionalChars) {
+      additionalChars = AdditionalChar.LUNATE_SIGMA;
+    } else if (Array.isArray(additionalChars)) {
+      if (!additionalChars.includes(AdditionalChar.LUNATE_SIGMA)) {
+        additionalChars.push(AdditionalChar.LUNATE_SIGMA);
+      }
+    } else {
+      if (additionalChars !== AdditionalChar.LUNATE_SIGMA) {
+        additionalChars = [
+          additionalChars as AdditionalChar,
+          AdditionalChar.LUNATE_SIGMA
+        ];
+      }
+    }
+  }
 
   return {
     isUpperCase: isUpperCase(str, fromType),
