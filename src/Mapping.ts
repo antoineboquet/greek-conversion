@@ -678,6 +678,8 @@ export class Mapping {
    * Returns a string with the right representation of gamma nasals.
    */
   #applyGammaNasals(str: string, type: KeyType): string {
+    const { gammaNasal_n } = this.#transliterationStyle ?? {};
+
     switch (type) {
       case KeyType.GREEK:
         return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
@@ -685,8 +687,6 @@ export class Mapping {
         );
 
       case KeyType.TRANSLITERATION:
-        const { gammaNasal_n } = this.#transliterationStyle ?? {};
-
         if (!gammaNasal_n) return str;
 
         // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
@@ -694,8 +694,10 @@ export class Mapping {
           $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
         );
 
-      default:
-        return str;
+      case KeyType.BETA_CODE:
+        return str.replace(/(n)(g|k|c|x)/gi, (m, $1, $2) =>
+          $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
+        );
     }
   }
 
