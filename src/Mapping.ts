@@ -543,16 +543,9 @@ export class Mapping {
     }
 
     if (lunatesigma_s) {
-      // The lunate sigma might not have been activated using the
-      // `additionalChars` option. So, we need to check if its property exists.
-      if (this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr)
-        this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
-      if (this.#smallLetters.SMALL_LUNATE_SIGMA?.tr)
-        this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
-
-      if (!this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr) {
-        console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `transliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
-      }
+      // The lunate sigma is enabled silently if not explicitly. See `utils/handleOptions()`.
+      this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
+      this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
     }
 
     if (useCxOverMacron) {
