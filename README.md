@@ -133,6 +133,7 @@ transliterationStyle?: {
   setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
   useCxOverMacron?: boolean,      // use a circumflex rather than a macron for eta, omega, etc
   beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
+  gammaNasal_n?: boolean,         // transliterate 'γ' as 'n' when nasalization occurs
   eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
   xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
   rho_rh?: boolean,               // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
