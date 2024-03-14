@@ -667,11 +667,7 @@ export class Mapping {
       }
     }
 
-    let convertedStr = conversionArr.join('').normalize();
-
-    convertedStr = this.#applyGammaNasals(convertedStr, toType);
-
-    return convertedStr;
+    return this.#applyGammaNasals(conversionArr.join('').normalize(), toType);
   }
 
   /**
@@ -695,7 +691,7 @@ export class Mapping {
         );
 
       case KeyType.BETA_CODE:
-        return str.replace(/(n)(g|k|c|x)/gi, (m, $1, $2) =>
+        return str.replace(/(n)([gkcx])/gi, (m, $1, $2) =>
           $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
         );
     }
