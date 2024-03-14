@@ -20,8 +20,8 @@ const thucydides = {
 
 const plato = {
   gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κὰν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις\u037E',
-  tr: 'Chalepón gé se elénxai, ō̃ Sṓkrates; all\' ouchì kàn paĩs se elénxeien hóti ouk alēthē̃ légeis?',
-  trCrx: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elénxeien hóti ouk alêthễ légeis?'
+  tr: 'Chalepón gé se elégxai, ō̃ Sṓkrates; all\' ouchì kàn paĩs se elégxeien hóti ouk alēthē̃ légeis?',
+  trCrx: 'Chalepón gé se elégxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elégxeien hóti ouk alêthễ légeis?'
 }
 
 describe('From beta code to transliteration', () => {
@@ -331,7 +331,7 @@ describe('From greek to transliteration', () => {
     ${'ἄγκυρα'}  | ${'ánkura'}
     ${'σφίγξ'}   | ${'sphínx'} 
     ${'τυγχάνω'} | ${'tunchánō'}
-  `('Testing gamma nasals', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK)).toBe(expected))
+  `('Testing gamma nasals', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
 
   // Testing gamma nasals with xi_ks / chi_kh enabled
 
@@ -339,7 +339,7 @@ describe('From greek to transliteration', () => {
     str          | expected
     ${'σφίγξ'}   | ${'sphínks'}
     ${'τυγχάνω'} | ${'tunkhánō'}
-  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected))
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
   // Disabling beta variant
 
@@ -421,10 +421,8 @@ describe('From greek to transliteration', () => {
     ${'Ξενοφῶν'}    | ${'Ksenophō̃n'}
     ${'ΧΟΡΗΓΕΩ'}    | ${'KHORĒGEŌ'}
     ${'χορηγέω'}    | ${'khorēgéō'}
-    ${'σφίγξ'}      | ${'sphínks'}
-    ${'μελαγχολία'} | ${'melankholía'}
-    ${'σφίνξ'}      | ${'sphínks'}
-    ${'μελανχολία'} | ${'melankholía'}
+    ${'σφίγξ'}      | ${'sphígks'}
+    ${'μελαγχολία'} | ${'melagkholía'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Applying upsilon_y
@@ -568,6 +566,25 @@ describe('Self conversion', () => {
     ${'ka’gṓ'} | ${'kagṓ'}
     ${'ká’n'}  | ${'kán'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
+
+  // Testing gamma nasals
+
+  test.each`
+    str           | expected
+    ${'ággelos'}  | ${'ángelos'}
+    ${'spóggos'}  | ${'spóngos'} 
+    ${'ágkura'}   | ${'ánkura'}
+    ${'sphígx'}   | ${'sphínx'} 
+    ${'tugchánō'} | ${'tunchánō'}
+  `('Testing gamma nasals', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
+
+  // Testing gamma nasals with xi_ks / chi_kh enabled
+
+  test.each`
+    str           | expected
+    ${'sphígks'}  | ${'sphínks'}
+    ${'tugkhánō'} | ${'tunkhánō'}
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
   // Testing rho rules, applying rho_rh
 

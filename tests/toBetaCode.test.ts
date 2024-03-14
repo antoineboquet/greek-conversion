@@ -251,6 +251,25 @@ describe('From transliteration to beta code', () => {
     ${'ká’n'}  | ${'ka/’n'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
+  // Testing gamma nasals
+
+  test.each`
+    str           | expected
+    ${'ángelos'}  | ${'a)/ggelos'}
+    ${'spóngos'}  | ${'spo/ggos'} 
+    ${'ánkura'}   | ${'a)/gkura'}
+    ${'sphínx'}   | ${'sfi/gc'} 
+    ${'tunchánō'} | ${'tugxa/nw'}
+  `('Testing gamma nasals', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  // Testing gamma nasals with xi_ks / chi_kh enabled
+
+  test.each`
+    str           | expected
+    ${'sphínks'}  | ${'sfi/gc'}
+    ${'tunkhánō'} | ${'tugxa/nw'}
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
   // Testing rho rules
 
   test.each`
