@@ -204,7 +204,7 @@ toTransliteration('τέχνη', KeyType.GREEK) // téchnē
 toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 ```
 
-#### Self conversion (reflect settings)
+#### Self-conversion (reflect settings)
 
 ```ts
 toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
