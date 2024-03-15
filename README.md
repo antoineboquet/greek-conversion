@@ -232,7 +232,7 @@ settings?: Preset | MixedPreset | IConversionOptions
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that the `settings` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
+Note that `settings` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 
