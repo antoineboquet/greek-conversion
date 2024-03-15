@@ -12,6 +12,7 @@ import {
   fromTLG,
   handleOptions,
   normalizeGreek,
+  trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -56,15 +57,7 @@ export function toGreek(
       str = applyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
 
-      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
-        str = str
-          .normalize('NFD')
-          .replace(
-            new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
-            SMOOTH_BREATHING
-          )
-          .normalize();
-      }
+      str = trNormalizeCoronis(str, transliterationStyle?.setCoronisStyle);
 
       if (removeDiacritics) {
         str = utilRmDiacritics(str, fromType);
@@ -94,7 +87,7 @@ export function toGreek(
  * @privateRemarks
  * (1) Can't figure how to implement `reInitialBreathing` in order
  * to consistently find `firstV`, `firstD`, `nextV` & `nextD` values.
- * (2) Currently the regex captures the first vowels - including their
+ * (1) Currently, the regex captures the first vowels - including their
  * diacritics - of a word together. Notice that the `vowelGroups` can
  * match 2+ vowels.
  */
@@ -110,21 +103,21 @@ function trConvertBreathings(
 
   return str
     .normalize('NFD')
-    .replace(reInitialBreathing, (match, trRough, vowelsGroup) => {
+    .replace(reInitialBreathing, (m, trRough, vowelsGroup) => {
       const breathing = trRough ? ROUGH_BREATHING : SMOOTH_BREATHING;
 
       vowelsGroup = vowelsGroup.normalize();
 
       // `vowelsGroup` length can be 2+, so define first, next & extra vowels.
-      let firstV = vowelsGroup.substring(0, 1).normalize('NFD');
-      let nextV = vowelsGroup.substring(1, 2).normalize('NFD');
-      const extraV = vowelsGroup.substring(2).normalize('NFD');
+      let firstV = vowelsGroup.charAt(0).normalize('NFD');
+      let nextV = vowelsGroup.charAt(1).normalize('NFD');
+      const extraV = vowelsGroup.substring(2);
 
       const firstD = firstV.substring(1);
       const nextD = nextV.substring(1);
 
-      firstV = firstV.substring(0, 1);
-      nextV = nextV.substring(0, 1);
+      firstV = firstV.charAt(0);
+      nextV = nextV.charAt(0);
 
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 

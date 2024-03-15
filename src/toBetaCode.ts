@@ -7,6 +7,7 @@ import {
   fromTLG,
   handleOptions,
   toTLG,
+  trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -43,12 +44,7 @@ export function toBetaCode(
     case KeyType.TRANSLITERATION:
       str = applyUppercaseChars(str);
 
-      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
-        str = str.replace(
-          new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
-          SMOOTH_BREATHING
-        );
-      }
+      str = trNormalizeCoronis(str, transliterationStyle?.setCoronisStyle);
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
@@ -56,8 +52,7 @@ export function toBetaCode(
       str = mapping.apply(str, fromType, KeyType.BETA_CODE);
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, fromType);
-        str = str.replace(/\$/gi, '');
+        str = utilRmDiacritics(str, fromType).replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
       }
@@ -66,15 +61,15 @@ export function toBetaCode(
 
   str = bcReorderDiacritics(str);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    if (!betaCodeStyle?.useTLGStyle) str = fromTLG(str);
-  } else {
-    if (betaCodeStyle?.useTLGStyle) str = toTLG(str);
-  }
+  const isTLG = fromType === KeyType.TLG_BETA_CODE;
+  const isTLGStyle = betaCodeStyle?.useTLGStyle;
+
+  if (isTLG && !isTLGStyle) str = fromTLG(str);
+  if (!isTLG && isTLGStyle) str = toTLG(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return str.normalize();
+  return str;
 }
 
 /**
@@ -97,26 +92,21 @@ function trConvertFlaggedBreathings(str: string): string {
 
   return str
     .normalize('NFD')
-    .replace(
-      reInitialBreathing,
-      (match, trRough, firstV, firstD, nextV, nextD) => {
-        const breathing = trRough ? '(' : ')';
+    .replace(reInitialBreathing, (m, trRough, firstV, firstD, nextV, nextD) => {
+      const breathing = trRough ? '(' : ')';
 
-        firstD = firstD ?? '';
-        nextV = nextV ?? '';
-        nextD = nextD ?? '';
+      firstD = firstD ?? '';
+      nextV = nextV ?? '';
+      nextD = nextD ?? '';
 
-        const hasDiphthong = diphthongs.includes(
-          (firstV + nextV).toLowerCase()
-        );
+      const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
-        if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
-          return firstV + firstD + nextV + breathing + nextD;
-        }
-
-        return firstV + breathing + firstD + nextV + nextD;
+      if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
+        return firstV + firstD + nextV + breathing + nextD;
       }
-    )
+
+      return firstV + breathing + firstD + nextV + nextD;
+    })
     .replace(/(?<!r)(r)\$/gi, '$1(')
     .replace(/\$/g, '')
     .normalize();

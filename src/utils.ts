@@ -1,4 +1,4 @@
-import { AdditionalChar, KeyType, Preset } from './enums';
+import { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IGreekStyle,
@@ -15,14 +15,15 @@ import {
   LATIN_TILDE,
   MACRON,
   MIDDLE_DOT,
-  SMALL_LUNATE_SIGMA
+  SMALL_LUNATE_SIGMA,
+  SMOOTH_BREATHING
 } from './Mapping';
 import { applyPreset } from './presets';
 
-export function applyGreekVariants(
+export const applyGreekVariants = (
   greekStr: string,
   options?: IGreekStyle
-): string {
+): string => {
   // Apply beta variant (lowercase only).
   if (!options?.disableBetaVariant) {
     greekStr = greekStr
@@ -44,7 +45,7 @@ export function applyGreekVariants(
   greekStr = greekStr.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');
 
   return greekStr;
-}
+};
 
 /**
  * Returns a string with correctly positioned uppercase chars considering
@@ -55,28 +56,26 @@ export function applyGreekVariants(
  * This function expects a transliterated string or, at least, a string that
  * keeps its transliterated rough breathings.
  */
-export function applyUppercaseChars(transliteratedStr: string): string {
+export const applyUppercaseChars = (transliteratedStr: string): string => {
   return transliteratedStr.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
-    if (word.charAt(0) === 'H') {
-      word = word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2);
-    }
-
-    return word;
+    return word.charAt(0) === 'H'
+      ? word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2)
+      : word;
   });
-}
+};
 
 /**
  * Takes a TLG beta code string and returns a beta code string following
  * the `greek-conversion` convention.
  */
-export function fromTLG(betaCodeStr: string): string {
+export const fromTLG = (betaCodeStr: string): string => {
   return betaCodeStr
     .toLowerCase()
     .replace(
       /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
       (m, $1, $2, $3) => $3.toUpperCase() + $2
     );
-}
+};
 
 /**
  * Takes a beta code string following the `greek-conversion` convention
@@ -85,14 +84,13 @@ export function fromTLG(betaCodeStr: string): string {
  * @remarks
  * The iota subscript must remain after its base letter.
  */
-export function toTLG(betaCodeStr: string): string {
+export const toTLG = (betaCodeStr: string): string => {
   return betaCodeStr
-    .replace(/([a-z])([\(\)\\\/\+=\?]*)/gi, (m, $1, $2) => {
-      if ($1.toUpperCase() === $1) return '*' + $2 + $1;
-      else return m;
-    })
+    .replace(/([a-z])([\(\)\\\/\+=\?]*)/gi, (m, $1, $2) =>
+      $1.toUpperCase() === $1 ? '*' + $2 + $1 : m
+    )
     .toUpperCase();
-}
+};
 
 /**
  * Returns a beta code string with a correct diacritics order.
@@ -101,28 +99,25 @@ export function toTLG(betaCodeStr: string): string {
  * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
  * (4) iota subscript; (5) dot below.
  */
-export function bcReorderDiacritics(betaCodeStr: string): string {
-  return betaCodeStr.replace(
-    /([\(\)\\\/\+=\|\?]{2,})/gi,
-    (match, diacritics) => {
-      const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
-      return diacritics
-        .split('')
-        .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
-        .join('');
-    }
-  );
-}
+export const bcReorderDiacritics = (betaCodeStr: string): string => {
+  return betaCodeStr.replace(/([\(\)\\\/\+=\|\?]{2,})/gi, (m, diacritics) => {
+    const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+    return diacritics
+      .split('')
+      .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+      .join('');
+  });
+};
 
 /**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */
-export function handleOptions(
+export const handleOptions = (
   str: string,
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {}
-): IInternalConversionOptions {
+): IInternalConversionOptions => {
   // Convert named presets (= numeric enum) to `IConversionOptions` objects.
   if (typeof settings === 'number' || Array.isArray(settings)) {
     settings = applyPreset(settings);
@@ -155,7 +150,7 @@ export function handleOptions(
     isUpperCase: isUpperCase(str, fromType),
     ...settings
   };
-}
+};
 
 /**
  * Returns a boolean that indicates if the given string is uppercase or not.
@@ -171,12 +166,22 @@ export function handleOptions(
  * (2) When implementing the TLG beta code, the definition of a string
  * containing lowercase characters will be different.
  */
-export function isUpperCase(str: string, type: KeyType): boolean {
-  if (type === KeyType.BETA_CODE) {
-    return str.toUpperCase() === str && !/(?<!\*)#[1-35]/.test(str);
-  }
-  return str.toUpperCase() === str;
-}
+export const isUpperCase = (str: string, type: KeyType): boolean => {
+  return type === KeyType.BETA_CODE
+    ? str.toUpperCase() === str && !/(?<!\*)#[1-35]/.test(str)
+    : str.toUpperCase() === str;
+};
+
+export const trNormalizeCoronis = (
+  str: string,
+  coronisStyle: Coronis
+): string => {
+  const re = new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'g');
+
+  return coronisStyle === Coronis.APOSTROPHE
+    ? str.replace(re, SMOOTH_BREATHING).normalize()
+    : str;
+};
 
 /**
  * Returns a normalized greek string.
@@ -186,25 +191,21 @@ export function isUpperCase(str: string, type: KeyType): boolean {
  * (2) Due to the poor Unicode canonical equivalences, any subsequent
  * normalization may break the replacements made by this function.
  */
-export function normalizeGreek(
+export const normalizeGreek = (
   greekStr: string,
   useGreekQuestionMark: boolean = false,
   skipUnicodeNormalization: boolean = false
-): string {
+): string => {
   if (!skipUnicodeNormalization) greekStr = greekStr.normalize('NFD');
-
   greekStr = greekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
 
   if (!skipUnicodeNormalization) greekStr = greekStr.normalize();
-
   greekStr = greekStr.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
 
-  if (useGreekQuestionMark) {
-    greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK);
-  }
-
-  return greekStr;
-}
+  return useGreekQuestionMark
+    ? (greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK))
+    : greekStr;
+};
 
 /**
  * Returns a string without diacritics.
@@ -219,12 +220,12 @@ export function normalizeGreek(
  * @param trUseCxOverMacron - The diacritical mark to match (defaults to
  * the macron [\u0304]).
  */
-export function removeDiacritics(
+export const removeDiacritics = (
   str: string,
   type: KeyType,
   trPreserveLetters?: string[],
   trUseCxOverMacron?: boolean
-): string {
+): string => {
   switch (type) {
     case KeyType.BETA_CODE:
       // Include the macron (%26) & the breve (%27).
@@ -257,12 +258,12 @@ export function removeDiacritics(
     default:
       throw new RangeError(`KeyType '${type}' is not implemented.`);
   }
-}
+};
 
-export function removeGreekVariants(
+export const removeGreekVariants = (
   greekStr: string,
   removeLunateSigma?: boolean
-): string {
+): string => {
   if (removeLunateSigma) {
     greekStr = greekStr
       .replace(new RegExp(CAPITAL_LUNATE_SIGMA, 'g'), 'Σ')
@@ -272,12 +273,12 @@ export function removeGreekVariants(
   return greekStr
     .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
     .replace(/ς/g, 'σ');
-}
+};
 
-export function removeExtraWhitespace(str: string): string {
+export const removeExtraWhitespace = (str: string): string => {
   return str.replace(/(\s)+/g, '$1').trim();
-}
+};
 
-export function sanitizeRegExpString(str: string): string {
+export const sanitizeRegExpString = (str: string): string => {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
-}
+};

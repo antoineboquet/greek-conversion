@@ -152,9 +152,7 @@ export function toTransliteration(
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  str = trApplyCoronis(str, setCoronisStyle);
-
-  return str.normalize();
+  return trApplyCoronis(str, setCoronisStyle);
 }
 
 /**
