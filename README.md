@@ -213,10 +213,7 @@ toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
 
-const trStyle = {
-  transliterationStyle: { lunatesigma_s: true },
-  additionalChars: AdditionalChar.LUNATE_SIGMA
-}
+const trStyle = { transliterationStyle: { lunatesigma_s: true } }
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
@@ -224,9 +221,7 @@ toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátē
 
 ### Summary
 
-You can use the **`GreekString`** object if you want to manage several representations of a greek string.
-
-As multiple conversions can be irreversible, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentially irreversible conversions or creating a lot of variables. Conversions are made only as necessary.
+You can use the **`GreekString`** object if you want to manage several representations of a greek string. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
