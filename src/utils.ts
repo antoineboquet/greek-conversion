@@ -143,13 +143,11 @@ export function handleOptions(
           AdditionalChar.LUNATE_SIGMA
         );
       }
-    } else {
-      if (additionalChars !== AdditionalChar.LUNATE_SIGMA) {
-        settings.additionalChars = [
-          additionalChars as AdditionalChar,
-          AdditionalChar.LUNATE_SIGMA
-        ];
-      }
+    } else if (additionalChars !== AdditionalChar.LUNATE_SIGMA) {
+      settings.additionalChars = [
+        additionalChars as AdditionalChar,
+        AdditionalChar.LUNATE_SIGMA
+      ];
     }
   }
 
