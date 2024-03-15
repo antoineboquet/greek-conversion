@@ -20,6 +20,37 @@ import {
 } from './Mapping';
 import { applyPreset } from './presets';
 
+/**
+ * Returns a string with the right representation of gamma nasals.
+ */
+export const applyGammaNasals = (
+  str: string,
+  type: KeyType,
+  gammaNasal_n?: boolean
+): string => {
+  switch (type) {
+    case KeyType.GREEK:
+      return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
+        $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
+      );
+
+    case KeyType.TRANSLITERATION:
+      return gammaNasal_n
+        ? // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
+          str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
+            $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
+          )
+        : str.replace(/(n)(g|k|x|ch)/gi, (m, $1, $2) =>
+            $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
+          );
+
+    case KeyType.BETA_CODE:
+      return str.replace(/(n)([gkcx])/gi, (m, $1, $2) =>
+        $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
+      );
+  }
+};
+
 export const applyGreekVariants = (
   greekStr: string,
   options?: IGreekStyle

@@ -4,7 +4,11 @@ import {
   IMappingProperty,
   ITransliterationStyle
 } from './interfaces';
-import { normalizeGreek, sanitizeRegExpString } from './utils';
+import {
+  applyGammaNasals,
+  normalizeGreek,
+  sanitizeRegExpString
+} from './utils';
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
@@ -488,15 +492,17 @@ export class Mapping {
 
     if (this.#additionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
+        const keys = Object.keys(v);
+        if (!keys[0]) continue;
+
         if (
-          this.#additionalChars === (AdditionalChar.ALL as number) ||
-          this.#additionalChars === (Number(k) as AdditionalChar) ||
+          this.#additionalChars === AdditionalChar.ALL ||
+          this.#additionalChars === Number(k) ||
           (Array.isArray(this.#additionalChars) &&
-            this.#additionalChars.includes(Number(k) as AdditionalChar))
+            this.#additionalChars.includes(Number(k)))
         ) {
-          const keys = Object.keys(v);
-          if (keys[0]) this.#capitalLetters[keys[0]] = v[keys[0]];
-          if (keys[1]) this.#smallLetters[keys[1]] = v[keys[1]];
+          this.#capitalLetters[keys[0]] = v[keys[0]];
+          this.#smallLetters[keys[1]] = v[keys[1]];
         }
       }
     }
@@ -660,34 +666,11 @@ export class Mapping {
       }
     }
 
-    return this.#applyGammaNasals(conversionArr.join('').normalize(), toType);
-  }
-
-  /**
-   * Returns a string with the right representation of gamma nasals.
-   */
-  #applyGammaNasals(str: string, type: KeyType): string {
-    const { gammaNasal_n } = this.#transliterationStyle ?? {};
-
-    switch (type) {
-      case KeyType.GREEK:
-        return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
-          $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
-        );
-
-      case KeyType.TRANSLITERATION:
-        if (!gammaNasal_n) return str;
-
-        // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
-        return str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
-          $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
-        );
-
-      case KeyType.BETA_CODE:
-        return str.replace(/(n)([gkcx])/gi, (m, $1, $2) =>
-          $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
-        );
-    }
+    return applyGammaNasals(
+      conversionArr.join('').normalize(),
+      toType,
+      this.#transliterationStyle?.gammaNasal_n
+    );
   }
 
   /**

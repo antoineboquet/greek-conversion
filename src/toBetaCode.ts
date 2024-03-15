@@ -1,7 +1,8 @@
-import { Coronis, KeyType, Preset } from './enums';
+import { KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
-import { Mapping, SMOOTH_BREATHING } from './Mapping';
+import { Mapping } from './Mapping';
 import {
+  applyGammaNasals,
   applyUppercaseChars,
   bcReorderDiacritics,
   fromTLG,
@@ -28,11 +29,15 @@ export function toBetaCode(
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
+  const isTLG = fromType === KeyType.TLG_BETA_CODE;
+  const isTLGStyle = betaCodeStyle?.useTLGStyle;
+
+  if (isTLG) fromType = KeyType.BETA_CODE;
+
   switch (fromType) {
     case KeyType.BETA_CODE:
-    case KeyType.TLG_BETA_CODE:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
+      str = applyGammaNasals(str, fromType);
       break;
 
     case KeyType.GREEK:
@@ -60,9 +65,6 @@ export function toBetaCode(
   }
 
   str = bcReorderDiacritics(str);
-
-  const isTLG = fromType === KeyType.TLG_BETA_CODE;
-  const isTLGStyle = betaCodeStyle?.useTLGStyle;
 
   if (isTLG && !isTLGStyle) str = fromTLG(str);
   if (!isTLG && isTLGStyle) str = toTLG(str);

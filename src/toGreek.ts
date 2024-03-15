@@ -1,4 +1,4 @@
-import { Coronis, KeyType, Preset } from './enums';
+import { KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -6,6 +6,7 @@ import {
 } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
+  applyGammaNasals,
   applyGreekVariants,
   applyUppercaseChars,
   bcReorderDiacritics,
@@ -50,7 +51,7 @@ export function toGreek(
     case KeyType.GREEK:
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, fromType, fromType);
+      str = applyGammaNasals(str, fromType);
       break;
 
     case KeyType.TRANSLITERATION:
@@ -121,13 +122,9 @@ function trConvertBreathings(
 
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
-      if (/* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong) {
-        return isUpperCase
-          ? firstV + breathing + firstD + nextD + nextV + extraV
-          : firstV + firstD + nextV + breathing + nextD + extraV;
-      }
-
-      return firstV + breathing + firstD + nextV + nextD + extraV;
+      return /* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong
+        ? firstV + firstD + nextV + breathing + nextD + extraV
+        : firstV + breathing + firstD + nextV + nextD + extraV;
     })
     .replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`)
     .replace(new RegExp('h', 'gi'), '')
