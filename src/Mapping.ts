@@ -590,13 +590,16 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
+    const { gammaNasal_n, upsilon_y, lunatesigma_s } =
+      this.#transliterationStyle ?? {};
+
     fromStr = fromStr.normalize('NFD');
 
     if (fromType === KeyType.TRANSLITERATION && toType !== fromType) {
       fromStr = this.#trJoinSpecialChars(fromStr);
 
       // Add the alternate upsilon form (y/u) to the mapping.
-      if (this.#transliterationStyle?.upsilon_y) {
+      if (upsilon_y) {
         this.#capitalLetters.CAPITAL_ALT_UPSILON = {
           bc: this.#capitalLetters.CAPITAL_UPSILON.bc,
           gr: this.#capitalLetters.CAPITAL_UPSILON.gr,
@@ -610,7 +613,7 @@ export class Mapping {
       }
 
       // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
-      if (this.#transliterationStyle?.lunatesigma_s) {
+      if (lunatesigma_s) {
         this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = undefined;
         this.#smallLetters.SMALL_LUNATE_SIGMA.tr = undefined;
       }
@@ -666,11 +669,8 @@ export class Mapping {
       }
     }
 
-    return applyGammaNasals(
-      conversionArr.join('').normalize(),
-      toType,
-      this.#transliterationStyle?.gammaNasal_n
-    );
+    const convertedStr = conversionArr.join('').normalize();
+    return applyGammaNasals(convertedStr, toType, gammaNasal_n);
   }
 
   /**
@@ -695,33 +695,30 @@ export class Mapping {
     else if (toType === KeyType.GREEK) toProp = 'gr';
     else toProp = 'tr';
 
-    let chars = [];
+    let props = {
+      ...this.#capitalLetters,
+      ...this.#punctuation
+    };
 
-    const props = Object.assign(
-      this.#capitalLetters,
-      !this.#isUpperCase ? this.#smallLetters : {},
-      this.#punctuation
-    );
+    if (!this.#isUpperCase) props = { ...this.#smallLetters, ...props };
 
-    for (const [k, v] of Object.entries(props)) {
-      if (v[fromProp] && v[toProp]) chars.push([v[fromProp], v[toProp]]);
-    }
-
-    const sortedChars = chars.sort(
-      (a: string, b: string) =>
-        b[0].normalize('NFD').length - a[0].normalize('NFD').length
-    );
+    const sortedChars = Object.values(props)
+      .filter((v) => v[fromProp] && v[toProp])
+      .map((v) => [v[fromProp], v[toProp]])
+      .sort((a, b) => {
+        return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
+      });
 
     if (!this.#removeDiacritics) {
-      let diacritics = [];
+      const diacritics = Object.values(this.#diacritics)
+        .filter((v) => v[fromProp] && v[toProp])
+        .map((v) => [v[fromProp], v[toProp]]);
 
-      for (const [k, v] of Object.entries(this.#diacritics)) {
-        if (v[fromProp] && v[toProp]) diacritics.push([v[fromProp], v[toProp]]);
-      }
-
+      // @ts-ignore
       return new Map([...sortedChars, ...diacritics]);
     }
 
+    // @ts-ignore
     return new Map(sortedChars);
   }
 
@@ -758,16 +755,8 @@ export class Mapping {
    * Letters are returned without their diacritical sign.
    */
   trLettersWithCxOrMacron(): string[] {
-    const letters = Object.assign(this.#capitalLetters, this.#smallLetters);
-
-    const found = [];
-    for (const [k, v] of Object.entries(letters)) {
-      const el = v?.tr ? v.tr.normalize('NFD') : '';
-      if (/\u0302|\u0304/.test(el)) {
-        found.push(el);
-      }
-    }
-
-    return found.map((el) => el.charAt(0).normalize());
+    return Object.values({ ...this.#capitalLetters, ...this.#smallLetters })
+      .filter((v) => /\u0302|\u0304/.test(v.tr?.normalize('NFD')))
+      .map((v) => v.tr.normalize('NFD').charAt(0).normalize());
   }
 }
