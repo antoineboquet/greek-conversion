@@ -331,7 +331,7 @@ describe('From greek to transliteration', () => {
     ${'ἄγκυρα'}  | ${'ánkura'}
     ${'σφίγξ'}   | ${'sphínx'} 
     ${'τυγχάνω'} | ${'tunchánō'}
-  `('Testing gamma nasals', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
+  `('Testing gamma nasals, with gammaNasal_n', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
 
   // Testing gamma nasals with xi_ks / chi_kh enabled
 
@@ -339,7 +339,7 @@ describe('From greek to transliteration', () => {
     str          | expected
     ${'σφίγξ'}   | ${'sphínks'}
     ${'τυγχάνω'} | ${'tunkhánō'}
-  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
+  `('Testing gamma nasals, with gammaNasal_n & xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
   // Disabling beta variant
 
@@ -532,7 +532,7 @@ describe('From greek to transliteration', () => {
 
 })
 
-describe('Self conversion', () => {
+describe('Self-conversion', () => {
 
   // Testing coronides
 
@@ -571,12 +571,22 @@ describe('Self conversion', () => {
 
   test.each`
     str           | expected
+    ${'ággelos'}  | ${'ággelos'}
+    ${'spóngos'}  | ${'spóggos'} 
+    ${'ánkura'}   | ${'ágkura'}
+    ${'sphínx'}   | ${'sphígx'} 
+    ${'tunchánō'} | ${'tugchánō'}
+  `('Testing gamma nasals, without gammaNasal_n', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION)).toBe(expected))
+
+  // Testing gamma nasals
+
+  test.each`
+    str           | expected
     ${'ággelos'}  | ${'ángelos'}
-    ${'spóggos'}  | ${'spóngos'} 
     ${'ágkura'}   | ${'ánkura'}
     ${'sphígx'}   | ${'sphínx'} 
     ${'tugchánō'} | ${'tunchánō'}
-  `('Testing gamma nasals', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
+  `('Testing gamma nasals, with gammaNasal_n', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true } })).toBe(expected))
 
   // Testing gamma nasals with xi_ks / chi_kh enabled
 
@@ -584,7 +594,7 @@ describe('Self conversion', () => {
     str           | expected
     ${'sphígks'}  | ${'sphínks'}
     ${'tugkhánō'} | ${'tunkhánō'}
-  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
+  `('Testing gamma nasals, with gammaNasal_n & xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
   // Testing rho rules, applying rho_rh
 
@@ -645,8 +655,8 @@ describe('Self conversion', () => {
     ${'CHORĒGEŌ'}    | ${'KHORĒGEŌ'}
     ${'Chorēgéō'}    | ${'Khorēgéō'}
     ${'chorēgéō'}    | ${'khorēgéō'}
-    ${'sphínx'}      | ${'sphínks'}
-    ${'melancholía'} | ${'melankholía'}
+    ${'sphígx'}      | ${'sphígks'}
+    ${'melagcholía'} | ${'melagkholía'}
   `('Applying xi_ks / chi_kh', ({ str, expected }) => { expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
   // Applying upsilon_y

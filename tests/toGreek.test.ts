@@ -122,8 +122,7 @@ describe('From beta code to greek', () => {
     ${'POLU/RRIZOS'}  | ${'ΠΟΛΎΡΡΙΖΟΣ'}
     ${'SUSSEISMO/S'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
     ${'A)YEGH/S'}     | ${'ἈΨΕΓΉΣ'}
-    ${'U(IO/S'}       | ${'ὙΙΌΣ'}
-    ${'UI(O/S'}       | ${'ὙΙΌΣ'}
+    ${'UI(O/S'}       | ${'ΥἹΌΣ'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
   // Testing whitespace behavior
@@ -360,7 +359,7 @@ describe('From transliteration to greek', () => {
     ${'POLÚRRHIZOS'} | ${'ΠΟΛΎΡΡΙΖΟΣ'}
     ${'SUSSEISMÓS'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
     ${'APSEGḖS'}     | ${'ἈΨΕΓΉΣ'}
-    ${'HUIÓS'}       | ${'ὙΙΌΣ'}
+    ${'HUIÓS'}       | ${'ΥἹΌΣ'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION)).toBe(expected) })
 
   // Testing whitespace behavior
@@ -379,7 +378,18 @@ describe('From transliteration to greek', () => {
   
 })
 
-describe('Self conversion', () => {
+describe('Self-conversion', () => {
+
+  // Testing gamma nasals
+
+  test.each`
+    str          | expected
+    ${'ἄνγελος'} | ${'ἄγγελος'}
+    ${'σπόνγος'} | ${'σπόγγος'} 
+    ${'ἄνκυρα'}  | ${'ἄγκυρα'}
+    ${'σφίνξ'}   | ${'σφίγξ'} 
+    ${'τυνχάνω'} | ${'τυγχάνω'}
+  `('Testing gamma nasals', ({ str, expected }) => { expect(toGreek(str, KeyType.GREEK)).toBe(expected) })
 
   // Disabling beta variant
 
