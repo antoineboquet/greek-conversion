@@ -4,6 +4,7 @@ import { IConversionOptions, MixedPreset } from './interfaces';
 const ALA_LC_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   transliterationStyle: {
+    gammaNasal_n: true,
     rho_rh: true,
     upsilon_y: true,
     lunatesigma_s: true
@@ -55,6 +56,7 @@ const MODERN_BC_OPTIONS = (): IConversionOptions => ({
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   transliterationStyle: {
+    gammaNasal_n: true,
     rho_rh: true,
     upsilon_y: true
   }

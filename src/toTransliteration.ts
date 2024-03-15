@@ -111,7 +111,7 @@ export function toTransliteration(
 
       if (rho_rh) {
         str = str
-          .replace(/(?<!^)rr(?!$)/gim, (m) =>
+          .replace(/(?<!^)rr(?!h)/gim, (m) =>
             m.toUpperCase() === m ? m + 'H' : m + 'h'
           )
           .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
@@ -152,9 +152,7 @@ export function toTransliteration(
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  str = trApplyCoronis(str, setCoronisStyle);
-
-  return str.normalize();
+  return trApplyCoronis(str, setCoronisStyle);
 }
 
 /**

@@ -133,6 +133,7 @@ transliterationStyle?: {
   setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
   useCxOverMacron?: boolean,      // use a circumflex rather than a macron for eta, omega, etc
   beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
+  gammaNasal_n?: boolean,         // transliterate 'γ' as 'n' when nasalization occurs
   eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
   xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
   rho_rh?: boolean,               // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
@@ -203,7 +204,7 @@ toTransliteration('τέχνη', KeyType.GREEK) // téchnē
 toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 ```
 
-#### Self conversion (reflect settings)
+#### Self-conversion (reflect settings)
 
 ```ts
 toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
@@ -212,10 +213,7 @@ toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
 const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
 
-const trStyle = {
-  transliterationStyle: { lunatesigma_s: true },
-  additionalChars: AdditionalChar.LUNATE_SIGMA
-}
+const trStyle = { transliterationStyle: { lunatesigma_s: true } }
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
@@ -223,9 +221,7 @@ toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátē
 
 ### Summary
 
-You can use the **`GreekString`** object if you want to manage several representations of a greek string.
-
-As multiple conversions can be irreversible, <abbr title="Object-Oriented Programming">OOP</abbr> helps you to keep multiple representations of a greek string in memory without doing multiple potentially irreversible conversions or creating a lot of variables. Conversions are made only as necessary.
+You can use the **`GreekString`** object if you want to manage several representations of a greek string. Conversions are made only as necessary.
 
 `GreekString` constructor is:
 ```ts
@@ -236,7 +232,7 @@ settings?: Preset | MixedPreset | IConversionOptions
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
 
-Note that the `settings` are also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
+Note that `settings` is also applied to the input string in order to have truly equivalent representations. You can retrieve the original string using the `source` property.
 
 ### Example
 

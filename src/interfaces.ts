@@ -35,6 +35,7 @@ export interface ITransliterationStyle {
   setCoronisStyle?: Coronis;
   useCxOverMacron?: boolean;
   beta_v?: boolean;
+  gammaNasal_n?: boolean;
   eta_i?: boolean;
   xi_ks?: boolean;
   rho_rh?: boolean;
@@ -44,5 +45,5 @@ export interface ITransliterationStyle {
   lunatesigma_s?: boolean;
 }
 
-// ¹ Preset.ISO: only preserve 'au', 'eu', 'ou'.
+// ¹ Preset.ISO: only preserve 'au', 'eu', 'ou' diphthongs.
 //   Note that this is undoubtedly poorly designed.

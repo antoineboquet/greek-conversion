@@ -109,7 +109,7 @@ describe('From greek to beta code', () => {
     ${'ΠΟΛΎΡΡΙΖΟΣ'} | ${'POLU/RRIZOS'}
     ${'ΣΥΣΣΕΙΣΜΌΣ'} | ${'SUSSEISMO/S'}
     ${'ἈΨΕΓΉΣ'}     | ${'A)YEGH/S'}
-    ${'ὙΙΌΣ'}       | ${'U(IO/S'}
+    ${'ΥἹΌΣ'}       | ${'UI(O/S'}
   `('Testing uppercase writing', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
 
   // Testing whitespace behavior
@@ -251,6 +251,25 @@ describe('From transliteration to beta code', () => {
     ${'ká’n'}  | ${'ka/’n'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
+  // Testing gamma nasals
+
+  test.each`
+    str           | expected
+    ${'ángelos'}  | ${'a)/ggelos'}
+    ${'spóngos'}  | ${'spo/ggos'} 
+    ${'ánkura'}   | ${'a)/gkura'}
+    ${'sphínx'}   | ${'sfi/gc'} 
+    ${'tunchánō'} | ${'tugxa/nw'}
+  `('Testing gamma nasals', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected) })
+
+  // Testing gamma nasals with xi_ks / chi_kh enabled
+
+  test.each`
+    str           | expected
+    ${'sphínks'}  | ${'sfi/gc'}
+    ${'tunkhánō'} | ${'tugxa/nw'}
+  `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => { expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
+
   // Testing rho rules
 
   test.each`
@@ -332,8 +351,6 @@ describe('From transliteration to beta code', () => {
 
   // Testing uppercase writing
 
-  // @fixme(v0.13.1): check if rough breathings diphthongs rules must be overridden when converting from
-  // transliteration to beta code, as 'HUIÓS' -> 'UI(O/S' but 'ὙΙΌΣ' produces 'U(IO/S' (greek to beta code).
   test.each`
     str             | expected
     ${'BÁRBAROS'}   | ${'BA/RBAROS'}
@@ -362,7 +379,18 @@ describe('From transliteration to beta code', () => {
 
 })
 
-describe('Self conversion', () => {
+describe('Self-conversion', () => {
+
+  // Testing gamma nasals
+
+  test.each`
+    str            | expected
+    ${'a)/ngelos'} | ${'a)/ggelos'}
+    ${'spo/ngos'}  | ${'spo/ggos'} 
+    ${'a)/nkura'}  | ${'a)/gkura'}
+    ${'sfi/nc'}    | ${'sfi/gc'} 
+    ${'tunxa/nw'}  | ${'tugxa/nw'}
+  `('Testing gamma nasals', ({ str, expected }) => { expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected) })
 
   // Testing useTLGStyle / TLG preset
 

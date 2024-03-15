@@ -86,20 +86,28 @@ describe('GreekString', () => {
     expect(gs1.transliteration).toBe('bárbaros')
 
     expect(gs2.source).toBe('βάρβαρος')
-    expect(gs1.betaCode).toBe('ba/rbaros')
+    expect(gs2.betaCode).toBe('ba/rbaros')
     expect(gs2.greek).toBe('βάρβαρος')
-    expect(gs1.transliteration).toBe('bárbaros')
+    expect(gs2.transliteration).toBe('bárbaros')
   })
 
   test('From gr: Testing gamma nasals', () => {
-    const gs1 = new GreekString('ανγελος', KeyType.GREEK)
+    const gs1 = new GreekString('αγγελος', KeyType.GREEK, {
+      transliterationStyle: {
+        gammaNasal_n: true
+      }
+    })
 
-    expect(gs1.source).toBe('ανγελος')
-    expect(gs1.betaCode).toBe('angelos')
+    expect(gs1.source).toBe('αγγελος')
+    expect(gs1.betaCode).toBe('aggelos')
     expect(gs1.greek).toBe('αγγελος')
     expect(gs1.transliteration).toBe('angelos')
 
-    const gs2 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK)
+    const gs2 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK, {
+      transliterationStyle: {
+        gammaNasal_n: true
+      }
+    })
 
     expect(gs2.source).toBe('σφίγξ, τυγχάνω')
     expect(gs2.betaCode).toBe('sfi/gc, tugxa/nw')
@@ -108,6 +116,7 @@ describe('GreekString', () => {
 
     const gs3 = new GreekString('σφίγξ, τυγχάνω', KeyType.GREEK, {
       transliterationStyle: {
+        gammaNasal_n: true,
         xi_ks: true,
         chi_kh: true
       }
@@ -120,29 +129,39 @@ describe('GreekString', () => {
   })
 
   test('From tr: Testing gamma nasals', () => {
-    const gs1 = new GreekString('aggelos', KeyType.TRANSLITERATION, { removeDiacritics: true })
+    const gs1 = new GreekString('aggelos', KeyType.TRANSLITERATION, {
+      removeDiacritics: true,
+      transliterationStyle: {
+        gammaNasal_n: true
+      }
+    })
 
     expect(gs1.source).toBe('aggelos')
     expect(gs1.betaCode).toBe('aggelos')
     expect(gs1.greek).toBe('αγγελος')
     expect(gs1.transliteration).toBe('angelos')
 
-    const gs2 = new GreekString('sphínx, tunchánō', KeyType.TRANSLITERATION)
+    const gs2 = new GreekString('sphínx, tunchánō', KeyType.TRANSLITERATION, {
+      transliterationStyle: {
+        gammaNasal_n: true
+      }
+    })
 
     expect(gs2.source).toBe('sphínx, tunchánō')
-    expect(gs2.betaCode).toBe('sfi/nc, tunxa/nw')
+    expect(gs2.betaCode).toBe('sfi/gc, tugxa/nw')
     expect(gs2.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs2.transliteration).toBe('sphínx, tunchánō')
 
     const gs3 = new GreekString('sphínks, tunkhánō', KeyType.TRANSLITERATION, {
       transliterationStyle: {
+        gammaNasal_n: true,
         xi_ks: true,
         chi_kh: true
       }
     })
 
     expect(gs3.source).toBe('sphínks, tunkhánō')
-    expect(gs3.betaCode).toBe('sfi/nc, tunxa/nw')
+    expect(gs3.betaCode).toBe('sfi/gc, tugxa/nw')
     expect(gs3.greek).toBe('σφίγξ, τυγχάνω')
     expect(gs3.transliteration).toBe('sphínks, tunkhánō')
   })
@@ -200,8 +219,8 @@ describe('GreekString', () => {
 
     expect(gs3.source).toBe('a)/nqrwpos3')
     expect(gs3.betaCode).toBe('anqrwpos3')
-    expect(gs3.greek).toBe('ανθρωποσ3')
-    expect(gs3.transliteration).toBe('anthrōpos3')
+    expect(gs3.greek).toBe('ανθρωποϲ')
+    expect(gs3.transliteration).toBe('anthrōpos')
 
     const trStyleGs4: IConversionOptions = {
       additionalChars: AdditionalChar.DIGAMMA
@@ -210,8 +229,8 @@ describe('GreekString', () => {
 
     expect(gs4.source).toBe('a)/nqrwpos3')
     expect(gs4.betaCode).toBe('anqrwpos3')
-    expect(gs4.greek).toBe('ανθρωποσ3')
-    expect(gs4.transliteration).toBe('anthrōpos3')
+    expect(gs4.greek).toBe('ανθρωποϲ')
+    expect(gs4.transliteration).toBe('anthrōpos')
 
     const trStyleGs5: IConversionOptions = {
       additionalChars: AdditionalChar.LUNATE_SIGMA,
@@ -236,17 +255,48 @@ describe('GreekString', () => {
     expect(gs.transliteration).toBe('pyrós, ouranós, áÿlos')
   })
 
-  test('Testing lunatesigma_s w/ additional chars enabled', () => {
-    const options = {
-      transliterationStyle: {
-        lunatesigma_s: true
-      },
-      additionalChars: AdditionalChar.ALL
+  test('Testing useLunateSigma', () => {
+    // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
+    const options: IConversionOptions = {
+      greekStyle: {
+        useLunateSigma: true
+      }
     }
   
-    const gs = new GreekString('purós, ouranós, aülos', KeyType.TRANSLITERATION, options)
+    const gs = new GreekString('puróc, ouranóc, aüloc', KeyType.TRANSLITERATION, options)
+    expect(gs.betaCode).toBe('puro/s3, ou)rano/s3, a)u+los3')
+    expect(gs.greek).toBe('πυρόϲ, οὐρανόϲ, ἀϋλοϲ')
+    expect(gs.transliteration).toBe('puróc, ouranóc, aüloc')
+  })
+
+  test('Testing lunatesigma_s', () => {
+    // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
+    const options: IConversionOptions = {
+      transliterationStyle: {
+        lunatesigma_s: true
+      }
+    }
+  
+    const gs = new GreekString('puróc, ouranóc, aüloc', KeyType.TRANSLITERATION, options)
     expect(gs.betaCode).toBe('puro/s, ou)rano/s, a)u+los')
     expect(gs.greek).toBe('πυρός, οὐρανός, ἀϋλος')
+    expect(gs.transliteration).toBe('purós, ouranós, aülos')
+  })
+  
+  test('Testing useLunateSigma + lunatesigma_s', () => {
+    // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
+    const options: IConversionOptions = {
+      greekStyle: {
+        useLunateSigma: true
+      },
+      transliterationStyle: {
+        lunatesigma_s: true
+      }
+    }
+  
+    const gs = new GreekString('puróc, ouranóc, aüloc', KeyType.TRANSLITERATION, options)
+    expect(gs.betaCode).toBe('puro/s, ou)rano/s, a)u+los')
+    expect(gs.greek).toBe('πυρόϲ, οὐρανόϲ, ἀϋλοϲ')
     expect(gs.transliteration).toBe('purós, ouranós, aülos')
   })
 })

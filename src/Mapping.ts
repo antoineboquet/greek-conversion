@@ -4,7 +4,11 @@ import {
   IMappingProperty,
   ITransliterationStyle
 } from './interfaces';
-import { normalizeGreek, sanitizeRegExpString } from './utils';
+import {
+  applyGammaNasals,
+  normalizeGreek,
+  sanitizeRegExpString
+} from './utils';
 
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
@@ -481,8 +485,6 @@ export class Mapping {
   #additionalChars: AdditionalChar[] | AdditionalChar = [];
 
   constructor(options?: IInternalConversionOptions) {
-    if (!options) return;
-
     this.#isUpperCase = Boolean(options?.isUpperCase);
     this.#removeDiacritics = Boolean(options?.removeDiacritics);
     this.#transliterationStyle = options?.transliterationStyle ?? {};
@@ -490,15 +492,17 @@ export class Mapping {
 
     if (this.#additionalChars) {
       for (const [k, v] of Object.entries(ADDITIONAL_CHARS_VALUES())) {
+        const keys = Object.keys(v);
+        if (!keys[0]) continue;
+
         if (
-          this.#additionalChars === (AdditionalChar.ALL as number) ||
-          this.#additionalChars === (Number(k) as AdditionalChar) ||
+          this.#additionalChars === AdditionalChar.ALL ||
+          this.#additionalChars === Number(k) ||
           (Array.isArray(this.#additionalChars) &&
-            this.#additionalChars.includes(Number(k) as AdditionalChar))
+            this.#additionalChars.includes(Number(k)))
         ) {
-          const keys = Object.keys(v);
-          if (keys[0]) this.#capitalLetters[keys[0]] = v[keys[0]];
-          if (keys[1]) this.#smallLetters[keys[1]] = v[keys[1]];
+          this.#capitalLetters[keys[0]] = v[keys[0]];
+          this.#smallLetters[keys[1]] = v[keys[1]];
         }
       }
     }
@@ -545,16 +549,9 @@ export class Mapping {
     }
 
     if (lunatesigma_s) {
-      // The lunate sigma might not have been activated using the
-      // `additionalChars` option. So, we need to check if its property exists.
-      if (this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr)
-        this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
-      if (this.#smallLetters.SMALL_LUNATE_SIGMA?.tr)
-        this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
-
-      if (!this.#capitalLetters.CAPITAL_LUNATE_SIGMA?.tr) {
-        console.warn('You must enable `AdditionalChar.LUNATE_SIGMA` for the option `transliterationStyle.lunatesigma_s` to take effect.'); // prettier-ignore
-      }
+      // The lunate sigma is enabled silently if not explicitly. See `utils/handleOptions()`.
+      this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = 'S';
+      this.#smallLetters.SMALL_LUNATE_SIGMA.tr = 's';
     }
 
     if (useCxOverMacron) {
@@ -593,13 +590,16 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
+    const { gammaNasal_n, upsilon_y, lunatesigma_s } =
+      this.#transliterationStyle ?? {};
+
     fromStr = fromStr.normalize('NFD');
 
     if (fromType === KeyType.TRANSLITERATION && toType !== fromType) {
       fromStr = this.#trJoinSpecialChars(fromStr);
 
       // Add the alternate upsilon form (y/u) to the mapping.
-      if (this.#transliterationStyle?.upsilon_y) {
+      if (upsilon_y) {
         this.#capitalLetters.CAPITAL_ALT_UPSILON = {
           bc: this.#capitalLetters.CAPITAL_UPSILON.bc,
           gr: this.#capitalLetters.CAPITAL_UPSILON.gr,
@@ -613,7 +613,7 @@ export class Mapping {
       }
 
       // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
-      if (this.#transliterationStyle?.lunatesigma_s) {
+      if (lunatesigma_s) {
         this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = undefined;
         this.#smallLetters.SMALL_LUNATE_SIGMA.tr = undefined;
       }
@@ -669,38 +669,8 @@ export class Mapping {
       }
     }
 
-    let convertedStr = conversionArr.join('').normalize();
-    convertedStr = Mapping.#applyGammaNasals(convertedStr, toType);
-
-    return convertedStr;
-  }
-
-  /**
-   * Returns a string with the right representation of gamma nasals.
-   *
-   * @remarks
-   * The current implementation is `static`, so it wouldn't reflect
-   * hypothetical mapped chars changes.
-   */
-  static #applyGammaNasals(str: string, type: KeyType): string {
-    switch (type) {
-      case KeyType.BETA_CODE:
-        return str;
-
-      case KeyType.GREEK:
-        return str.replace(/(ν)([γκξχ])/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'Γ' + second;
-          else return 'γ' + second;
-        });
-
-      case KeyType.TRANSLITERATION:
-        // The case of `ITransliterationStyle` options `xi_ks` & `chi_kh`
-        // is covered by the letter K.
-        return str.replace(/(g)(g|k|x|ch)/gi, (match, first, second) => {
-          if (first === first.toUpperCase()) return 'N' + second;
-          else return 'n' + second;
-        });
-    }
+    const convertedStr = conversionArr.join('').normalize();
+    return applyGammaNasals(convertedStr, toType, gammaNasal_n);
   }
 
   /**
@@ -725,32 +695,30 @@ export class Mapping {
     else if (toType === KeyType.GREEK) toProp = 'gr';
     else toProp = 'tr';
 
-    let chars = [];
+    let props = {
+      ...this.#capitalLetters,
+      ...this.#punctuation
+    };
 
-    const props = Object.assign(
-      this.#capitalLetters,
-      !this.#isUpperCase ? this.#smallLetters : {},
-      this.#punctuation
-    );
+    if (!this.#isUpperCase) props = { ...this.#smallLetters, ...props };
 
-    for (const [k, v] of Object.entries(props)) {
-      if (v[fromProp] && v[toProp]) chars.push([v[fromProp], v[toProp]]);
-    }
-
-    const sortedChars = chars.sort((a, b) => {
-      return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
-    });
+    const sortedChars = Object.values(props)
+      .filter((v) => v[fromProp] && v[toProp])
+      .map((v) => [v[fromProp], v[toProp]])
+      .sort((a, b) => {
+        return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
+      });
 
     if (!this.#removeDiacritics) {
-      let diacritics = [];
+      const diacritics = Object.values(this.#diacritics)
+        .filter((v) => v[fromProp] && v[toProp])
+        .map((v) => [v[fromProp], v[toProp]]);
 
-      for (const [k, v] of Object.entries(this.#diacritics)) {
-        if (v[fromProp] && v[toProp]) diacritics.push([v[fromProp], v[toProp]]);
-      }
-
+      // @ts-ignore
       return new Map([...sortedChars, ...diacritics]);
     }
 
+    // @ts-ignore
     return new Map(sortedChars);
   }
 
@@ -766,7 +734,7 @@ export class Mapping {
     if (this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
         new RegExp(`${this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'), // prettier-ignore
-        (match) => match.normalize()
+        (m) => m.normalize()
       );
     }
 
@@ -774,7 +742,7 @@ export class Mapping {
     const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
     const letters: string = this.trLettersWithCxOrMacron().join('');
     const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
-    return NFDTransliteratedStr.replace(re, (match, char, diacritics) => {
+    return NFDTransliteratedStr.replace(re, (m, char, diacritics) => {
       return (char + longVowelMark).normalize() + diacritics;
     });
   }
@@ -787,16 +755,8 @@ export class Mapping {
    * Letters are returned without their diacritical sign.
    */
   trLettersWithCxOrMacron(): string[] {
-    const letters = Object.assign(this.#capitalLetters, this.#smallLetters);
-
-    const found = [];
-    for (const [k, v] of Object.entries(letters)) {
-      const el = v?.tr ? v.tr.normalize('NFD') : '';
-      if (/\u0302|\u0304/.test(el)) {
-        found.push(el);
-      }
-    }
-
-    return found.map((el) => el.charAt(0).normalize());
+    return Object.values({ ...this.#capitalLetters, ...this.#smallLetters })
+      .filter((v) => /\u0302|\u0304/.test(v.tr?.normalize('NFD')))
+      .map((v) => v.tr.normalize('NFD').charAt(0).normalize());
   }
 }
