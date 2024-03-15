@@ -6,25 +6,28 @@
 <link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
 <style>
   body {
-    grid-template-columns: 1fr min(80rem, 90%) 1fr;
+    grid-template-columns: 1fr min(70em, 90%) 1fr;
   }
 
   main {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));    
+    column-gap: 1.5em;
+    margin-bottom: 1.5em;
   }
 
   #result-area {
-    white-space: pre-wrap;
+    margin: 0;
+    height: 0;
+    min-height: 100%;
+    overflow: scroll;
     font-family: Cousine, ui-monospace, monospace;
     background: #fdfdfd;
   }
 
   #options-area {
-    margin-top: 1.5rem;
-    padding: .75rem;
+    margin-top: 1.5em;
+    padding: .75em;
     background: var(--accent-bg);
     border-radius: var(--standard-border-radius);
   }
@@ -67,7 +70,7 @@
 
   fieldset label {
     display: inline-block;
-    margin: .25rem .75rem;
+    margin: .25em .75em;
   }
 
   fieldset select {
@@ -89,17 +92,17 @@
       <input
         id="search-bar"
         type="search"
-        style="width: 100%"
+        style="width:100%"
       />
 
       Input type:
       <span id="greek-notice" class="notice" hidden>
-        <p style="margin: 0 0 .75em 0">
+        <p style="margin:0 0 .75em 0">
           Configure your keyboard in Greek or type it using beta code.<br>
           Here's the conversion chart:
         </p>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -119,7 +122,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -151,8 +154,8 @@
       <label id="greek-label" for="greek-radio">greek <sup>[?]</sup></label>
 
       <span id="beta-code-notice" class="notice" hidden>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -172,7 +175,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -203,8 +206,8 @@
       <label id="beta-code-label" for="beta-code-radio">beta code <sup>[?]</sup></label>
 
       <span id="translit-notice" class="notice" hidden>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -224,7 +227,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -543,23 +546,9 @@
       conversionOptions.transliterationStyle.upsilon_y = true;
     else delete conversionOptions.transliterationStyle.upsilon_y;
 
-    if (values.includes('lunatesigma_s')) {
+    if (values.includes('lunatesigma_s'))
       conversionOptions.transliterationStyle.lunatesigma_s = true;
-      conversionOptions.additionalChars = AdditionalChar.ALL;
-      checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'additional-chars') {
-          checkbox.checked = true;
-          checkbox.disabled = true;
-        }
-      });
-    } else {
-      delete conversionOptions.transliterationStyle.lunatesigma_s;
-      checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'additional-chars') {
-          checkbox.disabled = false;
-        }
-      });
-    }
+    else delete conversionOptions.transliterationStyle.lunatesigma_s;
   }
 
   evaluateOptions();
