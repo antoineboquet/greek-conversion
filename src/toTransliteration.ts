@@ -166,7 +166,7 @@ export function toTransliteration(
  * @privateRemarks
  * (1) The expected input form of the upsilon is 'y'.
  * (2) Upsilon diphthongs to preserve are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
- * (2) The given string's diaereses should have been flagged as '@' using
+ * (3) The given string's diaereses should have been flagged as '@' using
  * the `flagDiaereses()` function.
  */
 function applyUpsilonDiphthongs(
