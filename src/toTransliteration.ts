@@ -111,7 +111,7 @@ export function toTransliteration(
 
       if (rho_rh) {
         str = str
-          .replace(/(?<!^)rr(?!h)/gim, (m) =>
+          .replace(/rr(?!h)/gi, (m) =>
             m.toUpperCase() === m ? m + 'H' : m + 'h'
           )
           .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
