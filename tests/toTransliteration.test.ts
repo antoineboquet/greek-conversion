@@ -518,7 +518,54 @@ describe('From greek to transliteration', () => {
     ${'Πάτροϙλος'}                                  | ${'Patroḳlos'}
   `('Applying preset ALA_LC', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC)).toBe(expected))
 
-
+  // Applying preset ALA_LC_MODERN (the following sentences are given by the ALA-LC romanization table)
+  //
+  // Note that the romanization was adapted as:
+  //   (1) an 'h' needs to be explicitely noted by a rough breathing;
+  //   (2) uppercase sentences can't be easily transformed to lowercase while keeping proper nouns.
+  
+  test.each`
+    str                                             | expected
+    ${'Ἐτήσια ἔκθεσις / Κυπριακὴ Δημοκρατία,'}      | ${'Etēsia ekthesis / Kypriakē Dēmokratia,'}
+    ${'Ὑπουργεῖον Ἐργασίας καὶ Κοινωνικῶν'}         | ${'Hypourgeion Ergasias kai Koinōnikōn'}
+    ${'Ἀσφαλίσεων'}                                 | ${'Asphaliseōn'}
+    ${'Ετήσια έκθεση / Κυπριακή Δημοκρατία,'}       | ${'Etēsia ekthesē / Kypriakē Dēmokratia,'}
+    ${'Υπουργείο Εργασίας και Κοινωνικών'}          | ${'Ypourgeio Ergasias kai Koinōnikōn'}
+    ${'Ασφαλίσεων'}                                 | ${'Asphaliseōn'}
+    ${'Ελληνικό Ίδρυμα Ευρωπαϊκής και Εξωτερικής'}  | ${'Ellēniko Idryma Eurōpaikēs kai Exōterikēs'}
+    ${'Πολιτικής'}                                  | ${'Politikēs'}
+    ${'Ελευθέριος Δ. Παυλίδης'}                     | ${'Eleutherios D. Paulidēs'}
+    ${'Ορθόδοξος Αυτοκέφαλος Εκκλησία της'}         | ${'Orthodoxos Autokephalos Ekklēsia tēs'}
+    ${'Αλβανίας'}                                   | ${'Alvanias'}
+    ${'Βίος και πολιτεία του Αλέξη Ζορμπά'}         | ${'Vios kai politeia tou Alexē Zormpa'}
+    ${'Λασκαρίνα Μπουμπουλίνα'}                     | ${'Laskarina Boumpoulina'}
+    ${'Νταίηβιντ Μίτσελ'}                           | ${'D̲aiēvint Mitsel'}
+    ${'Τζαίημς Τζόυς'}                              | ${'Tzaiēms Tzoys'}
+    ${'Ἡ κοινωνιολογία τοῦ ρεμπέτικου'}             | ${'Hē koinōniologia tou rempetikou'}
+    ${'Βίλλυ Μπραντ'}                               | ${'Villy Brant'}
+    ${'Μπραντ Πιτ'}                                 | ${'Brant Pit'}
+    ${'Γιάκομπ Φίλιπ Φαλμεράυερ'}                   | ${'Giakomp Philip Phalmerayer'}
+    ${'Σαρλ Ογκουστίν ντε Κουλόμπ'}                 | ${'Sarl Onkoustin d̲e Koulomp'}
+    ${'Λαμπέρτο Ντίνι'}                             | ${'Lamperto D̲ini'}
+    ${'Τζωρτζ Χέρμπερτ Ουώκερ Μπους'}               | ${'Tzōrtz Chermpert Ouōker Bous'}
+    ${'Ουίνστων Τσώρτσιλ'}                          | ${'Ouinstōn Tsōrtsil'}
+    ${'Παγκόσμιο Κέντρο Εμπορίου'}                  | ${'Pankosmio Kentro Emporiou'}
+    ${'Φαίδων Γκιζίκης'}                            | ${'Phaidōn Gkizikēs'}
+    ${'Γκέτεμποργκ'}                                | ${'Gketemporgk'}
+    ${'Ουάσιγκτον'}                                 | ${'Ouasinkton'}
+    ${'Ουάσινγκτον'}                                | ${'Ouasinnkton'}
+    ${'Αεροδρόμιο Ρόναλντ Ρέιγκαν της Ουάσινγκτον'} | ${'Aerodromio Ronalnt Reinkan tēs Ouasinnkton'}
+    ${'Ντμίτρι Ιβάνοβιτς Μεντελέγιεφ'}              | ${'D̲mitri Ivanovits Mentelegieph'}
+    ${'Άγγελος Σταύρου Βλάχος'}                     | ${'Angelos Staurou Vlachos'}
+    ${'ΟΔΗΓΟΣ ΜΑΡΚΕΤΙΝΓΚ ΕΛΛΑΔΟΣ / Ἑλληνικό'}       | ${'ODĒGOS MARKETINGK ELLADOS / Hellēniko'}
+    ${'Ἰνστιτοῦτο Μάρκετινγκ τῆς Ἑλληνικῆς'}        | ${'Institouto Marketingk tēs Hellēnikēs'}
+    ${'Ἑταιρίας Διοικήσεως Ἐπιχειρήσεων'}           | ${'Hetairias Dioikēseōs Epicheirēseōn'}
+    ${'Σάλπιγξ Ἑλληνική'}                           | ${'Salpinx Hellēnikē'}
+    ${'Μπιντπάϋ'}                                   | ${'Bintpay'}
+    ${'Η υιοθεσία ενηλίκων'}                        | ${'Ē uiothesia enēlikōn'}
+    ${'οι Άρπυιες'}                                 | ${'oi Arpuies'}
+  `('Applying preset ALA_LC_MODERN', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC_MODERN)).toBe(expected))
+  
   // Applying preset ISO (-> ISO 843 [1997])
   
   test.each`
@@ -631,7 +678,7 @@ describe('Self-conversion', () => {
 
   // Applying eta_i, using circumflex
 
-  test('Applying eta_i', () => {
+  test('Applying eta_i, using circumflex', () => {
     expect(toTransliteration('hêdonế', KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('hîdonî́')
   })
