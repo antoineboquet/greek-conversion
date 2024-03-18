@@ -696,27 +696,18 @@ export class Mapping {
     else toProp = 'tr';
 
     let props = {
-      ...this.#capitalLetters,
-      ...this.#punctuation
+      ...this.#punctuation,
+      ...this.#capitalLetters
     };
 
-    if (!this.#isUpperCase) props = { ...this.#smallLetters, ...props };
+    if (!this.#isUpperCase) props = { ...props, ...this.#smallLetters };
+    if (!this.#removeDiacritics) props = { ...props, ...this.#diacritics };
 
-    const sortedChars = Object.values(props)
+    // prettier-ignore
+    const sortedChars: string[][] = Object.values(props)
       .filter((v) => v[fromProp] && v[toProp])
       .map((v) => [v[fromProp], v[toProp]])
-      .sort((a, b) => {
-        return b[0].normalize('NFD').length - a[0].normalize('NFD').length;
-      });
-
-    if (!this.#removeDiacritics) {
-      const diacritics = Object.values(this.#diacritics)
-        .filter((v) => v[fromProp] && v[toProp])
-        .map((v) => [v[fromProp], v[toProp]]);
-
-      // @ts-ignore
-      return new Map([...sortedChars, ...diacritics]);
-    }
+      .sort((a, b) => b[0].normalize('NFD').length - a[0].normalize('NFD').length);
 
     // @ts-ignore
     return new Map(sortedChars);
