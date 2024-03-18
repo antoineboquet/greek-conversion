@@ -711,19 +711,11 @@ export class Mapping {
     fromType: KeyType,
     toType: KeyType
   ): Map<string, string> {
-    let fromProp, toProp: string;
-
-    if (fromType === KeyType.BETA_CODE) fromProp = 'bc';
-    else if (fromType === KeyType.GREEK) fromProp = 'gr';
-    else fromProp = 'tr';
-
-    if (toType === KeyType.BETA_CODE) toProp = 'bc';
-    else if (toType === KeyType.GREEK) toProp = 'gr';
-    else toProp = 'tr';
-
-    if (fromProp === 'tr' && toProp === fromProp) {
-      fromProp = 'trBase';
-    }
+    const fromProp: string =
+      fromType === KeyType.TRANSLITERATION && fromType === toType
+        ? 'trBase'
+        : fromType;
+    const toProp: string = toType;
 
     let props = {
       ...this.#punctuation,
