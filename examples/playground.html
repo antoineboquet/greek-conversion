@@ -321,6 +321,11 @@
         </label>
 
         <label>
+          <input type="checkbox" name="options" value="lunatesigma_s" />
+          lunate sigma &rarr; s
+        </label>
+
+        <label>
           <input type="checkbox" name="options" value="beta_v" />
           beta &rarr; v
         </label>
@@ -328,6 +333,16 @@
         <label>
           <input type="checkbox" name="options" value="gammaNasal_n" />
           gamma nasal &rarr; n
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="muPi_b" />
+          mu + pi &rarr; b (initially)
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="nuTau_d" />
+          nu + tau &rarr; d̲ (initially)
         </label>
 
         <label>
@@ -358,11 +373,6 @@
         <label>
           <input type="checkbox" name="options" value="upsilon_y" />
           upsilon &rarr; y
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="lunatesigma_s" />
-          lunate sigma &rarr; s
         </label>
       </fieldset>
     </div>
@@ -521,6 +531,14 @@
     if (values.includes('gammaNasal_n'))
       conversionOptions.transliterationStyle.gammaNasal_n = true;
     else delete conversionOptions.transliterationStyle.gammaNasal_n;
+    
+    if (values.includes('muPi_b'))
+      conversionOptions.transliterationStyle.muPi_b = true;
+    else delete conversionOptions.transliterationStyle.muPi_b;
+
+    if (values.includes('nuTau_d'))
+      conversionOptions.transliterationStyle.nuTau_d = true;
+    else delete conversionOptions.transliterationStyle.nuTau_d;
 
     if (values.includes('eta_i'))
       conversionOptions.transliterationStyle.eta_i = true;
