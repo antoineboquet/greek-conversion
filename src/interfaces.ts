@@ -37,6 +37,8 @@ export interface ITransliterationStyle {
   beta_v?: boolean;
   gammaNasal_n?: boolean | Preset.ALA_LC /* | Preset.ISO_T2*/; // (¹)
   eta_i?: boolean;
+  muPi_b?: boolean;
+  nuTau_d?: boolean;
   xi_ks?: boolean;
   rho_rh?: boolean;
   phi_f?: boolean;
