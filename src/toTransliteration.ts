@@ -36,8 +36,7 @@ export function toTransliteration(
     muPi_b,
     nuTau_d,
     rho_rh,
-    upsilon_y,
-    lunatesigma_s
+    upsilon_y
   } = transliterationStyle ?? {};
   const mapping = declaredMapping ?? new Mapping(options);
 
@@ -65,71 +64,6 @@ export function toTransliteration(
       break;
 
     case KeyType.TRANSLITERATION:
-      if (useCxOverMacron) {
-        const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
-        str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
-      }
-
-      if (beta_v) {
-        str = str.replace(/b/gi, (m) => (m.toUpperCase() === m ? 'V' : 'v'));
-      }
-
-      if (eta_i) {
-        str = str
-          .normalize('NFD')
-          .replace(/(e)(\p{M}+)/giu, (m, $1, $2) => {
-            if ((useCxOverMacron && /\u0302/.test(m)) || /\u0304/.test(m)) {
-              return $1.toUpperCase() === $1 ? 'I' + $2 : 'i' + $2;
-            }
-            return m;
-          })
-          .normalize();
-      }
-
-      if (xi_ks) {
-        str = str.replace(/x/gi, (m) => {
-          if (options.isUpperCase) return 'KS';
-          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Ks' : 'ks';
-        });
-      }
-
-      if (phi_f) {
-        str = str.replace(/ph/gi, (m) =>
-          m.charAt(0).toUpperCase() === m.charAt(0) ? 'F' : 'f'
-        );
-      }
-
-      if (chi_kh) {
-        str = str.replace(/ch/gi, (m) => {
-          if (options.isUpperCase) return 'KH';
-          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Kh' : 'kh';
-        });
-      }
-
-      if (rho_rh) {
-        str = str
-          .replace(/rr(?!h)/gi, (m) =>
-            m.toUpperCase() === m ? m + 'H' : m + 'h'
-          )
-          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
-            options.isUpperCase ? m + 'H' : m + 'h'
-          );
-      }
-
-      if (upsilon_y) {
-        str = str
-          .normalize('NFD')
-          .replace(/U/g, 'Y')
-          .replace(/u/g, 'y')
-          .normalize();
-      }
-
-      if (lunatesigma_s) {
-        str = str.replace(/c(?!h)/gi, (m) =>
-          m.toUpperCase() === m ? 'S' : 's'
-        );
-      }
-
       if (removeDiacritics) {
         str = utilRmDiacritics(
           str,
@@ -140,6 +74,16 @@ export function toTransliteration(
       }
 
       str = mapping.apply(str, fromType, fromType);
+
+      if (rho_rh) {
+        str = str
+          .replace(/rr(?!h)/gi, (m) =>
+            m.toUpperCase() === m ? m + 'H' : m + 'h'
+          )
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
+            options.isUpperCase ? m + 'H' : m + 'h'
+          );
+      }
       break;
   }
 

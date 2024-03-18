@@ -29,6 +29,7 @@ export interface IMappingProperty {
   gr: string;
   bc?: string;
   tr?: string;
+  trBase?: string; // self-conversion: transliterated chars without alteration.
 }
 
 export interface ITransliterationStyle {

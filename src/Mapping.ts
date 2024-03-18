@@ -507,6 +507,21 @@ export class Mapping {
       }
     }
 
+    const setupTrBase = (...charSets: object[]): void => {
+      for (const set of charSets) {
+        for (const k of Object.keys(set)) {
+          if (set[k].tr) set[k].trBase = set[k].tr;
+        }
+      }
+    };
+
+    setupTrBase(
+      this.#capitalLetters,
+      this.#smallLetters,
+      this.#punctuation,
+      this.#diacritics
+    );
+
     const {
       useCxOverMacron,
       beta_v,
@@ -582,6 +597,9 @@ export class Mapping {
         if (v.tr?.length > 1 /* Th, Ph, etc */) {
           this.#capitalLetters[k].tr = v.tr.toUpperCase();
         }
+        if (v.trBase?.length > 1 /* Th, Ph, etc */) {
+          this.#capitalLetters[k].trBase = v.trBase.toUpperCase();
+        }
       }
     }
   }
@@ -590,32 +608,40 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(fromStr: string, fromType: KeyType, toType: KeyType): string {
-    const { gammaNasal_n, upsilon_y, lunatesigma_s } =
+    const { useCxOverMacron, gammaNasal_n, upsilon_y, lunatesigma_s } =
       this.#transliterationStyle ?? {};
 
     fromStr = fromStr.normalize('NFD');
 
-    if (fromType === KeyType.TRANSLITERATION && toType !== fromType) {
-      fromStr = this.#trJoinSpecialChars(fromStr);
-
-      // Add the alternate upsilon form (y/u) to the mapping.
-      if (upsilon_y) {
-        this.#capitalLetters.CAPITAL_ALT_UPSILON = {
-          bc: this.#capitalLetters.CAPITAL_UPSILON.bc,
-          gr: this.#capitalLetters.CAPITAL_UPSILON.gr,
-          tr: 'U'
-        };
-        this.#smallLetters.SMALL_ALT_UPSILON = {
-          bc: this.#smallLetters.SMALL_UPSILON.bc,
-          gr: this.#smallLetters.SMALL_UPSILON.gr,
-          tr: 'u'
-        };
+    if (fromType === KeyType.TRANSLITERATION) {
+      if (fromType === toType) {
+        // Self-conversion: normalize the long vowel mark.
+        fromStr = fromStr.replace(new RegExp(`${CIRCUMFLEX}`, 'g'), MACRON);
       }
 
-      // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
-      if (lunatesigma_s) {
-        this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = undefined;
-        this.#smallLetters.SMALL_LUNATE_SIGMA.tr = undefined;
+      const cxOrMacron = useCxOverMacron && fromType !== toType;
+      fromStr = this.#trJoinSpecialChars(fromStr, cxOrMacron);
+
+      if (fromType !== toType) {
+        // Add the alternate upsilon form (y/u) to the mapping.
+        if (upsilon_y) {
+          this.#capitalLetters.CAPITAL_ALT_UPSILON = {
+            bc: this.#capitalLetters.CAPITAL_UPSILON.bc,
+            gr: this.#capitalLetters.CAPITAL_UPSILON.gr,
+            tr: 'U'
+          };
+          this.#smallLetters.SMALL_ALT_UPSILON = {
+            bc: this.#smallLetters.SMALL_UPSILON.bc,
+            gr: this.#smallLetters.SMALL_UPSILON.gr,
+            tr: 'u'
+          };
+        }
+
+        // `lunatesigma_s` is destructive: convert back all sigmas using the regular form.
+        if (lunatesigma_s) {
+          this.#capitalLetters.CAPITAL_LUNATE_SIGMA.tr = undefined;
+          this.#smallLetters.SMALL_LUNATE_SIGMA.tr = undefined;
+        }
       }
     }
 
@@ -695,6 +721,10 @@ export class Mapping {
     else if (toType === KeyType.GREEK) toProp = 'gr';
     else toProp = 'tr';
 
+    if (fromProp === 'tr' && toProp === fromProp) {
+      fromProp = 'trBase';
+    }
+
     let props = {
       ...this.#punctuation,
       ...this.#capitalLetters
@@ -715,27 +745,31 @@ export class Mapping {
 
   /**
    * Returns a string for which some diacritical marks have been joined back
-   * to their letter as they should not be treated separately (e. g. when
-   * a transliterated long vowel occurs).
+   * to their base character as they should not be treated separately
+   * (e. g. when a transliterated long vowel occurs).
    *
    * @param NFDTransliteratedStr - Expects an `NFD` normalized transliterated string.
    */
-  #trJoinSpecialChars(NFDTransliteratedStr: string): string {
-    // Join back below dots to archaic koppas.
+  #trJoinSpecialChars(
+    NFDTransliteratedStr: string,
+    useCircumflex?: boolean
+  ): string {
+    const specialChars: string = this.trLettersWithCxOrMacron().join('');
+    const cxOrMacron = useCircumflex ? CIRCUMFLEX : MACRON;
+
     if (this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
-        new RegExp(`${this.#capitalLetters.CAPITAL_ARCHAIC_KOPPA.tr.normalize('NFD')}`, 'gi'), // prettier-ignore
-        (m) => m.normalize()
+        new RegExp(`(k)(\\p{M}*?)(${DOT_BELOW})`, 'giu'),
+        (m, $1, $2, $3) => ($1 + $3).normalize() + $2
       );
     }
 
-    // Join back long wovel marks to the letters that carry them.
-    const longVowelMark = this.#transliterationStyle?.useCxOverMacron ? CIRCUMFLEX : MACRON; // prettier-ignore
-    const letters: string = this.trLettersWithCxOrMacron().join('');
-    const re = new RegExp(`([${letters}])(\\p{M}*?)(${longVowelMark})`, 'gu'); // prettier-ignore
-    return NFDTransliteratedStr.replace(re, (m, char, diacritics) => {
-      return (char + longVowelMark).normalize() + diacritics;
-    });
+    // @fixme: adding 'Ee' prevents `eta_i` to break some self-conversions
+    // (tr), but is not satisfying.
+    return NFDTransliteratedStr.replace(
+      new RegExp(`([${specialChars}Ee])(\\p{M}*?)([${cxOrMacron}])`, 'gu'),
+      (m, $1, $2, $3) => ($1 + $3).normalize() + $2
+    );
   }
 
   /**
