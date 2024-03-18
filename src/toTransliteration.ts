@@ -5,9 +5,7 @@ import {
   MixedPreset
 } from './interfaces';
 import {
-  CIRCUMFLEX,
   DIAERESIS,
-  MACRON,
   Mapping,
   ROUGH_BREATHING,
   SMOOTH_BREATHING
