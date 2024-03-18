@@ -86,11 +86,8 @@ export function toGreek(
  * on double rhos).
  *
  * @privateRemarks
- * (1) Can't figure how to implement `reInitialBreathing` in order
- * to consistently find `firstV`, `firstD`, `nextV` & `nextD` values.
- * (1) Currently, the regex captures the first vowels - including their
- * diacritics - of a word together. Notice that the `vowelGroups` can
- * match 2+ vowels.
+ * The regex captures the first vowels - including their diacritics - of a word
+ * together. Notice that the `vowelGroups` can match 2+ vowels.
  */
 function trConvertBreathings(
   str: string,
