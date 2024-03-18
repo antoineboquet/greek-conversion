@@ -1,19 +1,36 @@
 import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 
-const ALA_LC_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: true,
-  transliterationStyle: {
-    gammaNasal_n: true,
-    rho_rh: true,
-    upsilon_y: true,
-    lunatesigma_s: true
-  },
+const ALA_LC_ADDITIONAL_CHARS = (): IConversionOptions => ({
   additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.ARCHAIC_KOPPA,
     AdditionalChar.LUNATE_SIGMA
   ]
+});
+
+const ALA_LC_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: true,
+  transliterationStyle: {
+    gammaNasal_n: Preset.ALA_LC,
+    rho_rh: true,
+    upsilon_y: true,
+    lunatesigma_s: true
+  },
+  ...ALA_LC_ADDITIONAL_CHARS()
+});
+
+const ALA_LC_MODERN_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: true,
+  transliterationStyle: {
+    beta_v: true,
+    gammaNasal_n: Preset.ALA_LC,
+    muPi_b: true,
+    nuTau_d: true,
+    upsilon_y: true,
+    lunatesigma_s: true
+  },
+  ...ALA_LC_ADDITIONAL_CHARS()
 });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
@@ -80,6 +97,10 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
   switch (preset) {
     case Preset.ALA_LC:
       options = ALA_LC_OPTIONS();
+      break;
+
+    case Preset.ALA_LC_MODERN:
+      options = ALA_LC_MODERN_OPTIONS();
       break;
 
     case Preset.BNF:
