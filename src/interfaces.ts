@@ -35,15 +35,19 @@ export interface ITransliterationStyle {
   setCoronisStyle?: Coronis;
   useCxOverMacron?: boolean;
   beta_v?: boolean;
-  gammaNasal_n?: boolean;
+  gammaNasal_n?: boolean | Preset.ALA_LC /* | Preset.ISO_T2*/; // (¹)
   eta_i?: boolean;
   xi_ks?: boolean;
   rho_rh?: boolean;
   phi_f?: boolean;
   chi_kh?: boolean;
-  upsilon_y?: boolean | Preset.ISO; // (¹)
+  upsilon_y?: boolean | Preset.ISO; // (²)
   lunatesigma_s?: boolean;
 }
 
-// ¹ Preset.ISO: only preserve 'au', 'eu', 'ou' diphthongs.
-//   Note that this is undoubtedly poorly designed.
+// ¹ `Preset.ALA_LC`: preserve 'gk' initially and finally;
+//   `Preset.ISO_T2`: always preserve 'gk'.
+//   (Note that this is undoubtedly poorly designed.)
+
+// ² `Preset.ISO`: only preserve 'au', 'eu', 'ou' diphthongs.
+//   (Note that this is undoubtedly poorly designed.)

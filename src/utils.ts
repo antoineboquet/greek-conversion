@@ -3,6 +3,7 @@ import {
   IConversionOptions,
   IGreekStyle,
   IInternalConversionOptions,
+  ITransliterationStyle,
   MixedPreset
 } from './interfaces';
 import {
@@ -22,32 +23,43 @@ import { applyPreset } from './presets';
 
 /**
  * Returns a string with the right representation of gamma nasals.
+ *
+ * @privateRemarks
+ * Transliteration: letter 'k' covers the case of `xi_ks`/`chi_kh` options.
  */
 export const applyGammaNasals = (
   str: string,
   type: KeyType,
-  gammaNasal_n?: boolean
+  gammaNasal_n?: ITransliterationStyle['gammaNasal_n']
 ): string => {
+  const reReturn = (l: string, $1: string, $2: string): string =>
+    ($1.toUpperCase() === $1 ? l.toUpperCase() : l) + $2;
+
   switch (type) {
     case KeyType.GREEK:
-      return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) =>
-        $1.toUpperCase() === $1 ? 'Γ' + $2 : 'γ' + $2
-      );
+      return str.replace(/(ν)([γκξχ])/gi, (m, $1, $2) => reReturn('γ', $1, $2));
 
     case KeyType.TRANSLITERATION:
-      return gammaNasal_n
-        ? // Letter 'k' covers the case of `xi_ks`/`chi_kh` options.
-          str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
-            $1.toUpperCase() === $1 ? 'N' + $2 : 'n' + $2
+      if (gammaNasal_n === Preset.ALA_LC) {
+        return str
+          .replace(/(?<!\p{P}|\s|^)(g)(k)(?!s|h|\p{P}|\s|$)/gimu, (m, $1, $2) =>
+            reReturn('n', $1, $2)
           )
-        : str.replace(/(n)(g|k|x|ch)/gi, (m, $1, $2) =>
-            $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
-          );
+          .replace(/(g)(g|x|ks|ch|kh)/gi, (m, $1, $2) => reReturn('n', $1, $2));
+      }
+
+      if (gammaNasal_n) {
+        return str.replace(/(g)(g|k|x|ch)/gi, (m, $1, $2) =>
+          reReturn('n', $1, $2)
+        );
+      }
+
+      return str.replace(/(n)(g|k|x|ch)/gi, (m, $1, $2) =>
+        reReturn('g', $1, $2)
+      );
 
     case KeyType.BETA_CODE:
-      return str.replace(/(n)([gkcx])/gi, (m, $1, $2) =>
-        $1.toUpperCase() === $1 ? 'G' + $2 : 'g' + $2
-      );
+      return str.replace(/(n)([gkcx])/gi, (m, $1, $2) => reReturn('g', $1, $2));
   }
 };
 
