@@ -33,11 +33,8 @@ export function toTransliteration(
   const {
     setCoronisStyle,
     useCxOverMacron,
-    beta_v,
-    eta_i,
-    xi_ks,
-    phi_f,
-    chi_kh,
+    muPi_b,
+    nuTau_d,
     rho_rh,
     upsilon_y,
     lunatesigma_s
