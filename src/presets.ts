@@ -86,13 +86,13 @@ const TLG_OPTIONS = (): IConversionOptions => ({
   additionalChars: AdditionalChar.ALL
 });
 
-export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
+export const applyPreset = (
+  preset: Preset | MixedPreset
+): IConversionOptions => {
   let options: IConversionOptions = {};
   let mixedOptions: IConversionOptions = {};
 
-  if (Array.isArray(preset)) {
-    [preset, mixedOptions] = preset;
-  }
+  if (Array.isArray(preset)) [preset, mixedOptions] = preset;
 
   switch (preset) {
     case Preset.ALA_LC:
@@ -127,14 +127,15 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       throw new RangeError(`Preset '${preset}' is not implemented.`);
   }
 
-  if (Object.keys(mixedOptions).length !== 0) {
-    mergeOptions(options, mixedOptions);
-  }
+  return Object.keys(mixedOptions).length
+    ? mergeOptions(options, mixedOptions)
+    : options;
+};
 
-  return options;
-}
-
-function mergeOptions(target: IConversionOptions, source: IConversionOptions) {
+const mergeOptions = (
+  target: IConversionOptions,
+  source: IConversionOptions
+) => {
   const isObject = (obj: object) => obj && typeof obj === 'object';
 
   for (const key in source) {
@@ -148,4 +149,4 @@ function mergeOptions(target: IConversionOptions, source: IConversionOptions) {
   }
 
   return target;
-}
+};
