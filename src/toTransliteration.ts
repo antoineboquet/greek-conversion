@@ -150,6 +150,20 @@ export function toTransliteration(
     str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
   }
 
+  // @fixme: not reversible, but think about it.
+  if (muPi_b) {
+    str = str.replace(/(?<=\p{P}|\s|^)(m)p/gimu, (m, $1) =>
+      $1.toUpperCase() === $1 ? 'B' : 'b'
+    );
+  }
+
+  // @fixme: reversibility (add this kind of block in toBetaCode.ts / toGreek.ts).
+  if (nuTau_d) {
+    str = str.replace(/(?<=\p{P}|\s|^)(n)t/gimu, (m, $1) =>
+      $1.toUpperCase() === $1 ? 'D̲' : 'd̲'
+    );
+  }
+
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
   return trApplyCoronis(str, setCoronisStyle);
