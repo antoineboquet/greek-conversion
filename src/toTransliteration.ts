@@ -14,6 +14,7 @@ import {
   bcReorderDiacritics,
   fromTLG,
   handleOptions,
+  sanitizeBetaCodeString,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -47,6 +48,7 @@ export function toTransliteration(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = sanitizeBetaCodeString(str);
       str = bcReorderDiacritics(str);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
