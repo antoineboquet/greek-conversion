@@ -112,7 +112,7 @@ export const fromTLG = (betaCodeStr: string): string => {
   return betaCodeStr
     .toLowerCase()
     .replace(
-      /(\*)([\(\)\\\/\+=\|\?]*)([a-z])/g,
+      /(\*)([()\\/+=|?]*)([a-z])/g,
       (m, $1, $2, $3) => $3.toUpperCase() + $2
     );
 };
@@ -126,7 +126,7 @@ export const fromTLG = (betaCodeStr: string): string => {
  */
 export const toTLG = (betaCodeStr: string): string => {
   return betaCodeStr
-    .replace(/([a-z])([\(\)\\\/\+=\?]*)/gi, (m, $1, $2) =>
+    .replace(/([a-z])([()\\/+=?]*)/gi, (m, $1, $2) =>
       $1.toUpperCase() === $1 ? '*' + $2 + $1 : m
     )
     .toUpperCase();
