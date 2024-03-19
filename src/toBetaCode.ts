@@ -4,9 +4,9 @@ import { Mapping } from './Mapping';
 import {
   applyGammaNasals,
   applyUppercaseChars,
-  bcReorderDiacritics,
   fromTLG,
   handleOptions,
+  normalizeBetaCode,
   toTLG,
   trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
@@ -64,7 +64,7 @@ export function toBetaCode(
       break;
   }
 
-  str = bcReorderDiacritics(str);
+  str = normalizeBetaCode(str);
 
   if (isTLG && !isTLGStyle) str = fromTLG(str);
   if (!isTLG && isTLGStyle) str = toTLG(str);
