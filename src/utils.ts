@@ -133,25 +133,6 @@ export const toTLG = (betaCodeStr: string): string => {
 };
 
 /**
- * Returns a beta code string with a correct diacritics order
- * and without duplicates.
- *
- * @remarks
- * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
- * (4) iota subscript; (5) dot below.
- */
-export const bcReorderDiacritics = (betaCodeStr: string): string => {
-  const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
-
-  return betaCodeStr.replace(/([\(\)\\\/\+=\|\?]{2,})/gi, (m, diacritics) => {
-    // Converting to a `Set` prevents data duplication.
-    return [...new Set(diacritics)]
-      .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
-      .join('');
-  });
-};
-
-/**
  * Returns an `IInternalConversionOptions` from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */
@@ -223,6 +204,32 @@ export const trNormalizeCoronis = (
   return coronisStyle === Coronis.APOSTROPHE
     ? str.replace(re, SMOOTH_BREATHING).normalize()
     : str;
+};
+
+/**
+ * Returns a normalized beta code string.
+ *
+ * @remarks
+ * (1) Ensure the right diacritics order (and remove duplicates).
+ * (2) Sanitize the given string, removing all non beta code characters.
+ *
+ * @privateRemarks
+ * The correct diacritics order seems to be: (1) breathings; (2) diaereses;
+ * (3) accents; (4) iota subscript; (5) dot below.
+ */
+export const normalizeBetaCode = (betaCodeStr: string): string => {
+  const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+
+  return betaCodeStr
+    .replace(/([\(\)\\\/\+=\|\?]{2,})/gi, (m, diacritics) => {
+      // Converting to a `Set` prevents data duplication.
+      return [...new Set(diacritics)]
+        .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+        .join('');
+    })
+    .normalize('NFD')
+    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,:]/gi, '')
+    .normalize();
 };
 
 /**
@@ -319,13 +326,6 @@ export const removeGreekVariants = (
 
 export const removeExtraWhitespace = (str: string): string => {
   return str.replace(/(\s)+/g, '$1').trim();
-};
-
-export const sanitizeBetaCodeString = (str: string): string => {
-  return str
-    .normalize('NFD')
-    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,:]/gi, '')
-    .normalize();
 };
 
 export const sanitizeRegExpString = (str: string): string => {
