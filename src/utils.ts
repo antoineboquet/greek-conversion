@@ -221,7 +221,7 @@ export const normalizeBetaCode = (betaCodeStr: string): string => {
   const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
 
   return betaCodeStr
-    .replace(/([\(\)\\\/\+=\|\?]{2,})/gi, (m, diacritics) => {
+    .replace(/([()\\/+=|?]{2,})/gi, (m, diacritics) => {
       // Converting to a `Set` prevents data duplication.
       return [...new Set(diacritics)]
         .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
@@ -278,7 +278,7 @@ export const removeDiacritics = (
   switch (type) {
     case KeyType.BETA_CODE:
       // Include the macron (%26) & the breve (%27).
-      return str.replace(/[\(\)\\\/\+=\|\?]|%26|%27/g, '');
+      return str.replace(/[()\\/+=|?]|%26|%27/g, '');
 
     case KeyType.GREEK:
       return str
