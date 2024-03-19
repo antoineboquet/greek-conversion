@@ -321,6 +321,13 @@ export const removeExtraWhitespace = (str: string): string => {
   return str.replace(/(\s)+/g, '$1').trim();
 };
 
+export const sanitizeBetaCodeString = (str: string): string => {
+  return str
+    .normalize('NFD')
+    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,:]/gi, '')
+    .normalize();
+};
+
 export const sanitizeRegExpString = (str: string): string => {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
 };
