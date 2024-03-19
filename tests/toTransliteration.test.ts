@@ -179,7 +179,7 @@ describe('From beta code to transliteration', () => {
     ${'u)/ u(='}     | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str            | expected
@@ -190,7 +190,7 @@ describe('From beta code to transliteration', () => {
     ${'pou='}      | ${'poũ'}
     ${'mui/agros'} | ${'myíagros'}
     ${'wuto/s'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
@@ -439,7 +439,7 @@ describe('From greek to transliteration', () => {
     ${'ὔ ὗ'}       | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str           | expected
@@ -450,7 +450,7 @@ describe('From greek to transliteration', () => {
     ${'ποῦ'}      | ${'poũ'}
     ${'μυίαγρος'} | ${'myíagros'}
     ${'ωὐτός'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
@@ -521,7 +521,7 @@ describe('From greek to transliteration', () => {
   // Applying preset ALA_LC_MODERN (the following sentences are given by the ALA-LC romanization table)
   //
   // Note that the romanization was adapted as:
-  //   (1) an 'h' needs to be explicitely noted by a rough breathing;
+  //   (1) an 'h' needs to be explicitly noted by a rough breathing;
   //   (2) uppercase sentences can't be easily transformed to lowercase while keeping proper nouns.
   
   test.each`
@@ -728,7 +728,7 @@ describe('Self-conversion', () => {
     ${'ý hỹ'}      | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str           | expected
@@ -739,7 +739,7 @@ describe('Self-conversion', () => {
     ${'poỹ'}      | ${'poũ'}
     ${'muíagros'} | ${'myíagros'}
     ${'ōutós'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Applying lunatesigma_s
 
