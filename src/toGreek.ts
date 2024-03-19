@@ -5,11 +5,10 @@ import {
   applyGammaNasals,
   applyGreekVariants,
   applyUppercaseChars,
-  bcReorderDiacritics,
   fromTLG,
   handleOptions,
+  normalizeBetaCode,
   normalizeGreek,
-  sanitizeBetaCodeString,
   trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
@@ -38,11 +37,8 @@ export function toGreek(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = sanitizeBetaCodeString(str);
-
+      str = normalizeBetaCode(str);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      else str = bcReorderDiacritics(str);
-
       str = mapping.apply(str, fromType, KeyType.GREEK);
       break;
 
