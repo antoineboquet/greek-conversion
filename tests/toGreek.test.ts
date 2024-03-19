@@ -144,6 +144,16 @@ describe('From beta code to greek', () => {
     ${'w=|('} | ${'ᾧ'} 
   `('Testing various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
+  // Testing beta code string sanitization
+
+  test.each`
+    str                   | expected
+    ${'ánqrwpos'}         | ${'ανθρωπος'}
+    ${'h̔méra'}            | ${'ημερα'}
+    ${'a(/gios, o)/ros.'} | ${'ἅγιος, ὄρος.'}
+    ${'a))nh//r'}         | ${'ἀνήρ'}
+  `('Testing beta code string sanitization', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
+
 })
 
 describe('From transliteration to greek', () => {
