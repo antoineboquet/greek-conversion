@@ -74,15 +74,12 @@ export const applyGreekVariants = (
       .replace(/(?<!\p{P}|\s|^)β/gmu, GREEK_BETA_SYMBOL);
   }
 
-  if (options?.useLunateSigma) {
-    // Apply lunate sigma.
-    greekStr = greekStr
-      .replace(/Σ/g, CAPITAL_LUNATE_SIGMA)
-      .replace(/[σς]/g, SMALL_LUNATE_SIGMA);
-  } else {
-    // Apply final sigma (lowercase only).
-    greekStr = greekStr.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
-  }
+  // Replace sigma variants
+  greekStr = options?.useLunateSigma
+    ? greekStr.replace(/[Σσς]/g, (m) =>
+        m === 'Σ' ? CAPITAL_LUNATE_SIGMA : SMALL_LUNATE_SIGMA
+      )
+    : greekStr.replace(/ς/g, 'σ').replace(/(σ)(?=\p{P}|\s|$)/gmu, 'ς');
 
   // Replace pi + sigma with psi.
   greekStr = greekStr.replace(/Π[Σσ]/g, 'Ψ').replace(/πσ/g, 'ψ');
