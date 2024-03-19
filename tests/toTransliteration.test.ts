@@ -234,6 +234,16 @@ describe('From beta code to transliteration', () => {
     ${'w=|('} | ${'hō̧̃'} 
   `('Testing various diacritics order', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
 
+  // Testing beta code string sanitization
+
+  test.each`
+    str                   | expected
+    ${'ánqrwpos'}         | ${'anthrōpos'}
+    ${'h̔méra'}            | ${'ēmera'}
+    ${'a(/gios, o)/ros.'} | ${'hágios, óros.'}
+    ${'a))nh//r'}         | ${'anḗr'}
+  `('Testing beta code string sanitization', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
+
 })
 
 describe('From greek to transliteration', () => {
