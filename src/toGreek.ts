@@ -1,9 +1,5 @@
 import { KeyType, Preset } from './enums';
-import {
-  IConversionOptions,
-  IInternalConversionOptions,
-  MixedPreset
-} from './interfaces';
+import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGammaNasals,
@@ -13,6 +9,7 @@ import {
   fromTLG,
   handleOptions,
   normalizeGreek,
+  sanitizeBetaCodeString,
   trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
@@ -41,11 +38,12 @@ export function toGreek(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = sanitizeBetaCodeString(str);
+
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       else str = bcReorderDiacritics(str);
 
       str = mapping.apply(str, fromType, KeyType.GREEK);
-
       break;
 
     case KeyType.GREEK:
@@ -64,7 +62,7 @@ export function toGreek(
         str = utilRmDiacritics(str, fromType);
         str = str.replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str, options);
+        str = trConvertBreathings(str);
       }
       break;
   }
@@ -89,12 +87,7 @@ export function toGreek(
  * The regex captures the first vowels - including their diacritics - of a word
  * together. Notice that the `vowelGroups` can match 2+ vowels.
  */
-function trConvertBreathings(
-  str: string,
-  options: IInternalConversionOptions
-): string {
-  const { isUpperCase } = options;
-
+function trConvertBreathings(str: string): string {
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
   const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(h)?([${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
