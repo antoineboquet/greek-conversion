@@ -135,14 +135,14 @@ export const applyPreset = (
 const mergeOptions = (
   target: IConversionOptions,
   source: IConversionOptions
-) => {
-  const isObject = (obj: object) => obj && typeof obj === 'object';
+): IConversionOptions => {
+  const isObject = (obj: object): boolean => obj && typeof obj === 'object';
 
   for (const key in source) {
     if (Array.isArray(target[key]) && Array.isArray(source[key])) {
       target[key] = target[key].concat(source[key]);
     } else if (isObject(target[key]) && isObject(source[key])) {
-      mergeOptions(Object.assign({}, target[key]), source[key]);
+      target[key] = { ...target[key], ...source[key] };
     } else {
       target[key] = source[key];
     }
