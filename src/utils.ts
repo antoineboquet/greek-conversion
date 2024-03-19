@@ -133,17 +133,19 @@ export const toTLG = (betaCodeStr: string): string => {
 };
 
 /**
- * Returns a beta code string with a correct diacritics order.
+ * Returns a beta code string with a correct diacritics order
+ * and without duplicates.
  *
  * @remarks
  * The correct order seems to be: (1) breathings; (2) diaereses; (3) accents;
  * (4) iota subscript; (5) dot below.
  */
 export const bcReorderDiacritics = (betaCodeStr: string): string => {
+  const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+
   return betaCodeStr.replace(/([\(\)\\\/\+=\|\?]{2,})/gi, (m, diacritics) => {
-    const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
-    return diacritics
-      .split('')
+    // Converting to a `Set` prevents data duplication.
+    return [...new Set(diacritics)]
       .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
       .join('');
   });
