@@ -1,7 +1,13 @@
 import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 
-const ALA_LC_ADDITIONAL_CHARS = (): IConversionOptions => ({
+const ALA_LC_SHARED_OPTIONS = (): IConversionOptions => ({
+  removeDiacritics: true,
+  transliterationStyle: {
+    gammaNasal_n: Preset.ALA_LC,
+    upsilon_y: true,
+    lunatesigma_s: true
+  },
   additionalChars: [
     AdditionalChar.DIGAMMA,
     AdditionalChar.ARCHAIC_KOPPA,
@@ -9,29 +15,21 @@ const ALA_LC_ADDITIONAL_CHARS = (): IConversionOptions => ({
   ]
 });
 
-const ALA_LC_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: true,
-  transliterationStyle: {
-    gammaNasal_n: Preset.ALA_LC,
-    rho_rh: true,
-    upsilon_y: true,
-    lunatesigma_s: true
-  },
-  ...ALA_LC_ADDITIONAL_CHARS()
-});
+const ALA_LC_OPTIONS = (): IConversionOptions =>
+  mergeOptions(ALA_LC_SHARED_OPTIONS(), {
+    transliterationStyle: {
+      rho_rh: true
+    }
+  });
 
-const ALA_LC_MODERN_OPTIONS = (): IConversionOptions => ({
-  removeDiacritics: true,
-  transliterationStyle: {
-    beta_v: true,
-    gammaNasal_n: Preset.ALA_LC,
-    muPi_b: true,
-    nuTau_d: true,
-    upsilon_y: true,
-    lunatesigma_s: true
-  },
-  ...ALA_LC_ADDITIONAL_CHARS()
-});
+const ALA_LC_MODERN_OPTIONS = (): IConversionOptions =>
+  mergeOptions(ALA_LC_SHARED_OPTIONS(), {
+    transliterationStyle: {
+      beta_v: true,
+      muPi_b: true,
+      nuTau_d: true
+    }
+  });
 
 const BNF_OPTIONS = (): IConversionOptions => ({
   greekStyle: {
