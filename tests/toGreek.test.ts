@@ -144,7 +144,7 @@ describe('From beta code to greek', () => {
     ${'w=|('} | ${'ᾧ'} 
   `('Testing various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
 
-  // Testing beta code string sanitization
+  // Testing beta code string normalization
 
   test.each`
     str                   | expected
@@ -152,7 +152,7 @@ describe('From beta code to greek', () => {
     ${'h̔méra'}            | ${'ημερα'}
     ${'a(/gios, o)/ros.'} | ${'ἅγιος, ὄρος.'}
     ${'a))nh//r'}         | ${'ἀνήρ'}
-  `('Testing beta code string sanitization', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
 
 })
 

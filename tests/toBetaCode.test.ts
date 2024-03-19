@@ -422,7 +422,7 @@ describe('Self-conversion', () => {
     ${'w|(='}     | ${'w(=|'}
   `('Testing diacritics order', ({ str, expected }) => { expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected) })
   
-  // Testing beta code string sanitization
+  // Testing beta code string normalization
 
   test.each`
     str                   | expected
@@ -430,6 +430,6 @@ describe('Self-conversion', () => {
     ${'h̔méra'}            | ${'hmera'}
     ${'a(/gios, o)/ros.'} | ${'a(/gios, o)/ros.'}
     ${'a))nh//r'}         | ${'a)nh/r'}
-  `('Testing beta code string sanitization', ({ str, expected }) => expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected))
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected))
 
 })

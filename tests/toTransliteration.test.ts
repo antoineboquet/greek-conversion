@@ -234,7 +234,7 @@ describe('From beta code to transliteration', () => {
     ${'w=|('} | ${'hō̧̃'} 
   `('Testing various diacritics order', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
 
-  // Testing beta code string sanitization
+  // Testing beta code string normalization
 
   test.each`
     str                   | expected
@@ -242,7 +242,7 @@ describe('From beta code to transliteration', () => {
     ${'h̔méra'}            | ${'ēmera'}
     ${'a(/gios, o)/ros.'} | ${'hágios, óros.'}
     ${'a))nh//r'}         | ${'anḗr'}
-  `('Testing beta code string sanitization', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
 
 })
 
