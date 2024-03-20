@@ -23,6 +23,7 @@ export interface IGreekStyle {
   disableBetaVariant?: boolean;
   useGreekQuestionMark?: boolean;
   useLunateSigma?: boolean;
+  useMonotonicOrthography?: boolean;
 }
 
 export interface IMappingProperty {
