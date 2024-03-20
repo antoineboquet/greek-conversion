@@ -29,10 +29,10 @@ export function toBetaCode(
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
-  const isTLG = fromType === KeyType.TLG_BETA_CODE;
-  const isTLGStyle = betaCodeStyle?.useTLGStyle;
+  const isInputTLG = fromType === KeyType.TLG_BETA_CODE;
+  const isOutputTLG = betaCodeStyle?.useTLGStyle;
 
-  if (isTLG) fromType = KeyType.BETA_CODE;
+  if (isInputTLG) fromType = KeyType.BETA_CODE;
 
   switch (fromType) {
     case KeyType.BETA_CODE:
@@ -66,8 +66,8 @@ export function toBetaCode(
 
   str = normalizeBetaCode(str);
 
-  if (isTLG && !isTLGStyle) str = fromTLG(str);
-  if (!isTLG && isTLGStyle) str = toTLG(str);
+  if (isInputTLG && !isOutputTLG) str = fromTLG(str);
+  if (!isInputTLG && isOutputTLG) str = toTLG(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
