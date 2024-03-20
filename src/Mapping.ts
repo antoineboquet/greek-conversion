@@ -646,7 +646,7 @@ export class Mapping {
     }
 
     if (fromType === KeyType.GREEK) {
-      fromStr = normalizeGreek(fromStr, true, true);
+      fromStr = normalizeGreek(fromStr, { useGreekQuestionMark: true }, true);
     }
 
     const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);

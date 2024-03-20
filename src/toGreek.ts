@@ -66,7 +66,9 @@ export function toGreek(
   str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str, greekStyle?.useGreekQuestionMark);
+  return normalizeGreek(str, {
+    useGreekQuestionMark: greekStyle?.useGreekQuestionMark
+  });
 }
 
 /**

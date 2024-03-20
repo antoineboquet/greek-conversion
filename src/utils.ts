@@ -242,8 +242,8 @@ export const normalizeBetaCode = (betaCodeStr: string): string => {
  */
 export const normalizeGreek = (
   greekStr: string,
-  useGreekQuestionMark: boolean = false,
-  skipUnicodeNormalization: boolean = false
+  options?: IGreekStyle,
+  skipUnicodeNormalization?: boolean
 ): string => {
   if (!skipUnicodeNormalization) greekStr = greekStr.normalize('NFD');
   greekStr = greekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
@@ -251,7 +251,23 @@ export const normalizeGreek = (
   if (!skipUnicodeNormalization) greekStr = greekStr.normalize();
   greekStr = greekStr.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
 
-  return useGreekQuestionMark
+  // @fixme: don't evaluate this if/else block if skipUnicodeNormalization is enabled.
+  if (!options?.useMonotonicOrthography) {
+    // prettier-ignore
+    const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
+      ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
+      ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
+      ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
+      ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
+    ];
+    for (const ch of PRECOMPOSED_CHARS_WITH_TONOS_OXIA) {
+      greekStr = greekStr.replace(new RegExp(`${ch[0]}`, 'g'), ch[1]);
+    }
+  } else {
+    // Remove non-monotonic diacritics.
+  }
+
+  return options?.useGreekQuestionMark
     ? (greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK))
     : greekStr;
 };
