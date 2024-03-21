@@ -3,7 +3,6 @@ import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
 import {
   applyGammaNasals,
-  applyUppercaseChars,
   fromTLG,
   handleOptions,
   normalizeBetaCode,
@@ -11,7 +10,8 @@ import {
   trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
-  removeGreekVariants as utilRmGreekVariants
+  removeGreekVariants as utilRmGreekVariants,
+  trApplyUppercaseChars
 } from './utils';
 
 export function toBetaCode(
@@ -47,9 +47,7 @@ export function toBetaCode(
       break;
 
     case KeyType.TRANSLITERATION:
-      str = applyUppercaseChars(str);
-
-      str = trNormalizeCoronis(str, transliterationStyle?.setCoronisStyle);
+      str = trApplyUppercaseChars(str);
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');

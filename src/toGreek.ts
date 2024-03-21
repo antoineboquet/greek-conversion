@@ -4,7 +4,6 @@ import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGammaNasals,
   applyGreekVariants,
-  applyUppercaseChars,
   fromTLG,
   handleOptions,
   normalizeBetaCode,
@@ -12,7 +11,8 @@ import {
   trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
-  removeGreekVariants as utilRmGreekVariants
+  removeGreekVariants as utilRmGreekVariants,
+  trApplyUppercaseChars
 } from './utils';
 
 export function toGreek(
@@ -49,10 +49,8 @@ export function toGreek(
       break;
 
     case KeyType.TRANSLITERATION:
-      str = applyUppercaseChars(str);
+      str = trApplyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
-
-      str = trNormalizeCoronis(str, transliterationStyle?.setCoronisStyle);
 
       if (removeDiacritics) {
         str = utilRmDiacritics(str, fromType);

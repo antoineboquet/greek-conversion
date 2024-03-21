@@ -92,23 +92,6 @@ export const applyGreekVariants = (
 };
 
 /**
- * Returns a string with correctly positioned uppercase chars considering
- * that an initial uppercase `h` is going to be removed during a subsequent
- * conversion process.
- *
- * @remarks
- * This function expects a transliterated string or, at least, a string that
- * keeps its transliterated rough breathings.
- */
-export const applyUppercaseChars = (transliteratedStr: string): string => {
-  return transliteratedStr.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
-    return word.charAt(0) === 'H'
-      ? word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2)
-      : word;
-  });
-};
-
-/**
  * Takes a TLG beta code string and returns a beta code string following
  * the `greek-conversion` convention.
  */
@@ -350,4 +333,21 @@ export const removeExtraWhitespace = (str: string): string => {
 
 export const sanitizeRegExpString = (str: string): string => {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
+};
+
+/**
+ * Returns a string with correctly positioned uppercase chars considering
+ * that an initial uppercase `h` is going to be removed during a subsequent
+ * conversion process.
+ *
+ * @remarks
+ * This function expects a transliterated string or, at least, a string that
+ * keeps its transliterated rough breathings.
+ */
+export const trApplyUppercaseChars = (transliteratedStr: string): string => {
+  return transliteratedStr.replace(/(?<=\p{P}|\s|^)(\S*)/gmu, (word) => {
+    return word.charAt(0) === 'H'
+      ? word.charAt(0) + word.charAt(1).toUpperCase() + word.slice(2)
+      : word;
+  });
 };
