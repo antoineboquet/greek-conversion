@@ -8,7 +8,7 @@ import {
   handleOptions,
   normalizeBetaCode,
   normalizeGreek,
-  trNormalizeCoronis,
+  normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants,
@@ -26,7 +26,8 @@ export function toGreek(
     removeDiacritics,
     removeExtraWhitespace,
     greekStyle,
-    transliterationStyle
+    transliterationStyle,
+    isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
@@ -49,12 +50,12 @@ export function toGreek(
       break;
 
     case KeyType.TRANSLITERATION:
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
       str = trApplyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, fromType);
-        str = str.replace(/h/gi, '');
+        str = utilRmDiacritics(str, fromType).replace(/h/gi, '');
       } else {
         str = trConvertBreathings(str);
       }

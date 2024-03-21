@@ -6,8 +6,8 @@ import {
   fromTLG,
   handleOptions,
   normalizeBetaCode,
+  normalizeTransliteration,
   toTLG,
-  trNormalizeCoronis,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants,
@@ -25,7 +25,8 @@ export function toBetaCode(
     removeDiacritics,
     removeExtraWhitespace,
     betaCodeStyle,
-    transliterationStyle
+    transliterationStyle,
+    isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
@@ -47,6 +48,7 @@ export function toBetaCode(
       break;
 
     case KeyType.TRANSLITERATION:
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
       str = trApplyUppercaseChars(str);
 
       // Flag transliterated rough breathings.
