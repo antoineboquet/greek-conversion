@@ -182,17 +182,6 @@ export const isUpperCase = (str: string, type: KeyType): boolean => {
     : str.toUpperCase() === str;
 };
 
-export const trNormalizeCoronis = (
-  str: string,
-  coronisStyle: Coronis
-): string => {
-  const re = new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'g');
-
-  return coronisStyle === Coronis.APOSTROPHE
-    ? str.replace(re, SMOOTH_BREATHING).normalize()
-    : str;
-};
-
 /**
  * Returns a normalized beta code string.
  *
@@ -255,6 +244,41 @@ export const normalizeGreek = (
   return options?.useGreekQuestionMark
     ? (greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK))
     : greekStr;
+};
+
+/**
+ * Returns a normalized transliterated string.
+ */
+export const normalizeTransliteration = (
+  transliteratedStr: string,
+  options?: ITransliterationStyle,
+  isUpperCase?: boolean
+): string => {
+  const { setCoronisStyle, beta_v } = options ?? {};
+  const re = new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'g');
+
+  // @fixme: check the logic behind this.
+  if (setCoronisStyle === Coronis.APOSTROPHE) {
+    transliteratedStr = transliteratedStr.replace(re, SMOOTH_BREATHING);
+  }
+
+  if (beta_v) {
+    transliteratedStr = transliteratedStr.replace(/b/gi, (m) => {
+      if (isUpperCase) return 'MP';
+      else return m.toUpperCase() === m ? 'Mp' : 'mp';
+    });
+  }
+
+  transliteratedStr = transliteratedStr.replace(/d̲/gi, (m) => {
+    if (isUpperCase) return 'NT';
+    else return m.toUpperCase() === m ? 'Nt' : 'nt';
+  });
+
+  return transliteratedStr
+    .normalize('NFD')
+    .replace(/Y/g, 'U')
+    .replace(/y/g, 'u')
+    .normalize();
 };
 
 /**
