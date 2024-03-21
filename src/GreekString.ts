@@ -4,7 +4,7 @@ import { Mapping } from './Mapping';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
-import { handleOptions } from './utils';
+import { handleOptions, notImplemented } from './utils';
 
 export class GreekString {
   readonly #fromType: KeyType;
@@ -72,7 +72,7 @@ export class GreekString {
         break;
 
       default:
-        throw new RangeError(`KeyType '${toType}' is not implemented.`);
+        notImplemented('KeyType', toType);
     }
   }
 

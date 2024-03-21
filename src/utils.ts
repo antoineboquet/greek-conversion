@@ -21,6 +21,10 @@ import {
 } from './Mapping';
 import { applyPreset } from './presets';
 
+export const notImplemented = (subject: string, value: string): never => {
+  throw new RangeError(`${subject} '${value}' is not implemented.`);
+};
+
 /**
  * Returns a string with the right representation of gamma nasals.
  *
@@ -321,7 +325,7 @@ export const removeDiacritics = (
       return str.normalize();
 
     default:
-      throw new RangeError(`KeyType '${type}' is not implemented.`);
+      notImplemented('KeyType', type);
   }
 };
 
