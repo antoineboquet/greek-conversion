@@ -89,14 +89,12 @@ export function toTransliteration(
     str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
   }
 
-  // @fixme: not reversible, but think about it.
   if (muPi_b) {
     str = str.replace(/(?<=\p{P}|\s|^)(m)p/gimu, (m, $1) =>
       $1.toUpperCase() === $1 ? 'B' : 'b'
     );
   }
 
-  // @fixme: reversibility (add this kind of block in toBetaCode.ts / toGreek.ts).
   if (nuTau_d) {
     str = str.replace(/(?<=\p{P}|\s|^)(n)t/gimu, (m, $1) =>
       $1.toUpperCase() === $1 ? 'D̲' : 'd̲'
@@ -130,26 +128,31 @@ function applyUpsilonDiphthongs(
   const { transliterationStyle } = options;
   const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
 
-  return transliteratedStr
-    .normalize('NFD')
-    .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
-      if (!/y/i.test(vowelsGroup)) return vowelsGroup;
-      if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
-      if (vowelsGroup.normalize().length === 1) return vowelsGroup;
+  return (
+    transliteratedStr
+      .normalize('NFD')
+      // @fixme: we should process a string normalized with 'u', not 'y'.
+      .replace(/U/g, 'Y')
+      .replace(/u/g, 'y')
+      .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
+        if (!/y/i.test(vowelsGroup)) return vowelsGroup;
+        if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
+        if (vowelsGroup.normalize().length === 1) return vowelsGroup;
 
-      if (transliterationStyle?.upsilon_y === Preset.ISO) {
-        const unaccentedGroup = utilRmDiacritics(
-          vowelsGroup,
-          KeyType.TRANSLITERATION,
-          mapping.trLettersWithCxOrMacron(),
-          transliterationStyle?.useCxOverMacron
-        );
-        if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
-      }
+        if (transliterationStyle?.upsilon_y === Preset.ISO) {
+          const unaccentedGroup = utilRmDiacritics(
+            vowelsGroup,
+            KeyType.TRANSLITERATION,
+            mapping.trLettersWithCxOrMacron(),
+            transliterationStyle?.useCxOverMacron
+          );
+          if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
+        }
 
-      return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
-    })
-    .normalize();
+        return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
+      })
+      .normalize()
+  );
 }
 
 /**
