@@ -229,16 +229,14 @@ export const normalizeBetaCode = (betaCodeStr: string): string => {
  */
 export const normalizeGreek = (
   greekStr: string,
-  options?: IGreekStyle,
-  skipUnicodeNormalization?: boolean
+  options?: IGreekStyle
 ): string => {
-  if (!skipUnicodeNormalization) greekStr = greekStr.normalize('NFD');
-  greekStr = greekStr.replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+  greekStr = greekStr
+    .normalize('NFD')
+    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+    .normalize()
+    .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
 
-  if (!skipUnicodeNormalization) greekStr = greekStr.normalize();
-  greekStr = greekStr.replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
-
-  // @fixme: don't evaluate this if/else block if skipUnicodeNormalization is enabled.
   if (!options?.useMonotonicOrthography) {
     // prettier-ignore
     const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
