@@ -311,6 +311,27 @@ describe('From transliteration to beta code', () => {
       .toBe('h(donh/')
   })
 
+  // Applying muPi_b
+
+  test('Applying muPi_b', () => {
+    expect(toBetaCode('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
+      .toBe('Mprant Pit')
+  })
+
+  // Applying muPi_b, with beta_v
+
+  test('Applying muPi_b, with beta_v', () => {
+    expect(toBetaCode('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true, beta_v: true } }))
+      .toBe('Mprant Pit')
+  })
+
+  // Applying nuTau_d
+  
+  test('Applying nuTau_d', () => {
+    expect(toBetaCode('D̲aíēvint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
+      .toBe('Ntai/hvint Mi/tsel')
+  })
+
   // Applying phi_f
   
   test.each`

@@ -1,4 +1,4 @@
-import { AdditionalChar, Coronis, KeyType, Preset, toGreek } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, toGreek } from '../src/index'
 
 /*
  * Special characters:
@@ -321,7 +321,28 @@ describe('From transliteration to greek', () => {
     expect(toGreek('hîdonî́', KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('ἡδονή')
   })
+
+  // Applying muPi_b
+
+  test('Applying muPi_b', () => {
+    expect(toGreek('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
+      .toBe('Βραντ Πιτ')
+  })
+
+  // Applying muPi_b, with beta_v
+
+  test('Applying muPi_b, with beta_v', () => {
+    expect(toGreek('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true, beta_v: true } }))
+      .toBe('Μπραντ Πιτ')
+  })
+
+  // Applying nuTau_d
   
+  test('Applying nuTau_d', () => {
+    expect(toGreek('D̲aíēbint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
+      .toBe('Νταίηϐιντ Μίτσελ')
+  })
+
   // Applying phi_f
 
   test.each`

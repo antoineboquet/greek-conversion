@@ -693,6 +693,25 @@ describe('Self-conversion', () => {
       .toBe('hîdonî́')
   })
 
+  test('Applying muPi_b', () => {
+    expect(toTransliteration('Mprant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
+      .toBe('Brant Pit')
+  })
+
+  // Applying muPi_b, with beta_v
+
+  test('Applying muPi_b, with beta_v', () => {
+    expect(toTransliteration('Mprant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true, beta_v: true } }))
+      .toBe('Brant Pit')
+  })
+
+  // Applying nuTau_d
+  
+  test('Applying nuTau_d', () => {
+    expect(toTransliteration('Ntaíēvint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
+      .toBe('D̲aíēvint Mítsel')
+  })
+
   // Applying phi_f
 
   test.each`
