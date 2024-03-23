@@ -315,7 +315,7 @@ describe('From transliteration to beta code', () => {
 
   test('Applying muPi_b', () => {
     expect(toBetaCode('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
-      .toBe('Mprant Pit')
+      .toBe('Brant Pit')
   })
 
   // Applying muPi_b, with beta_v
