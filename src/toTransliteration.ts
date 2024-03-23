@@ -14,6 +14,7 @@ import {
   handleOptions,
   handleTLGInput,
   normalizeBetaCode,
+  normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -26,8 +27,13 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, transliterationStyle } =
-    options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    betaCodeStyle,
+    transliterationStyle,
+    isUpperCase
+  } = options;
   const {
     setCoronisStyle,
     useCxOverMacron,
@@ -44,7 +50,7 @@ export function toTransliteration(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = normalizeBetaCode(str);
+      str = normalizeBetaCode(str, betaCodeStyle);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
@@ -59,6 +65,8 @@ export function toTransliteration(
       break;
 
     case KeyType.TRANSLITERATION:
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
+
       if (removeDiacritics) {
         str = utilRmDiacritics(
           str,

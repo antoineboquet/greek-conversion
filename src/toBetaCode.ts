@@ -64,7 +64,7 @@ export function toBetaCode(
       break;
   }
 
-  str = normalizeBetaCode(str);
+  str = normalizeBetaCode(str, betaCodeStyle);
 
   if (isInputTLG && !isOutputTLG) str = fromTLG(str);
   if (!isInputTLG && isOutputTLG) str = toTLG(str);

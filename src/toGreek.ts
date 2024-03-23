@@ -25,6 +25,7 @@ export function toGreek(
   const {
     removeDiacritics,
     removeExtraWhitespace,
+    betaCodeStyle,
     greekStyle,
     transliterationStyle,
     isUpperCase
@@ -35,7 +36,7 @@ export function toGreek(
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = normalizeBetaCode(str);
+      str = normalizeBetaCode(str, betaCodeStyle);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = mapping.apply(str, fromType, KeyType.GREEK);
       break;
@@ -62,9 +63,7 @@ export function toGreek(
   str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str, {
-    useGreekQuestionMark: greekStyle?.useGreekQuestionMark
-  });
+  return normalizeGreek(str, greekStyle);
 }
 
 /**
