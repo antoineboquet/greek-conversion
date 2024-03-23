@@ -257,7 +257,7 @@
       <fieldset>
         <legend>Common options</legend>
         <label>
-          <input type="checkbox" name="options" value="remove-diacritics" />
+          <input type="checkbox" name="options" value="removeDiacritics" />
           Remove diacritics
         </label>
 
@@ -265,13 +265,13 @@
           <input
             type="checkbox"
             name="options"
-            value="remove-extra-whitespace"
+            value="removeExtraWhitespace"
           />
           Remove extra whitespace
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="additional-chars" />
+          <input type="checkbox" name="options" value="additionalChars" />
           Use additional chars (enable all)
         </label>
       </fieldset>
@@ -280,17 +280,17 @@
       <fieldset>
         <legend>Greek style</legend>
         <label>
-          <input type="checkbox" name="options" value="disable-beta-variant" />
+          <input type="checkbox" name="options" value="gr_disableBetaVariant" />
           Disable beta variant
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-greek-question-mark" />
+          <input type="checkbox" name="options" value="gr_useGreekQuestionMark" />
           Use greek question mark
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-lunate-sigma" />
+          <input type="checkbox" name="options" value="gr_useLunateSigma" />
           Use lunate sigma
         </label>
       </fieldset>
@@ -299,7 +299,7 @@
       <fieldset>
         <legend>Beta code style</legend>
         <label>
-          <input type="checkbox" name="options" value="use-tlg-style" />
+          <input type="checkbox" name="options" value="bc_useTLGStyle" />
           Use TLG style (= <code>Preset.TLG</code>)
         </label>
       </fieldset>
@@ -316,62 +316,62 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-cx-over-macron" />
+          <input type="checkbox" name="options" value="tr_useCxOverMacron" />
           Use circumflexes (ê/ô)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="lunatesigma_s" />
+          <input type="checkbox" name="options" value="tr_lunatesigma_s" />
           lunate sigma &rarr; s
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="beta_v" />
+          <input type="checkbox" name="options" value="tr_beta_v" />
           beta &rarr; v
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="gammaNasal_n" />
+          <input type="checkbox" name="options" value="tr_gammaNasal_n" />
           gamma nasal &rarr; n
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="muPi_b" />
+          <input type="checkbox" name="options" value="tr_muPi_b" />
           mu + pi &rarr; b (initially)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="nuTau_d" />
+          <input type="checkbox" name="options" value="tr_nuTau_d" />
           nu + tau &rarr; d̲ (initially)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="eta_i" />
+          <input type="checkbox" name="options" value="tr_eta_i" />
           eta &rarr; ī
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="xi_ks" />
+          <input type="checkbox" name="options" value="tr_xi_ks" />
           xi &rarr; ks
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="rho_rh" />
+          <input type="checkbox" name="options" value="tr_rho_rh" />
           rho &rarr; rh (force breathings)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="phi_f" />
+          <input type="checkbox" name="options" value="tr_phi_f" />
           phi &rarr; f
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="chi_kh" />
+          <input type="checkbox" name="options" value="tr_chi_kh" />
           chi &rarr; kh
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="upsilon_y" />
+          <input type="checkbox" name="options" value="tr_upsilon_y" />
           upsilon &rarr; y
         </label>
       </fieldset>
@@ -477,96 +477,33 @@
   };
 
   function evaluateOptions() {
-    let values = [];
-    checkboxes.forEach((checkbox) =>
-      checkbox.checked ? values.push(checkbox.value) : false
-    );
-
-    // Common options
-
-    if (values.includes('remove-diacritics'))
-      conversionOptions.removeDiacritics = true;
-    else delete conversionOptions.removeDiacritics;
-
-    if (values.includes('remove-extra-whitespace'))
-      conversionOptions.removeExtraWhitespace = true;
-    else delete conversionOptions.removeExtraWhitespace;
-
-    if (values.includes('additional-chars'))
-      conversionOptions.additionalChars = AdditionalChar.ALL;
-    else delete conversionOptions.additionalChars;
-
-    // Greek style
-
-    if (values.includes('disable-beta-variant'))
-      conversionOptions.greekStyle.disableBetaVariant = true;
-    else delete conversionOptions.greekStyle.disableBetaVariant;
-
-    if (values.includes('use-greek-question-mark'))
-      conversionOptions.greekStyle.useGreekQuestionMark = true;
-    else delete conversionOptions.greekStyle.useGreekQuestionMark;
-
-    if (values.includes('use-lunate-sigma'))
-      conversionOptions.greekStyle.useLunateSigma = true;
-    else delete conversionOptions.greekStyle.useLunateSigma;
-
-    // Beta code style
-    
-    if (values.includes('use-tlg-style'))
-      conversionOptions.betaCodeStyle.useTLGStyle = true;
-    else delete conversionOptions.betaCodeStyle.useTLGStyle;
-
-    // Transliteration style
-
     conversionOptions.transliterationStyle.setCoronisStyle = Coronis[selectCoronisStyle.value];
 
-    if (values.includes('use-cx-over-macron'))
-      conversionOptions.transliterationStyle.useCxOverMacron = true;
-    else delete conversionOptions.transliterationStyle.useCxOverMacron;
-
-    if (values.includes('beta_v'))
-      conversionOptions.transliterationStyle.beta_v = true;
-    else delete conversionOptions.transliterationStyle.beta_v;
-
-    if (values.includes('gammaNasal_n'))
-      conversionOptions.transliterationStyle.gammaNasal_n = true;
-    else delete conversionOptions.transliterationStyle.gammaNasal_n;
-    
-    if (values.includes('muPi_b'))
-      conversionOptions.transliterationStyle.muPi_b = true;
-    else delete conversionOptions.transliterationStyle.muPi_b;
-
-    if (values.includes('nuTau_d'))
-      conversionOptions.transliterationStyle.nuTau_d = true;
-    else delete conversionOptions.transliterationStyle.nuTau_d;
-
-    if (values.includes('eta_i'))
-      conversionOptions.transliterationStyle.eta_i = true;
-    else delete conversionOptions.transliterationStyle.eta_i;
-
-    if (values.includes('xi_ks'))
-      conversionOptions.transliterationStyle.xi_ks = true;
-    else delete conversionOptions.transliterationStyle.xi_ks;
-
-    if (values.includes('rho_rh'))
-      conversionOptions.transliterationStyle.rho_rh = true;
-    else delete conversionOptions.transliterationStyle.rho_rh;
-
-    if (values.includes('phi_f'))
-      conversionOptions.transliterationStyle.phi_f = true;
-    else delete conversionOptions.transliterationStyle.phi_f;
-
-    if (values.includes('chi_kh'))
-      conversionOptions.transliterationStyle.chi_kh = true;
-    else delete conversionOptions.transliterationStyle.chi_kh;
-
-    if (values.includes('upsilon_y'))
-      conversionOptions.transliterationStyle.upsilon_y = true;
-    else delete conversionOptions.transliterationStyle.upsilon_y;
-
-    if (values.includes('lunatesigma_s'))
-      conversionOptions.transliterationStyle.lunatesigma_s = true;
-    else delete conversionOptions.transliterationStyle.lunatesigma_s;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        if (checkbox.value.startsWith('bc_')) {
+          conversionOptions.betaCodeStyle[checkbox.value.substring(3)] = true;
+        } else if (checkbox.value.startsWith('gr_')) {
+          conversionOptions.greekStyle[checkbox.value.substring(3)] = true;
+        } else if (checkbox.value.startsWith('tr_')) {
+          conversionOptions.transliterationStyle[checkbox.value.substring(3)] = true;
+        } else {
+          conversionOptions[checkbox.value] = checkbox.value === 'additionalChars'
+          ? AdditionalChar.ALL
+          : true;
+        }
+      } else {
+        if (checkbox.value.startsWith('bc_')) {
+          delete conversionOptions.betaCodeStyle[checkbox.value.substring(3)];
+        } else if (checkbox.value.startsWith('gr_')) {
+          delete conversionOptions.greekStyle[checkbox.value.substring(3)];
+        } else if (checkbox.value.startsWith('tr_')) {
+          delete conversionOptions.transliterationStyle[checkbox.value.substring(3)];
+        } else {
+          delete conversionOptions[checkbox.value];
+        }
+      }
+    });
   }
 
   evaluateOptions();
@@ -638,6 +575,7 @@
       }
 
       e.target.value = toGreek(searchValue, KeyType.BETA_CODE, {
+        betaCodeStyle: { skipSanitization: true },
         additionalChars: conversionOptions?.additionalChars
       });
     }
