@@ -16,6 +16,7 @@ export interface IInternalConversionOptions extends IConversionOptions {
 export type MixedPreset = [Preset, IConversionOptions];
 
 export interface IBetaCodeStyle {
+  skipSanitization?: boolean;
   useTLGStyle?: boolean;
 }
 
