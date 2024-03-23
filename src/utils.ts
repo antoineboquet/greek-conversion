@@ -1,5 +1,6 @@
 import { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 import {
+  IBetaCodeStyle,
   IConversionOptions,
   IGreekStyle,
   IInternalConversionOptions,
