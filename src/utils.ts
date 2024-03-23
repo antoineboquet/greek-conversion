@@ -264,7 +264,7 @@ export const normalizeTransliteration = (
   options?: ITransliterationStyle,
   isUpperCase?: boolean
 ): string => {
-  const { setCoronisStyle, beta_v } = options ?? {};
+  const { setCoronisStyle, beta_v, muPi_b } = options ?? {};
   const re = new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'g');
 
   // @fixme: check the logic behind this.
@@ -272,7 +272,7 @@ export const normalizeTransliteration = (
     transliteratedStr = transliteratedStr.replace(re, SMOOTH_BREATHING);
   }
 
-  if (beta_v) {
+  if (muPi_b && beta_v) {
     transliteratedStr = transliteratedStr.replace(/b/gi, (m) => {
       if (isUpperCase) return 'MP';
       else return m.toUpperCase() === m ? 'Mp' : 'mp';
