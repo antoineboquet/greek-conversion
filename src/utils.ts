@@ -242,14 +242,13 @@ export const normalizeGreek = (
   greekStr: string,
   options?: IGreekStyle
 ): string => {
-  const { useGreekQuestionMark, useMonotonicOrthography: isMonotonic } =
-    options ?? {};
+  const { useGreekQuestionMark, useMonotonicOrthography } = options ?? {};
 
   greekStr = greekStr
     .normalize('NFD')
     .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
 
-  if (isMonotonic) {
+  if (useMonotonicOrthography) {
     const diacritics = [
       SMOOTH_BREATHING,
       ROUGH_BREATHING,
@@ -265,7 +264,7 @@ export const normalizeGreek = (
     .normalize()
     .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
 
-  if (!isMonotonic) {
+  if (!useMonotonicOrthography) {
     for (const ch of PRECOMPOSED_CHARS_WITH_TONOS_OXIA) {
       greekStr = greekStr.replace(new RegExp(`${ch[0]}`, 'g'), ch[1]);
     }
