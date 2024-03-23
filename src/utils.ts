@@ -162,6 +162,10 @@ export const handleOptions = (
   };
 };
 
+export const handleTLGInput = (str: string): [string, KeyType] => {
+  return [fromTLG(str), KeyType.BETA_CODE];
+};
+
 /**
  * Returns a boolean that indicates if the given string is uppercase or not.
  *
