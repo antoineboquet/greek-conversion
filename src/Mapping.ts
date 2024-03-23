@@ -37,49 +37,49 @@ const ADDITIONAL_CHARS_VALUES = (): {
     LETTER_DIGAMMA: {
       gr: 'Ϝ',
       bc: 'V',
-      tr: 'W' // Defined by: ALA-LC, BNF
+      tr: 'W' // defined by: ALA-LC, BNF
     }
   },
   [AdditionalChar.YOT]: {
     LETTER_YOT: {
       gr: '\u037F',
       bc: 'J',
-      tr: 'J' // Defined by: BNF
+      tr: 'J' // defined by: BNF
     }
   },
   [AdditionalChar.LUNATE_SIGMA]: {
     LETTER_LUNATE_SIGMA: {
       gr: CAPITAL_LUNATE_SIGMA,
       bc: 'S3',
-      tr: 'C' // Defined by: BNF
+      tr: 'C' // defined by: BNF
     }
   },
   [AdditionalChar.STIGMA]: {
     LETTER_STIGMA: {
       gr: '\u03DA',
       bc: '*#2',
-      tr: 'C̄' // Defined by: BNF
+      tr: 'C̄' // defined by: BNF
     }
   },
   [AdditionalChar.KOPPA]: {
     LETTER_KOPPA: {
       gr: 'Ϟ',
       bc: '*#1',
-      tr: 'Q' // Defined by: BNF
+      tr: 'Q' // defined by: BNF
     }
   },
   [AdditionalChar.ARCHAIC_KOPPA]: {
     LETTER_ARCHAIC_KOPPA: {
       gr: 'Ϙ',
       bc: '*#3',
-      tr: 'Ḳ' // Defined by: ALA-LC
+      tr: 'Ḳ' // defined by: ALA-LC
     }
   },
   [AdditionalChar.SAMPI]: {
     LETTER_SAMPI: {
       gr: 'Ϡ',
       bc: '*#5',
-      tr: 'S̄' // Defined by: BNF
+      tr: 'S̄' // defined by: BNF
     }
   }
   /*[AdditionalChar.SAN]: {
@@ -296,7 +296,7 @@ const DIACRITICS = (): {
 
 export class Mapping {
   #capitalLetters = LETTERS();
-  #smallLetters = {} as { [k in string]: IMappingProperty }; // initialized from the previous
+  #smallLetters = {} as { [k in string]: IMappingProperty }; // initialize from the previous
   #punctuation = PUNCTUATION();
   #diacritics = DIACRITICS();
 
