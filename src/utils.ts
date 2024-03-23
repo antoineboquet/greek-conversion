@@ -197,16 +197,22 @@ export const isUpperCase = (str: string, type: KeyType): boolean => {
  * The correct diacritics order seems to be: (1) breathings; (2) diaereses;
  * (3) accents; (4) iota subscript; (5) dot below.
  */
-export const normalizeBetaCode = (betaCodeStr: string): string => {
+export const normalizeBetaCode = (
+  betaCodeStr: string,
+  options: IBetaCodeStyle
+): string => {
   const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
 
-  return betaCodeStr
-    .replace(/([()\\/+=|?]{2,})/gi, (m, diacritics) => {
+  betaCodeStr = betaCodeStr.replace(/([()\\/+=|?]{2,})/gi, (m, diacritics) => {
       // Converting to a `Set` prevents data duplication.
       return [...new Set(diacritics)]
         .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
         .join('');
-    })
+  });
+
+  if (options?.skipSanitization) return betaCodeStr;
+
+  return betaCodeStr
     .normalize('NFD')
     .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,:]/gi, '')
     .normalize();
