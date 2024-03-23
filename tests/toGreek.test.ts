@@ -60,7 +60,7 @@ describe('From beta code to greek', () => {
     ${aristotle.bc}                    | ${aristotle.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
-  // Testing useTLGStyle / TLG preset
+  // Testing KeyType.TLG_BETA_CODE
 
   test.each`
     str               | expected
@@ -76,10 +76,8 @@ describe('From beta code to greek', () => {
     ${'*p*o*i*=|h'}   | ${'ΠΟΙῌ͂'}
     ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
     ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
-  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-    expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-  })
+    `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected))
+
 
   // Disabling beta variant
 
@@ -154,6 +152,16 @@ describe('From beta code to greek', () => {
     ${'a))nh//r'}         | ${'ἀνήρ'}
   `('Testing beta code string normalization', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
 
+  // Using monotonic orthography
+
+  test.each`
+    str                    | expected
+    ${'a)/nqrwpos'}         | ${'άνθρωπος'}
+    ${'kalo\\s ka)gaqo/s'} | ${'καλος καγαθός'}
+    ${'poih=|'}            | ${'ποιη'}
+    ${'A)/i+da'}           | ${'Άϊδα'}
+  `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
+  
 })
 
 describe('From transliteration to greek', () => {
@@ -406,6 +414,16 @@ describe('From transliteration to greek', () => {
     expect(toGreek('Ródos\nRódos\tRódos Ródos Ródos.', KeyType.TRANSLITERATION)).toBe('Ρόδος\nΡόδος\tΡόδος Ρόδος Ρόδος.')
     expect(toGreek('Rhódos\nRhódos\tRhódos Rhódos Rhódos.', KeyType.TRANSLITERATION)).toBe('Ῥόδος\nῬόδος\tῬόδος Ῥόδος Ῥόδος.')
   })
+
+  // Using monotonic orthography
+
+  test.each`
+    str                 | expected
+    ${'ánthrōpos'}      | ${'άνθρωπος'}
+    ${'kalòs ka̓gathós'} | ${'καλος καγαθός'}
+    ${'poiȩ̄̃'}           | ${'ποιη'}
+    ${'Áïda'}           | ${'Άϊδα'}
+  `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
   
 })
 
@@ -466,6 +484,7 @@ describe('Self-conversion', () => {
     ${'ἄνθρωπος'}      | ${'άνθρωπος'}
     ${'καλὸς κἀγαθός'} | ${'καλος καγαθός'}
     ${'ποιῇ'}          | ${'ποιη'}
+    ${'Ἄϊδα'}         | ${'Άϊδα'}
   `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.GREEK, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
   
 })

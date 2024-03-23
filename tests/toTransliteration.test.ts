@@ -60,7 +60,7 @@ describe('From beta code to transliteration', () => {
     ${aristotle.bc}        | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected))
 
-  // Testing useTLGStyle / TLG preset
+  // Testing KeyType.TLG_BETA_CODE
 
   test.each`
     str               | expected
@@ -76,10 +76,7 @@ describe('From beta code to transliteration', () => {
     ${'*p*o*i*=|h'}   | ${'POIȨ̄̃'}
     ${'*(R*/O*D*O*S'} | ${'RHÓDOS'}
     ${'*(r*/o*d*o*s'} | ${'RHÓDOS'}
-  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-  })
+  `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected))
 
   // Testing coronides
 

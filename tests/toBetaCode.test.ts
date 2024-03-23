@@ -427,7 +427,7 @@ describe('Self-conversion', () => {
     expect(toBetaCode(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
   })
 
-  // Testing TLG beta code input
+  // Testing KeyType.TLG_BETA_CODE
 
   test('Testing TLG beta code input', () => {
     expect(toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE)).toBe('O(pli/ths')
