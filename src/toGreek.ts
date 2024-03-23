@@ -4,7 +4,6 @@ import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGammaNasals,
   applyGreekVariants,
-  fromTLG,
   handleOptions,
   normalizeBetaCode,
   normalizeGreek,
@@ -12,7 +11,8 @@ import {
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants,
-  trApplyUppercaseChars
+  trApplyUppercaseChars,
+  handleTLGInput
 } from './utils';
 
 export function toGreek(
@@ -31,10 +31,7 @@ export function toGreek(
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    str = fromTLG(str);
-    fromType = KeyType.BETA_CODE;
-  }
+  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
 
   switch (fromType) {
     case KeyType.BETA_CODE:

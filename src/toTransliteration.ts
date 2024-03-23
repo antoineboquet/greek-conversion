@@ -11,8 +11,8 @@ import {
   SMOOTH_BREATHING
 } from './Mapping';
 import {
-  fromTLG,
   handleOptions,
+  handleTLGInput,
   normalizeBetaCode,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
@@ -40,10 +40,7 @@ export function toTransliteration(
 
   if (upsilon_y) str = flagDiaereses(str, fromType);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    str = fromTLG(str);
-    fromType = KeyType.BETA_CODE;
-  }
+  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
