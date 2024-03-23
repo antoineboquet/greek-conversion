@@ -11,16 +11,27 @@ import {
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
   CIRCUMFLEX,
+  GRAVE_ACCENT,
   GREEK_BETA_SYMBOL,
   GREEK_QUESTION_MARK,
   GREEK_TILDE,
+  IOTA_SUBSCRIPT,
   LATIN_TILDE,
   MACRON,
   MIDDLE_DOT,
+  ROUGH_BREATHING,
   SMALL_LUNATE_SIGMA,
   SMOOTH_BREATHING
 } from './Mapping';
 import { applyPreset } from './presets';
+
+// prettier-ignore
+const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
+  ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
+  ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
+  ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
+  ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
+];
 
 export const notImplemented = (subject: string, value: string): never => {
   throw new RangeError(`${subject} '${value}' is not implemented.`);
@@ -205,10 +216,10 @@ export const normalizeBetaCode = (
   const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
 
   betaCodeStr = betaCodeStr.replace(/([()\\/+=|?]{2,})/gi, (m, diacritics) => {
-      // Converting to a `Set` prevents data duplication.
-      return [...new Set(diacritics)]
-        .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
-        .join('');
+    // Converting to a `Set` prevents data duplication.
+    return [...new Set(diacritics)]
+      .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+      .join('');
   });
 
   if (options?.skipSanitization) return betaCodeStr;
@@ -231,28 +242,36 @@ export const normalizeGreek = (
   greekStr: string,
   options?: IGreekStyle
 ): string => {
+  const { useGreekQuestionMark, useMonotonicOrthography: isMonotonic } =
+    options ?? {};
+
   greekStr = greekStr
     .normalize('NFD')
-    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+
+  if (isMonotonic) {
+    const diacritics = [
+      SMOOTH_BREATHING,
+      ROUGH_BREATHING,
+      GRAVE_ACCENT,
+      GREEK_TILDE,
+      IOTA_SUBSCRIPT
+    ];
+    const reMonotonicOrthography = new RegExp(`[${diacritics.join('')}]`, 'g');
+    greekStr = greekStr.replace(reMonotonicOrthography, '');
+  }
+
+  greekStr = greekStr
     .normalize()
     .replace(new RegExp(MIDDLE_DOT, 'g'), ANO_TELEIA);
 
-  if (!options?.useMonotonicOrthography) {
-    // prettier-ignore
-    const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
-      ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
-      ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
-      ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
-      ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
-    ];
+  if (!isMonotonic) {
     for (const ch of PRECOMPOSED_CHARS_WITH_TONOS_OXIA) {
       greekStr = greekStr.replace(new RegExp(`${ch[0]}`, 'g'), ch[1]);
     }
-  } else {
-    // Remove non-monotonic diacritics.
   }
 
-  return options?.useGreekQuestionMark
+  return useGreekQuestionMark
     ? (greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK))
     : greekStr;
 };
