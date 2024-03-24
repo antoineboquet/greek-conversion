@@ -131,33 +131,29 @@ function applyUpsilonDiphthongs(
   mapping: Mapping
 ): string {
   const { transliterationStyle } = options;
-  const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
+  const reUpsilonDiphthongs = new RegExp(`([aeioy\\p{M}@]{2,})`, 'giu');
 
-  return (
-    transliteratedStr
-      .normalize('NFD')
-      // @fixme: we should process a string normalized with 'u', not 'y'.
-      .replace(/U/g, 'Y')
-      .replace(/u/g, 'y')
-      .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
-        if (!/y/i.test(vowelsGroup)) return vowelsGroup;
-        if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
-        if (vowelsGroup.normalize().length === 1) return vowelsGroup;
+  return transliteratedStr
+    .normalize('NFD')
+    .replace(/u/gi, (m) => (m.toUpperCase() === m ? 'Y' : 'y')) // not optimal
+    .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
+      if (!/y/i.test(vowelsGroup)) return vowelsGroup;
+      if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
+      if (vowelsGroup.normalize().length === 1) return vowelsGroup;
 
-        if (transliterationStyle?.upsilon_y === Preset.ISO) {
-          const unaccentedGroup = utilRmDiacritics(
-            vowelsGroup,
-            KeyType.TRANSLITERATION,
-            mapping.trLettersWithCxOrMacron(),
-            transliterationStyle?.useCxOverMacron
-          );
-          if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
-        }
+      if (transliterationStyle?.upsilon_y === Preset.ISO) {
+        const unaccentedGroup = utilRmDiacritics(
+          vowelsGroup,
+          KeyType.TRANSLITERATION,
+          mapping.trLettersWithCxOrMacron(),
+          transliterationStyle?.useCxOverMacron
+        );
+        if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
+      }
 
-        return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
-      })
-      .normalize()
-  );
+      return vowelsGroup.replace(/Y/, 'U').replace(/y/, 'u');
+    })
+    .normalize();
 }
 
 /**
@@ -191,12 +187,12 @@ function bcConvertBreathings(
         m.toUpperCase() === m ? 'RRH' : 'rrh'
       )
       .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (m) =>
-        // @fixme(v0.14): case should be checked against the current word.
+        // @fixme(v0.15): case should be checked against the current word.
         isUpperCase ? m + 'H' : m + 'h'
       );
   }
 
-  const vowels = 'aeēiouyō';
+  const vowels = 'aeēiouō';
   const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
 
   transliteratedStr = transliteratedStr
@@ -222,7 +218,7 @@ function bcFlagRoughBreathings(
 
   return betaCodeStr
     .replace(/([aehiouw]{1,2})\(/gi, (m, vowelsGroup) => {
-      // @fixme(v0.14): case should be checked against the current word too.
+      // @fixme(v0.15): case should be checked against the current word too.
       if (isUpperCase) return '$$' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
@@ -281,7 +277,7 @@ function grConvertBreathings(
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
     .replace(reInitialRough, (m, vowelsGroup) => {
-      // @fixme(v0.14): case should be checked against the current word too.
+      // @fixme(v0.15): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
