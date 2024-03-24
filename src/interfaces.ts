@@ -21,7 +21,7 @@ export interface IBetaCodeStyle {
 }
 
 export interface IGreekStyle {
-  disableBetaVariant?: boolean;
+  useBetaVariant?: boolean;
   useGreekQuestionMark?: boolean;
   useLunateSigma?: boolean;
   useMonotonicOrthography?: boolean;
