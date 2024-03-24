@@ -76,9 +76,6 @@ export class GreekString {
           this.#mapping
         );
         break;
-
-      default:
-        notImplemented('KeyType', toType);
     }
   }
 

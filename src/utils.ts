@@ -132,6 +132,14 @@ export const handleOptions = (
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {}
 ): IInternalConversionOptions => {
+  if (!Object.values(KeyType).includes(fromType)) {
+    notImplemented('KeyType', fromType);
+  }
+
+  if (typeof settings === 'string') {
+    settings = isNaN(+settings) ? -1 : +settings;
+  }
+
   // Convert named presets (= numeric enum) to `IConversionOptions` objects.
   if (typeof settings === 'number' || Array.isArray(settings)) {
     settings = applyPreset(settings);
