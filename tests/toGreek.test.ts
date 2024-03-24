@@ -441,7 +441,7 @@ describe('Self-conversion', () => {
     ${'τυνχάνω'} | ${'τυγχάνω'}
   `('Testing gamma nasals', ({ str, expected }) => { expect(toGreek(str, KeyType.GREEK)).toBe(expected) })
 
-  // Disabling beta variant
+  // Using beta variant
 
   test('Using beta variant', () => {
     const options: IConversionOptions = {

@@ -348,12 +348,6 @@ describe('From greek to transliteration', () => {
     ${'τυγχάνω'} | ${'tunkhánō'}
   `('Testing gamma nasals, with gammaNasal_n & xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
-  // Disabling beta variant
-
-  test('Disabling beta variant', () => {
-    expect(toTransliteration('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('bárbaros')
-  })
-
   // Testing rho rules
 
   test.each`
@@ -689,6 +683,8 @@ describe('Self-conversion', () => {
       .toBe('hîdonî́')
   })
 
+  // Applying muPi_b
+  
   test('Applying muPi_b', () => {
     expect(toTransliteration('Mprant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
       .toBe('Brant Pit')

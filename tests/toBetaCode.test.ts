@@ -67,12 +67,6 @@ describe('From greek to beta code', () => {
     expect(toBetaCode(str, KeyType.GREEK, Preset.TLG)).toBe(expected)
   })
 
-  // Disabling beta variant
-
-  test('Disabling beta variant', () => {
-    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
-  })
-
   // Testing rho rules
 
   test.each`

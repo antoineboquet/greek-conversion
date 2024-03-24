@@ -72,7 +72,7 @@ describe('GreekString', () => {
     expect(gs2.transliteration).toBe('aíx kriós')
   })
 
-  test('From gr: Enabling/Disabling beta variant', () => {
+  test('From gr: Using beta variant', () => {
     const gs1 = new GreekString('βάρβαρος', KeyType.GREEK)
     const gs2 = new GreekString('βάρβαρος', KeyType.GREEK, {
       greekStyle: {
