@@ -1,4 +1,5 @@
 import { AdditionalChar, Coronis, KeyType, toGreek } from '../src/index'
+import { IConversionOptions } from '../src/interfaces'
 
 /*
  * Special characters:
@@ -15,7 +16,7 @@ const aristotle = {
 
 const thucydides = {
   trNoAcc: 'Hellēsin egeneto kai merei tini tōn barbarōn, hōs de eipein kai epi pleiston anthrōpōn.',
-  grNoAcc: 'Ελλησιν εγενετο και μερει τινι των βαρϐαρων, ως δε ειπειν και επι πλειστον ανθρωπων.'
+  grNoAcc: 'Ελλησιν εγενετο και μερει τινι των βαρβαρων, ως δε ειπειν και επι πλειστον ανθρωπων.'
 }
 
 const plato = {
@@ -35,7 +36,7 @@ describe('From beta code to greek', () => {
     ${'au)to/nomos'}                   | ${'αὐτόνομος'}
     ${'poih|='}                        | ${'ποιῇ'}
     ${'A)/i+da'}                       | ${'Ἄϊδα'}
-    ${'ba/rbaros'}                     | ${'βάρ\u03D0αρος'}
+    ${'ba/rbaros'}                     | ${'βάρβαρος'}
     ${'O(pli/ths'}                     | ${'Ὁπλίτης'}
     ${'voi='}                          | ${'vοῖ'}
     ${'a(/gios3'}                      | ${'ἅγιοσ3'}
@@ -52,7 +53,7 @@ describe('From beta code to greek', () => {
     ${'au)to/nomos'}                   | ${'αυτονομος'}
     ${'poih|='}                        | ${'ποιη'}
     ${'A)/i+da'}                       | ${'Αιδα'}
-    ${'ba/rbaros'}                     | ${'βαρ\u03D0αρος'}
+    ${'ba/rbaros'}                     | ${'βαρβαρος'}
     ${'O(pli/ths'}                     | ${'Οπλιτης'}
     ${'voi='}                          | ${'vοι'}
     ${'a(/gios3'}                      | ${'αγιοσ3'}
@@ -79,10 +80,10 @@ describe('From beta code to greek', () => {
     `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected))
 
 
-  // Disabling beta variant
+  // Using beta variant
 
-  test('Disabling beta variant', () => {
-    expect(toGreek('ba/rbaros', KeyType.BETA_CODE, { greekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
+  test('Using beta variant', () => {
+    expect(toGreek('ba/rbaros', KeyType.BETA_CODE, { greekStyle: { useBetaVariant: true } })).toBe('βάρ\u03D0αρος')
   })
 
   // Using lunate sigma
@@ -177,7 +178,7 @@ describe('From transliteration to greek', () => {
     ${'Huiós'}          | ${'Υἱός'}
     ${'poiȩ̄̃'}           | ${'ποιῇ'}
     ${'Áïda'}           | ${'Ἄϊδα'}
-    ${'bárbaros'}       | ${'βάρ\u03D0αρος'}
+    ${'bárbaros'}       | ${'βάρβαρος'}
     ${'Húsiris'}        | ${'Ὕσιρις'}
     ${'ō̧ṓdēs'}          | ${'ᾠώδης'}
     ${'woĩ'}            | ${'wοῖ'}
@@ -200,7 +201,7 @@ describe('From transliteration to greek', () => {
     ${'Huiós'}          | ${'Υιος'}
     ${'poiȩ̄̃'}           | ${'ποιη'}
     ${'Áïda'}           | ${'Αιδα'}
-    ${'bárbaros'}       | ${'βαρ\u03D0αρος'}
+    ${'bárbaros'}       | ${'βαρβαρος'}
     ${'Húsiris'}        | ${'Υσιρις'}
     ${'ō̧ṓdēs'}          | ${'ωωδης'}
     ${'woĩ'}            | ${'wοι'}
@@ -276,10 +277,10 @@ describe('From transliteration to greek', () => {
     ${'tunkhánō'} | ${'τυγχάνω'}
   `('Testing gamma nasals with xi_ks / chi_kh enabled', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { transliterationStyle: { xi_ks: true, chi_kh: true } })).toBe(expected) })
 
-  // Disabling beta variant
+  // Using beta variant
 
-  test('Disabling beta variant', () => {
-    expect(toGreek('bárbaros', KeyType.TRANSLITERATION, { greekStyle: { disableBetaVariant: true } })).toBe('βάρβαρος')
+  test('Using beta variant', () => {
+    expect(toGreek('bárbaros', KeyType.TRANSLITERATION, { greekStyle: { useBetaVariant: true } })).toBe('βάρ\u03D0αρος')
   })
 
   // Using lunate sigma
@@ -313,7 +314,7 @@ describe('From transliteration to greek', () => {
   // Applying beta_v
   test('Applying beta_v', () => {
     expect(toGreek('várvaros', KeyType.TRANSLITERATION, { transliterationStyle: { beta_v: true } }))
-      .toBe('βάρ\u03D0αρος')
+      .toBe('βάρβαρος')
   })
 
   // Applying eta_i
@@ -348,7 +349,7 @@ describe('From transliteration to greek', () => {
   
   test('Applying nuTau_d', () => {
     expect(toGreek('D̲aíēbint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
-      .toBe('Νταίηϐιντ Μίτσελ')
+      .toBe('Νταίηβιντ Μίτσελ')
   })
 
   // Applying phi_f
@@ -372,12 +373,12 @@ describe('From transliteration to greek', () => {
 
   test.each`
     str            | expected
-    ${'hybrís'}    | ${'ὑϐρίς'}
+    ${'hybrís'}    | ${'ὑβρίς'}
     ${'autómatos'} | ${'αὐτόματος'}
     ${'áÿlos'}     | ${'ἄϋλος'}
     ${'hyḯdion'}   | ${'ὑΐδιον'}
     ${'hýdōr'}     | ${'ὕδωρ'}
-    ${'Hýbla'}     | ${'Ὕϐλα'}
+    ${'Hýbla'}     | ${'Ὕβλα'}
     ${'ý hỹ'}      | ${'ὔ ὗ'}
   `('Applying upsilon_y', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: true } })).toBe(expected) })
 
@@ -442,20 +443,21 @@ describe('Self-conversion', () => {
 
   // Disabling beta variant
 
-  test('Disabling beta variant', () => {
-    const options = {
+  test('Using beta variant', () => {
+    const options: IConversionOptions = {
       greekStyle: {
-        disableBetaVariant: true
+        useBetaVariant: true
       }
     }
-    expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρ\u03D0αρος')
-    expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK, options)).toBe('βάρβαρος')
+    expect(toGreek('βάρβαρος', KeyType.GREEK)).toBe('βάρβαρος')
+    expect(toGreek('βάρ\u03D0αρος', KeyType.GREEK)).toBe('βάρβαρος')
+    expect(toGreek('βάρβαρος', KeyType.GREEK, options)).toBe('βάρ\u03D0αρος')
   })
 
   // Using greek question mark
 
   test('Using greek question mark', () => {
-    const options = {
+    const options: IConversionOptions = {
       greekStyle: {
         useGreekQuestionMark: true
       }
@@ -469,7 +471,7 @@ describe('Self-conversion', () => {
   // Using lunate sigma
 
   test('Using lunate sigma', () => {
-    const options = {
+    const options: IConversionOptions = {
       greekStyle: {
         useLunateSigma: true
       }
