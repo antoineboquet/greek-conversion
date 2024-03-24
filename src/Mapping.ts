@@ -6,6 +6,14 @@ import {
 } from './interfaces';
 import { applyGammaNasals, sanitizeRegExpString } from './utils';
 
+// prettier-ignore
+export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
+  ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
+  ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
+  ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
+  ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
+];
+
 export const GRAVE_ACCENT = '\u0300';
 export const ACUTE_ACCENT = '\u0301';
 export const CIRCUMFLEX = '\u0302';

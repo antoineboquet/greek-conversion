@@ -19,19 +19,12 @@ import {
   LATIN_TILDE,
   MACRON,
   MIDDLE_DOT,
+  PRECOMPOSED_CHARS_WITH_TONOS_OXIA,
   ROUGH_BREATHING,
   SMALL_LUNATE_SIGMA,
   SMOOTH_BREATHING
 } from './Mapping';
 import { applyPreset } from './presets';
-
-// prettier-ignore
-const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
-  ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
-  ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
-  ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
-  ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
-];
 
 export const notImplemented = (subject: string, value: string): never => {
   throw new RangeError(`${subject} '${value}' is not implemented.`);
