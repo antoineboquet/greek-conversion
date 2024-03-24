@@ -76,18 +76,18 @@ describe('GreekString', () => {
     const gs1 = new GreekString('βάρβαρος', KeyType.GREEK)
     const gs2 = new GreekString('βάρβαρος', KeyType.GREEK, {
       greekStyle: {
-        disableBetaVariant: true
+        useBetaVariant: true
       }
     })
 
     expect(gs1.source).toBe('βάρβαρος')
     expect(gs1.betaCode).toBe('ba/rbaros')
-    expect(gs1.greek).toBe('βάρ\u03D0αρος')
+    expect(gs1.greek).toBe('βάρβαρος')
     expect(gs1.transliteration).toBe('bárbaros')
 
     expect(gs2.source).toBe('βάρβαρος')
     expect(gs2.betaCode).toBe('ba/rbaros')
-    expect(gs2.greek).toBe('βάρβαρος')
+    expect(gs2.greek).toBe('βάρ\u03D0αρος')
     expect(gs2.transliteration).toBe('bárbaros')
   })
 
