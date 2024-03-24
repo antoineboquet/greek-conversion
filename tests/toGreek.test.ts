@@ -390,6 +390,15 @@ describe('From transliteration to greek', () => {
     expect(toGreek('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQκ̣Κ̣σ̄Σ̄')
   })
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toGreek('ĉĈŝŜ', KeyType.TRANSLITERATION, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('\u03DB\u03DAϡϠ')})
+
   // Testing uppercase writing
 
   test.each`

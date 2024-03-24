@@ -200,6 +200,15 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('#1*#1#3*#3#5*#5', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('#1*#1#3*#3#5*#5')
   })
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('#2*#2#5*#5', KeyType.BETA_CODE, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
+
   // Testing uppercase writing
 
   test.each`
@@ -464,6 +473,15 @@ describe('From greek to transliteration', () => {
     expect(toTransliteration('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('\u03DB\u03DAϡϠ', KeyType.GREEK, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
+
   // Testing uppercase writing
 
   test.each`
@@ -662,6 +680,15 @@ describe('Self-conversion', () => {
     ${'Xenophō̃n'}  | ${'Xenophỗn'}
   `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected))
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('c̄C̄s̄S̄', KeyType.TRANSLITERATION, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
+    
   // Applying beta_v
 
   test('Applying beta_v', () => {

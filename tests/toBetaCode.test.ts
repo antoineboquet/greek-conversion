@@ -364,6 +364,15 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
   })
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toBetaCode('ĉĈŝŜ', KeyType.TRANSLITERATION, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('#2*#2#5*#5')})
+
   // Testing uppercase writing
 
   test.each`
