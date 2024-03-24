@@ -32,7 +32,7 @@ const ALA_LC_MODERN_OPTIONS = (): IConversionOptions =>
     }
   });
 
-const BNF_OPTIONS = (): IConversionOptions => ({
+const BNF_ADAPTED_OPTIONS = (): IConversionOptions => ({
   greekStyle: {
     useGreekQuestionMark: true
   },
@@ -65,10 +65,6 @@ const ISO_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const MODERN_BC_OPTIONS = (): IConversionOptions => ({
-  additionalChars: AdditionalChar.ALL
-});
-
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   transliterationStyle: {
@@ -76,6 +72,10 @@ const SBL_OPTIONS = (): IConversionOptions => ({
     rho_rh: true,
     upsilon_y: true
   }
+});
+
+const SIMPLE_BC_OPTIONS = (): IConversionOptions => ({
+  additionalChars: AdditionalChar.ALL
 });
 
 const TLG_OPTIONS = (): IConversionOptions => ({
@@ -102,16 +102,16 @@ export const applyPreset = (
       options = ALA_LC_MODERN_OPTIONS();
       break;
 
-    case Preset.BNF:
-      options = BNF_OPTIONS();
+    case Preset.BNF_ADAPTED:
+      options = BNF_ADAPTED_OPTIONS();
       break;
 
     case Preset.ISO:
       options = ISO_OPTIONS();
       break;
 
-    case Preset.MODERN_BC:
-      options = MODERN_BC_OPTIONS();
+    case Preset.SIMPLE_BC:
+      options = SIMPLE_BC_OPTIONS();
       break;
 
     case Preset.SBL:

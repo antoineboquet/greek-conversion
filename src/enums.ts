@@ -28,9 +28,9 @@ export enum KeyType {
 export enum Preset {
   ALA_LC,
   ALA_LC_MODERN,
-  BNF,
+  BNF_ADAPTED,
   ISO,
-  MODERN_BC,
+  SIMPLE_BC,
   SBL,
   TLG
 }
