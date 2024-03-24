@@ -326,9 +326,9 @@ export class Mapping {
 
         if (
           this.#additionalChars === AdditionalChar.ALL ||
-          this.#additionalChars === Number(k) ||
+          this.#additionalChars === +k ||
           (Array.isArray(this.#additionalChars) &&
-            this.#additionalChars.includes(Number(k)))
+            this.#additionalChars.includes(+k))
         ) {
           this.#capitalLetters[charName] = v[charName];
         }
