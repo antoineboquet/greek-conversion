@@ -528,10 +528,8 @@ export class Mapping {
       );
     }
 
-    // @fixme: adding 'Ee' prevents `eta_i` to break some self-conversions
-    // (tr), but is not satisfying.
     return NFDTransliteratedStr.replace(
-      new RegExp(`([${specialChars}Ee])(\\p{M}*?)([${cxOrMacron}])`, 'gu'),
+      new RegExp(`([${specialChars}])(\\p{M}*?)([${cxOrMacron}])`, 'gu'),
       (m, $1, $2, $3) => ($1 + $3).normalize() + $2
     );
   }
@@ -546,6 +544,11 @@ export class Mapping {
   trLettersWithCxOrMacron(): string[] {
     return Object.values({ ...this.#capitalLetters, ...this.#smallLetters })
       .filter((v) => /\u0302|\u0304/.test(v.tr?.normalize('NFD')))
-      .map((v) => v.tr.normalize('NFD').charAt(0).normalize());
+      .flatMap((v) => {
+        const letter = v.tr.normalize('NFD').charAt(0).normalize();
+        return v.trBase !== v.tr
+          ? [v.trBase.normalize('NFD').charAt(0).normalize(), letter]
+          : letter;
+      });
   }
 }
