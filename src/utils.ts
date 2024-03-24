@@ -77,10 +77,9 @@ export const applyGreekVariants = (
   options?: IGreekStyle
 ): string => {
   // Apply beta variant (lowercase only).
-  if (!options?.disableBetaVariant) {
-    greekStr = greekStr
-      .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
-      .replace(/(?<!\p{P}|\s|^)β/gmu, GREEK_BETA_SYMBOL);
+  greekStr = greekStr.replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β');
+  if (options?.useBetaVariant) {
+    greekStr = greekStr.replace(/(?<!\p{P}|\s|^)β/gmu, GREEK_BETA_SYMBOL);
   }
 
   // Replace sigma variants
