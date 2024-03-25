@@ -540,15 +540,22 @@ export class Mapping {
    *
    * @remarks
    * Letters are returned without their diacritical sign.
+   *
+   * @privateRemarks
+   * Array.reduce() / concat() should be replaced by (ES2019) Array.flatMap().
    */
   trLettersWithCxOrMacron(): string[] {
-    return Object.values({ ...this.#capitalLetters, ...this.#smallLetters })
-      .filter((v) => /\u0302|\u0304/.test(v.tr?.normalize('NFD')))
-      .flatMap((v) => {
-        const letter = v.tr.normalize('NFD').charAt(0).normalize();
-        return v.trBase !== v.tr
-          ? [v.trBase.normalize('NFD').charAt(0).normalize(), letter]
-          : letter;
-      });
+    return Object.values({
+      ...this.#capitalLetters,
+      ...this.#smallLetters
+    }).reduce((acc, v) => {
+      if (!/\u0302|\u0304/.test(v.tr?.normalize('NFD'))) return acc;
+
+      const letter = v.tr.normalize('NFD').charAt(0).normalize();
+
+      return v.trBase !== v.tr
+        ? acc.concat([v.trBase.normalize('NFD').charAt(0).normalize(), letter])
+        : acc.concat(letter);
+    }, []);
   }
 }
