@@ -38,7 +38,7 @@ export interface ITransliterationStyle {
   setCoronisStyle?: Coronis;
   useCxOverMacron?: boolean;
   beta_v?: boolean;
-  gammaNasal_n?: boolean | Preset.ALA_LC /* | Preset.ISO_T2*/; // (¹)
+  gammaNasal_n?: boolean | Preset.ALA_LC /*| Preset.ISO_T2*/; // (¹)
   eta_i?: boolean;
   muPi_b?: boolean;
   nuTau_d?: boolean;
@@ -50,9 +50,11 @@ export interface ITransliterationStyle {
   lunatesigma_s?: boolean;
 }
 
-// ¹ `Preset.ALA_LC`: preserve 'gk' initially and finally;
+// ¹ `true`: transliterate 'γ' as 'n' when nasalization occurs.
+//   `Preset.ALA_LC`: preserve 'gk' initially and finally.
 //   `Preset.ISO_T2`: always preserve 'gk'.
 //   (Note that this is undoubtedly poorly designed.)
 
-// ² `Preset.ISO`: only preserve 'au', 'eu', 'ou' diphthongs.
+// ² `true`: preserve all diphthongs.
+//   `Preset.ISO`: only preserve diphthongs 'au', 'eu', 'ou'.
 //   (Note that this is undoubtedly poorly designed.)
