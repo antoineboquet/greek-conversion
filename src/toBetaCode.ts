@@ -90,24 +90,17 @@ function trConvertFlaggedBreathings(str: string): string {
   const diacritics = '()\\/+=|';
 
   // $1: trRough, $2: firstV, $3: firstD, $4: nextV, $5: nextD.
-  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(\\$)?([${vowels}])([${diacritics}])?([${vowels}])?([${diacritics}])?`, 'gimu'); // prettier-ignore
+  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(\\$?)([${vowels}])([${diacritics}]?)([${vowels}]?)([${diacritics}]?)`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
     .replace(reInitialBreathing, (m, trRough, firstV, firstD, nextV, nextD) => {
+      const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
       const breathing = trRough ? '(' : ')';
 
-      firstD = firstD ?? '';
-      nextV = nextV ?? '';
-      nextD = nextD ?? '';
-
-      const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
-
-      if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
-        return firstV + firstD + nextV + breathing + nextD;
-      }
-
-      return firstV + breathing + firstD + nextV + nextD;
+      return /* diaeresis */ !/\+/.test(nextD) && hasDiphthong
+        ? firstV + firstD + nextV + breathing + nextD
+        : firstV + breathing + firstD + nextV + nextD;
     })
     .replace(/(?<!r)(r)\$/gi, '$1(')
     .replace(/\$/g, '')
