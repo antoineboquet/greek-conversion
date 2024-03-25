@@ -80,7 +80,7 @@ export function toGreek(
  * (1) The regex captures the first vowels - including their diacritics -
  * of a word together. Notice that the `vowelGroups` can match 2+ vowels.
  * (2) It's tricky to capture each vowel and diacritic separately in a
- * regex as the subscript iota decomposes to teh letter iota.
+ * regex as the subscript iota decomposes to the letter iota.
  */
 function trConvertBreathings(str: string): string {
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
