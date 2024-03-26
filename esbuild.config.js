@@ -6,7 +6,7 @@ const sharedSettings = {
   bundle: true,
   sourcemap: true,
   minify: true,
-  mangleProps: /^CAPITAL|^SMALL|^PUNCT|^DIA/
+  mangleProps: /^LETTER|^PUNCT|^DIA/
 };
 
 await esbuild.build({
