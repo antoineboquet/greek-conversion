@@ -6,27 +6,47 @@
 <link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
 <style>
   body {
-    grid-template-columns: 1fr min(80rem, 90%) 1fr;
+    grid-template-columns: 1fr min(70em, 90%) 1fr;
   }
 
   main {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));    
+    column-gap: 1.5em;
+    margin-bottom: 1.5em;
   }
 
   #result-area {
-    white-space: pre-wrap;
+    margin: 0;
+    height: 0;
+    min-height: 100%;
+    overflow: scroll;
     font-family: Cousine, ui-monospace, monospace;
     background: #fdfdfd;
   }
 
   #options-area {
-    margin-top: 1.5rem;
-    padding: .75rem;
+    margin-top: 1.5em;
+    padding: .75em;
     background: var(--accent-bg);
     border-radius: var(--standard-border-radius);
+  }
+
+  .icon {
+    vertical-align: sub;
+    padding-right: .25rem;
+    display: inline-block;
+    width: 1em;
+    height: 1.3em;
+    margin-right: 0.2rem;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+  }
+
+  nav a.current {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
   }
 
   .notice {
@@ -67,7 +87,7 @@
 
   fieldset label {
     display: inline-block;
-    margin: .25rem .75rem;
+    margin: .25em .75em;
   }
 
   fieldset select {
@@ -76,6 +96,12 @@
 </style>
 
 <header>
+  <nav>
+    <a href="/searchBar.html">Search bar</a>
+    <a href="/textTransliteration.html">Text transliteration</a>
+    <a class="current" href="/playground.html">Playground</a>
+    <a href="https://github.com/antoineboquet/greek-conversion" target="_blank"><svg class="icon" viewBox="0 0 32 32"><path d="M16 0.395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182 0.8 0.148 1.094-0.347 1.094-0.77 0-0.381-0.015-1.642-0.022-2.979-4.452 0.968-5.391-1.888-5.391-1.888-0.728-1.849-1.776-2.341-1.776-2.341-1.452-0.993 0.11-0.973 0.11-0.973 1.606 0.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33 0.143-1.034 0.558-1.74 1.016-2.14-3.554-0.404-7.29-1.777-7.29-7.907 0-1.747 0.625-3.174 1.649-4.295-0.166-0.403-0.714-2.030 0.155-4.234 0 0 1.344-0.43 4.401 1.64 1.276-0.355 2.645-0.532 4.005-0.539 1.359 0.006 2.729 0.184 4.008 0.539 3.054-2.070 4.395-1.64 4.395-1.64 0.871 2.204 0.323 3.831 0.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895 0.574 0.497 1.085 1.47 1.085 2.963 0 2.141-0.019 3.864-0.019 4.391 0 0.426 0.288 0.925 1.099 0.768 6.354-2.118 10.933-8.113 10.933-15.18 0-8.837-7.164-16-16-16z"></path></svg>Github</a>
+  </nav>
   <h1>Playground example</h1>
   <p>
     Test all the conversion options offered by <code>greek-conversion</code> and
@@ -89,17 +115,17 @@
       <input
         id="search-bar"
         type="search"
-        style="width: 100%"
+        style="width:100%"
       />
 
       Input type:
       <span id="greek-notice" class="notice" hidden>
-        <p style="margin: 0 0 .75em 0">
+        <p style="margin:0 0 .75em 0">
           Configure your keyboard in Greek or type it using beta code.<br>
           Here's the conversion chart:
         </p>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -119,7 +145,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -151,8 +177,8 @@
       <label id="greek-label" for="greek-radio">greek <sup>[?]</sup></label>
 
       <span id="beta-code-notice" class="notice" hidden>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -172,7 +198,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -203,8 +229,8 @@
       <label id="beta-code-label" for="beta-code-radio">beta code <sup>[?]</sup></label>
 
       <span id="translit-notice" class="notice" hidden>
-        <table style="margin: 0">
-          <tr style="background: white">
+        <table style="margin:0">
+          <tr style="background:white">
             <td><strong>A</strong> &rarr; Α</td>
             <td><strong>B</strong> &rarr; Β</td>
             <td><strong>G</strong> &rarr; Γ</td>
@@ -224,7 +250,7 @@
             <td><strong>O</strong> &rarr; Ο</td>
             <td><strong>P</strong> &rarr; Π</td>
           </tr>
-          <tr style="background: white">
+          <tr style="background:white">
             <td><strong>R</strong> &rarr; Ρ</td>
             <td><strong>S</strong> &rarr; Σ</td>
             <td><strong>T</strong> &rarr; Τ</td>
@@ -254,7 +280,7 @@
       <fieldset>
         <legend>Common options</legend>
         <label>
-          <input type="checkbox" name="options" value="remove-diacritics" />
+          <input type="checkbox" name="options" value="removeDiacritics" />
           Remove diacritics
         </label>
 
@@ -262,13 +288,13 @@
           <input
             type="checkbox"
             name="options"
-            value="remove-extra-whitespace"
+            value="removeExtraWhitespace"
           />
           Remove extra whitespace
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="additional-chars" />
+          <input type="checkbox" name="options" value="additionalChars" />
           Use additional chars (enable all)
         </label>
       </fieldset>
@@ -277,18 +303,23 @@
       <fieldset>
         <legend>Greek style</legend>
         <label>
-          <input type="checkbox" name="options" value="disable-beta-variant" />
+          <input type="checkbox" name="options" value="gr_disableBetaVariant" />
           Disable beta variant
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-greek-question-mark" />
+          <input type="checkbox" name="options" value="gr_useGreekQuestionMark" />
           Use greek question mark
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-lunate-sigma" />
+          <input type="checkbox" name="options" value="gr_useLunateSigma" />
           Use lunate sigma
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="gr_useMonotonicOrthography" />
+          Use monotonic orthography
         </label>
       </fieldset>
 
@@ -296,7 +327,12 @@
       <fieldset>
         <legend>Beta code style</legend>
         <label>
-          <input type="checkbox" name="options" value="use-tlg-style" />
+          <input type="checkbox" name="options" value="bc_skipSanitization" />
+          Skip sanitization
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="bc_useTLGStyle" />
           Use TLG style (= <code>Preset.TLG</code>)
         </label>
       </fieldset>
@@ -313,48 +349,63 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="use-cx-over-macron" />
+          <input type="checkbox" name="options" value="tr_useCxOverMacron" />
           Use circumflexes (ê/ô)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="beta_v" />
+          <input type="checkbox" name="options" value="tr_lunatesigma_s" />
+          lunate sigma &rarr; s
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_beta_v" />
           beta &rarr; v
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="eta_i" />
+          <input type="checkbox" name="options" value="tr_gammaNasal_n" />
+          gamma nasal &rarr; n
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_muPi_b" />
+          mu + pi &rarr; b (initially)
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_nuTau_d" />
+          nu + tau &rarr; d̲ (initially)
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_eta_i" />
           eta &rarr; ī
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="xi_ks" />
+          <input type="checkbox" name="options" value="tr_xi_ks" />
           xi &rarr; ks
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="phi_f" />
-          phi &rarr; f
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="chi_kh" />
-          chi &rarr; kh
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="upsilon_y" />
-          upsilon &rarr; y
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="rho_rh" />
+          <input type="checkbox" name="options" value="tr_rho_rh" />
           rho &rarr; rh (force breathings)
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="lunatesigma_s" />
-          lunate sigma &rarr; s
+          <input type="checkbox" name="options" value="tr_phi_f" />
+          phi &rarr; f
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_chi_kh" />
+          chi &rarr; kh
+        </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_upsilon_y" />
+          upsilon &rarr; y
         </label>
       </fieldset>
     </div>
@@ -404,9 +455,9 @@
   translitLabel.addEventListener('mouseenter', (e) => translitNotice.hidden = false);
   translitLabel.addEventListener('mouseleave', (e) => translitNotice.hidden = true);
 
-  const inputGreekPlaceholder = 'Type greek (press ENTER to do conversion)';
-  const inputBetaCodePlaceholder = 'Type beta code (press ENTER to do conversion)';
-  const inputTranslitPlaceholder = 'Type transliterated greek (press ENTER to do conversion)';
+  const inputGreekPlaceholder = 'Type greek (press ENTER to convert)';
+  const inputBetaCodePlaceholder = 'Type beta code (press ENTER to convert)';
+  const inputTranslitPlaceholder = 'Type transliterated greek (press ENTER to convert)';
 
   let inputType = greekRadio.value;
   greekRadio.checked = true;
@@ -459,98 +510,33 @@
   };
 
   function evaluateOptions() {
-    let values = [];
-    checkboxes.forEach((checkbox) =>
-      checkbox.checked ? values.push(checkbox.value) : false
-    );
-
-    // Common options
-
-    if (values.includes('remove-diacritics'))
-      conversionOptions.removeDiacritics = true;
-    else delete conversionOptions.removeDiacritics;
-
-    if (values.includes('remove-extra-whitespace'))
-      conversionOptions.removeExtraWhitespace = true;
-    else delete conversionOptions.removeExtraWhitespace;
-
-    if (values.includes('additional-chars'))
-      conversionOptions.additionalChars = AdditionalChar.ALL;
-    else delete conversionOptions.additionalChars;
-
-    // Greek style
-
-    if (values.includes('disable-beta-variant'))
-      conversionOptions.greekStyle.disableBetaVariant = true;
-    else delete conversionOptions.greekStyle.disableBetaVariant;
-
-    if (values.includes('use-greek-question-mark'))
-      conversionOptions.greekStyle.useGreekQuestionMark = true;
-    else delete conversionOptions.greekStyle.useGreekQuestionMark;
-
-    if (values.includes('use-lunate-sigma'))
-      conversionOptions.greekStyle.useLunateSigma = true;
-    else delete conversionOptions.greekStyle.useLunateSigma;
-
-    // Beta code style
-    
-    if (values.includes('use-tlg-style'))
-      conversionOptions.betaCodeStyle.useTLGStyle = true;
-    else delete conversionOptions.betaCodeStyle.useTLGStyle;
-
-    // Transliteration style
-
     conversionOptions.transliterationStyle.setCoronisStyle = Coronis[selectCoronisStyle.value];
 
-    if (values.includes('use-cx-over-macron'))
-      conversionOptions.transliterationStyle.useCxOverMacron = true;
-    else delete conversionOptions.transliterationStyle.useCxOverMacron;
-
-    if (values.includes('beta_v'))
-      conversionOptions.transliterationStyle.beta_v = true;
-    else delete conversionOptions.transliterationStyle.beta_v;
-
-    if (values.includes('eta_i'))
-      conversionOptions.transliterationStyle.eta_i = true;
-    else delete conversionOptions.transliterationStyle.eta_i;
-
-    if (values.includes('xi_ks'))
-      conversionOptions.transliterationStyle.xi_ks = true;
-    else delete conversionOptions.transliterationStyle.xi_ks;
-
-    if (values.includes('rho_rh'))
-      conversionOptions.transliterationStyle.rho_rh = true;
-    else delete conversionOptions.transliterationStyle.rho_rh;
-
-    if (values.includes('phi_f'))
-      conversionOptions.transliterationStyle.phi_f = true;
-    else delete conversionOptions.transliterationStyle.phi_f;
-
-    if (values.includes('chi_kh'))
-      conversionOptions.transliterationStyle.chi_kh = true;
-    else delete conversionOptions.transliterationStyle.chi_kh;
-
-    if (values.includes('upsilon_y'))
-      conversionOptions.transliterationStyle.upsilon_y = true;
-    else delete conversionOptions.transliterationStyle.upsilon_y;
-
-    if (values.includes('lunatesigma_s')) {
-      conversionOptions.transliterationStyle.lunatesigma_s = true;
-      conversionOptions.additionalChars = AdditionalChar.ALL;
-      checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'additional-chars') {
-          checkbox.checked = true;
-          checkbox.disabled = true;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        if (checkbox.value.startsWith('bc_')) {
+          conversionOptions.betaCodeStyle[checkbox.value.substring(3)] = true;
+        } else if (checkbox.value.startsWith('gr_')) {
+          conversionOptions.greekStyle[checkbox.value.substring(3)] = true;
+        } else if (checkbox.value.startsWith('tr_')) {
+          conversionOptions.transliterationStyle[checkbox.value.substring(3)] = true;
+        } else {
+          conversionOptions[checkbox.value] = checkbox.value === 'additionalChars'
+          ? AdditionalChar.ALL
+          : true;
         }
-      });
-    } else {
-      delete conversionOptions.transliterationStyle.lunatesigma_s;
-      checkboxes.forEach((checkbox) => {
-        if (checkbox.value === 'additional-chars') {
-          checkbox.disabled = false;
+      } else {
+        if (checkbox.value.startsWith('bc_')) {
+          delete conversionOptions.betaCodeStyle[checkbox.value.substring(3)];
+        } else if (checkbox.value.startsWith('gr_')) {
+          delete conversionOptions.greekStyle[checkbox.value.substring(3)];
+        } else if (checkbox.value.startsWith('tr_')) {
+          delete conversionOptions.transliterationStyle[checkbox.value.substring(3)];
+        } else {
+          delete conversionOptions[checkbox.value];
         }
-      });
-    }
+      }
+    });
   }
 
   evaluateOptions();
@@ -622,6 +608,7 @@
       }
 
       e.target.value = toGreek(searchValue, KeyType.BETA_CODE, {
+        betaCodeStyle: { skipSanitization: true },
         additionalChars: conversionOptions?.additionalChars
       });
     }

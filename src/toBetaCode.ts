@@ -1,15 +1,17 @@
-import { Coronis, KeyType, Preset } from './enums';
+import { KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
-import { Mapping, SMOOTH_BREATHING } from './Mapping';
+import { Mapping } from './Mapping';
 import {
-  applyUppercaseChars,
-  bcReorderDiacritics,
+  applyGammaNasals,
   fromTLG,
   handleOptions,
+  normalizeBetaCode,
+  normalizeTransliteration,
   toTLG,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
-  removeGreekVariants as utilRmGreekVariants
+  removeGreekVariants as utilRmGreekVariants,
+  trApplyUppercaseChars
 } from './utils';
 
 export function toBetaCode(
@@ -23,15 +25,20 @@ export function toBetaCode(
     removeDiacritics,
     removeExtraWhitespace,
     betaCodeStyle,
-    transliterationStyle
+    transliterationStyle,
+    isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
+  const isInputTLG = fromType === KeyType.TLG_BETA_CODE;
+  const isOutputTLG = betaCodeStyle?.useTLGStyle;
+
+  if (isInputTLG) fromType = KeyType.BETA_CODE;
+
   switch (fromType) {
     case KeyType.BETA_CODE:
-    case KeyType.TLG_BETA_CODE:
-      if (removeDiacritics) str = utilRmDiacritics(str, KeyType.BETA_CODE);
-      str = mapping.apply(str, KeyType.BETA_CODE, KeyType.BETA_CODE);
+      if (removeDiacritics) str = utilRmDiacritics(str, fromType);
+      str = applyGammaNasals(str, fromType);
       break;
 
     case KeyType.GREEK:
@@ -41,14 +48,8 @@ export function toBetaCode(
       break;
 
     case KeyType.TRANSLITERATION:
-      str = applyUppercaseChars(str);
-
-      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
-        str = str.replace(
-          new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
-          SMOOTH_BREATHING
-        );
-      }
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
+      str = trApplyUppercaseChars(str);
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
@@ -56,25 +57,21 @@ export function toBetaCode(
       str = mapping.apply(str, fromType, KeyType.BETA_CODE);
 
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, fromType);
-        str = str.replace(/\$/gi, '');
+        str = utilRmDiacritics(str, fromType).replace(/\$/gi, '');
       } else {
         str = trConvertFlaggedBreathings(str);
       }
       break;
   }
 
-  str = bcReorderDiacritics(str);
+  str = normalizeBetaCode(str, betaCodeStyle);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    if (!betaCodeStyle?.useTLGStyle) str = fromTLG(str);
-  } else {
-    if (betaCodeStyle?.useTLGStyle) str = toTLG(str);
-  }
+  if (isInputTLG && !isOutputTLG) str = fromTLG(str);
+  if (!isInputTLG && isOutputTLG) str = toTLG(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return str.normalize();
+  return str;
 }
 
 /**
@@ -93,30 +90,18 @@ function trConvertFlaggedBreathings(str: string): string {
   const diacritics = '()\\/+=|';
 
   // $1: trRough, $2: firstV, $3: firstD, $4: nextV, $5: nextD.
-  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(\\$)?([${vowels}])([${diacritics}])?([${vowels}])?([${diacritics}])?`, 'gimu'); // prettier-ignore
+  const reInitialBreathing = new RegExp(`(?<=(?![${diacritics}])\\p{P}|\\s|^)(\\$?)([${vowels}])([${diacritics}]*)([${vowels}]?)([${diacritics}]*)`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
-    .replace(
-      reInitialBreathing,
-      (match, trRough, firstV, firstD, nextV, nextD) => {
-        const breathing = trRough ? '(' : ')';
+    .replace(reInitialBreathing, (m, trRough, firstV, firstD, nextV, nextD) => {
+      const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
+      const breathing = trRough ? '(' : ')';
 
-        firstD = firstD ?? '';
-        nextV = nextV ?? '';
-        nextD = nextD ?? '';
-
-        const hasDiphthong = diphthongs.includes(
-          (firstV + nextV).toLowerCase()
-        );
-
-        if (/* diaeresis */ !/\+/.test(nextD) && hasDiphthong) {
-          return firstV + firstD + nextV + breathing + nextD;
-        }
-
-        return firstV + breathing + firstD + nextV + nextD;
-      }
-    )
+      return /* diaeresis */ !/\+/.test(nextD) && hasDiphthong
+        ? firstV + firstD + nextV + breathing + nextD
+        : firstV + breathing + firstD + nextV + nextD;
+    })
     .replace(/(?<!r)(r)\$/gi, '$1(')
     .replace(/\$/g, '')
     .normalize();

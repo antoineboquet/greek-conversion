@@ -1,20 +1,18 @@
-import { Coronis, KeyType, Preset } from './enums';
-import {
-  IConversionOptions,
-  IInternalConversionOptions,
-  MixedPreset
-} from './interfaces';
+import { KeyType, Preset } from './enums';
+import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
+  applyGammaNasals,
   applyGreekVariants,
-  applyUppercaseChars,
-  bcReorderDiacritics,
-  fromTLG,
   handleOptions,
+  normalizeBetaCode,
   normalizeGreek,
+  normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
-  removeGreekVariants as utilRmGreekVariants
+  removeGreekVariants as utilRmGreekVariants,
+  trApplyUppercaseChars,
+  handleTLGInput
 } from './utils';
 
 export function toGreek(
@@ -27,50 +25,37 @@ export function toGreek(
   const {
     removeDiacritics,
     removeExtraWhitespace,
+    betaCodeStyle,
     greekStyle,
-    transliterationStyle
+    transliterationStyle,
+    isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    str = fromTLG(str);
-    fromType = KeyType.BETA_CODE;
-  }
+  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = normalizeBetaCode(str, betaCodeStyle);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      else str = bcReorderDiacritics(str);
-
       str = mapping.apply(str, fromType, KeyType.GREEK);
-
       break;
 
     case KeyType.GREEK:
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str);
-      str = mapping.apply(str, fromType, fromType);
+      str = applyGammaNasals(str, fromType);
       break;
 
     case KeyType.TRANSLITERATION:
-      str = applyUppercaseChars(str);
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
+      str = trApplyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
 
-      if (transliterationStyle?.setCoronisStyle === Coronis.APOSTROPHE) {
-        str = str
-          .normalize('NFD')
-          .replace(
-            new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'gu'),
-            SMOOTH_BREATHING
-          )
-          .normalize();
-      }
-
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, fromType);
-        str = str.replace(/h/gi, '');
+        str = utilRmDiacritics(str, fromType).replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str, options);
+        str = trConvertBreathings(str);
       }
       break;
   }
@@ -78,7 +63,7 @@ export function toGreek(
   str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str, greekStyle?.useGreekQuestionMark);
+  return normalizeGreek(str, greekStyle);
 }
 
 /**
@@ -92,50 +77,39 @@ export function toGreek(
  * on double rhos).
  *
  * @privateRemarks
- * (1) Can't figure how to implement `reInitialBreathing` in order
- * to consistently find `firstV`, `firstD`, `nextV` & `nextD` values.
- * (2) Currently the regex captures the first vowels - including their
- * diacritics - of a word together. Notice that the `vowelGroups` can
- * match 2+ vowels.
+ * (1) The regex captures the first vowels - including their diacritics -
+ * of a word together. Notice that the `vowelGroups` can match 2+ vowels.
+ * (2) It's tricky to capture each vowel and diacritic separately in a
+ * regex as the subscript iota decomposes to the letter iota.
  */
-function trConvertBreathings(
-  str: string,
-  options: IInternalConversionOptions
-): string {
-  const { isUpperCase } = options;
-
+function trConvertBreathings(str: string): string {
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
   const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(h)?([${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore
 
   return str
     .normalize('NFD')
-    .replace(reInitialBreathing, (match, trRough, vowelsGroup) => {
+    .replace(reInitialBreathing, (m, trRough, vowelsGroup) => {
       const breathing = trRough ? ROUGH_BREATHING : SMOOTH_BREATHING;
 
       vowelsGroup = vowelsGroup.normalize();
 
       // `vowelsGroup` length can be 2+, so define first, next & extra vowels.
-      let firstV = vowelsGroup.substring(0, 1).normalize('NFD');
-      let nextV = vowelsGroup.substring(1, 2).normalize('NFD');
-      const extraV = vowelsGroup.substring(2).normalize('NFD');
+      let firstV = vowelsGroup.charAt(0).normalize('NFD');
+      let nextV = vowelsGroup.charAt(1).normalize('NFD');
+      const extraV = vowelsGroup.substring(2);
 
       const firstD = firstV.substring(1);
       const nextD = nextV.substring(1);
 
-      firstV = firstV.substring(0, 1);
-      nextV = nextV.substring(0, 1);
+      firstV = firstV.charAt(0);
+      nextV = nextV.charAt(0);
 
       const hasDiphthong = diphthongs.includes((firstV + nextV).toLowerCase());
 
-      if (/* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong) {
-        if (isUpperCase) {
-          return firstV + breathing + firstD + nextD + nextV + extraV;
-        }
-        return firstV + firstD + nextV + breathing + nextD + extraV;
-      }
-
-      return firstV + breathing + firstD + nextV + nextD + extraV;
+      return /* diaeresis */ !/\u0308/.test(nextD) && hasDiphthong
+        ? firstV + firstD + nextV + breathing + nextD + extraV
+        : firstV + breathing + firstD + nextV + nextD + extraV;
     })
     .replace(new RegExp(`(?<!ρ)(ρ)h`, 'gi'), `$1${ROUGH_BREATHING}`)
     .replace(new RegExp('h', 'gi'), '')
