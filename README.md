@@ -2,7 +2,7 @@
 
 > **This library needs some feedback before getting its first stable release!**
 
-A small library to convert a polytonic greek string from/into various representations.
+A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
 
 ## Summary
 
