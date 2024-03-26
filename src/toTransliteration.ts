@@ -131,7 +131,7 @@ function applyUpsilonDiphthongs(
   mapping: Mapping
 ): string {
   const { transliterationStyle } = options;
-  const reUpsilonDiphthongs = new RegExp(`([aeioy\\p{M}@]{2,})`, 'giu');
+  const reUpsilonDiphthongs = /([aeioy\p{M}@]{2,})/giu;
 
   return transliteratedStr
     .normalize('NFD')
