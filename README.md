@@ -148,8 +148,7 @@ transliterationStyle?: {
 },
 
 additionalChars?:                    // extend the default mapping with additional chars
- AdditionalChar[] |                  //   (use AdditionalChar.ALL to enable the whole set)
- AdditionalChar
+ AdditionalChar[] | AdditionalChar   //   (use AdditionalChar.ALL to enable the whole set)
 ```
 
 A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
