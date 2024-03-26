@@ -553,6 +553,14 @@
 
   // Input conversion
 
+  function escape(str) {
+    return str.replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");        
+  }
+
   function doConversion() {
     let fromType;
     switch (inputType) {
@@ -586,10 +594,10 @@
     const lastResult = resultArea.innerHTML;
 
     resultArea.innerHTML =
-      `source     ${gs.source} (${inputType})<br><br>` +
-      `greek      <strong>${gs.greek}</strong><br>` +
-      `beta code  <strong>${gs.betaCode}</strong><br>` +
-      `translit.  <strong>${gs.transliteration}</strong>`;
+      `source     ${escape(gs.source)} (${inputType})<br><br>` +
+      `greek      <strong>${escape(gs.greek)}</strong><br>` +
+      `beta code  <strong>${escape(gs.betaCode)}</strong><br>` +
+      `translit.  <strong>${escape(gs.transliteration)}</strong>`;
 
     if (lastResult) resultArea.innerHTML += `<br><br>${lastResult}`;
   }
