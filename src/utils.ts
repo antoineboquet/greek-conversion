@@ -344,7 +344,7 @@ export const removeDiacritics = (
       str = str.normalize('NFD');
 
       if (trPreserveLetters?.length) {
-        const rePreservedLetters = new RegExp(`(?<![${trPreserveLetters.join('')}])(\\p{M}*?)${trUseCxOverMacron ? CIRCUMFLEX : MACRON}`, 'gu'); // prettier-ignore
+        const rePreservedLetters = new RegExp(`(?<![${trPreserveLetters.join('')}])(\\p{M}*)${trUseCxOverMacron ? CIRCUMFLEX : MACRON}`, 'gu'); // prettier-ignore
 
         // Exclude circumflexes [\u0302] or macrons [\u0304] from the range.
         str = trUseCxOverMacron
