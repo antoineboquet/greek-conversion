@@ -523,13 +523,13 @@ export class Mapping {
 
     if (this.#capitalLetters.LETTER_ARCHAIC_KOPPA?.tr) {
       NFDTransliteratedStr = NFDTransliteratedStr.replace(
-        new RegExp(`(k)(\\p{M}*?)(${DOT_BELOW})`, 'giu'),
+        new RegExp(`(k)(\\p{M}*)(${DOT_BELOW})`, 'giu'),
         (m, $1, $2, $3) => ($1 + $3).normalize() + $2
       );
     }
 
     return NFDTransliteratedStr.replace(
-      new RegExp(`([${specialChars}])(\\p{M}*?)([${cxOrMacron}])`, 'gu'),
+      new RegExp(`([${specialChars}])(\\p{M}*)([${cxOrMacron}])`, 'gu'),
       (m, $1, $2, $3) => ($1 + $3).normalize() + $2
     );
   }
