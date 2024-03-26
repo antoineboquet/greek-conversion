@@ -5,17 +5,16 @@ import {
   MixedPreset
 } from './interfaces';
 import {
-  CIRCUMFLEX,
   DIAERESIS,
-  MACRON,
   Mapping,
   ROUGH_BREATHING,
   SMOOTH_BREATHING
 } from './Mapping';
 import {
-  bcReorderDiacritics,
-  fromTLG,
   handleOptions,
+  handleTLGInput,
+  normalizeBetaCode,
+  normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -28,32 +27,30 @@ export function toTransliteration(
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);
-  const { removeDiacritics, removeExtraWhitespace, transliterationStyle } =
-    options;
+  const {
+    removeDiacritics,
+    removeExtraWhitespace,
+    betaCodeStyle,
+    transliterationStyle,
+    isUpperCase
+  } = options;
   const {
     setCoronisStyle,
     useCxOverMacron,
-    beta_v,
-    eta_i,
-    xi_ks,
-    phi_f,
-    chi_kh,
+    muPi_b,
+    nuTau_d,
     rho_rh,
-    upsilon_y,
-    lunatesigma_s
+    upsilon_y
   } = transliterationStyle ?? {};
   const mapping = declaredMapping ?? new Mapping(options);
 
   if (upsilon_y) str = flagDiaereses(str, fromType);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    str = fromTLG(str);
-    fromType = KeyType.BETA_CODE;
-  }
+  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
-      str = bcReorderDiacritics(str);
+      str = normalizeBetaCode(str, betaCodeStyle);
       str = bcFlagRoughBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
@@ -68,70 +65,7 @@ export function toTransliteration(
       break;
 
     case KeyType.TRANSLITERATION:
-      if (useCxOverMacron) {
-        const re = new RegExp(`([${mapping.trLettersWithCxOrMacron()}])(${MACRON})`, 'g'); // prettier-ignore
-        str = str.normalize('NFD').replace(re, `$1${CIRCUMFLEX}`).normalize();
-      }
-
-      if (beta_v) {
-        str = str.replace(/b/gi, (m) => (m.toUpperCase() === m ? 'V' : 'v'));
-      }
-
-      if (eta_i) {
-        str = str
-          .normalize('NFD')
-          .replace(/(e)(\p{M}+)/giu, (m, $1, $2) => {
-            if ((useCxOverMacron && /\u0302/.test(m)) || /\u0304/.test(m)) {
-              return $1.toUpperCase() === $1 ? 'I' + $2 : 'i' + $2;
-            }
-            return m;
-          })
-          .normalize();
-      }
-
-      if (xi_ks) {
-        str = str.replace(/x/gi, (m) => {
-          if (options.isUpperCase) return 'KS';
-          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Ks' : 'ks';
-        });
-      }
-
-      if (phi_f) {
-        str = str.replace(/ph/gi, (m) =>
-          m.charAt(0).toUpperCase() === m.charAt(0) ? 'F' : 'f'
-        );
-      }
-
-      if (chi_kh) {
-        str = str.replace(/ch/gi, (m) => {
-          if (options.isUpperCase) return 'KH';
-          else return m.charAt(0).toUpperCase() === m.charAt(0) ? 'Kh' : 'kh';
-        });
-      }
-
-      if (rho_rh) {
-        str = str
-          .replace(/(?<!^)rr(?!h)/gim, (m) =>
-            m.toUpperCase() === m ? m + 'H' : m + 'h'
-          )
-          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
-            options.isUpperCase ? m + 'H' : m + 'h'
-          );
-      }
-
-      if (upsilon_y) {
-        str = str
-          .normalize('NFD')
-          .replace(/U/g, 'Y')
-          .replace(/u/g, 'y')
-          .normalize();
-      }
-
-      if (lunatesigma_s) {
-        str = str.replace(/c(?!h)/gi, (m) =>
-          m.toUpperCase() === m ? 'S' : 's'
-        );
-      }
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
 
       if (removeDiacritics) {
         str = utilRmDiacritics(
@@ -143,11 +77,33 @@ export function toTransliteration(
       }
 
       str = mapping.apply(str, fromType, fromType);
+
+      if (rho_rh) {
+        str = str
+          .replace(/rr(?!h)/gi, (m) =>
+            m.toUpperCase() === m ? m + 'H' : m + 'h'
+          )
+          .replace(/(?<=\p{P}|\s|^)r/gimu, (m) =>
+            options.isUpperCase ? m + 'H' : m + 'h'
+          );
+      }
       break;
   }
 
   if (upsilon_y) {
     str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
+  }
+
+  if (muPi_b) {
+    str = str.replace(/(?<=\p{P}|\s|^)(m)p/gimu, (m, $1) =>
+      $1.toUpperCase() === $1 ? 'B' : 'b'
+    );
+  }
+
+  if (nuTau_d) {
+    str = str.replace(/(?<=\p{P}|\s|^)(n)t/gimu, (m, $1) =>
+      $1.toUpperCase() === $1 ? 'D̲' : 'd̲'
+    );
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
@@ -166,7 +122,7 @@ export function toTransliteration(
  * @privateRemarks
  * (1) The expected input form of the upsilon is 'y'.
  * (2) Upsilon diphthongs to preserve are: 'au', 'eu', 'ēu', 'ou', 'ui', 'ōu'.
- * (2) The given string's diaereses should have been flagged as '@' using
+ * (3) The given string's diaereses should have been flagged as '@' using
  * the `flagDiaereses()` function.
  */
 function applyUpsilonDiphthongs(
@@ -175,10 +131,11 @@ function applyUpsilonDiphthongs(
   mapping: Mapping
 ): string {
   const { transliterationStyle } = options;
-  const reUpsilonDiphthongs = new RegExp(`([aeēioyō\\p{M}@]{2,})`, 'gimu');
+  const reUpsilonDiphthongs = /([aeioy\p{M}@]{2,})/giu;
 
   return transliteratedStr
     .normalize('NFD')
+    .replace(/u/gi, (m) => (m.toUpperCase() === m ? 'Y' : 'y')) // not optimal
     .replace(reUpsilonDiphthongs, (m, vowelsGroup) => {
       if (!/y/i.test(vowelsGroup)) return vowelsGroup;
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
@@ -230,12 +187,12 @@ function bcConvertBreathings(
         m.toUpperCase() === m ? 'RRH' : 'rrh'
       )
       .replace(/(?<=\p{P}|\\s|^)(r)(?!h)/gimu, (m) =>
-        // @fixme(v0.14): case should be checked against the current word.
+        // @fixme(v0.15): case should be checked against the current word.
         isUpperCase ? m + 'H' : m + 'h'
       );
   }
 
-  const vowels = 'aeēiouyō';
+  const vowels = 'aeēiouō';
   const reInitialSmooth = new RegExp(`(?<=\\p{P}|\\s|^)([${vowels}]{1,2})(${SMOOTH_BREATHING})`, 'gimu'); // prettier-ignore
 
   transliteratedStr = transliteratedStr
@@ -261,7 +218,7 @@ function bcFlagRoughBreathings(
 
   return betaCodeStr
     .replace(/([aehiouw]{1,2})\(/gi, (m, vowelsGroup) => {
-      // @fixme(v0.14): case should be checked against the current word too.
+      // @fixme(v0.15): case should be checked against the current word too.
       if (isUpperCase) return '$$' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)
@@ -320,7 +277,7 @@ function grConvertBreathings(
     .normalize('NFD')
     .replace(reInitialSmooth, '$1')
     .replace(reInitialRough, (m, vowelsGroup) => {
-      // @fixme(v0.14): case should be checked against the current word too.
+      // @fixme(v0.15): case should be checked against the current word too.
       if (isUpperCase) return 'H' + vowelsGroup;
       else {
         return vowelsGroup.charAt(0).toUpperCase() === vowelsGroup.charAt(0)

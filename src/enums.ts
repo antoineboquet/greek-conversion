@@ -19,17 +19,18 @@ export enum Coronis {
 }
 
 export enum KeyType {
-  GREEK,
-  BETA_CODE,
-  TLG_BETA_CODE,
-  TRANSLITERATION
+  GREEK = 'gr',
+  BETA_CODE = 'bc',
+  TLG_BETA_CODE = 'tlg',
+  TRANSLITERATION = 'tr'
 }
 
 export enum Preset {
   ALA_LC,
-  BNF,
+  ALA_LC_MODERN,
+  BNF_ADAPTED,
   ISO,
-  MODERN_BC,
+  SIMPLE_BC,
   SBL,
   TLG
 }

@@ -2,7 +2,7 @@
 
 > **This library needs some feedback before getting its first stable release!**
 
-A small library to convert a polytonic greek string from/into various representations.
+A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
 
 ## Summary
 
@@ -97,16 +97,16 @@ The available presets are:
 
 | Preset | Description |
 | ------ | ----------- |
-| [**`MODERN_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#Modern-beta-code) | `greek-conversion`'s own modernized style |
-| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#TLG) | Thesaurus Linguae Graecae |
+| [**`SIMPLE_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#simple-beta-code) | A simplified beta code style for faster writing |
+| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#tlg) | Thesaurus Linguae Graecae |
 
 2. **For transliteration:**
 
 | Preset | Description | Scope |
 | ------ | ----------- | ----- |
 | [**`ALA_LC`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc) | American Library Association – Library of Congress | Ancient and Medieval Greek (before 1454) |
-| [**`ALA_LC_MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc-modern) | *Alternative form of the preceding* (planned for **v0.14**) | Modern Greek (after 1453) |
-| [**`BNF`**](https://github.com/antoineboquet/greek-conversion/wiki#bnf) | Bibliothèque nationale de France | Ancient Greek |
+| [**`ALA_LC_MODERN`**](https://github.com/antoineboquet/greek-conversion/wiki#ala-lc-modern) | *Alternative form of the preceding* | Modern Greek (after 1453) |
+| [**`BNF_ADAPTED`**](https://github.com/antoineboquet/greek-conversion/wiki#bnf-adapted) | Bibliothèque nationale de France (adapted) | Ancient Greek |
 | [**`ISO`**](https://github.com/antoineboquet/greek-conversion/wiki#iso-843-1997) | ISO 843 (1997) type 1 (transliteration) | Ancient and Modern Greek |
 | [**`SBL`**](https://github.com/antoineboquet/greek-conversion/wiki#sbl) | Society of Biblical Literature | Ancient Greek |
 
@@ -115,37 +115,40 @@ The available presets are:
 The **`IConversionOptions`** interface provides the following controls over the conversion process:
 
 ```ts
-removeDiacritics?: boolean,       // remove diacritics, except those that represent letters
+removeDiacritics?: boolean,          // remove diacritics, except those that represent letters
 
-removeExtraWhitespace?: boolean,  // remove potential extra whitespace
+removeExtraWhitespace?: boolean,     // remove potential extra whitespace
 
 betaCodeStyle?: {
-  useTLGStyle?: boolean           // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
+  skipSanitization?: boolean,        // prevent the deletion of non-beta code characters
+  useTLGStyle?: boolean              // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
 },
 
 greekStyle?: {
-  disableBetaVariant?: boolean,   // disable the typographic variant 'ϐ' [U+03D0]
-  useGreekQuestionMark?: boolean, // use greek question marks ';' [U+037E] rather than regular semicolons
-  useLunateSigma?: boolean        // use lunate sigmas 'ϲ, Ϲ' rather than regular sigmas
+  useBetaVariant?: boolean,          // use the typographic variant 'ϐ' [U+03D0] within a word
+  useGreekQuestionMark?: boolean,    // use greek question marks ';' [U+037E] rather than regular semicolons
+  useLunateSigma?: boolean,          // use lunate sigmas 'ϲ, Ϲ' rather than regular sigmas
+  useMonotonicOrthography?: boolean  // only output monotonic accents (tonos, diaeresis)
 },
 
 transliterationStyle?: {
-  setCoronisStyle?: Coronis,      // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
-  useCxOverMacron?: boolean,      // use a circumflex rather than a macron for eta, omega, etc
-  beta_v?: boolean,               // transliterate 'β' as 'v' (defaults to: 'b')
-  gammaNasal_n?: boolean,         // transliterate 'γ' as 'n' when nasalization occurs
-  eta_i?: boolean,                // transliterate 'η' as 'ī' (defaults to: 'ē')
-  xi_ks?: boolean,                // transliterate 'ξ' as 'ks' (defaults to: 'x')
-  rho_rh?: boolean,               // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
-  phi_f?: boolean,                // transliterate 'φ' as 'f' (defaults to: 'ph')
-  chi_kh?: boolean,               // transliterate 'χ' as 'kh' (defaults to: 'ch')
-  upsilon_y?: boolean,            // transliterate 'υ' as 'y' (defaults to: 'u')
-  lunatesigma_s?: boolean         // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
+  setCoronisStyle?: Coronis,         // set Coronis enum to PSILI | APOSTOPHE | NO (defaults to: PSILI)
+  useCxOverMacron?: boolean,         // use a circumflex rather than a macron for eta, omega, etc
+  beta_v?: boolean,                  // transliterate 'β' as 'v' (defaults to: 'b')
+  gammaNasal_n?: boolean,            // transliterate 'γ' as 'n' when nasalization occurs
+  eta_i?: boolean,                   // transliterate 'η' as 'ī' (defaults to: 'ē')
+  muPi_b?: boolean,                  // transliterate 'μπ' as 'b' at the beginning of a word
+  nuTau_d?: boolean,                 // transliterate 'ντ' as 'd̲' at the beginning of a word
+  xi_ks?: boolean,                   // transliterate 'ξ' as 'ks' (defaults to: 'x')
+  rho_rh?: boolean,                  // transliterate 'ρ' as 'rh' even if it doesn't have a rough breathing
+  phi_f?: boolean,                   // transliterate 'φ' as 'f' (defaults to: 'ph')
+  chi_kh?: boolean,                  // transliterate 'χ' as 'kh' (defaults to: 'ch')
+  upsilon_y?: boolean,               // transliterate 'υ' as 'y' (defaults to: 'u')
+  lunatesigma_s?: boolean            // transliterate 'ϲ' [U+03F2] as 's' (defaults to: 'c')
 },
 
-additionalChars?:                 // extend the default mapping with additional chars
- AdditionalChar[] |               //   (use AdditionalChar.ALL to enable the whole set)
- AdditionalChar
+additionalChars?:                    // extend the default mapping with additional chars
+ AdditionalChar[] | AdditionalChar   //   (use AdditionalChar.ALL to enable the whole set)
 ```
 
 A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
@@ -258,7 +261,7 @@ person.source // ἄνθρωπος
 
 Applies beta/sigma variants and transforms `πσ` into `ψ`.
 
-This function evaluates booleans `disableBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
+This function evaluates booleans `useBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
@@ -273,7 +276,6 @@ Removes beta and sigma variants.
 This is what you should know before using this library:
 
 - Greek numerals are not supported yet (see [Add support for greek numerals](https://github.com/antoineboquet/greek-conversion/issues/5)).
-- Greek output produces monotonic greek `tonos` and not polytonic greek `oxia` (see [Tonos/oxia issue](https://github.com/antoineboquet/greek-conversion/issues/3)).
 
 ## License
 

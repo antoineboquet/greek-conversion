@@ -1,11 +1,11 @@
 import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
+import { notImplemented } from './utils';
 
-const ALA_LC_OPTIONS = (): IConversionOptions => ({
+const ALA_LC_SHARED_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   transliterationStyle: {
-    gammaNasal_n: true,
-    rho_rh: true,
+    gammaNasal_n: Preset.ALA_LC,
     upsilon_y: true,
     lunatesigma_s: true
   },
@@ -16,7 +16,23 @@ const ALA_LC_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const BNF_OPTIONS = (): IConversionOptions => ({
+const ALA_LC_OPTIONS = (): IConversionOptions =>
+  mergeOptions(ALA_LC_SHARED_OPTIONS(), {
+    transliterationStyle: {
+      rho_rh: true
+    }
+  });
+
+const ALA_LC_MODERN_OPTIONS = (): IConversionOptions =>
+  mergeOptions(ALA_LC_SHARED_OPTIONS(), {
+    transliterationStyle: {
+      beta_v: true,
+      muPi_b: true,
+      nuTau_d: true
+    }
+  });
+
+const BNF_ADAPTED_OPTIONS = (): IConversionOptions => ({
   greekStyle: {
     useGreekQuestionMark: true
   },
@@ -49,10 +65,6 @@ const ISO_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const MODERN_BC_OPTIONS = (): IConversionOptions => ({
-  additionalChars: AdditionalChar.ALL
-});
-
 const SBL_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
   transliterationStyle: {
@@ -62,6 +74,10 @@ const SBL_OPTIONS = (): IConversionOptions => ({
   }
 });
 
+const SIMPLE_BC_OPTIONS = (): IConversionOptions => ({
+  additionalChars: AdditionalChar.ALL
+});
+
 const TLG_OPTIONS = (): IConversionOptions => ({
   betaCodeStyle: {
     useTLGStyle: true
@@ -69,29 +85,33 @@ const TLG_OPTIONS = (): IConversionOptions => ({
   additionalChars: AdditionalChar.ALL
 });
 
-export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
+export const applyPreset = (
+  preset: Preset | MixedPreset
+): IConversionOptions => {
   let options: IConversionOptions = {};
   let mixedOptions: IConversionOptions = {};
 
-  if (Array.isArray(preset)) {
-    [preset, mixedOptions] = preset;
-  }
+  if (Array.isArray(preset)) [preset, mixedOptions] = preset;
 
   switch (preset) {
     case Preset.ALA_LC:
       options = ALA_LC_OPTIONS();
       break;
 
-    case Preset.BNF:
-      options = BNF_OPTIONS();
+    case Preset.ALA_LC_MODERN:
+      options = ALA_LC_MODERN_OPTIONS();
+      break;
+
+    case Preset.BNF_ADAPTED:
+      options = BNF_ADAPTED_OPTIONS();
       break;
 
     case Preset.ISO:
       options = ISO_OPTIONS();
       break;
 
-    case Preset.MODERN_BC:
-      options = MODERN_BC_OPTIONS();
+    case Preset.SIMPLE_BC:
+      options = SIMPLE_BC_OPTIONS();
       break;
 
     case Preset.SBL:
@@ -103,28 +123,29 @@ export function applyPreset(preset: Preset | MixedPreset): IConversionOptions {
       break;
 
     default:
-      throw new RangeError(`Preset '${preset}' is not implemented.`);
+      notImplemented('Preset', preset);
   }
 
-  if (Object.keys(mixedOptions).length !== 0) {
-    mergeOptions(options, mixedOptions);
-  }
+  return Object.keys(mixedOptions).length
+    ? mergeOptions(options, mixedOptions)
+    : options;
+};
 
-  return options;
-}
-
-function mergeOptions(target: IConversionOptions, source: IConversionOptions) {
-  const isObject = (obj: object) => obj && typeof obj === 'object';
+const mergeOptions = (
+  target: IConversionOptions,
+  source: IConversionOptions
+): IConversionOptions => {
+  const isObject = (obj: object): boolean => obj && typeof obj === 'object';
 
   for (const key in source) {
     if (Array.isArray(target[key]) && Array.isArray(source[key])) {
       target[key] = target[key].concat(source[key]);
     } else if (isObject(target[key]) && isObject(source[key])) {
-      mergeOptions(Object.assign({}, target[key]), source[key]);
+      target[key] = { ...target[key], ...source[key] };
     } else {
       target[key] = source[key];
     }
   }
 
   return target;
-}
+};

@@ -1,22 +1,18 @@
 import { KeyType, Preset } from './enums';
-import {
-  IConversionOptions,
-  IInternalConversionOptions,
-  MixedPreset
-} from './interfaces';
+import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping, ROUGH_BREATHING, SMOOTH_BREATHING } from './Mapping';
 import {
   applyGammaNasals,
   applyGreekVariants,
-  applyUppercaseChars,
-  bcReorderDiacritics,
-  fromTLG,
   handleOptions,
+  normalizeBetaCode,
   normalizeGreek,
-  trNormalizeCoronis,
+  normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
-  removeGreekVariants as utilRmGreekVariants
+  removeGreekVariants as utilRmGreekVariants,
+  trApplyUppercaseChars,
+  handleTLGInput
 } from './utils';
 
 export function toGreek(
@@ -29,23 +25,20 @@ export function toGreek(
   const {
     removeDiacritics,
     removeExtraWhitespace,
+    betaCodeStyle,
     greekStyle,
-    transliterationStyle
+    transliterationStyle,
+    isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (fromType === KeyType.TLG_BETA_CODE) {
-    str = fromTLG(str);
-    fromType = KeyType.BETA_CODE;
-  }
+  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
 
   switch (fromType) {
     case KeyType.BETA_CODE:
+      str = normalizeBetaCode(str, betaCodeStyle);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      else str = bcReorderDiacritics(str);
-
       str = mapping.apply(str, fromType, KeyType.GREEK);
-
       break;
 
     case KeyType.GREEK:
@@ -55,16 +48,14 @@ export function toGreek(
       break;
 
     case KeyType.TRANSLITERATION:
-      str = applyUppercaseChars(str);
+      str = normalizeTransliteration(str, transliterationStyle, isUpperCase);
+      str = trApplyUppercaseChars(str);
       str = mapping.apply(str, fromType, KeyType.GREEK);
 
-      str = trNormalizeCoronis(str, transliterationStyle?.setCoronisStyle);
-
       if (removeDiacritics) {
-        str = utilRmDiacritics(str, fromType);
-        str = str.replace(/h/gi, '');
+        str = utilRmDiacritics(str, fromType).replace(/h/gi, '');
       } else {
-        str = trConvertBreathings(str, options);
+        str = trConvertBreathings(str);
       }
       break;
   }
@@ -72,7 +63,7 @@ export function toGreek(
   str = applyGreekVariants(str, greekStyle);
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return normalizeGreek(str, greekStyle?.useGreekQuestionMark);
+  return normalizeGreek(str, greekStyle);
 }
 
 /**
@@ -86,18 +77,12 @@ export function toGreek(
  * on double rhos).
  *
  * @privateRemarks
- * (1) Can't figure how to implement `reInitialBreathing` in order
- * to consistently find `firstV`, `firstD`, `nextV` & `nextD` values.
- * (1) Currently, the regex captures the first vowels - including their
- * diacritics - of a word together. Notice that the `vowelGroups` can
- * match 2+ vowels.
+ * (1) The regex captures the first vowels - including their diacritics -
+ * of a word together. Notice that the `vowelGroups` can match 2+ vowels.
+ * (2) It's tricky to capture each vowel and diacritic separately in a
+ * regex as the subscript iota decomposes to the letter iota.
  */
-function trConvertBreathings(
-  str: string,
-  options: IInternalConversionOptions
-): string {
-  const { isUpperCase } = options;
-
+function trConvertBreathings(str: string): string {
   const diphthongs = ['αι', 'αυ', 'ει', 'ευ', 'ηυ', 'οι', 'ου', 'υι'];
   const vowels = 'αεηιουω';
   const reInitialBreathing = new RegExp(`(?<=\\p{P}|\\s|^)(h)?([${vowels}\\p{M}]+)`, 'gimu'); // prettier-ignore

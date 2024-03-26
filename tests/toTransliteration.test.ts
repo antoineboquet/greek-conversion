@@ -60,7 +60,7 @@ describe('From beta code to transliteration', () => {
     ${aristotle.bc}        | ${aristotle.trNoAcc}
   `('Removing diacritics', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected))
 
-  // Testing useTLGStyle / TLG preset
+  // Testing KeyType.TLG_BETA_CODE
 
   test.each`
     str               | expected
@@ -76,10 +76,7 @@ describe('From beta code to transliteration', () => {
     ${'*p*o*i*=|h'}   | ${'POIȨ̄̃'}
     ${'*(R*/O*D*O*S'} | ${'RHÓDOS'}
     ${'*(r*/o*d*o*s'} | ${'RHÓDOS'}
-  `('Testing useTLGStyle / TLG preset', ({ str, expected }) => {
-    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-    expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected)
-  })
+  `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toTransliteration(str, KeyType.TLG_BETA_CODE)).toBe(expected))
 
   // Testing coronides
 
@@ -179,7 +176,7 @@ describe('From beta code to transliteration', () => {
     ${'u)/ u(='}     | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str            | expected
@@ -190,7 +187,7 @@ describe('From beta code to transliteration', () => {
     ${'pou='}      | ${'poũ'}
     ${'mui/agros'} | ${'myíagros'}
     ${'wuto/s'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
@@ -202,6 +199,15 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('vVs3S3', KeyType.BETA_CODE, enableDigammaAndLunateSigma)).toBe('wWcC')
     expect(toTransliteration('#1*#1#3*#3#5*#5', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('#1*#1#3*#3#5*#5')
   })
+
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('#2*#2#5*#5', KeyType.BETA_CODE, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
 
   // Testing uppercase writing
 
@@ -233,6 +239,16 @@ describe('From beta code to transliteration', () => {
     ${'w=(|'} | ${'hō̧̃'}
     ${'w=|('} | ${'hō̧̃'} 
   `('Testing various diacritics order', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
+
+  // Testing beta code string normalization
+
+  test.each`
+    str                   | expected
+    ${'ánqrwpos'}         | ${'anthrōpos'}
+    ${'h̔méra'}            | ${'ēmera'}
+    ${'a(/gios, o)/ros.'} | ${'hágios, óros.'}
+    ${'a))nh//r'}         | ${'anḗr'}
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toTransliteration(str, KeyType.BETA_CODE)).toBe(expected))
 
 })
 
@@ -341,12 +357,6 @@ describe('From greek to transliteration', () => {
     ${'τυγχάνω'} | ${'tunkhánō'}
   `('Testing gamma nasals, with gammaNasal_n & xi_ks / chi_kh enabled', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { gammaNasal_n: true, xi_ks: true, chi_kh: true } })).toBe(expected))
 
-  // Disabling beta variant
-
-  test('Disabling beta variant', () => {
-    expect(toTransliteration('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('bárbaros')
-  })
-
   // Testing rho rules
 
   test.each`
@@ -439,7 +449,7 @@ describe('From greek to transliteration', () => {
     ${'ὔ ὗ'}       | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str           | expected
@@ -450,7 +460,7 @@ describe('From greek to transliteration', () => {
     ${'ποῦ'}      | ${'poũ'}
     ${'μυίαγρος'} | ${'myíagros'}
     ${'ωὐτός'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Using additional letters
 
@@ -462,6 +472,15 @@ describe('From greek to transliteration', () => {
     expect(toTransliteration('ϝϜ\u03F2\u03F9', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('wWcC')
     expect(toTransliteration('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, enableDigammaAndLunateSigma)).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
   })
+
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('\u03DB\u03DAϡϠ', KeyType.GREEK, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
 
   // Testing uppercase writing
 
@@ -518,7 +537,53 @@ describe('From greek to transliteration', () => {
     ${'Πάτροϙλος'}                                  | ${'Patroḳlos'}
   `('Applying preset ALA_LC', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC)).toBe(expected))
 
-
+  // Applying preset ALA_LC_MODERN (the following sentences are given by the ALA-LC romanization table)
+  //
+  // Note that the romanization was adapted as:
+  //   (1) an 'h' needs to be explicitly noted by a rough breathing;
+  //   (2) uppercase sentences can't be easily transformed to lowercase while keeping proper nouns.
+  
+  test.each`
+    str                                              | expected
+    ${'Ἐτήσια ἔκθεσις / Κυπριακὴ Δημοκρατία,'}       | ${'Etēsia ekthesis / Kypriakē Dēmokratia,'}
+    ${'Ὑπουργεῖον Ἐργασίας καὶ Κοινωνικῶν'}          | ${'Hypourgeion Ergasias kai Koinōnikōn'}
+    ${'Ἀσφαλίσεων'}                                  | ${'Asphaliseōn'}
+    ${'Ετήσια έκθεση / Κυπριακή Δημοκρατία,'}        | ${'Etēsia ekthesē / Kypriakē Dēmokratia,'}
+    ${'Υπουργείο Εργασίας και Κοινωνικών'}           | ${'Ypourgeio Ergasias kai Koinōnikōn'}
+    ${'Ασφαλίσεων'}                                  | ${'Asphaliseōn'}
+    ${'Ελληνικό Ίδρυμα Ευρωπαϊκής και Εξωτερικής'}   | ${'Ellēniko Idryma Eurōpaikēs kai Exōterikēs'}
+    ${'Πολιτικής'}                                   | ${'Politikēs'}
+    ${'Ελευθέριος Δ. Παυλίδης'}                      | ${'Eleutherios D. Paulidēs'}
+    ${'Ορθόδοξος Αυτοκέφαλος Εκκλησία της Αλβανίας'} | ${'Orthodoxos Autokephalos Ekklēsia tēs Alvanias'}
+    ${'Βίος και πολιτεία του Αλέξη Ζορμπά'}          | ${'Vios kai politeia tou Alexē Zormpa'}
+    ${'Λασκαρίνα Μπουμπουλίνα'}                      | ${'Laskarina Boumpoulina'}
+    ${'Νταίηβιντ Μίτσελ'}                            | ${'D̲aiēvint Mitsel'}
+    ${'Τζαίημς Τζόυς'}                               | ${'Tzaiēms Tzoys'}
+    ${'Ἡ κοινωνιολογία τοῦ ρεμπέτικου'}              | ${'Hē koinōniologia tou rempetikou'}
+    ${'Βίλλυ Μπραντ'}                                | ${'Villy Brant'}
+    ${'Μπραντ Πιτ'}                                  | ${'Brant Pit'}
+    ${'Γιάκομπ Φίλιπ Φαλμεράυερ'}                    | ${'Giakomp Philip Phalmerayer'}
+    ${'Σαρλ Ογκουστίν ντε Κουλόμπ'}                  | ${'Sarl Onkoustin d̲e Koulomp'}
+    ${'Λαμπέρτο Ντίνι'}                              | ${'Lamperto D̲ini'}
+    ${'Τζωρτζ Χέρμπερτ Ουώκερ Μπους'}                | ${'Tzōrtz Chermpert Ouōker Bous'}
+    ${'Ουίνστων Τσώρτσιλ'}                           | ${'Ouinstōn Tsōrtsil'}
+    ${'Παγκόσμιο Κέντρο Εμπορίου'}                   | ${'Pankosmio Kentro Emporiou'}
+    ${'Φαίδων Γκιζίκης'}                             | ${'Phaidōn Gkizikēs'}
+    ${'Γκέτεμποργκ'}                                 | ${'Gketemporgk'}
+    ${'Ουάσιγκτον'}                                  | ${'Ouasinkton'}
+    ${'Ουάσινγκτον'}                                 | ${'Ouasinnkton'}
+    ${'Αεροδρόμιο Ρόναλντ Ρέιγκαν της Ουάσινγκτον'}  | ${'Aerodromio Ronalnt Reinkan tēs Ouasinnkton'}
+    ${'Ντμίτρι Ιβάνοβιτς Μεντελέγιεφ'}               | ${'D̲mitri Ivanovits Mentelegieph'}
+    ${'Άγγελος Σταύρου Βλάχος'}                      | ${'Angelos Staurou Vlachos'}
+    ${'ΟΔΗΓΟΣ ΜΑΡΚΕΤΙΝΓΚ ΕΛΛΑΔΟΣ / Ἑλληνικό'}        | ${'ODĒGOS MARKETINGK ELLADOS / Hellēniko'}
+    ${'Ἰνστιτοῦτο Μάρκετινγκ τῆς Ἑλληνικῆς'}         | ${'Institouto Marketingk tēs Hellēnikēs'}
+    ${'Ἑταιρίας Διοικήσεως Ἐπιχειρήσεων'}            | ${'Hetairias Dioikēseōs Epicheirēseōn'}
+    ${'Σάλπιγξ Ἑλληνική'}                            | ${'Salpinx Hellēnikē'}
+    ${'Μπιντπάϋ'}                                    | ${'Bintpay'}
+    ${'Η υιοθεσία ενηλίκων'}                         | ${'Ē uiothesia enēlikōn'}
+    ${'οι Άρπυιες'}                                  | ${'oi Arpuies'}
+  `('Applying preset ALA_LC_MODERN', ({ str, expected }) => expect(toTransliteration(str, KeyType.GREEK, Preset.ALA_LC_MODERN)).toBe(expected))
+  
   // Applying preset ISO (-> ISO 843 [1997])
   
   test.each`
@@ -615,6 +680,15 @@ describe('Self-conversion', () => {
     ${'Xenophō̃n'}  | ${'Xenophỗn'}
   `('Using circumflex on long vowels', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true } })).toBe(expected))
 
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toTransliteration('c̄C̄s̄S̄', KeyType.TRANSLITERATION, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('ĉĈŝŜ')})
+    
   // Applying beta_v
 
   test('Applying beta_v', () => {
@@ -631,9 +705,30 @@ describe('Self-conversion', () => {
 
   // Applying eta_i, using circumflex
 
-  test('Applying eta_i', () => {
+  test('Applying eta_i, using circumflex', () => {
     expect(toTransliteration('hêdonế', KeyType.TRANSLITERATION, { transliterationStyle: { useCxOverMacron: true, eta_i: true } }))
       .toBe('hîdonî́')
+  })
+
+  // Applying muPi_b
+  
+  test('Applying muPi_b', () => {
+    expect(toTransliteration('Mprant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
+      .toBe('Brant Pit')
+  })
+
+  // Applying muPi_b, with beta_v
+
+  test('Applying muPi_b, with beta_v', () => {
+    expect(toTransliteration('Mprant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true, beta_v: true } }))
+      .toBe('Brant Pit')
+  })
+
+  // Applying nuTau_d
+  
+  test('Applying nuTau_d', () => {
+    expect(toTransliteration('Ntaíēvint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
+      .toBe('D̲aíēvint Mítsel')
   })
 
   // Applying phi_f
@@ -681,7 +776,7 @@ describe('Self-conversion', () => {
     ${'ý hỹ'}      | ${'ý hỹ'}
   `('Applying upsilon_y', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: true } })).toBe(expected))
 
-  // Applying upsilon_y, preserving diphthongs au/eu/ou only
+  // Applying upsilon_y, only preserving diphthongs au, eu, ou
 
   test.each`
     str           | expected
@@ -692,7 +787,7 @@ describe('Self-conversion', () => {
     ${'poỹ'}      | ${'poũ'}
     ${'muíagros'} | ${'myíagros'}
     ${'ōutós'}    | ${'ōytós'}
-  `('Applying upsilon_y, preserving diphthongs au/eu/ou only', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
+  `('Applying upsilon_y, only preserving diphthongs au, eu, ou', ({ str, expected }) => expect(toTransliteration(str, KeyType.TRANSLITERATION, { transliterationStyle: { upsilon_y: Preset.ISO } })).toBe(expected))
 
   // Applying lunatesigma_s
 

@@ -67,12 +67,6 @@ describe('From greek to beta code', () => {
     expect(toBetaCode(str, KeyType.GREEK, Preset.TLG)).toBe(expected)
   })
 
-  // Disabling beta variant
-
-  test('Disabling beta variant', () => {
-    expect(toBetaCode('βάρβαρος', KeyType.GREEK, { greekStyle: { disableBetaVariant: true } })).toBe('ba/rbaros')
-  })
-
   // Testing rho rules
 
   test.each`
@@ -97,7 +91,7 @@ describe('From greek to beta code', () => {
   test('Using additional letters', () => {
     expect(toBetaCode('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ', KeyType.GREEK, { additionalChars: AdditionalChar.ALL })).toBe('vVjJs3S3#2*#2#1*#1#3*#3#5*#5')
     expect(toBetaCode('ϝϜ\u03F2\u03F9', KeyType.GREEK, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
-    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('\u03F3\u037F\u03DB\u03DAϟϞϡϠ')
+    expect(toBetaCode('\u03F3\u037F\u03DB\u03DAϟϞϡϠ', KeyType.GREEK, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('')
   })
 
   // Testing uppercase writing
@@ -223,8 +217,8 @@ describe('From transliteration to beta code', () => {
     str        | expected
     ${'ka̓gṓ'}  | ${'ka)gw/'}
     ${'ka̓́n'}   | ${'ka)/n'}
-    ${'ka’gṓ'} | ${'ka’gw/'}
-    ${'ká’n'}  | ${'ka/’n'}
+    ${'ka’gṓ'} | ${'kagw/'}
+    ${'ká’n'}  | ${'ka/n'}
   `('Testing coronides', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION)).toBe(expected))
 
   // Testing coronides, using coronis style
@@ -233,7 +227,7 @@ describe('From transliteration to beta code', () => {
     str       | expected
     ${'ka̓gṓ'} | ${'ka)gw/'}
     ${'ka̓́n'}  | ${'ka)/n'}
-    ${'ká’n'} | ${'ka/’n'}
+    ${'ká’n'} | ${'ka/n'}
   `('Testing coronides, using coronis style (PSILI)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.PSILI } })).toBe(expected))
 
   test.each`
@@ -246,9 +240,9 @@ describe('From transliteration to beta code', () => {
   test.each`
     str        | expected
     ${'ka̓gṓ'}  | ${'ka)gw/'}
-    ${'ka’gṓ'} | ${'ka’gw/'}
+    ${'ka’gṓ'} | ${'kagw/'}
     ${'ka̓́n'}   | ${'ka)/n'}
-    ${'ká’n'}  | ${'ka/’n'}
+    ${'ká’n'}  | ${'ka/n'}
   `('Testing coronides, using coronis style (NO)', ({ str, expected }) => expect(toBetaCode(str, KeyType.TRANSLITERATION, { transliterationStyle: { setCoronisStyle: Coronis.NO } })).toBe(expected))
 
   // Testing gamma nasals
@@ -311,6 +305,27 @@ describe('From transliteration to beta code', () => {
       .toBe('h(donh/')
   })
 
+  // Applying muPi_b
+
+  test('Applying muPi_b', () => {
+    expect(toBetaCode('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true } }))
+      .toBe('Brant Pit')
+  })
+
+  // Applying muPi_b, with beta_v
+
+  test('Applying muPi_b, with beta_v', () => {
+    expect(toBetaCode('Brant Pit', KeyType.TRANSLITERATION, { transliterationStyle: { muPi_b: true, beta_v: true } }))
+      .toBe('Mprant Pit')
+  })
+
+  // Applying nuTau_d
+  
+  test('Applying nuTau_d', () => {
+    expect(toBetaCode('D̲aíēvint Mítsel', KeyType.TRANSLITERATION, { transliterationStyle: { nuTau_d: true } }))
+      .toBe('Ntai/hvint Mi/tsel')
+  })
+
   // Applying phi_f
   
   test.each`
@@ -348,6 +363,15 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('wWcC', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('vVs3S3')
     expect(toBetaCode('qQḳḲs̄S̄', KeyType.TRANSLITERATION, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('qQk?K?s%26S%26')
   })
+
+  // Using additional letters stigma and sampi, using circumflex
+
+  test('Using additional letters stigma and sampi, using circumflex', () => {
+    expect(toBetaCode('ĉĈŝŜ', KeyType.TRANSLITERATION, {
+        transliterationStyle: { useCxOverMacron: true },
+        additionalChars: [AdditionalChar.STIGMA, AdditionalChar.SAMPI]
+    }))
+    .toBe('#2*#2#5*#5')})
 
   // Testing uppercase writing
 
@@ -406,7 +430,7 @@ describe('Self-conversion', () => {
     expect(toBetaCode(str, KeyType.BETA_CODE, Preset.TLG)).toBe(expected)
   })
 
-  // Testing TLG beta code input
+  // Testing KeyType.TLG_BETA_CODE
 
   test('Testing TLG beta code input', () => {
     expect(toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE)).toBe('O(pli/ths')
@@ -422,4 +446,14 @@ describe('Self-conversion', () => {
     ${'w|(='}     | ${'w(=|'}
   `('Testing diacritics order', ({ str, expected }) => { expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected) })
   
+  // Testing beta code string normalization
+
+  test.each`
+    str                   | expected
+    ${'ánqrwpos'}         | ${'anqrwpos'}
+    ${'h̔méra'}            | ${'hmera'}
+    ${'a(/gios, o)/ros.'} | ${'a(/gios, o)/ros.'}
+    ${'a))nh//r'}         | ${'a)nh/r'}
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toBetaCode(str, KeyType.BETA_CODE)).toBe(expected))
+
 })

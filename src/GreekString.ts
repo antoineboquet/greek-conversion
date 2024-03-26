@@ -4,7 +4,7 @@ import { Mapping } from './Mapping';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
-import { handleOptions } from './utils';
+import { handleOptions, handleTLGInput, notImplemented } from './utils';
 
 export class GreekString {
   readonly #fromType: KeyType;
@@ -23,6 +23,10 @@ export class GreekString {
   ) {
     const options = handleOptions(str, fromType, settings);
 
+    if (fromType === KeyType.TLG_BETA_CODE) {
+      [str, fromType] = handleTLGInput(str);
+    }
+
     this.#fromType = fromType;
     this.#options = options;
     this.#mapping = new Mapping(options);
@@ -35,7 +39,9 @@ export class GreekString {
     const conversionSource = (): string => {
       switch (this.#fromType) {
         case KeyType.BETA_CODE:
-          return this.#betaCode ?? this.#source;
+          return !this.#options.betaCodeStyle?.useTLGStyle
+            ? this.#betaCode ?? this.#source
+            : this.source;
         case KeyType.TRANSLITERATION:
           return this.#transliteration ?? this.#source;
         case KeyType.GREEK:
@@ -70,9 +76,6 @@ export class GreekString {
           this.#mapping
         );
         break;
-
-      default:
-        throw new RangeError(`KeyType '${toType}' is not implemented.`);
     }
   }
 
