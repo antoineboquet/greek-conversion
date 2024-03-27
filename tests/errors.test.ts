@@ -8,7 +8,7 @@ import {
   toBetaCode,
   toGreek,
   toTransliteration
-} from '../src/index'
+} from '../src/index';
 
 describe('Testing erroneous inputs', () => {
 
