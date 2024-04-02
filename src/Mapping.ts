@@ -499,8 +499,9 @@ export class Mapping {
 
     // prettier-ignore
     const sortedChars: string[][] = Object.values(props)
-      .filter((v) => v[fromProp] && v[toProp])
-      .map((v) => [v[fromProp], v[toProp]])
+      .reduce((acc, v) => 
+        v[fromProp] && v[toProp] ? [...acc, [v[fromProp], v[toProp]]] : acc
+      , [])
       .sort((a, b) => b[0].normalize('NFD').length - a[0].normalize('NFD').length);
 
     // @ts-ignore
