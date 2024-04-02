@@ -4,7 +4,7 @@ import { Mapping } from './Mapping';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
-import { handleOptions, handleTLGInput, notImplemented } from './utils';
+import { handleOptions, toTLG } from './utils';
 
 export class GreekString {
   readonly #fromType: KeyType;
@@ -23,8 +23,9 @@ export class GreekString {
   ) {
     const options = handleOptions(str, fromType, settings);
 
-    if (fromType === KeyType.TLG_BETA_CODE) {
-      [str, fromType] = handleTLGInput(str);
+    if (fromType === KeyType.SIMPLE_BETA_CODE) {
+      str = toTLG(str);
+      fromType = KeyType.BETA_CODE;
     }
 
     this.#fromType = fromType;
@@ -39,9 +40,7 @@ export class GreekString {
     const conversionSource = (): string => {
       switch (this.#fromType) {
         case KeyType.BETA_CODE:
-          return !this.#options.betaCodeStyle?.useTLGStyle
-            ? this.#betaCode ?? this.#source
-            : this.source;
+          return this.#betaCode ?? this.#source;
         case KeyType.TRANSLITERATION:
           return this.#transliteration ?? this.#source;
         case KeyType.GREEK:
