@@ -71,7 +71,7 @@ export function toBetaCode(
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 
-  return str;
+  return betaCodeStyle?.useLowerCase ? str.toLowerCase() : str.toUpperCase();
 }
 
 /**
