@@ -74,14 +74,7 @@ const SBL_OPTIONS = (): IConversionOptions => ({
   }
 });
 
-const SIMPLE_BC_OPTIONS = (): IConversionOptions => ({
-  additionalChars: AdditionalChar.ALL
-});
-
 const TLG_OPTIONS = (): IConversionOptions => ({
-  betaCodeStyle: {
-    useTLGStyle: true
-  },
   additionalChars: AdditionalChar.ALL
 });
 
@@ -108,10 +101,6 @@ export const applyPreset = (
 
     case Preset.ISO:
       options = ISO_OPTIONS();
-      break;
-
-    case Preset.SIMPLE_BC:
-      options = SIMPLE_BC_OPTIONS();
       break;
 
     case Preset.SBL:
