@@ -24,7 +24,7 @@ describe('Testing erroneous inputs', () => {
     expect(() => toTransliteration('foo', KeyType.BAD_KEY_TYPE)).toThrow(RangeError);
 
     // The following are OK as they use the literal values defined by the KeyType enum.
-    expect(toBetaCode('ἀνήρ', 'gr')).toBe('a)nh/r');
+    expect(toBetaCode('ἀνήρ', 'gr')).toBe('A)NH/R');
     expect(toGreek('anḗr', 'tr')).toBe('ἀνήρ');
     expect(toTransliteration('a)nh/r', 'bc')).toBe('anḗr');
   });

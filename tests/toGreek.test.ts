@@ -42,7 +42,7 @@ describe('From beta code to greek', () => {
     ${'a(/gios3'}                      | ${'ἅγιοσ3'}
     ${'a)%27a%26ehi%27i%26owu%27u%26'} | ${'ἀ̆ᾱεηῐῑοωῠῡ'}
     ${aristotle.bc}                    | ${aristotle.gr}
-  `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+  `('Basic conversion', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE)).toBe(expected) })
 
   // Removing diacritics
 
@@ -59,9 +59,9 @@ describe('From beta code to greek', () => {
     ${'a(/gios3'}                      | ${'αγιοσ3'}
     ${'a)%27a%26ehi%27i%26owu%27u%26'} | ${'ααεηιιοωυυ'}
     ${aristotle.bc}                    | ${aristotle.grNoAcc}
-  `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
+  `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
-  // Testing KeyType.TLG_BETA_CODE
+  // Testing TLG beta code (KeyType.BETA_CODE)
 
   test.each`
     str               | expected
@@ -77,20 +77,20 @@ describe('From beta code to greek', () => {
     ${'*p*o*i*=|h'}   | ${'ΠΟΙῌ͂'}
     ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
     ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
-    `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected))
+    `('Testing TLG beta code (KeyType.BETA_CODE)', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
 
 
   // Using beta variant
 
   test('Using beta variant', () => {
-    expect(toGreek('ba/rbaros', KeyType.BETA_CODE, { greekStyle: { useBetaVariant: true } })).toBe('βάρ\u03D0αρος')
+    expect(toGreek('ba/rbaros', KeyType.SIMPLE_BETA_CODE, { greekStyle: { useBetaVariant: true } })).toBe('βάρ\u03D0αρος')
   })
 
   // Using lunate sigma
 
   test('Using lunate sigma', () => {
-    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
-    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.BETA_CODE, { greekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
+    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.SIMPLE_BETA_CODE)).toBe('Ἰησοῦς Χριστὸς Θεοῦ Υἱὸς Σωτήρ')
+    expect(toGreek('I)hsou=s Xristo\\s Qeou= Ui(o\\s Swth/r', KeyType.SIMPLE_BETA_CODE, { greekStyle: { useLunateSigma: true } })).toBe('Ἰη\u03F2οῦ\u03F2 Χρι\u03F2τὸ\u03F2 Θεοῦ Υἱὸ\u03F2 \u03F9ωτήρ')
   })
 
   // Testing rho rules
@@ -102,14 +102,14 @@ describe('From beta code to greek', () => {
     ${'polu/rrizos'}   | ${'πολύρριζος'}
     ${'polu/r)r(izos'} | ${'πολύῤῥιζος'}
     ${'ma/rmaros'}     | ${'μάρμαρος'}
-  `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+  `('Testing rho rules', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE)).toBe(expected) })
 
   // Using additional letters
 
   test('Using additional letters', () => {
-    expect(toGreek('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { additionalChars: AdditionalChar.ALL })).toBe('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ')
-    expect(toGreek('vVs3S3', KeyType.BETA_CODE, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
-    expect(toGreek('#1*#1#3*#3#5*#5', KeyType.BETA_CODE, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('#1*#1#3*#3#5*#5')
+    expect(toGreek('vVjJs3S3#2*#2#1*#1#3*#3#5*#5', KeyType.SIMPLE_BETA_CODE, { additionalChars: AdditionalChar.ALL })).toBe('ϝϜ\u03F3\u037F\u03F2\u03F9\u03DB\u03DAϟϞϙϘϡϠ')
+    expect(toGreek('vVs3S3', KeyType.SIMPLE_BETA_CODE, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('ϝϜ\u03F2\u03F9')
+    expect(toGreek('#1*#1#3*#3#5*#5', KeyType.SIMPLE_BETA_CODE, { additionalChars: [AdditionalChar.DIGAMMA, AdditionalChar.LUNATE_SIGMA] })).toBe('#1*#1#3*#3#5*#5')
   })
 
   // Testing uppercase writing
@@ -122,13 +122,13 @@ describe('From beta code to greek', () => {
     ${'SUSSEISMO/S'}  | ${'ΣΥΣΣΕΙΣΜΌΣ'}
     ${'A)YEGH/S'}     | ${'ἈΨΕΓΉΣ'}
     ${'UI(O/S'}       | ${'ΥἹΌΣ'}
-  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+  `('Testing uppercase writing', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE)).toBe(expected) })
 
   // Testing whitespace behavior
 
   test('Testing whitespace behavior', () => {
-    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE)).toBe('αἴξ   κριός')
-    expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
+    expect(toGreek('ai)/c   krio/s', KeyType.SIMPLE_BETA_CODE)).toBe('αἴξ   κριός')
+    expect(toGreek('ai)/c   krio/s', KeyType.SIMPLE_BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
   // Testing various diacritics order
@@ -141,7 +141,7 @@ describe('From beta code to greek', () => {
     ${'w|=('} | ${'ᾧ'}
     ${'w=(|'} | ${'ᾧ'}
     ${'w=|('} | ${'ᾧ'} 
-  `('Testing various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+  `('Testing various diacritics order', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE)).toBe(expected) })
 
   // Testing beta code string normalization
 
@@ -151,7 +151,7 @@ describe('From beta code to greek', () => {
     ${'h̔méra'}            | ${'ημερα'}
     ${'a(/gios, o)/ros.'} | ${'ἅγιος, ὄρος.'}
     ${'a))nh//r'}         | ${'ἀνήρ'}
-  `('Testing beta code string normalization', ({ str, expected }) => expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected))
+  `('Testing beta code string normalization', ({ str, expected }) => expect(toGreek(str, KeyType.SIMPLE_BETA_CODE)).toBe(expected))
 
   // Using monotonic orthography
 
@@ -161,7 +161,7 @@ describe('From beta code to greek', () => {
     ${'kalo\\s ka)gaqo/s'} | ${'καλος καγαθός'}
     ${'poih=|'}            | ${'ποιη'}
     ${'A)/i+da'}           | ${'Άϊδα'}
-  `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
+  `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.SIMPLE_BETA_CODE, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
   
 })
 
