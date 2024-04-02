@@ -3,7 +3,6 @@ import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
 import {
   applyGammaNasals,
-  fromTLG,
   handleOptions,
   normalizeBetaCode,
   normalizeTransliteration,
@@ -29,11 +28,9 @@ export function toBetaCode(
     isUpperCase
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
+  const isInputTLG = fromType === KeyType.BETA_CODE;
 
-  const isInputTLG = fromType === KeyType.TLG_BETA_CODE;
-  const isOutputTLG = betaCodeStyle?.useTLGStyle;
-
-  if (isInputTLG) fromType = KeyType.BETA_CODE;
+  if (fromType === KeyType.SIMPLE_BETA_CODE) fromType = KeyType.BETA_CODE;
 
   switch (fromType) {
     case KeyType.BETA_CODE:
@@ -65,9 +62,7 @@ export function toBetaCode(
   }
 
   str = normalizeBetaCode(str, betaCodeStyle);
-
-  if (isInputTLG && !isOutputTLG) str = fromTLG(str);
-  if (!isInputTLG && isOutputTLG) str = toTLG(str);
+  if (!isInputTLG) str = toTLG(str);
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
 

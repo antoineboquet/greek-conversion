@@ -12,7 +12,7 @@ import {
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants,
   trApplyUppercaseChars,
-  handleTLGInput
+  fromTLG
 } from './utils';
 
 export function toGreek(
@@ -32,7 +32,8 @@ export function toGreek(
   } = options;
   const mapping = declaredMapping ?? new Mapping(options);
 
-  if (fromType === KeyType.TLG_BETA_CODE) [str, fromType] = handleTLGInput(str);
+  if (fromType === KeyType.BETA_CODE /* TLG */) str = fromTLG(str);
+  if (fromType === KeyType.SIMPLE_BETA_CODE) fromType = KeyType.BETA_CODE;
 
   switch (fromType) {
     case KeyType.BETA_CODE:

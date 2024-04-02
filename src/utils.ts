@@ -148,7 +148,7 @@ export const handleOptions = (
   let { greekStyle, transliterationStyle, additionalChars } = settings ?? {};
 
   // Determining the case of a TLG string involves converting it.
-  if (fromType === KeyType.TLG_BETA_CODE) str = fromTLG(str);
+  if (fromType === KeyType.BETA_CODE) str = fromTLG(str);
 
   // Silently enable `AdditionalChar.LUNATE_SIGMA` if related options are enabled.
   if (greekStyle?.useLunateSigma || transliterationStyle?.lunatesigma_s) {
@@ -172,10 +172,6 @@ export const handleOptions = (
     isUpperCase: isUpperCase(str, fromType),
     ...settings
   };
-};
-
-export const handleTLGInput = (str: string): [string, KeyType] => {
-  return [fromTLG(str), KeyType.BETA_CODE];
 };
 
 /**
