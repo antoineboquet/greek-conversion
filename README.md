@@ -82,7 +82,7 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-**`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | GREEK | TRANSLITERATION | SIMPLE_BETA_CODE` (e.g. `KeyType.GREEK`).
 
 **`settings`** can be filled with:
 1. a `Preset`;
@@ -95,10 +95,9 @@ The available presets are:
 
 1. **For beta code:**
 
-| Preset | Description |
-| ------ | ----------- |
-| [**`SIMPLE_BC`**](https://github.com/antoineboquet/greek-conversion/wiki#simple-beta-code) | A simplified beta code style for faster writing |
-| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#tlg) | Thesaurus Linguae Graecae |
+| Preset | Description | Scope |
+| ------ | ----------- | ----- |
+| [**`TLG`**](https://github.com/antoineboquet/greek-conversion/wiki#tlg) | Thesaurus Linguae Graecae | Ancient Greek |
 
 2. **For transliteration:**
 
@@ -121,7 +120,7 @@ removeExtraWhitespace?: boolean,     // remove potential extra whitespace
 
 betaCodeStyle?: {
   skipSanitization?: boolean,        // prevent the deletion of non-beta code characters
-  useTLGStyle?: boolean              // use the Thesaurus Linguae Graecae style. e.g. 'Ἄϊδι' → '*)/AI+DI'
+  useLowerCase?: boolean             // convert beta code strings to lowercase
 },
 
 greekStyle?: {
@@ -158,9 +157,9 @@ A more detailed description of these conversion options is available on this [pa
 #### Basic examples
 
 ```ts
-toBetaCode('ανθρωπος', KeyType.GREEK) // anqrwpos
-toGreek('A)/i+da', KeyType.BETA_CODE) // Ἄϊδα
-toGreek('*)/AI+DA', KeyType.TLG_BETA_CODE) // Ἄϊδα
+toBetaCode('ἄνθρωπος', KeyType.GREEK) // A)/NQRWPOS
+toGreek('*)/AI+DA', KeyType.BETA_CODE) // Ἄϊδα
+toGreek('A)/i+da', KeyType.SIMPLE_BETA_CODE) // Ἄϊδα
 toTransliteration('ἄϋλος', KeyType.GREEK, { removeDiacritics: true }) // aulos
 ```
 
@@ -210,8 +209,7 @@ toTransliteration('τέχνη', KeyType.GREEK, style) // tékhnê
 #### Self-conversion (reflect settings)
 
 ```ts
-toBetaCode('O(pli/ths', KeyType.BETA_CODE, Preset.TLG) // *(OPLI/THS
-toBetaCode('*(OPLI/THS', KeyType.TLG_BETA_CODE) // O(pli/ths
+toBetaCode('O(pli/ths', KeyType.SIMPLE_BETA_CODE) // *(OPLI/THS
 
 const grStyle = { greekStyle: { useLunateSigma: true } }
 toGreek('ἅγιος', KeyType.GREEK, grStyle) // ἅγιοϲ
@@ -248,7 +246,7 @@ const person = new GreekString(
   { removeDiacritics: true }
 )
 
-person.betaCode // anqrwpos
+person.betaCode // ANQRWPOS
 person.greek // ανθρωπος
 person.transliteration // anthrōpos
 
