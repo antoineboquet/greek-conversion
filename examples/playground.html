@@ -6,7 +6,7 @@
 <link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
 <style>
   body {
-    grid-template-columns: 1fr min(70em, 90%) 1fr;
+    grid-template-columns: 1fr min(75em, 97.5%) 1fr;
   }
 
   main {
@@ -26,7 +26,7 @@
   }
 
   #options-area {
-    margin-top: 1.5em;
+    margin-top: .5em;
     padding: .75em;
     background: var(--accent-bg);
     border-radius: var(--standard-border-radius);
@@ -52,7 +52,7 @@
   .notice {
     z-index: 999;
     position: absolute;
-    margin-left: 5em;
+    margin-top: .5em;
     padding: .75em;
     font-size: .75em;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
@@ -111,169 +111,161 @@
 
 <main>
   <form id="form">
-    <div>
+    <label style="display:flex;position:relative">
       <input
         id="search-bar"
         type="search"
-        style="width:100%"
+        style="margin-right:.25em;flex:1"
       />
 
-      Input type:
-      <span id="greek-notice" class="notice" hidden>
-        <p style="margin:0 0 .75em 0">
-          Configure your keyboard in Greek or type it using beta code.<br>
-          Here's the conversion chart:
-        </p>
-        <table style="margin:0">
-          <tr style="background:white">
-            <td><strong>A</strong> &rarr; Α</td>
-            <td><strong>B</strong> &rarr; Β</td>
-            <td><strong>G</strong> &rarr; Γ</td>
-            <td><strong>D</strong> &rarr; Δ</td>
-            <td><strong>E</strong> &rarr; Ε</td>
-            <td><strong>Z</strong> &rarr; Ζ</td>
-            <td><strong>H</strong> &rarr; Η</td>
-            <td><strong>Q</strong> &rarr; Θ</td>
-          </tr>
-          <tr>
-            <td><strong>I</strong> &rarr; Ι</td>
-            <td><strong>K</strong> &rarr; Κ</td>
-            <td><strong>L</strong> &rarr; Λ</td>
-            <td><strong>M</strong> &rarr; Μ</td>
-            <td><strong>N</strong> &rarr; Ν</td>
-            <td><strong>C</strong> &rarr; Ξ</td>
-            <td><strong>O</strong> &rarr; Ο</td>
-            <td><strong>P</strong> &rarr; Π</td>
-          </tr>
-          <tr style="background:white">
-            <td><strong>R</strong> &rarr; Ρ</td>
-            <td><strong>S</strong> &rarr; Σ</td>
-            <td><strong>T</strong> &rarr; Τ</td>
-            <td><strong>U</strong> &rarr; Υ</td>
-            <td><strong>F</strong> &rarr; Φ</td>
-            <td><strong>X</strong> &rarr; Χ</td>
-            <td><strong>Y</strong> &rarr; Ψ</td>
-            <td><strong>W</strong> &rarr; Ω</td>
-          </tr>
-          <tr>
-            <td><strong>)</strong> &rarr; ◌̓</td>
-            <td><strong>(</strong> &rarr; ◌̔</td>
-            <td><strong>/</strong> &rarr; ◌́</td>
-            <td><strong>\</strong> &rarr; ◌̀</td>
-            <td><strong>=</strong> &rarr; ◌͂</td>
-            <td><strong>+</strong> &rarr; ◌̈</td>
-            <td><strong>|</strong> &rarr; ◌ͅ</td>
-            <td></td>
-          </tr>
-        </table>
-      </span>
-      <input
-        type="radio"
-        id="greek-radio"
-        name="input-type"
-        value="greek"
-        checked
-      />
-      <label id="greek-label" for="greek-radio">greek <sup>[?]</sup></label>
+      <select id="select-input-type" style="font-size:.85em">
+        <option value="" disabled>Input type</option>
+        <option value="gr" selected>Greek</option>
+        <option value="bc">Beta code (TLG)</option>
+        <option value="sbc">Beta code (simple)</option>
+        <option value="tr">Transliteration</option>
+      </select>
 
-      <span id="beta-code-notice" class="notice" hidden>
-        <table style="margin:0">
-          <tr style="background:white">
-            <td><strong>A</strong> &rarr; Α</td>
-            <td><strong>B</strong> &rarr; Β</td>
-            <td><strong>G</strong> &rarr; Γ</td>
-            <td><strong>D</strong> &rarr; Δ</td>
-            <td><strong>E</strong> &rarr; Ε</td>
-            <td><strong>Z</strong> &rarr; Ζ</td>
-            <td><strong>H</strong> &rarr; Η</td>
-            <td><strong>Q</strong> &rarr; Θ</td>
-          </tr>
-          <tr>
-            <td><strong>I</strong> &rarr; Ι</td>
-            <td><strong>K</strong> &rarr; Κ</td>
-            <td><strong>L</strong> &rarr; Λ</td>
-            <td><strong>M</strong> &rarr; Μ</td>
-            <td><strong>N</strong> &rarr; Ν</td>
-            <td><strong>C</strong> &rarr; Ξ</td>
-            <td><strong>O</strong> &rarr; Ο</td>
-            <td><strong>P</strong> &rarr; Π</td>
-          </tr>
-          <tr style="background:white">
-            <td><strong>R</strong> &rarr; Ρ</td>
-            <td><strong>S</strong> &rarr; Σ</td>
-            <td><strong>T</strong> &rarr; Τ</td>
-            <td><strong>U</strong> &rarr; Υ</td>
-            <td><strong>F</strong> &rarr; Φ</td>
-            <td><strong>X</strong> &rarr; Χ</td>
-            <td><strong>Y</strong> &rarr; Ψ</td>
-            <td><strong>W</strong> &rarr; Ω</td>
-          </tr>
-          <tr>
-            <td><strong>)</strong> &rarr; ◌̓</td>
-            <td><strong>(</strong> &rarr; ◌̔</td>
-            <td><strong>/</strong> &rarr; ◌́</td>
-            <td><strong>\</strong> &rarr; ◌̀</td>
-            <td><strong>=</strong> &rarr; ◌͂</td>
-            <td><strong>+</strong> &rarr; ◌̈</td>
-            <td><strong>|</strong> &rarr; ◌ͅ</td>
-            <td></td>
-          </tr>
-        </table>
-      </span>
-      <input
-        type="radio"
-        id="beta-code-radio"
-        name="input-type"
-        value="beta-code"
-      />
-      <label id="beta-code-label" for="beta-code-radio">beta code <sup>[?]</sup></label>
+      <span id="toggle-notice" style="position:absolute;top:.35em;right:10em;color:var(--accent)">[?]</span>
+    </label>
 
-      <span id="translit-notice" class="notice" hidden>
-        <table style="margin:0">
-          <tr style="background:white">
-            <td><strong>A</strong> &rarr; Α</td>
-            <td><strong>B</strong> &rarr; Β</td>
-            <td><strong>G</strong> &rarr; Γ</td>
-            <td><strong>D</strong> &rarr; Δ</td>
-            <td><strong>E</strong> &rarr; Ε</td>
-            <td><strong>Z</strong> &rarr; Ζ</td>
-            <td><strong>Ê</strong> &rarr; Η</td>
-            <td><strong>TH</strong> &rarr; Θ</td>
-          </tr>
-          <tr>
-            <td><strong>I</strong> &rarr; Ι</td>
-            <td><strong>K</strong> &rarr; Κ</td>
-            <td><strong>L</strong> &rarr; Λ</td>
-            <td><strong>M</strong> &rarr; Μ</td>
-            <td><strong>N</strong> &rarr; Ν</td>
-            <td><strong>X</strong> &rarr; Ξ</td>
-            <td><strong>O</strong> &rarr; Ο</td>
-            <td><strong>P</strong> &rarr; Π</td>
-          </tr>
-          <tr style="background:white">
-            <td><strong>R</strong> &rarr; Ρ</td>
-            <td><strong>S</strong> &rarr; Σ</td>
-            <td><strong>T</strong> &rarr; Τ</td>
-            <td><strong>U</strong> &rarr; Υ</td>
-            <td><strong>PH</strong> &rarr; Φ</td>
-            <td><strong>CH</strong> &rarr; Χ</td>
-            <td><strong>PS</strong> &rarr; Ψ</td>
-            <td><strong>Ô</strong> &rarr; Ω</td>
-          </tr>
-          <tr>
-            <td><strong>H</strong> &rarr; ◌̔</td>
-            <td colspan="7">cedilla &rarr; iota subscript; other diacritics are written as in Greek.</td>
-          </tr>
-        </table>
-      </span>
-      <input
-        type="radio"
-        id="translit-radio"
-        name="input-type"
-        value="transliteration"
-      />
-      <label id="translit-label" for="translit-radio">transliteration <sup>[?]</sup></label>
-    </div>
+    <span id="greek-notice" class="notice" hidden>
+      <p style="margin:0 0 .75em 0">
+        Configure your keyboard in Greek or type it using simplified<br>
+        beta code. Here's the conversion chart:
+      </p>
+      <table style="margin:0">
+        <tr style="background:white">
+          <td><strong>A</strong> &rarr; Α</td>
+          <td><strong>B</strong> &rarr; Β</td>
+          <td><strong>G</strong> &rarr; Γ</td>
+          <td><strong>D</strong> &rarr; Δ</td>
+          <td><strong>E</strong> &rarr; Ε</td>
+          <td><strong>Z</strong> &rarr; Ζ</td>
+          <td><strong>H</strong> &rarr; Η</td>
+          <td><strong>Q</strong> &rarr; Θ</td>
+        </tr>
+        <tr>
+          <td><strong>I</strong> &rarr; Ι</td>
+          <td><strong>K</strong> &rarr; Κ</td>
+          <td><strong>L</strong> &rarr; Λ</td>
+          <td><strong>M</strong> &rarr; Μ</td>
+          <td><strong>N</strong> &rarr; Ν</td>
+          <td><strong>C</strong> &rarr; Ξ</td>
+          <td><strong>O</strong> &rarr; Ο</td>
+          <td><strong>P</strong> &rarr; Π</td>
+        </tr>
+        <tr style="background:white">
+          <td><strong>R</strong> &rarr; Ρ</td>
+          <td><strong>S</strong> &rarr; Σ</td>
+          <td><strong>T</strong> &rarr; Τ</td>
+          <td><strong>U</strong> &rarr; Υ</td>
+          <td><strong>F</strong> &rarr; Φ</td>
+          <td><strong>X</strong> &rarr; Χ</td>
+          <td><strong>Y</strong> &rarr; Ψ</td>
+          <td><strong>W</strong> &rarr; Ω</td>
+        </tr>
+        <tr>
+          <td><strong>)</strong> &rarr; ◌̓</td>
+          <td><strong>(</strong> &rarr; ◌̔</td>
+          <td><strong>/</strong> &rarr; ◌́</td>
+          <td><strong>\</strong> &rarr; ◌̀</td>
+          <td><strong>=</strong> &rarr; ◌͂</td>
+          <td><strong>+</strong> &rarr; ◌̈</td>
+          <td><strong>|</strong> &rarr; ◌ͅ</td>
+          <td></td>
+        </tr>
+      </table>
+    </span>
+
+    <span id="beta-code-notice" class="notice" hidden>
+      <p style="margin:0 0 .75em 0">
+        The TLG beta code can be inputted in lowercase too / the simplified<br>
+        beta code doesn't use asterisks (accents are written after capital<br>
+        letters). Here's the conversion chart:
+      </p>
+      <table style="margin:0">
+        <tr style="background:white">
+          <td><strong>A</strong> &rarr; Α</td>
+          <td><strong>B</strong> &rarr; Β</td>
+          <td><strong>G</strong> &rarr; Γ</td>
+          <td><strong>D</strong> &rarr; Δ</td>
+          <td><strong>E</strong> &rarr; Ε</td>
+          <td><strong>Z</strong> &rarr; Ζ</td>
+          <td><strong>H</strong> &rarr; Η</td>
+          <td><strong>Q</strong> &rarr; Θ</td>
+        </tr>
+        <tr>
+          <td><strong>I</strong> &rarr; Ι</td>
+          <td><strong>K</strong> &rarr; Κ</td>
+          <td><strong>L</strong> &rarr; Λ</td>
+          <td><strong>M</strong> &rarr; Μ</td>
+          <td><strong>N</strong> &rarr; Ν</td>
+          <td><strong>C</strong> &rarr; Ξ</td>
+          <td><strong>O</strong> &rarr; Ο</td>
+          <td><strong>P</strong> &rarr; Π</td>
+        </tr>
+        <tr style="background:white">
+          <td><strong>R</strong> &rarr; Ρ</td>
+          <td><strong>S</strong> &rarr; Σ</td>
+          <td><strong>T</strong> &rarr; Τ</td>
+          <td><strong>U</strong> &rarr; Υ</td>
+          <td><strong>F</strong> &rarr; Φ</td>
+          <td><strong>X</strong> &rarr; Χ</td>
+          <td><strong>Y</strong> &rarr; Ψ</td>
+          <td><strong>W</strong> &rarr; Ω</td>
+        </tr>
+        <tr>
+          <td><strong>)</strong> &rarr; ◌̓</td>
+          <td><strong>(</strong> &rarr; ◌̔</td>
+          <td><strong>/</strong> &rarr; ◌́</td>
+          <td><strong>\</strong> &rarr; ◌̀</td>
+          <td><strong>=</strong> &rarr; ◌͂</td>
+          <td><strong>+</strong> &rarr; ◌̈</td>
+          <td><strong>|</strong> &rarr; ◌ͅ</td>
+          <td></td>
+        </tr>
+      </table>
+    </span>
+
+    <span id="translit-notice" class="notice" hidden>
+      <table style="margin:0">
+        <tr style="background:white">
+          <td><strong>A</strong> &rarr; Α</td>
+          <td><strong>B</strong> &rarr; Β</td>
+          <td><strong>G</strong> &rarr; Γ</td>
+          <td><strong>D</strong> &rarr; Δ</td>
+          <td><strong>E</strong> &rarr; Ε</td>
+          <td><strong>Z</strong> &rarr; Ζ</td>
+          <td><strong>Ê</strong> &rarr; Η</td>
+          <td><strong>TH</strong> &rarr; Θ</td>
+        </tr>
+        <tr>
+          <td><strong>I</strong> &rarr; Ι</td>
+          <td><strong>K</strong> &rarr; Κ</td>
+          <td><strong>L</strong> &rarr; Λ</td>
+          <td><strong>M</strong> &rarr; Μ</td>
+          <td><strong>N</strong> &rarr; Ν</td>
+          <td><strong>X</strong> &rarr; Ξ</td>
+          <td><strong>O</strong> &rarr; Ο</td>
+          <td><strong>P</strong> &rarr; Π</td>
+        </tr>
+        <tr style="background:white">
+          <td><strong>R</strong> &rarr; Ρ</td>
+          <td><strong>S</strong> &rarr; Σ</td>
+          <td><strong>T</strong> &rarr; Τ</td>
+          <td><strong>U</strong> &rarr; Υ</td>
+          <td><strong>PH</strong> &rarr; Φ</td>
+          <td><strong>CH</strong> &rarr; Χ</td>
+          <td><strong>PS</strong> &rarr; Ψ</td>
+          <td><strong>Ô</strong> &rarr; Ω</td>
+        </tr>
+        <tr>
+          <td><strong>H</strong> &rarr; ◌̔</td>
+          <td colspan="7">cedilla &rarr; iota subscript; other diacritics are written as in Greek.</td>
+        </tr>
+      </table>
+    </span>
 
     <div id="options-area">
       <!-- Common options -->
@@ -332,8 +324,8 @@
         </label>
 
         <label>
-          <input type="checkbox" name="options" value="bc_useTLGStyle" />
-          Use TLG style (= <code>Preset.TLG</code>)
+          <input type="checkbox" name="options" value="bc_useLowerCase" />
+          Use lowercase
         </label>
       </fieldset>
 
@@ -351,11 +343,6 @@
         <label>
           <input type="checkbox" name="options" value="tr_useCxOverMacron" />
           Use circumflexes (ê/ô)
-        </label>
-
-        <label>
-          <input type="checkbox" name="options" value="tr_lunatesigma_s" />
-          lunate sigma &rarr; s
         </label>
 
         <label>
@@ -407,6 +394,11 @@
           <input type="checkbox" name="options" value="tr_upsilon_y" />
           upsilon &rarr; y
         </label>
+
+        <label>
+          <input type="checkbox" name="options" value="tr_lunatesigma_s" />
+          lunate sigma &rarr; s
+        </label>
       </fieldset>
     </div>
   </form>
@@ -430,69 +422,69 @@
   const resultAreaPlaceholder = 'Conversion results will be displayed here...';
   resultArea.textContent = resultAreaPlaceholder;
 
+  const placeholder = {
+    gr: 'Type greek (press ENTER to convert)',
+    bc: 'Type TLG beta code (press ENTER to convert)',
+    sbc: 'Type simplified beta code (press ENTER to convert)',
+    tr: 'Type transliterated greek (press ENTER to convert)'
+  };
+
   const searchBar = document.getElementById('search-bar');
+  searchBar.placeholder = placeholder.gr;
   searchBar.value = '';
   searchBar.focus();
 
-  const greekRadio = document.getElementById('greek-radio');
-  const greekLabel = document.getElementById('greek-label');
+  const selectInputType = document.getElementById('select-input-type');
+  selectInputType.value = 'gr';
+
+  selectInputType.addEventListener('change', (e) => {
+    searchBar.value = '';
+    searchBar.placeholder = placeholder[selectInputType.value];
+  });
+
+  const toggleNotice = document.getElementById('toggle-notice');
   const greekNotice = document.getElementById('greek-notice');
-
-  const betaCodeRadio = document.getElementById('beta-code-radio');
-  const betaCodeLabel = document.getElementById('beta-code-label');
   const betaCodeNotice = document.getElementById('beta-code-notice');
-
-  const translitRadio = document.getElementById('translit-radio');
-  const translitLabel = document.getElementById('translit-label');
   const translitNotice = document.getElementById('translit-notice');
-
-  greekLabel.addEventListener('mouseenter', (e) => greekNotice.hidden = false);
-  greekLabel.addEventListener('mouseleave', (e) => greekNotice.hidden = true);
-
-  betaCodeLabel.addEventListener('mouseenter', (e) => betaCodeNotice.hidden = false);
-  betaCodeLabel.addEventListener('mouseleave', (e) => betaCodeNotice.hidden = true);
-
-  translitLabel.addEventListener('mouseenter', (e) => translitNotice.hidden = false);
-  translitLabel.addEventListener('mouseleave', (e) => translitNotice.hidden = true);
-
-  const inputGreekPlaceholder = 'Type greek (press ENTER to convert)';
-  const inputBetaCodePlaceholder = 'Type beta code (press ENTER to convert)';
-  const inputTranslitPlaceholder = 'Type transliterated greek (press ENTER to convert)';
-
-  let inputType = greekRadio.value;
-  greekRadio.checked = true;
   
-  if (greekRadio.checked) {
-    inputType = greekRadio.value;
-    searchBar.placeholder = inputGreekPlaceholder;
-  }
+  toggleNotice.addEventListener('mouseenter', (e) => {
+    const toggleNoticeRect = toggleNotice.getBoundingClientRect();
+    const noticePos = toggleNoticeRect.left / 1.333 + 'px';
 
-  if (betaCodeRadio.checked) {
-    inputType = betaCodeRadio.value;
-    searchBar.placeholder = inputBetaCodePlaceholder;
-  }
+    switch (selectInputType.value) {
+      case 'gr':
+        greekNotice.style.left = noticePos;
+        greekNotice.hidden = false;
+        break;
 
-  if (translitRadio.checked) {
-    inputType = translitRadio.value;
-    searchBar.placeholder = inputTranslitPlaceholder;
-  }
+      case 'bc':
+      case 'sbc':
+        betaCodeNotice.style.left = noticePos;
+        betaCodeNotice.hidden = false;
+        break;
 
-  greekRadio.addEventListener('click', (e) => {
-    inputType = e.target.value;
-    searchBar.value = '';
-    searchBar.placeholder = inputGreekPlaceholder;
+      case 'tr':
+        translitNotice.style.left = noticePos;
+        translitNotice.hidden = false;
+        break;
+    }
   });
+  
+  toggleNotice.addEventListener('mouseleave', (e) => {
+    switch (selectInputType.value) {
+      case 'gr':
+        greekNotice.hidden = true;
+        break;
 
-  betaCodeRadio.addEventListener('click', (e) => {
-    inputType = e.target.value;
-    searchBar.value = '';
-    searchBar.placeholder = inputBetaCodePlaceholder;
-  });
+      case 'bc':
+      case 'sbc':
+        betaCodeNotice.hidden = true;
+        break;
 
-  translitRadio.addEventListener('click', (e) => {
-    inputType = e.target.value;
-    searchBar.value = '';
-    searchBar.placeholder = inputTranslitPlaceholder;
+      case 'tr':
+        translitNotice.hidden = true;
+        break;
+    }
   });
 
   const checkboxes = document.querySelectorAll('input[name="options"]');
@@ -563,8 +555,8 @@
 
   function doConversion() {
     let fromType;
-    switch (inputType) {
-      case 'greek':
+    switch (selectInputType.value) {
+      case 'gr':
         if (conversionOptions?.additionalChars === 'all') {
           searchBar.value = searchBar.value
             .replace(/Σ3/g, 'S3')
@@ -572,7 +564,7 @@
 
           searchBar.value = toGreek(
             searchBar.value,
-            KeyType.BETA_CODE, {
+            KeyType.SIMPLE_BETA_CODE, {
               additionalChars: conversionOptions.additionalChars
             }
           );
@@ -580,11 +572,15 @@
         fromType = KeyType.GREEK;
         break;
 
-      case 'beta-code':
+      case 'bc':
         fromType = KeyType.BETA_CODE;
         break;
 
-      case 'transliteration':
+      case 'sbc':
+        fromType = KeyType.SIMPLE_BETA_CODE;
+        break;
+
+      case 'tr':
         fromType = KeyType.TRANSLITERATION;
         break;
     }
@@ -594,7 +590,7 @@
     const lastResult = resultArea.innerHTML;
 
     resultArea.innerHTML =
-      `source     ${escape(gs.source)} (${inputType})<br><br>` +
+      `source     ${escape(gs.source)} (${fromType})<br><br>` +
       `greek      <strong>${escape(gs.greek)}</strong><br>` +
       `beta code  <strong>${escape(gs.betaCode)}</strong><br>` +
       `translit.  <strong>${escape(gs.transliteration)}</strong>`;
@@ -608,14 +604,14 @@
       end: e.target.selectionEnd
     };
 
-    if (inputType === 'greek') {
+    if (selectInputType.value === 'gr') {
       let searchValue = e.target.value;
 
       if (conversionOptions?.additionalChars === 'all') {
         searchValue = searchValue.replace(/Σ3/g, 'S3').replace(/σ3/g, 's3');
       }
 
-      e.target.value = toGreek(searchValue, KeyType.BETA_CODE, {
+      e.target.value = toGreek(searchValue, KeyType.SIMPLE_BETA_CODE, {
         betaCodeStyle: { skipSanitization: true },
         additionalChars: conversionOptions?.additionalChars
       });
