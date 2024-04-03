@@ -2,6 +2,7 @@ import { Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
+  ITransliterationStyle,
   MixedPreset
 } from './interfaces';
 import {
@@ -92,7 +93,8 @@ export function toTransliteration(
   }
 
   if (upsilon_y) {
-    str = applyUpsilonDiphthongs(str, options, mapping).replace(/@/gm, '');
+    str = applyUpsilonDiphthongs(str, options?.transliterationStyle, mapping);
+    str = str.replace(/@/gm, '');
   }
 
   if (muPi_b) {
@@ -128,11 +130,16 @@ export function toTransliteration(
  */
 function applyUpsilonDiphthongs(
   transliteratedStr: string,
-  options: IInternalConversionOptions,
+  style: ITransliterationStyle,
   mapping: Mapping
 ): string {
-  const { transliterationStyle } = options;
+  const { useCxOverMacron, upsilon_y } = style ?? {};
   const reUpsilonDiphthongs = /([aeioy\p{M}@]{2,})/giu;
+
+  let lettersWithCxOrMacron;
+  if (upsilon_y === Preset.ISO) {
+    lettersWithCxOrMacron = mapping.trLettersWithCxOrMacron();
+  }
 
   return transliteratedStr
     .normalize('NFD')
@@ -142,12 +149,12 @@ function applyUpsilonDiphthongs(
       if (/* flagged diaeresis */ /@/.test(vowelsGroup)) return vowelsGroup;
       if (vowelsGroup.normalize().length === 1) return vowelsGroup;
 
-      if (transliterationStyle?.upsilon_y === Preset.ISO) {
+      if (upsilon_y === Preset.ISO) {
         const unaccentedGroup = utilRmDiacritics(
           vowelsGroup,
           KeyType.TRANSLITERATION,
-          mapping.trLettersWithCxOrMacron(),
-          transliterationStyle?.useCxOverMacron
+          lettersWithCxOrMacron,
+          useCxOverMacron
         );
         if (!/ay|ey|oy/i.test(unaccentedGroup)) return vowelsGroup;
       }
