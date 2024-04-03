@@ -16,8 +16,8 @@ export interface IInternalConversionOptions extends IConversionOptions {
 export type MixedPreset = [Preset, IConversionOptions];
 
 export interface IBetaCodeStyle {
-  useLowerCase?: boolean;
   skipSanitization?: boolean;
+  useLowerCase?: boolean;
 }
 
 export interface IGreekStyle {
