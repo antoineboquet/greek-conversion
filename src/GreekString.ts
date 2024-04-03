@@ -19,7 +19,7 @@ export class GreekString {
   constructor(
     str: string,
     fromType: KeyType,
-    settings?: Preset | MixedPreset | IConversionOptions
+    settings: Preset | MixedPreset | IConversionOptions = {}
   ) {
     const options = handleOptions(str, fromType, settings);
 
