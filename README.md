@@ -82,7 +82,7 @@ fromType: KeyType,
 settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
-**`fromType`** can be set to `BETA_CODE | GREEK | TRANSLITERATION | SIMPLE_BETA_CODE` (e.g. `KeyType.GREEK`).
+**`fromType`** can be set to `BETA_CODE | GREEK | TRANSLITERATION | SIMPLE_BETA_CODE` (e.g. `KeyType.GREEK`). Learn more about input types [here](https://github.com/antoineboquet/greek-conversion/wiki#input-types).
 
 **`settings`** can be filled with:
 1. a `Preset`;
@@ -228,7 +228,7 @@ You can use the **`GreekString`** object if you want to manage several represent
 ```ts
 str: string,
 fromType: KeyType,
-settings?: Preset | MixedPreset | IConversionOptions
+settings: Preset | MixedPreset | IConversionOptions = {}
 ```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
