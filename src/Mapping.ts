@@ -497,6 +497,33 @@ export class Mapping {
   }
 
   /**
+   * Returns a boolean that indicates if the given character is part of the mapping.
+   */
+  isMappedChar(char: string, type: KeyType): boolean {
+    const props = this.#getProperties();
+
+    let values = Object.values(props).reduce(
+      (acc, v) => (v[type] ? [...acc, v[type]] : acc),
+      []
+    );
+
+    // Uppercase digraphs are mapped with only the first letter capitalized
+    // but they are used to convert entirely capitalized sequences too.
+    if (char.length > 1 && char[0].toUpperCase() === char[0]) {
+      values = values.reduce(
+        (acc, v) =>
+          v[0].toUpperCase() === v[0] && v.length === char.length
+            ? [...acc, v.toUpperCase()]
+            : acc,
+        []
+      );
+      char = char.toUpperCase();
+    }
+
+    return values.includes(char);
+  }
+
+  /**
    * Returns a string for which some diacritical marks have been joined back
    * to their base character as they should not be treated separately
    * (e. g. when a transliterated long vowel occurs).
