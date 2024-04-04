@@ -458,17 +458,11 @@ export class Mapping {
       if (!conversionArr.includes(undefined)) break;
     }
 
-    // Apply potentially remaining (non-mapped) chars to the converted string.
-    if (conversionArr.includes(undefined)) {
-      for (let i = 0; i < conversionArr.length; i++) {
-        if (conversionArr[i] === undefined) {
-          conversionArr[i] = fromStr[i];
-        }
-      }
-    }
-
-    const convertedStr = conversionArr.join('').normalize();
-    return applyGammaNasals(convertedStr, toType, gammaNasal_n);
+  #getProperties(): { [k in string]: IMappingProperty } {
+    let props = this.#capitalLetters;
+    if (!this.#isUpperCase) props = { ...props, ...this.#smallLetters };
+    if (!this.#removeDiacritics) props = { ...props, ...this.#diacritics };
+    return { ...props, ...this.#punctuation };
   }
 
   /**
@@ -483,19 +477,13 @@ export class Mapping {
     fromType: KeyType,
     toType: KeyType
   ): Map<string, string> {
+    const props = this.#getProperties();
+
     const fromProp: string =
       fromType === KeyType.TRANSLITERATION && fromType === toType
         ? 'trBase'
         : fromType;
     const toProp: string = toType;
-
-    let props = {
-      ...this.#punctuation,
-      ...this.#capitalLetters
-    };
-
-    if (!this.#isUpperCase) props = { ...props, ...this.#smallLetters };
-    if (!this.#removeDiacritics) props = { ...props, ...this.#diacritics };
 
     // prettier-ignore
     const sortedChars: string[][] = Object.values(props)
