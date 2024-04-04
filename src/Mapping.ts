@@ -443,21 +443,10 @@ export class Mapping {
             isFilled = true;
             break;
           }
-        }
 
-        if (!isFilled) conversionArr[matches.index] = rval;
-
-        // Nullish subsequent array indices if necessary.
-        if (lval.length > 1) {
-          for (let i = 1; i < lval.length; i++) {
-            conversionArr[matches.index + i] = '';
-          }
-        }
-      }
-
-      if (!conversionArr.includes(undefined)) break;
-    }
-
+  /**
+   * Returns the raw properties for the Mapping instance.
+   */
   #getProperties(): { [k in string]: IMappingProperty } {
     let props = this.#capitalLetters;
     if (!this.#isUpperCase) props = { ...props, ...this.#smallLetters };
