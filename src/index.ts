@@ -11,6 +11,7 @@ import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
 import {
   applyGreekVariants,
+  isMappedChar,
   removeDiacritics,
   removeGreekVariants
 } from './utils';
@@ -22,6 +23,7 @@ export { toGreek } from './toGreek';
 export { toTransliteration } from './toTransliteration';
 export {
   applyGreekVariants,
+  isMappedChar,
   removeDiacritics,
   removeGreekVariants
 } from './utils';
@@ -36,6 +38,7 @@ export default {
   toGreek,
   toTransliteration,
   applyGreekVariants,
+  isMappedChar,
   removeDiacritics,
   removeGreekVariants
 };
