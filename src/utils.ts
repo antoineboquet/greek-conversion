@@ -178,19 +178,13 @@ export const handleOptions = (
  * Returns a boolean that indicates if the given string is uppercase or not.
  *
  * @remarks
- * `Modern beta code`: if the string is written in beta code, uppercase
- * sequences may represent lowercase characters. This applies to some of the
- * TLG's `# – Additional Characters` section (characters beginning with a '#').
- *
- * @privateRemarks
- * (1) Given the current mapping implementation, the unusual lowercase
- * characters are the following: #1, #2, #3 & #5.
- * (2) When implementing the TLG beta code, the definition of a string
- * containing lowercase characters will be different.
+ * If the string is written in beta code, an uppercase sequence may represent
+ * lowercase characters. This applies to some of the TLG's `# – Additional Characters`
+ * section (characters beginning with a '#').
  */
 export const isUpperCase = (str: string, type: KeyType): boolean => {
   return type === KeyType.BETA_CODE
-    ? str.toUpperCase() === str && !/(?<!\*)#[1-35]/.test(str)
+    ? str.toUpperCase() === str && !/(?<!\*)#[1-9]/.test(str)
     : str.toUpperCase() === str;
 };
 
