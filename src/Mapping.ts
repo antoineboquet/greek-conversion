@@ -335,7 +335,7 @@ export class Mapping {
       }
     }
 
-    // Add `trBase` values (will be replicate in `#smallLetters` later).
+    // Add `trBase` values (later replicated in `#smallLetters`).
     for (const k of Object.keys(this.#capitalLetters)) {
       if (this.#capitalLetters[k].tr)
         this.#capitalLetters[k].trBase = this.#capitalLetters[k].tr;
