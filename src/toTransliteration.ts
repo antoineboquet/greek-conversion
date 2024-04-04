@@ -93,7 +93,7 @@ export function toTransliteration(
   }
 
   if (upsilon_y) {
-    str = applyUpsilonDiphthongs(str, options?.transliterationStyle, mapping);
+    str = applyUpsilonDiphthongs(str, transliterationStyle, mapping);
     str = str.replace(/@/gm, '');
   }
 
