@@ -18,6 +18,7 @@ import {
   IOTA_SUBSCRIPT,
   LATIN_TILDE,
   MACRON,
+  Mapping,
   MIDDLE_DOT,
   PRECOMPOSED_CHARS_WITH_TONOS_OXIA,
   ROUGH_BREATHING,
@@ -172,6 +173,17 @@ export const handleOptions = (
     isUpperCase: isUpperCase(str, fromType),
     ...settings
   };
+};
+
+/**
+ * Returns a boolean that indicates if the given character is part of the mapping.
+ */
+export const isMappedChar = (
+  char: string,
+  type: KeyType,
+  options?: IConversionOptions
+): boolean => {
+  return new Mapping(options).isMappedChar(char, type);
 };
 
 /**
