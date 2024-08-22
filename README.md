@@ -29,14 +29,14 @@ In order to use this library in your project, simply type:
 npm install greek-conversion
 ```
 
-Import the library's functions as needed:
+Import the library's functionalities as needed:
 
 ```ts
 // ES6 modules syntax
 import { KeyType, toTransliteration } from 'greek-conversion'
 
 // CommonJS syntax
-const gc = require('greek-conversion')
+const { KeyType, toTransliteration } = require('greek-conversion')
 ```
 
 Then use them:
