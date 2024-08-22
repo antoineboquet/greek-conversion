@@ -226,7 +226,7 @@ export const normalizeBetaCode = (
 
   return betaCodeStr
     .normalize('NFD')
-    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,:]/gi, '')
+    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,;:]/gi, '')
     .normalize();
 };
 
