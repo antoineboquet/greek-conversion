@@ -36,6 +36,7 @@
     }
   },
   "source": "./src/index.ts",
+  "types": "./dist/greekConversion.d.ts",
   "main": "./dist/greekConversion.min.js",
   "commonjs": "./dist/greekConversion.min.cjs",
   "targets": {
