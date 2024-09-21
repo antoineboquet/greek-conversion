@@ -1,7 +1,12 @@
 import { KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
-import { fromTLG, handleOptions } from './utils';
+import {
+  applyGreekVariants,
+  fromTLG,
+  handleOptions,
+  normalizeGreek
+} from './utils';
 
 export function toGreek(
   str: string = '',
@@ -36,5 +41,5 @@ export function toGreek(
       break;
   }
 
-  return str;
+  return normalizeGreek(applyGreekVariants(str, greekStyle), greekStyle);
 }
