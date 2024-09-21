@@ -335,7 +335,7 @@ export class Mapping {
       }
     }
 
-    // Add `trBase` values (later replicated in `#smallLetters`).
+    // Add `trBase` values (will be replicate in `#smallLetters` later).
     for (const k of Object.keys(this.#capitalLetters)) {
       if (this.#capitalLetters[k].tr)
         this.#capitalLetters[k].trBase = this.#capitalLetters[k].tr;
@@ -443,6 +443,33 @@ export class Mapping {
             isFilled = true;
             break;
           }
+        }
+
+        if (!isFilled) conversionArr[matches.index] = rval;
+
+        // Nullish subsequent array indices if necessary.
+        if (lval.length > 1) {
+          for (let i = 1; i < lval.length; i++) {
+            conversionArr[matches.index + i] = '';
+          }
+        }
+      }
+
+      if (!conversionArr.includes(undefined)) break;
+    }
+
+    // Apply potentially remaining (non-mapped) chars to the converted string.
+    if (conversionArr.includes(undefined)) {
+      for (let i = 0; i < conversionArr.length; i++) {
+        if (conversionArr[i] === undefined) {
+          conversionArr[i] = fromStr[i];
+        }
+      }
+    }
+
+    const convertedStr = conversionArr.join('').normalize();
+    return applyGammaNasals(convertedStr, toType, gammaNasal_n);
+  }
 
   /**
    * Returns the raw properties for the Mapping instance.
