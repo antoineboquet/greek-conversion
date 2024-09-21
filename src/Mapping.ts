@@ -218,6 +218,7 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(str: string): string {
+    str = str.normalize('NFD');
     const strLength = str.length;
     const conversionArr: string[] = Array(strLength);
     const charIndex = Mapping.getCharIndex(str, strLength);
@@ -232,6 +233,6 @@ export class Mapping {
       }
     }
 
-    return conversionArr.join('');
+    return conversionArr.join('').normalize('NFC');
   }
 }
