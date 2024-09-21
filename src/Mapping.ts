@@ -147,6 +147,10 @@ const transliteration = (): MappingSource => ({
   DOT_BELOW: '\u0323'
 });
 
+type CharIndex = {
+  [key in string]: number[];
+};
+
 export class Mapping {
   readonly #fromType: KeyType;
   readonly #toType: KeyType;
@@ -196,23 +200,29 @@ export class Mapping {
   }
 
   /**
+   * Returns an object whose keys are the distinct chars of the given string
+   * and whose values are arrays of indices corresponding to the key.
+   * e.g. for 'pape' returns { a: [1], e: [3], p: [0, 2]}.
+   */
+  static getCharIndex(str: string, length: number): CharIndex {
+    const index: CharIndex = {};
+
+    for (let i = 0; i < length; i++) {
+      index[str[i]] ? index[str[i]].push(i) : (index[str[i]] = [i]);
+    }
+
+    return index;
+  }
+
+  /**
    * Returns a converted string.
    */
   apply(str: string): string {
     const strLength = str.length;
     const conversionArr: string[] = Array(strLength);
-    const indexes: { [key in string]: number[] } = {};
+    const charIndex = Mapping.getCharIndex(str, strLength);
 
-    for (let i = 0; i < strLength; i++) {
-      indexes[str[i]] ? indexes[str[i]].push(i) : (indexes[str[i]] = [i]);
-    }
-
-    /*
-     *  str = 'pape'
-     *    > { a: [1], e: [3], p: [0, 2]}
-     *    > (a, e, p) a -> 0 ("LETTER_ALPHA"), etc.
-     */
-    for (const [key, indices] of Object.entries(indexes)) {
+    for (const [key, indices] of Object.entries(charIndex)) {
       const char: string = Object.keys(this.#mappedChars).find(
         (currentKey) => this.#mappedChars[currentKey][0] === key
       );
