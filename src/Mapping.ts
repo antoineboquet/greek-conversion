@@ -7,6 +7,35 @@ type MappingSource = {
 
 type Char = keyof typeof Chars;
 
+// prettier-ignore
+export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: Array<[string, string]> = [
+  ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
+  ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
+  ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
+  ['Ύ', 'Ύ'], ['Ώ', 'Ώ'], ['ΐ', 'ΐ'], ['ΰ', 'ΰ']
+];
+
+export const GRAVE_ACCENT = '\u0300';
+export const ACUTE_ACCENT = '\u0301';
+export const CIRCUMFLEX = '\u0302';
+export const LATIN_TILDE = '\u0303'; // `Combining Tilde`
+export const GREEK_TILDE = '\u0342'; // `Combining Greek Perispomeni`
+export const MACRON = '\u0304';
+export const BREVE = '\u0306';
+export const DIAERESIS = '\u0308';
+export const SMOOTH_BREATHING = '\u0313';
+export const ROUGH_BREATHING = '\u0314';
+export const DOT_BELOW = '\u0323';
+export const CEDILLA = '\u0327';
+export const IOTA_SUBSCRIPT = '\u0345';
+export const ANO_TELEIA = '\u0387';
+export const MIDDLE_DOT = '\u00B7';
+export const RIGHT_SINGLE_QUOTATION_MARK = '\u2019';
+export const GREEK_QUESTION_MARK = '\u037E';
+export const GREEK_BETA_SYMBOL = '\u03D0';
+export const CAPITAL_LUNATE_SIGMA = '\u03F9';
+export const SMALL_LUNATE_SIGMA = '\u03F2';
+
 const betaCode = (): MappingSource => ({
   LETTER_ALPHA: 'A',
   LETTER_BETA: 'B',
@@ -170,21 +199,10 @@ export class Mapping {
     this.#removeDiacritics = !!options?.removeDiacritics;
     this.#transliterationStyle = options?.transliterationStyle ?? {};
 
-    const pickMappingSource = (type: KeyType): MappingSource => {
-      switch (type) {
-        case KeyType.BETA_CODE:
-          return betaCode();
-        case KeyType.TRANSLITERATION:
-          return transliteration();
-        case KeyType.GREEK:
-          return greek();
-      }
-    };
-
-    const rValues = Object.values(pickMappingSource(this.#toType));
+    const rValues = Object.values(Mapping.pickSource(this.#toType));
 
     this.#mappedChars = Object.fromEntries(
-      Object.entries(pickMappingSource(this.#fromType)).map<
+      Object.entries(Mapping.pickSource(this.#fromType)).map<
         [string, [string, string]]
       >((v, i) => [v[0], [v[1], rValues[i]]])
     );
@@ -199,16 +217,58 @@ export class Mapping {
     }
   }
 
+  static pickSource = (type: KeyType): MappingSource => {
+    switch (type) {
+      case KeyType.BETA_CODE:
+        return betaCode();
+      case KeyType.TRANSLITERATION:
+        return transliteration();
+      case KeyType.GREEK:
+        return greek();
+    }
+  };
+
   /**
    * Returns an object whose keys are the distinct chars of the given string
    * and whose values are arrays of indices corresponding to the key.
-   * e.g. for 'pape' returns { a: [1], e: [3], p: [0, 2]}.
+   * @remarks
+   * A char can be compounded of several actual chars: for instance,
+   * a transliterated theta is 'Th'; a betacode encoded macron '%26', etc.
+   * @example
+   * For the transliterated string 'logos', the returned chars index is
+   * `{ g: [2], l: [0], o: [1, 3], s: [4]}`.
    */
-  static getCharIndex(str: string, length: number): CharIndex {
+  getCharsIndex(decomposedStr: string, length: number): CharIndex {
     const index: CharIndex = {};
+    const nLengthChars = Object.values(this.#mappedChars)
+      .reduce((acc, curr) => {
+        const decomposedChar = curr[0].normalize('NFD');
+        return decomposedChar.length > 1 ? [...acc, decomposedChar] : acc;
+      }, [])
+      .sort((a, b) => b.length - a.length);
 
     for (let i = 0; i < length; i++) {
-      index[str[i]] ? index[str[i]].push(i) : (index[str[i]] = [i]);
+      if (nLengthChars) {
+        let found;
+        for (let j = nLengthChars[0].length; j > 1; j--) {
+          const sequence = decomposedStr[i] + decomposedStr.slice(i + 1, i + j);
+          const nfcSequence = sequence.normalize('NFC');
+          if (nLengthChars.includes(sequence)) {
+            // Index keys are expected to be NFC chars.
+            index[nfcSequence]
+              ? index[nfcSequence].push(i)
+              : (index[nfcSequence] = [i]);
+            found = true;
+            i += j - 1;
+            break;
+          }
+        }
+        if (found) continue;
+      }
+
+      index[decomposedStr[i]]
+        ? index[decomposedStr[i]].push(i)
+        : (index[decomposedStr[i]] = [i]);
     }
 
     return index;
@@ -221,15 +281,17 @@ export class Mapping {
     str = str.normalize('NFD');
     const strLength = str.length;
     const conversionArr: string[] = Array(strLength);
-    const charIndex = Mapping.getCharIndex(str, strLength);
+    const charsIndex = this.getCharsIndex(str, strLength);
 
-    for (const [key, indices] of Object.entries(charIndex)) {
-      const char: string = Object.keys(this.#mappedChars).find(
+    for (const [key, indices] of Object.entries(charsIndex)) {
+      const mappedCHar: string = Object.keys(this.#mappedChars).find(
         (currentKey) => this.#mappedChars[currentKey][0] === key
       );
 
       for (let i = 0; i < indices.length; i++) {
-        conversionArr[indices[i]] = this.#mappedChars[char][1];
+        conversionArr[indices[i]] = mappedCHar
+          ? this.#mappedChars[mappedCHar][1]
+          : key;
       }
     }
 
