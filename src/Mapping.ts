@@ -351,17 +351,40 @@ export class Mapping {
       lunatesigma_s
     } = this.#transliterationStyle ?? {};
 
-    if (beta_v) this.#capitalLetters.LETTER_BETA.tr = 'V';
-    if (eta_i) this.#capitalLetters.LETTER_ETA.tr = 'Ī';
-    if (xi_ks) this.#capitalLetters.LETTER_XI.tr = 'Ks';
-    if (phi_f) this.#capitalLetters.LETTER_PHI.tr = 'F';
-    if (chi_kh) this.#capitalLetters.LETTER_CHI.tr = 'Kh';
-    // This is enabled silently if not explicitly. See `utils/handleOptions()`.
-    if (lunatesigma_s) this.#capitalLetters.LETTER_LUNATE_SIGMA.tr = 'S';
+    beta_v
+      ? (this.#capitalLetters.LETTER_BETA.tr = 'V')
+      : (this.#capitalLetters.LETTER_BETA.trBase = 'V');
 
+    eta_i
+      ? (this.#capitalLetters.LETTER_ETA.tr = 'Ī')
+      : (this.#capitalLetters.LETTER_ETA.trBase = 'Ī');
+
+    xi_ks
+      ? (this.#capitalLetters.LETTER_XI.tr = 'Ks')
+      : (this.#capitalLetters.LETTER_XI.trBase = 'Ks');
+
+    phi_f
+      ? (this.#capitalLetters.LETTER_PHI.tr = 'F')
+      : (this.#capitalLetters.LETTER_PHI.trBase = 'F');
+
+    chi_kh
+      ? (this.#capitalLetters.LETTER_CHI.tr = 'Kh')
+      : (this.#capitalLetters.LETTER_CHI.trBase = 'Kh');
+
+    // This is enabled silently if not explicitly. See `utils/handleOptions()`.
+    lunatesigma_s
+      ? (this.#capitalLetters.LETTER_LUNATE_SIGMA.tr = 'S')
+      : (this.#capitalLetters.LETTER_LUNATE_SIGMA.trBase = 'S');
+
+    // @fixme
     if (useCxOverMacron) {
-      if (eta_i) this.#capitalLetters.LETTER_ETA.tr = 'Î';
-      else this.#capitalLetters.LETTER_ETA.tr = 'Ê';
+      if (eta_i) {
+        this.#capitalLetters.LETTER_ETA.tr = 'Î';
+        this.#capitalLetters.LETTER_ETA.trBase = 'Ê';
+      } else {
+        this.#capitalLetters.LETTER_ETA.tr = 'Ê';
+        this.#capitalLetters.LETTER_ETA.trBase = 'Î';
+      }
 
       this.#capitalLetters.LETTER_OMEGA.tr = 'Ô';
 
