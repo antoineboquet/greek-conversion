@@ -23,11 +23,6 @@ export class GreekString {
   ) {
     const options = handleOptions(str, fromType, settings);
 
-    if (fromType === KeyType.SIMPLE_BETA_CODE) {
-      str = toTLG(str);
-      fromType = KeyType.BETA_CODE;
-    }
-
     this.#fromType = fromType;
     this.#options = options;
     this.#mapping = new Mapping(options);
@@ -40,6 +35,7 @@ export class GreekString {
     const conversionSource = (): string => {
       switch (this.#fromType) {
         case KeyType.BETA_CODE:
+        case KeyType.SIMPLE_BETA_CODE:
           return this.#betaCode ?? this.#source;
         case KeyType.TRANSLITERATION:
           return this.#transliteration ?? this.#source;
