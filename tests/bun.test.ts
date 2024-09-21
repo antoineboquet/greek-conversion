@@ -11,44 +11,44 @@ const tests = {
     {
       i: 'abgdezhqiklmncoprstyfxyw',
       o: 'αβγδεζηθικλμνξοπρστυφχψω'
+    },
+    {
+      i: 'a)/nqrwpos',
+      o: 'ἄνθρωπος'
+    },
+    {
+      i: 'kalo\\s ka)gaqo/s',
+      o: 'καλὸς κἀγαθός'
+    },
+    {
+      i: 'au)to/nomos',
+      o: 'αὐτόνομος'
+    },
+    {
+      i: 'poih|=',
+      o: 'ποιῇ'
+    },
+    {
+      i: 'A)/i+da',
+      o: 'Ἄϊδα'
+    },
+    {
+      i: 'ba/rbaros',
+      o: 'βάρβαρος'
+    },
+    {
+      i: 'O(pli/ths',
+      o: 'Ὁπλίτης'
+    },
+    {
+      i: 'voi=',
+      o: 'vοῖ'
+    },
+    {
+      i: 'a(/gios3',
+      o: 'ἅγιοσ3'
     }
     /*{
-      str: 'a)/nqrwpos',
-      expected: 'ἄνθρωπος'
-    },
-    {
-      str: 'kalo\\s ka)gaqo/s',
-      expected: 'καλὸς κἀγαθός'
-    },
-    {
-      str: 'au)to/nomos',
-      expected: 'αὐτόνομος'
-    },
-    {
-      str: 'poih|=',
-      expected: 'ποιῇ'
-    },
-    {
-      str: 'A)/i+da',
-      expected: 'Ἄϊδα'
-    },
-    {
-      str: 'ba/rbaros',
-      expected: 'βάρβαρος'
-    },
-    {
-      str: 'O(pli/ths',
-      expected: 'Ὁπλίτης'
-    },
-    {
-      str: 'voi=',
-      expected: 'vοῖ'
-    },
-    {
-      str: 'a(/gios3',
-      expected: 'ἅγιοσ3'
-    },
-    {
       str: 'a)%27a%26ehi%27i%26owu%27u%26',
       expected: 'ἀ̆ᾱεηῐῑοωῠῡ'
     }*/
