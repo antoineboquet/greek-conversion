@@ -68,11 +68,15 @@
   "scripts": {
     "build": "bun ./build.ts",
     "prepare": "bun run build",
-    "test": "bun test",
-    "test-coverage": "bun test --coverage"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@swc/core": "^1.7.14",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
