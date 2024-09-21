@@ -22,7 +22,7 @@ import {
 } from './utils';
 
 export function toTransliteration(
-  str: string,
+  str: string = '',
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping

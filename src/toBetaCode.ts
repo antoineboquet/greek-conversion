@@ -14,7 +14,7 @@ import {
 } from './utils';
 
 export function toBetaCode(
-  str: string,
+  str: string = '',
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping

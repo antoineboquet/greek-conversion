@@ -16,7 +16,7 @@ import {
 } from './utils';
 
 export function toGreek(
-  str: string,
+  str: string = '',
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
