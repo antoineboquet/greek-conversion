@@ -384,9 +384,9 @@ export const removeExtraWhitespace = (str: string): string => {
   return str.replace(/(\s)+/g, '$1').trim();
 };
 
-export const sanitizeRegExpString = (str: string): string => {
+/*export const sanitizeRegExpString = (str: string): string => {
   return str.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
-};
+};*/
 
 /**
  * Returns a string with correctly positioned uppercase chars considering

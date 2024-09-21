@@ -4,7 +4,7 @@ import {
   IMappingProperty,
   ITransliterationStyle
 } from './interfaces';
-import { applyGammaNasals, sanitizeRegExpString } from './utils';
+import { applyGammaNasals /*, sanitizeRegExpString*/ } from './utils';
 
 // prettier-ignore
 export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: string[][] = [
@@ -447,6 +447,8 @@ export class Mapping {
     }
 
     const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
+
+    /*
     let conversionArr: string[] = new Array(fromStr.length);
 
     // Apply mapped chars.
@@ -464,8 +466,46 @@ export class Mapping {
         for (let i = matches.index; i < lastIndex; i++) {
           if (conversionArr[i] !== undefined) {
             isFilled = true;
-            break;
           }
+        }
+      }
+    }
+    */
+
+    let convertedStr = '';
+    for (let i = 0; i < fromStr.length; i++) {
+      let tmp = undefined as string;
+
+      let triple = fromStr.slice(i, i + 3);
+      let couple = fromStr.slice(i, i + 2);
+
+      if (triple.length !== 3) triple = undefined as string;
+      if (couple.length !== 2) couple = undefined as string;
+
+      for (const [left, right] of mappingProps) {
+        if (left === fromStr[i]) {
+          tmp = right;
+          if (left.length === 1) break;
+        }
+
+        if (left === couple) {
+          tmp = right;
+          i++;
+          break;
+        }
+
+        if (left === triple) {
+          tmp = right;
+          i += 2;
+          break;
+        }
+      }
+
+      convertedStr += tmp ?? fromStr[i];
+    }
+
+    return applyGammaNasals(convertedStr.normalize(), toType, gammaNasal_n);
+  }
 
   /**
    * Returns the raw properties for the Mapping instance.
