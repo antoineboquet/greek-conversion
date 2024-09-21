@@ -40,7 +40,17 @@ const betaCode = (): MappingSource => ({
   LETTER_ARCHAIC_KOPPA: '',
   LETTER_SAMPI: '',
   QUESTION_MARK: ';',
-  ANO_TELEIA: ':'
+  ANO_TELEIA: ':',
+  SMOOTH_BREATHING: ')',
+  ROUGH_BREATHING: '(',
+  ACCUTE_ACCENT: '/',
+  GRAVE_ACCENT: '\\',
+  MACRON: '%26',
+  BREVE: '%27',
+  TILDE: '=',
+  DIAERESIS: '+',
+  IOTA_SUBSCRIPT: '|',
+  DOT_BELOW: '?'
 });
 
 const greek = (): MappingSource => ({
@@ -76,7 +86,19 @@ const greek = (): MappingSource => ({
   LETTER_ARCHAIC_KOPPA: '',
   LETTER_SAMPI: '',
   QUESTION_MARK: '\u037E',
-  ANO_TELEIA: '\u0387'
+  ANO_TELEIA: '\u0387',
+  SMOOTH_BREATHING: '\u0313',
+  ROUGH_BREATHING: '\u0314',
+  ACCUTE_ACCENT: '\u0301',
+  GRAVE_ACCENT: '\u0300',
+  MACRON: '\u0304',
+  BREVE: '\u0306',
+  // @fixme: check if the following normalizes to '\u0303' (Combining Tilde).
+  // In this case, don't use the perispomeni (but enforce it when finalizing the NFC string).
+  TILDE: '\u0342', // Combining Greek Perispomeni
+  DIAERESIS: '\u0308',
+  IOTA_SUBSCRIPT: '\u0345',
+  DOT_BELOW: '\u0323'
 });
 
 const transliteration = (): MappingSource => ({
@@ -112,7 +134,17 @@ const transliteration = (): MappingSource => ({
   LETTER_ARCHAIC_KOPPA: '',
   LETTER_SAMPI: '',
   QUESTION_MARK: '?',
-  ANO_TELEIA: ';'
+  ANO_TELEIA: ';',
+  SMOOTH_BREATHING: '',
+  ROUGH_BREATHING: '+h', // @todo: determine how to use it.
+  ACCUTE_ACCENT: '\u0301',
+  GRAVE_ACCENT: '\u0300',
+  MACRON: '\u0304',
+  BREVE: '\u0306',
+  TILDE: '\u0303', // Combining Tilde
+  DIAERESIS: '\u0308',
+  IOTA_SUBSCRIPT: '\u0327', // Cedilla
+  DOT_BELOW: '\u0323'
 });
 
 export class Mapping {
@@ -161,8 +193,6 @@ export class Mapping {
         this.#mappedChars[key][1].toLowerCase()
       ];
     }
-
-    console.log(this.#mappedChars);
   }
 
   /**
