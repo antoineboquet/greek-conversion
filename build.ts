@@ -3,6 +3,7 @@ import { BuildConfig } from 'bun';
 const name = 'greekConversion.min';
 const outdir = './dist';
 
+// @fixme: variable names mangling is missing (for mapping schemas).
 const commonBuildConfig: BuildConfig = {
   entrypoints: ['./src/index.ts'],
   minify: true,
@@ -12,19 +13,20 @@ const commonBuildConfig: BuildConfig = {
   target: 'browser'
 };
 
-// CJS output isn't supported as for Bun 1.1.29.
-/*const cjsBuild = new Promise(() =>
-  Bun.build({
+// @fixme: Cjs format isn't supported yet in Bun 1.1.29.
+const results = await Promise.all([
+  /*Bun.build({
     ...commonBuildConfig,
-    format: "cjs"
-  })
-);*/
-
-const esmBuild = new Promise(() =>
+    format: 'cjs'
+  }),*/
   Bun.build({
     ...commonBuildConfig,
     format: 'esm'
   })
-);
+]);
 
-Promise.all([/*cjsBuild,*/ esmBuild]);
+for (const result of results) {
+  if (!result.success) {
+    throw new AggregateError(result.logs, 'Build failed');
+  }
+}
