@@ -78,13 +78,13 @@ export const toTLG = (betaCodeStr: string): string => {
 };
 
 /**
- * Returns an `IInternalConversionOptions` from a (mixed) preset or
+ * Returns an `IConversionOptions` object from a (mixed) preset or
  * a plain `IConversionOptions` object submitted by an end user.
  */
 export const handleOptions = (
   fromType: KeyType,
   settings: Preset | MixedPreset | IConversionOptions = {}
-): IInternalConversionOptions => {
+): IConversionOptions => {
   if (!Object.values(KeyType).includes(fromType)) {
     notImplemented('KeyType', fromType);
   }
