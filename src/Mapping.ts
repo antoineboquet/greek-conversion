@@ -224,8 +224,12 @@ export class Mapping {
       >((v, i) => [v[0], [v[1], rValues[i]]])
     );
 
+    if ([this.#fromType, this.#toType].includes(KeyType.TRANSLITERATION)) {
+      this.alterTransliteration();
+    }
+
     for (const key of Object.keys(this.#mappedChars)) {
-      if (!key.startsWith('LETTER')) continue;
+      if (!key.startsWith('LETTER') || key.endsWith('MIXED')) continue;
 
       this.#mappedChars[`SMALL_${key}`] = [
         this.#mappedChars[key][0].toLowerCase(),
@@ -234,7 +238,47 @@ export class Mapping {
     }
   }
 
-  static pickSource = (type: KeyType): MappingSource => {
+  alterTransliteration = (): void => {
+    const pos = this.#toType ? 1 : 0;
+    const {
+      useCxOverMacron,
+      beta_v,
+      eta_i,
+      xi_ks,
+      phi_f,
+      chi_kh,
+      lunatesigma_s
+    } = this.#transliterationStyle ?? {};
+
+    if (beta_v) this.#mappedChars.LETTER_BETA[pos] = 'V';
+    if (xi_ks) {
+      this.#mappedChars.LETTER_XI[pos] = 'KS';
+      this.#mappedChars.LETTER_XI_MIXED[pos] = 'Ks';
+    }
+    if (phi_f) {
+      this.#mappedChars.LETTER_PHI[pos] = 'F';
+      this.#mappedChars.LETTER_PHI_MIXED[pos] = 'F';
+    }
+    if (chi_kh) {
+      this.#mappedChars.LETTER_CHI[pos] = 'KH';
+      this.#mappedChars.LETTER_CHI_MIXED[pos] = 'Kh';
+    }
+    // This is enabled silently if not explicitly. See `utils/handleOptions()`.
+    if (lunatesigma_s) this.#mappedChars.LETTER_LUNATE_SIGMA[pos] = 'S';
+
+    if (useCxOverMacron) {
+      if (eta_i) {
+        this.#mappedChars.LETTER_ETA[pos] = 'Î';
+      } else {
+        this.#mappedChars.LETTER_ETA[pos] = 'Ê';
+      }
+      this.#mappedChars.LETTER_OMEGA[pos] = 'Ô';
+      this.#mappedChars.LETTER_STIGMA[pos] = 'Ĉ';
+      this.#mappedChars.LETTER_SAMPI[pos] = 'Ŝ';
+    } else {
+      if (eta_i) this.#mappedChars.LETTER_ETA[pos] = 'Ī';
+    }
+  };
     switch (type) {
       case KeyType.BETA_CODE:
         return betaCode();
