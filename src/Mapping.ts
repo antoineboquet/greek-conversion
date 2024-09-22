@@ -279,6 +279,8 @@ export class Mapping {
       if (eta_i) this.#mappedChars.LETTER_ETA[pos] = 'Ī';
     }
   };
+
+  static pickSource(type: KeyType): MappingSource {
     switch (type) {
       case KeyType.BETA_CODE:
         return betaCode();
@@ -287,7 +289,7 @@ export class Mapping {
       case KeyType.GREEK:
         return greek();
     }
-  };
+  }
 
   /**
    * Returns an object whose keys are the distinct chars of the given string
