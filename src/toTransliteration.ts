@@ -1,7 +1,7 @@
 import { KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
-import { fromTLG, handleOptions } from './utils';
+import { fromTLG, handleOptions, removeGreekVariants } from './utils';
 
 export function toTransliteration(
   str: string = '',
@@ -36,6 +36,7 @@ export function toTransliteration(
       break;
 
     case KeyType.GREEK:
+      str = removeGreekVariants(str);
       str = mapping.apply(str);
       break;
 
