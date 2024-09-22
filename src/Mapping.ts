@@ -336,6 +336,28 @@ export class Mapping {
   }
 
   /**
+   * Returns the previous letter from a decomposed string starting at
+   * the given position. Returns null if it finds chars that aren't
+   * diacritical marks or if it reaches the start of the string without
+   * finding any letter.
+   */
+  static getPreviousLetter(
+    decomposedStr: string,
+    start?: number
+  ): { char: string; pos: number } | null {
+    if (!start) start = decomposedStr.length - 1;
+
+    let found: [string, number];
+    for (let i = start; i > 0; i--) {
+      if (/[a-zα-ω]/iu.test(decomposedStr[i])) found = [decomposedStr[i], i];
+      else if (/\p{M}/u.test(decomposedStr[i])) continue;
+      else break;
+    }
+
+    return found ? { char: found[0], pos: found[1] } : null;
+  }
+
+  /**
    * Returns a converted string.
    */
   apply(str: string): string {
