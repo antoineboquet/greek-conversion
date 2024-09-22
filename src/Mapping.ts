@@ -203,6 +203,7 @@ export class Mapping {
 
   #mappedChars: { [key in string /*Char*/]: [string, string] };
   #removeDiacritics: boolean = false;
+  #removeExtraWhitespace: boolean = false;
   #transliterationStyle: ITransliterationStyle = {};
 
   constructor(
@@ -214,6 +215,7 @@ export class Mapping {
     this.#toType = toType;
 
     this.#removeDiacritics = !!options?.removeDiacritics;
+    this.#removeExtraWhitespace = !!options?.removeExtraWhitespace;
     this.#transliterationStyle = options?.transliterationStyle ?? {};
 
     const rValues = Object.values(Mapping.pickSource(this.#toType));
@@ -361,20 +363,78 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(str: string): string {
+    // @fixme: try adding the decomposed char to the instance as
+    // this.#decomposedStr in order to avoid string copies during
+    // the subsequent operations (as string are passed by reference).
     const decomposedStr = str.normalize('NFD');
-    const strLength = decomposedStr.length;
-    const conversionArr: string[] = Array(strLength);
-    const charsIndex = this.getCharsIndex(decomposedStr, strLength);
+    const decomposedStrLength = decomposedStr.length;
+    const conversionArr: string[] = Array(decomposedStrLength);
+    const charsIndex = this.getCharsIndex(decomposedStr, decomposedStrLength);
+
+    const {
+      useCxOverMacron,
+      beta_v,
+      eta_i,
+      xi_ks,
+      phi_f,
+      chi_kh,
+      upsilon_y,
+      lunatesigma_s
+    } = this.#transliterationStyle ?? {};
 
     for (const [key, indices] of Object.entries(charsIndex)) {
-      const mappedCHar: string = Object.keys(this.#mappedChars).find(
+      const mappedChar: string = Object.keys(this.#mappedChars).find(
         (currentKey) => this.#mappedChars[currentKey][0] === key
       );
 
       for (let i = 0; i < indices.length; i++) {
-        conversionArr[indices[i]] = mappedCHar
-          ? this.#mappedChars[mappedCHar][1]
-          : key;
+        const current = indices[i];
+        if (mappedChar) {
+          if (this.#toType === KeyType.TRANSLITERATION) {
+            switch (Chars[mappedChar]) {
+              case Chars.LETTER_UPSILON:
+                // @fixme: dynamically created chars can't be retrieved.
+                //case Chars.SMALL_LETTER_UPSILON:
+                if (upsilon_y) {
+                  const slice = decomposedStr.slice(0, current);
+                  const previousLetter = Mapping.getPreviousLetter(slice);
+                  if (previousLetter) {
+                    const { char, pos } = previousLetter;
+                    if (/[^αεηιου]/.test(char)) {
+                      conversionArr[current] = 'y';
+                      continue;
+                    }
+                  }
+                }
+                break;
+              // Place rough breathings at the beginning of the word.
+              case Chars.ROUGH_BREATHING:
+                const slice = decomposedStr.slice(0, current);
+                const previousLetter = Mapping.getPreviousLetter(slice);
+                if (previousLetter) {
+                  const { char, pos } = previousLetter;
+                  if (char.toUpperCase() === char)
+                    conversionArr[pos] = 'H' + char.toLowerCase();
+                  else conversionArr[pos] = 'h' + char;
+                } else {
+                  conversionArr[current] = 'h';
+                }
+                continue;
+            }
+          }
+
+          conversionArr[current] = this.#mappedChars[mappedChar][1];
+        } else {
+          if (this.#removeExtraWhitespace) {
+            // First or last value.
+            if ([0, decomposedStrLength - 1].includes(current)) continue;
+            // Adjacent whitespace.
+            const lastChar = decomposedStr[current - 1];
+            if (/\s/.test(key) && /\s/.test(lastChar)) continue;
+          }
+
+          conversionArr[current] = key;
+        }
       }
     }
 
