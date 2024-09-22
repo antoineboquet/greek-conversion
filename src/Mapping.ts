@@ -182,7 +182,7 @@ const transliteration = (): MappingSource => ({
   QUESTION_MARK: '?',
   ANO_TELEIA: ';',
   SMOOTH_BREATHING: '',
-  ROUGH_BREATHING: '+h', // @todo: determine how to use it.
+  ROUGH_BREATHING: 'h', // @fixme: use a flag char? ('h' is Eta in betacode)
   ACCUTE_ACCENT: '\u0301',
   GRAVE_ACCENT: '\u0300',
   MACRON: '\u0304',
