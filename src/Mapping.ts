@@ -280,10 +280,10 @@ export class Mapping {
    * Returns a converted string.
    */
   apply(str: string): string {
-    str = str.normalize('NFD');
-    const strLength = str.length;
+    const decomposedStr = str.normalize('NFD');
+    const strLength = decomposedStr.length;
     const conversionArr: string[] = Array(strLength);
-    const charsIndex = this.getCharsIndex(str, strLength);
+    const charsIndex = this.getCharsIndex(decomposedStr, strLength);
 
     for (const [key, indices] of Object.entries(charsIndex)) {
       const mappedCHar: string = Object.keys(this.#mappedChars).find(
