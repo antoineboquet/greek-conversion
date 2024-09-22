@@ -303,24 +303,23 @@ export class Mapping {
    */
   getCharsIndex(decomposedStr: string, length: number): CharIndex {
     const index: CharIndex = {};
-    const nLengthChars = Object.values(this.#mappedChars)
-      .reduce((acc, curr) => {
-        const decomposedChar = curr[0].normalize('NFD');
-        return decomposedChar.length > 1 ? [...acc, decomposedChar] : acc;
-      }, [])
+    // Chars of length > 1.
+    let longChars: string[] = Object.values(this.#mappedChars)
+      .reduce(
+        (acc, curr) =>
+          curr[0].normalize('NFD').length > 1 ? [...acc, curr[0]] : acc,
+        []
+      )
       .sort((a, b) => b.length - a.length);
 
     for (let i = 0; i < length; i++) {
-      if (nLengthChars) {
+      if (longChars.length) {
         let found;
-        for (let j = nLengthChars[0].length; j > 1; j--) {
-          const sequence = decomposedStr[i] + decomposedStr.slice(i + 1, i + j);
-          const nfcSequence = sequence.normalize('NFC');
-          if (nLengthChars.includes(sequence)) {
-            // Index keys are expected to be NFC chars.
-            index[nfcSequence]
-              ? index[nfcSequence].push(i)
-              : (index[nfcSequence] = [i]);
+        for (let j = longChars[0].length; j > 1; j--) {
+          // Check `longChars` against recomposed chars.
+          const sequence = decomposedStr.slice(i, i + j).normalize('NFC');
+          if (longChars.includes(sequence)) {
+            index[sequence] ? index[sequence].push(i) : (index[sequence] = [i]);
             found = true;
             i += j - 1;
             break;
@@ -329,9 +328,8 @@ export class Mapping {
         if (found) continue;
       }
 
-      index[decomposedStr[i]]
-        ? index[decomposedStr[i]].push(i)
-        : (index[decomposedStr[i]] = [i]);
+      const str = decomposedStr[i].normalize('NFC'); // @fixme: is it really useful?
+      index[str] ? index[str].push(i) : (index[str] = [i]);
     }
 
     return index;
