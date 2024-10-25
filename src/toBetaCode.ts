@@ -19,7 +19,7 @@ export function toBetaCode(
   settings: Preset | MixedPreset | IConversionOptions = {},
   declaredMapping?: Mapping
 ): string {
-  const options = handleOptions(str, fromType, settings);
+  const options = handleOptions(fromType, settings);
   const {
     removeDiacritics,
     removeExtraWhitespace,

@@ -9,7 +9,7 @@ import { handleOptions, toTLG } from './utils';
 export class GreekString {
   readonly #fromType: KeyType;
   readonly #options: IConversionOptions;
-  readonly #mapping: Mapping;
+  //readonly #mapping: Mapping;
   readonly #source: string;
 
   #betaCode: string;
@@ -21,7 +21,7 @@ export class GreekString {
     fromType: KeyType,
     settings: Preset | MixedPreset | IConversionOptions = {}
   ) {
-    const options = handleOptions(str, fromType, settings);
+    const options = handleOptions(fromType, settings);
 
     if (fromType === KeyType.SIMPLE_BETA_CODE) {
       str = toTLG(str);
@@ -30,7 +30,6 @@ export class GreekString {
 
     this.#fromType = fromType;
     this.#options = options;
-    this.#mapping = new Mapping(options);
     this.#source = str;
 
     this.#handleConversion(this.#fromType);
@@ -53,8 +52,8 @@ export class GreekString {
         this.#betaCode = toBetaCode(
           conversionSource(),
           this.#fromType,
-          this.#options,
-          this.#mapping
+          this.#options
+          //this.#mapping
         );
         break;
 
@@ -62,8 +61,8 @@ export class GreekString {
         this.#greek = toGreek(
           conversionSource(),
           this.#fromType,
-          this.#options,
-          this.#mapping
+          this.#options
+          //this.#mapping
         );
         break;
 
@@ -71,8 +70,8 @@ export class GreekString {
         this.#transliteration = toTransliteration(
           conversionSource(),
           this.#fromType,
-          this.#options,
-          this.#mapping
+          this.#options
+          //this.#mapping
         );
         break;
     }

@@ -22,6 +22,7 @@ export function toGreek(
     greekStyle,
     transliterationStyle
   } = options;
+
   if (fromType === KeyType.BETA_CODE /* TLG */) str = fromTLG(str);
   if (fromType === KeyType.SIMPLE_BETA_CODE) fromType = KeyType.BETA_CODE;
 

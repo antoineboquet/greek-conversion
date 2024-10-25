@@ -5,13 +5,13 @@
  */
 
 export { AdditionalChar, Coronis, KeyType, Preset } from './enums';
-export { GreekString } from './GreekString';
-export { toBetaCode } from './toBetaCode';
+//export { GreekString } from './GreekString';
+//export { toBetaCode } from './toBetaCode';
 export { toGreek } from './toGreek';
 export { toTransliteration } from './toTransliteration';
-export {
+/*export {
   applyGreekVariants,
   isMappedChar,
   removeDiacritics,
   removeGreekVariants
-} from './utils';
+} from './utils';*/
