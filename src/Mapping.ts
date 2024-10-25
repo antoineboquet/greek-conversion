@@ -1,14 +1,12 @@
 import { Chars, KeyType } from './enums';
 import { IConversionOptions, ITransliterationStyle } from './interfaces';
 
-type MappingSource = {
-  [key in Char]: string;
-};
-
+type MappingSource = { [key in Char]: string };
 type Char = keyof typeof Chars;
+type CharIndex = { [key in string]: number[] };
 
 // prettier-ignore
-export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: Array<[string, string]> = [
+export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: [string, string][] = [
   ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
   ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
   ['Έ', 'Έ'], ['Ή', 'Ή'], ['Ί', 'Ί'], ['Ό', 'Ό'],
@@ -193,10 +191,6 @@ const transliteration = (): MappingSource => ({
   DOT_BELOW: '\u0323'
 });
 
-type CharIndex = {
-  [key in string]: number[];
-};
-
 export class Mapping {
   readonly #fromType: KeyType;
   readonly #toType: KeyType;
@@ -371,16 +365,7 @@ export class Mapping {
     const conversionArr: string[] = Array(decomposedStrLength);
     const charsIndex = this.getCharsIndex(decomposedStr, decomposedStrLength);
 
-    const {
-      useCxOverMacron,
-      beta_v,
-      eta_i,
-      xi_ks,
-      phi_f,
-      chi_kh,
-      upsilon_y,
-      lunatesigma_s
-    } = this.#transliterationStyle ?? {};
+    const { upsilon_y } = this.#transliterationStyle ?? {};
 
     for (const [key, indices] of Object.entries(charsIndex)) {
       const mappedChar: string = Object.keys(this.#mappedChars).find(
@@ -404,6 +389,10 @@ export class Mapping {
                       conversionArr[current] = 'y';
                       continue;
                     }
+                  } else {
+                    // First position of the word.
+                    conversionArr[current] = 'y';
+                    continue;
                   }
                 }
                 break;
