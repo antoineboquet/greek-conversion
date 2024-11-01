@@ -282,7 +282,7 @@
 :vb:e)ou/sa_s   irreg_mi pres part act fem acc pl epic doric ionic suff_acc
 :vb:e)/stai   reg_fut fut ind mid 3rd sg
 :vb:e)stai   reg_fut fut ind mid 3rd sg
-:vb:h)ston   irreg_mi imperf ind act 2nd dual
+:vb:h)=ston   irreg_mi imperf ind act 2nd dual
 :vb:h)/sthn   irreg_mi imperf ind act 3rd dual
 :vb:h)/thn   irreg_mi imperf ind act 3rd dual
 :vb:h)=men   irreg_mi imperf ind act 1st pl has_augment
@@ -489,7 +489,9 @@
 :vb:i(/oite irreg_mi pres opt act 2nd pl attic
 :vb:i(/oien irreg_mi pres opt act 3rd pl attic
 :vs:h(s  reg_fut
-:vs:e(  emi_pr
+#:vs:e(  emi_pr
+:vs:e(  emi_aor
+#:vs:q emi_aor see if this works
 :vs:e(q  aor_pass,syll_augment
 :vs:ei(  perfp_vow has_redupl
 :vs:e(w  perfp_vow ionic comp_only
@@ -848,12 +850,14 @@
 :vb:ei(/hmen   aor2 aor opt act 1st pl
 :vb:ei(=men   irreg_mi aor opt act 1st pl
 :vb:ei(/hmen   irreg_mi aor opt act 1st pl
-:vb:ei(=te   aor2 aor opt act 2nd pl
+:vb:ei(=men   irreg_mi aor ind act 1st pl
+:vb:ei(=te   irreg_mi aor ind act 2nd pl
+:vb:ei(=san   irreg_mi aor ind act 3rd pl
 :vb:ei(/hte   aor2 aor opt act 2nd pl
 :vb:ei(=te   irreg_mi aor opt act 2nd pl
 :vb:ei(/hte   irreg_mi aor opt act 2nd pl
-:vb:ei(=en   aor2 aor opt act 3rd pl
-:vb:ei(/hsan   aor2 aor opt act 3rd pl
+:vb:ei(=en   irreg_mi  aor opt act 3rd pl
+:vb:ei(/hsan   irreg_mi  aor opt act 3rd pl
 :vb:ei(=en   irreg_mi aor opt act 3rd pl
 :vb:ei(/hsan   irreg_mi aor opt act 3rd pl
 :vb:e(/tw   ath_secondary aor imperat act 3rd sg

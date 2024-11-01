@@ -1,5 +1,5 @@
 * c_ktos s_dos s_os s_qos t_tos
-a a_hs ah_ahs art_adj as_a as_antos as_aos eh_ehs ehs_eou eos_eh_eon eos_eou eus_ews h_hs hs_eos hs_es hs_ou oos_oh_oon oos_oon oos_oou os_h_on os_on os_ou s_os us_eia_u ws_wn ws_wn_long
+a a_hs ah_ahs art_adj as_antos as_aos eh_ehs ehs_eou eos_eh_eon eos_eou eus_ews h_hs hs_eos hs_es hs_ou oos_oh_oon oos_oon oos_oou os_h_on os_on os_ou s_os us_eia_u ws_wn ws_wn_long
 aa as_aos as_atos ws_wn_long
 aas as_aos as_atos
 aasi as_aos
@@ -36,7 +36,7 @@ aessi as_aos as_atos
 aessin as_aos as_atos
 aesswn heis_hessa
 afi ah_ahs
-a| a_hs ah_ahs art_adj as_a as_aos eh_ehs ehs_eou eos_eh_eon h_hs hs_ou oos_oh_oon os_h_on ws_wn_long
+a| a_hs ah_ahs art_adj as_aos eh_ehs ehs_eou eos_eh_eon h_hs hs_ou oos_oh_oon os_h_on ws_wn_long
 ain a_hs ah_ahs art_adj eh_ehs eos_eh_eon h_hs hs_ou oos_oh_oon os_h_on
 aina as_aina_an
 aina| as_aina_an
@@ -68,7 +68,7 @@ aisawn as_asa_an
 aisi a_hs ah_ahs art_adj as_antos as_asa_an h_hs hs_ou os_h_on
 aisin a_hs ah_ahs art_adj as_antos as_asa_an h_hs hs_ou os_h_on
 aiswn as_asa_an
-an a_hs ah_ahs art_adj as_a as_aina_an as_antos as_aos as_asa_an eh_ehs ehs_eou eos_eh_eon h_hs hs_ou oos_oh_oon os_h_on ws_wn_long
+an a_hs ah_ahs art_adj as_aina_an as_antos as_aos as_asa_an eh_ehs ehs_eou eos_eh_eon h_hs hs_ou oos_oh_oon os_h_on ws_wn_long
 ana as_aina_an
 anas as_aina_an
 ane as_aina_an
@@ -107,7 +107,7 @@ aos as_aos
 aou ws_wn_long
 aous ws_wn_long
 ar ar_atos
-as a_hs ah_ahs art_adj as_a as_aina_an as_antos as_aos as_asa_an as_atos eh_ehs ehs_eou eos_eh_eon eus_ews h_hs heis_hessa hs_eos hs_es hs_ou oos_oh_oon os_h_on s_os ws_wn_long
+as a_hs ah_ahs art_adj as_aina_an as_antos as_aos as_asa_an as_atos eh_ehs ehs_eou eos_eh_eon eus_ews h_hs hs_eos hs_es hs_ou oos_oh_oon os_h_on s_os ws_wn_long
 asa as_asa_an
 asai as_asa_an
 asain as_asa_an
@@ -237,10 +237,10 @@ einh|sin hn_eina_en
 einhs hn_eina_en
 einwn hn_eina_en
 eis eis_enos eis_essa eus_ews hs_eos hs_es is_ews us_eia_u us_ews us_u
-eisi eis_essa hs_entos hs_eos hs_es is_ews us_eia_u us_ews
-eisin eis_essa hs_entos hs_eos hs_es is_ews us_eia_u us_ews
-eissi eis_essa hs_entos hs_eos hs_es is_ews us_eia_u us_ews
-eissin eis_essa hs_entos hs_eos hs_es is_ews us_eia_u us_ews
+eisi eis_essa hs_eos hs_es is_ews us_eia_u us_ews
+eisin eis_essa hs_eos hs_es is_ews us_eia_u us_ews
+eissi eis_essa hs_eos hs_es is_ews us_eia_u us_ews
+eissin eis_essa hs_eos hs_es is_ews us_eia_u us_ews
 eiwn ehs_eou eos_eh_eon oos_oh_oon us_eia_u
 eka hc_ekos
 ekas hc_ekos
@@ -268,19 +268,19 @@ eni eis_enos hn_eina_en hn_enos
 enoiin eis_enos hn_eina_en hn_enos
 enoin eis_enos hn_eina_en hn_enos
 enos eis_enos hn_eina_en hn_enos
-enta eis_essa hs_entos
-entas eis_essa hs_entos
-ente eis_essa hs_entos
-entes eis_essa hs_entos
-entesi eis_essa hs_entos
-entesin eis_essa hs_entos
-entessi eis_essa hs_entos
-entessin eis_essa hs_entos
-enti eis_essa hs_entos
-entoiin eis_essa hs_entos
-entoin eis_essa hs_entos
-entos eis_essa hs_entos
-entwn eis_essa hs_entos
+enta eis_essa
+entas eis_essa
+ente eis_essa
+entes eis_essa
+entesi eis_essa
+entesin eis_essa
+entessi eis_essa
+entessin eis_essa
+enti eis_essa
+entoiin eis_essa
+entoin eis_essa
+entos eis_essa
+entwn eis_essa
 enwn eis_enos hn_eina_en hn_enos
 eofi eos_eh_eon eos_eou verb_adj1 verb_adj2
 eoi eos_eh_eon eos_eou verb_adj1 verb_adj2
@@ -294,7 +294,7 @@ eon eos_eh_eon eos_eou verb_adj1 verb_adj2
 eos as_atos eos_eh_eon eos_eou eus_ews hs_eos hs_es is_ews us_eia_u us_ews us_u verb_adj1 verb_adj2
 eou ehs_eou eos_eh_eon eos_eou verb_adj1 verb_adj2
 eous eos_eh_eon eos_eou verb_adj1 verb_adj2
-er hr_eros hr_ros
+er hr_ros
 era hr_eros hr_ros
 eras hr_eros hr_ros
 ere hr_eros
@@ -565,7 +565,7 @@ hoiin eus_ews is_ews
 hoin eus_ews is_ews
 hos eus_ews is_ews us_eia_u
 hr hr_eros hr_ros
-hs a_hs art_adj eh_ehs ehs_eou eos_eh_eon eus_ews h_hs hn_eina_en hs_entos hs_eos hs_es hs_ou is_ews oos_oh_oon os_h_on us_eia_u us_ews
+hs a_hs art_adj eh_ehs ehs_eou eos_eh_eon eus_ews h_hs hn_eina_en hs_eos hs_es hs_ou is_ews oos_oh_oon os_h_on us_eia_u us_ews
 hsi as_aos eus_ews hs_eos hs_es is_ews us_eia_u us_ews
 hsin as_aos eus_ews hs_eos hs_es is_ews us_eia_u us_ews
 hssi eus_ews hs_eos hs_es is_ews us_eia_u us_ews
@@ -650,7 +650,6 @@ kleous klehs_kleous
 klha klehs_kleous
 klhhs klehs_kleous
 klhi klehs_kleous
-klhn klehs_kleous
 klhos klehs_kleous
 klhs klehs_kleous
 koiin c_kos

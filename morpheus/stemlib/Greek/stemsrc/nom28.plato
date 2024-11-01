@@ -515,9 +515,6 @@
 :le:gew/rghma
 :no:gewrgh ma_matos neut
 
-:le:gigantomaxi/a
-:no:gigantomaxi h_hs fem stem_acc
-
 :le:gloiw/dhs
 :aj:gloiwd hs_es stem_acc
 
@@ -738,9 +735,6 @@
 :le:dusqhsau/ristos
 :aj:dusqhsaurist os_on
 
-:le:dusma/qeia
-:no:dusmaqei a_hs fem
-
 :le:du/smeiktos
 :aj:dusmeikt os_on
 
@@ -867,9 +861,6 @@
 
 :le:e)legkte/os
 :aj:e)legkt verb_adj1
-
-:le:e)leinologi/a
-:no:e)leinologi h_hs stem_acc
 
 :le:e)leuqeriko/s
 :aj:e)leuqerik os_h_on suff_acc
@@ -1119,9 +1110,6 @@
 :le:e)/sros
 :no:e)sr os_ou masc
 
-:le:e)ssi/a
-:no:e)ssi h_hs fem stem_acc
-
 :le:e(tairi/stria
 :no:e(tairistri a_hs fem
 
@@ -1236,15 +1224,6 @@
 :le:zw|ogenh/s
 :aj:zw|ogen hs_es suff_acc
 
-:le:zw|ogoni/a
-:no:zw|ogoni h_hs fem
-
-:le:zw|oqhri/a
-:no:zw|oqhri h_hs fem
-
-:le:zw|oqhriko/s
-:aj:zw|oqhrik os_h_on suff_acc
-
 :le:zw|otrofi/a
 :no:zw|otrofi h_hs fem
 
@@ -1331,9 +1310,6 @@
 
 :le:i)dioqhri/a
 :no:i)dioqhri h_hs fem
-
-:le:i)diopra_gi/a
-:no:i)diopra_gi h_hs fem
 
 :le:i)diotro/fos
 :aj:i)diotrof os_on stem_acc
@@ -1458,9 +1434,6 @@
 
 :le:keleustiko/s
 :aj:keleustik os_h_on suff_acc
-
-:le:kenea_gori/a
-:no:keneagori h_hs fem
 
 :le:kerasbo/los
 :aj:kerasbol os_on stem_acc
@@ -1938,6 +1911,7 @@
 
 :le:pei=
 :wd:pei= alphabetic neut
+:wd:pi= alphabetic neut
 
 :le:pempthmo/rion
 :no:pempthmori os_ou neut
@@ -2076,9 +2050,6 @@
 
 :le:pra/sios
 :aj:prasi os_h_on
-
-:le:proagwgi/a
-:no:proagwgi h_hs fem
 
 :le:problhmatourgiko/s
 :aj:problhmatourgik os_h_on suff_acc
@@ -2542,6 +2513,7 @@
 
 :le:fei=
 :wd:fei= alphabetic neut
+:wd:fi= alphabetic neut
 
 :le:fqeiristiko/s
 :aj:fqeiristik os_h_on suff_acc
@@ -2644,6 +2616,7 @@
 
 :le:yu=cis
 :no:yu_c is_ews fem
+:no:yuc is_ews fem
 
 :le:yuxemporiko/s
 :aj:yuxemporik os_h_on suff_acc

@@ -117,7 +117,7 @@
 @ mid
 ;ap
 @ end:en 3rd pl ind epic
-:vs:a)ger w_stem pres mp *theocr. poetic pb:a)mfi/ elide_preverb
+:vs:a)ger w_stem pres mp Theocr. poetic pb:a)mfi/ elide_preverb
 
 :le:a)gelarxe/w
 :de:a)gel-arx ew_denom
@@ -299,6 +299,7 @@
 ;pp
 ;va,hs_es
 :vs:a)c aor2 epic ind
+:vs:a)_ perfp_g doric
 
 :le:a)gwgeu/w
 :de:a)^gwg euw comp_only
@@ -357,8 +358,8 @@
 :le:a)dunate/w
 :de:a)du^na^t ew_denom
 
-:le:*)adwnia/zw
-:de:*)adwni azw
+:le:a)dwnia/zw
+:de:a)dwni azw
 ;pr
 
 :le:a)ei/dw
@@ -505,7 +506,7 @@
 ;ao,-iss epic unaugmented mid 3rd sg
 :de:a)qeri ss
 ;pr
-;ao epic unaugmented *apoll.
+;ao epic unaugmented Apoll.
 
 :le:a)qete/w
 :de:a)qet ew_denom
@@ -513,8 +514,8 @@
 ;fu
 ;ao
 
-:le:*)aqhnia/w
-:de:*)aqhn iaw_denom
+:le:a)qhnia/w
+:de:a)qhn iaw_denom
 ;pr
 
 :le:a)qleu/w
@@ -566,8 +567,8 @@
 :le:ai)gi/zw
 :de:ai)g izw comp_only
 
-:le:*ai)guptia/zw
-:de:*ai)gupti azw
+:le:ai)guptia/zw
+:de:ai)gupti azw
 ;pr
 
 :le:ai)de/omai
@@ -668,7 +669,7 @@
 :de:ai)n izw
 ;pr
 @ mid epic
-@ act *anth.
+@ act Anth.
 
 :le:ai)ni/ssomai
 :de:ai)ni ss mp
@@ -684,6 +685,9 @@
 
 :le:ai)o/llw
 :vs:ai)oll w_stem pres
+
+:le:ai)ona/w
+:de:ai)on aw_denom
 
 :le:ai)pole/w
 :de:ai)pol ew_denom
@@ -723,7 +727,7 @@
 @ 3rd pl plup ind mid
 @ 3rd sg plup ind pass
 ;va,-et 
-:vb:ai)reu/menon ew_pr pres part mid acc sg masc epic *hes.
+:vb:ai)reu/menon ew_pr pres part mid acc sg masc epic Hes.
 
 :le:ai)/rw
 :de:) airw
@@ -1008,7 +1012,7 @@
 :de:a)kt ainw
 ;pr
 :de:a)ktain ow_denom
-;pr *plat.
+;pr Plat.
 
 :le:a)lazoneu/omai
 :de:a)lazon euw mid
@@ -1039,7 +1043,7 @@
 @ end:h|si epic 3rd sg  subj act aor
 @ end:e/menai epic act inf aor
 @ end:e/men epic act inf aor
-:vs:a)lk aor2,poetic,doric,3rd,sg,ind,*pind.
+:vs:a)lk aor2,poetic,doric,3rd,sg,ind,Pind.
 
 :le:a)lalu/kthmai
 :vs:a)^la^lukth perfp_vow attic_redupl
@@ -1133,7 +1137,7 @@
 ;va,-t
 
 :le:a)le/kw
-:vs:a)lek w_stem  poetic *anth.
+:vs:a)lek w_stem  poetic Anth.
 
 :le:a)le/cw
 :vs:a)^lec w_stem
@@ -1190,7 +1194,7 @@
 :le:a)lhqeu/w
 :de:a)lhq euw
 :de:a)lhq izw
-;pr mid *hdt.
+;pr mid Hdt.
 
 :le:a)lh/qw
 :vs:a)^lhq w_stem
@@ -1211,7 +1215,7 @@
 :le:a(lieu/w
 :de:a(li euw
 
-:le:a(li/zw1
+:le:a(li/zw
 :de:a(_l izw
 ;pr
 ;ao
@@ -1273,10 +1277,10 @@
 @ pres part epic mid
 :de:a)li^t ainw
 ;pr
-:de:a)li^tr ainw epic pres  *hes. *anth.
+:de:a)li^tr ainw epic pres Hes. Anth.
 ;pr epic
-:de:a)li^tr ew_denom *aesch.
-;pr *aesch.
+:de:a)li^tr ew_denom Aesch.
+;pr Aesch.
 :vs:a)li^t aor2
 @ subj act
 @ opt act
@@ -1551,7 +1555,7 @@
 :de:a)mhxa^n ew_denom
 ;pr imperf
 :de:a)mhxa^n aw_denom
-;pr ind act epic *anth.
+;pr ind act epic Anth.
 
 :le:a)miqre/w
 :de:a)miqr ew_denom
@@ -1565,8 +1569,8 @@
 
 :le:a)namimnh/skw
 :de:a)mn a_stem rpb:a)na/ apocope
-;fu,-a_s doric *pind.
-;ao,-a_s doric opt *pind.
+;fu,-a_s doric Pind.
+;ao,-a_s doric opt Pind.
 
 :le:a)mnhmone/w
 :de:a)mnhmon ew_denom
@@ -1599,8 +1603,8 @@
 :le:a)mpuka/zw
 :de:a)mpu^k azw
 
-:le:*)amuklai/zw
-:de:*)amukla izw
+:le:a)muklai/zw
+:de:a)mukla izw
 
 :le:a)muna/qw
 :vs:a)^mu_na^q aor2 ind
@@ -1718,11 +1722,14 @@
 :le:a)naisxunte/w
 :de:a)n-aisxunt ew_denom
 
-:le:a)nali/skw
-:de:a)_l iskw pb:a)na/
+#:le:a)nali/skw
+#:de:a)_l iskw pb:a)na/
+:le:a(li/skw
+:de:a(_l iskw
 ;pr
 @ imperf
-:de:a)_l o_stem pb:a)na/
+#:de:a(_l o_stem pb:a)na/
+:de:a(_l o_stem
 ;pr
 @ imperf ind act unaugmented
 ;fu,-ws reg_fut
@@ -1759,9 +1766,6 @@
 ;ao aor2 syll_aug
 ;pf no_redupl ionic
 ;ao aor2 epic unaugmented
-
-:le:a)ndipla/zw
-:de:a)ndipl azw comp_only
 
 :le:a)ndragaqe/w
 :de:a)ndr-a^ga^q ew_denom
@@ -1824,6 +1828,9 @@
 
 :le:a)nqi/zw
 :de:a)nq izw
+
+:le:a)nqinologe/w
+:de:a)nqinolog ew_denom
 
 :le:a)nqobole/w
 :de:a)nqo-bol ew_denom
@@ -1914,6 +1921,9 @@
 :le:a)nome/w
 :de:a)-nom ew_denom
 
+:le:nome/w
+:de:nom ew_denom comp_only
+
 :le:a)nomoio/w
 :de:a)nomoi ow_denom
 
@@ -1923,8 +1933,8 @@
 :le:a)ntagwniste/w
 :de:a)nta^gwnist ew_denom
 
-:le:a)ntauge/w
-:de:a)ntaug ew_denom
+:le:au)ge/w
+:de:au)g ew_denom
 
 :le:a)nta/w
 :de:a)nt aw_denom
@@ -1968,7 +1978,7 @@
 ;ao prevb_aug
 
 :le:a)ntignwmone/w
-:de:a)ntignwmon	ew_denom
+:de:a)ntignwmon ew_denom
 
 :le:a)nticoe/w
 :de:a)ntico ew_denom
@@ -2091,11 +2101,11 @@
 ;pr
 ;ao inf act
 
-:le:a)pagxoni/zw
-:de:a)p-agxon izw
+:le:a)gxoni/zw
+:de:a)gxon izw
 
-:le:a)paigeiro/omai
-:de:a)p-aigeir ow_denom pass
+:le:ai)geiro/omai
+:de:ai)geir ow_denom pass
 
 :le:a)paiola/w
 :de:a)paiol aw_denom
@@ -2205,16 +2215,12 @@
 ;ao
 ;pf
 
-:le:a)pore/w
+:le:a)pore/w2
 :de:a)por ew_denom
 ;pr
 ;fu
 ;ao
 ;pr imperf ind act
-
-:le:a)postate/w
-:de:a)posta^t ew_denom
-
 
 :le:a)potauro/omai
 :de:a)potaur ow_denom rpb:a)po/ mp
@@ -2302,8 +2308,8 @@
 :le:a)rge/w
 :de:a)rg ew_denom
 
-:le:*)argoli/zw
-:de:*)argol izw
+:le:a)rgoli/zw
+:de:a)rgol izw
 
 :le:a)rgureu/w
 :de:a)rgu^r euw
@@ -2558,6 +2564,9 @@
 :de:a)rx euw pres
 ;pr
 
+:le:a)rxefhbeu/w
+:de:a)rxefhb euw
+
 :le:a)rxhgeteu/w
 :de:a)rxhget euw
 
@@ -2740,7 +2749,7 @@
 ;pr  end:e/wn
 
 :le:a)ti/zw
-:de:a)-ti^ reg_conj *theogn.
+:de:a)-ti^ reg_conj Theogn.
 ;pr
 :de:a)-t izw poetic
 ;pr
@@ -2795,8 +2804,7 @@
 :le:a)trofe/w
 :de:a)trof ew_denom
 
-:le:*)attiki/zw
-:de:*)attik izw
+:le:a)ttiki/zw
 :de:a)ttik izw
 
 :le:a)tu/zw
@@ -2928,7 +2936,7 @@
 
 :le:au)xme/w
 :de:au)xm ew_denom
-:de:au)xm aw_denom *luc. pres part
+:de:au)xm aw_denom Luc. pres part
 
 :le:au)/w1
 :vs:au) w_stem
@@ -3168,23 +3176,22 @@
 :vs:bhsei w_stem comp_only desiderative
 :vs:bask w_stem comp_only
 
-:le:*baki/zw
+:le:baki/zw
 :de:ba^k izw
 
 :le:baktreu/w
 :de:baktr euw
 
-:le:*bakxa/w
+:le:bakxa/w
 :de:bakx aw_denom
 
-:le:*bakxeu/w
+:le:bakxeu/w
 -:vs:*bakxeu w_stem
 -:vs:*bakxeus reg_fut
 -:vs:*bakxeus aor1
-:de:*bakx euw
 :de:bakx euw
 
-:le:*bakxia/zw
+:le:bakxia/zw
 :de:bakxi azw
 
 :le:bakxio/omai
@@ -3317,7 +3324,7 @@
 ;va,-ant
 
 :le:ba/skw
-:de:ba skw pres comp_only *ar.
+:de:ba skw pres comp_only Ar.
 
 :le:ba/skw
 :de:ba skw
@@ -3633,16 +3640,19 @@
 :de:boa_q ew_denom doric
 :de:bwq ew_denom ionic
 
-:le:*boiwtarxe/w
-:de:*boiwtarx ew_denom
+:le:boiwtarxe/w
+:de:boiwtarx ew_denom
 :de:boiwtarx ew_denom
 
-:le:*boiwtia/zw
-:de:*boiwti azw
+:le:boiwtia/zw
+:de:boiwti azw
 :de:boiwti azw
 
 :le:bolbi/zw
 :de:bolb izw comp_only
+
+:le:boleu/omai
+:de:bol euw mp comp_only
 
 :le:boli/zw
 :de:bol izw
@@ -3662,6 +3672,9 @@
 ;ao,-hs
 ;va,-ht
 :vs:bosk reg_fut mid doric end:eu=mai
+
+:le:botani/zw
+:de:botan izw
 
 :le:boubwnia/w
 :de:boubwn iaw_denom
@@ -3722,8 +3735,8 @@
 ;ap,-hq aor_pass
 ;pp,-h perfp_vow
 :vs:h)boulhq aor_pass double_augment has_augment ind attic
-:vs:boll w_stem nw imperf ind mp end:o/ma_n doric *theocr.
-:vs:dhl w_stem mp doric *theocr.
+:vs:boll w_stem nw imperf ind mp end:o/ma_n doric Theocr.
+:vs:dhl w_stem mp doric Theocr.
 :vs:beboul perf_act comp_only poetic
 
 :le:bounobate/w
@@ -3790,7 +3803,7 @@
 
 :le:bria/w
 :de:bri aw_denom
-:vb:bria/onta aw_pr pres part act neut pl voc acc epic *hes.
+:vb:bria/onta aw_pr pres part act neut pl voc acc epic Hes.
 
 :le:bri/zw
 :de:br izw
@@ -3810,7 +3823,7 @@
 
 :le:brima/omai
 :de:bri_m aw_denom mp
-:de:bri_m ow_denom mp*xen.
+:de:bri_m ow_denom mp Xen.
 
 :le:brome/w
 :de:brom ew_denom
@@ -3957,6 +3970,9 @@
 :le:gargali/zw
 :de:gargal izw
 
+:le:gargari/zw
+:de:gargar izw
+
 :le:gastri/zw
 :de:gastr izw
 
@@ -3970,9 +3986,6 @@
 
 :le:gauro/omai
 :de:gaur ow_denom mp
-
-:le:gdoupe/w
-:de:gdoup ew_denom
 
 :le:ge/gwna
 :vs:gegwn perf_act
@@ -4011,12 +4024,12 @@
 :de:geiton ew_denom
 :de:geiton euw
 
-:le:gelasei/w
-:vs:gela^sei w_stem desiderative
+#:le:gelasei/w
+#:vs:gela^sei w_stem desiderative moved to gela/w
 
-:le:gela/skw
-:de:gel a_stem
-;pr,-ask
+#:le:gela/skw
+#:de:gel a_stem
+#;pr,-ask moved to gela/w
 
 :le:gela/w
 -:vs:gel aw_pr
@@ -4046,6 +4059,9 @@
 ;ao,-ass epic
 ;ap,-asq
 :vb:geloi/wntes aw_pr pres part act masc nom pl epic
+:vs:gela^sei w_stem desiderative
+:de:gel a_stem
+;pr,-ask
 
 :le:geloiomele/w
 :de:geloio-mel ew_denom
@@ -4213,6 +4229,8 @@
 ;ao
 
 :le:gi/gnomai
+:de:gen a_stem mp
+;ao,ami_aor
 :de:gn reg_conj  mp
 ;pr pres_redupl
 :vs:gin w_stem  mp  ionic
@@ -4648,7 +4666,7 @@
 @ 3rd sg imperf end:a_
 @ 3rd sg imperf unaugmented end:a_
 @ 3rd sg imperf iterative ionic unaugmented end:aske
-@ 2nd sg pres end:a=|s *hhymn. *theogn.
+@ 2nd sg pres end:a=|s Hhymn. Theogn.
 
 :le:da/mnhmi
 :de:da^m nhmi
@@ -4977,7 +4995,7 @@
 :le:desmeu/w
 :de:desm euw
 :de:desm ow_denom
-:de:desm ew_denom *ntest
+:de:desm ew_denom Ntest
 
 :le:despo/zw
 :de:despoz reg_conj
@@ -4992,7 +5010,7 @@
 :le:deutereu/w
 :de:deuter euw
 
-:le:deu/w1
+:le:deu/w
 -:vs:deu w_stem
 -:vs:deu w_stem imperf ind act
 -:vs:deu w_stem imperf ind act epic unaugmented
@@ -5010,12 +5028,13 @@
 ;ap
 ;pp
 
-:le:deu/w2
-:vs:deu w_stem,aeolic,epic,mid
-:vs:deu w_stem,aeolic,part,act
-:de:deu e_stem
-;fu,-hs,mid
-;ao,-hs
+#:le:deu/w2
+#:vs:deu w_stem,aeolic,epic,mid
+#:vs:deu w_stem,aeolic,part,act
+#:de:deu e_stem
+#;fu,-hs,mid
+#;ao,-hs
+#see already at de/w2
 
 :le:de/fw
 :de:def reg_conj
@@ -5190,8 +5209,8 @@
 :de:da_m ow_denom mp doric
 :de:dhm ow_denom mp
 
-:le:*dhmosqeni/zw
-:de:*dhmosqen izw
+:le:dhmosqeni/zw
+:de:dhmosqen izw
 ;pr
 ;fu,-is
 ;ao
@@ -5215,7 +5234,7 @@
 ;ao 3rd pl epic unaugmented
 ;va,-t
 :de:dhri_ reg_conj act
-;ao *theogn. *theocr.
+;ao Theogn. Theocr.
 :de:dhr inw epic
 ;ap,-inq 3rd dual pass end:h/thn
 :de:dhri azw mp
@@ -5370,6 +5389,7 @@
 @ end:o/menai aor act inf
 @ end:o/men aor act inf
 :vb:dw/meqon  omi_aor 1st dual aor subj act epic
+:vs:dwsei w_stem comp_only desiderative
 
 :le:di/emai
 :vs:di emi_pr
@@ -5432,9 +5452,6 @@
 :le:dike/w
 :de:dik ew_denom comp_only
 
-:le:dike/w
-:de:dik ew_denom comp_only
-
 :le:dikorrafe/w
 :de:di^korra^f ew_denom
 
@@ -5476,8 +5493,8 @@
 :le:di/nw
 :vs:din w_stem
 
-:le:*dionusia/zw
-:de:*dionu_si azw
+:le:dionusia/zw
+:de:dionu_si azw
 
 :le:diopeu/w
 :de:diop euw
@@ -5485,8 +5502,8 @@
 :le:diopompe/omai
 :de:diopomp ew_denom mid comp_only
 
-:le:diopteu/w
-:de:diopt euw
+#:le:diopteu/w
+#:de:diopt euw
 
 :le:dipla/zw
 :de:dipl azw
@@ -5674,6 +5691,9 @@
 :le:docokope/w
 :de:docokop ew_denom
 
+:le:docologe/w
+:de:docolog ew_denom comp_only
+
 :le:doco/omai
 :de:doc ow_denom mp
 ;pr
@@ -5724,8 +5744,8 @@
 :le:drapeteu/w
 :de:dra_pet euw
 
-:le:drasei/w
-:vs:dra_sei w_stem
+#:le:drasei/w
+#:vs:dra_sei w_stem desiderative moved to dra/w
 
 :le:dra/ssomai
 :vs:dedar perfp_g
@@ -5761,6 +5781,7 @@
 ;ap,-asq
 :de:dr a_stem ionic
 ;ao,-hs
+:vs:dra_sei w_stem desiderative
 
 :le:dre/pw
 :vs:dra^p aor2 ind act
@@ -5776,7 +5797,7 @@
 ;ao
 :de:dre ptw poetic
 ;pr
-:vs:drap aor2 *pind.
+:vs:drap aor2 Pind.
 
 :le:drhpeteu/w
 :de:drhpet euw comp_only
@@ -6005,8 +6026,8 @@
 -:vs:dwrhs aor1
 :de:dwr ew_denom
 
-:le:*dwria/zw
-:de:*dwri azw
+:le:dwria/zw
+:de:dwri azw
 :de:dwri azw
 
 :le:dwrieu/omai
@@ -6029,8 +6050,8 @@
 :de:dwru ss mp
 ;pr,-tt
 
-:le:dwsei/w
-:vs:dwsei w_stem comp_only desiderative
+#:le:dwsei/w
+#:vs:dwsei w_stem comp_only desiderative moved to di/dwmi
 
 :le:dwtina/zw
 :de:dwti_n azw
@@ -6070,14 +6091,14 @@
 :vb:ea)/twsan aw_pr a_stem 3rd pl pres imperat act attic
 
 :le:e)ggi/zw
-:de:e)gg izw comp_only
+:de:e)gg izw
 
 :le:e)gglu/ssw
 :de:e)g-glu ss pres
 ;pr
 
-:le:e)gglwttotupe/w
-:de:e)g-glwtto-tu^p ew_denom
+:le:glwttotupe/w
+:de:glwtto-tu^p ew_denom comp_only
 
 :le:e)ggua/w
 :de:e)ggu aw_denom
@@ -6147,6 +6168,15 @@
 
 :le:e(dra/zw
 :de:e(dr azw
+
+:le:e(dreu/w
+:de:e(dr euw
+#:de:e(dr euw pb:e)n
+;pr
+@ imperf
+;fu
+;ao
+#many preverbs for this verb, not just en
 
 :le:e(drh/ssw
 :de:e(drh ss comp_only
@@ -6222,6 +6252,9 @@
 
 :le:e)/qw
 :vs:e)q w_stem
+#ei)/wqa moved to separate entry; delete next lines to re-unite
+
+:le:ei)/wqa
 :vs:ei)wq perf_act
 @ plup end:ein uaugmented
 :vs:e)wq perf_act ionic epic
@@ -6246,7 +6279,7 @@
 @ end:ao 2nd sg aor ind
 @ end:ato 3rd sg aor ind
 
-:le:ei)=don
+:le:o(ra/w
 :vs:i)d aor2,syll_aug
 @ unaugmented epic ionic
 @ unaugmented iterative ionic 3rd sg
@@ -6317,7 +6350,7 @@
 ;ao
 @ aor ind act 3rd sg iterative unaugmented
 ;va,hs_es
-:vs:ei)ka^q aor2 syll_aug poetic *soph. *apoll.
+:vs:ei)ka^q aor2 syll_aug poetic Soph. Apoll.
 @ part
 @ inf
 
@@ -6333,7 +6366,7 @@
 
 :le:ei)lufa/zw
 :de:ei)lu_f azw
-:de:ei)lu_f aw_denom *il. *hes. epic
+:de:ei)lu_f aw_denom Il. Hes. epic
 ;pr end:o/wn epic part act nom sg
 
 :le:ei)lufa/w
@@ -6384,8 +6417,8 @@
 :vs:ei)l aor1 comp_only
 :vs:e)eil w_stem imperf ind act epic has_augment
 
-:le:*ei(lwteu/w
-:de:*ei(lwt euw
+:le:ei(lwteu/w
+:de:ei(lwt euw
 
 :le:ei)=pon
 :vs:ei)p aor2,syll_aug
@@ -6406,11 +6439,12 @@
 :vb:ei)pe/ aor2 2nd sg imperat act aor
 :vb:ei)po/n aor2 2nd sg imperat act aor late
 
-:le:ei(/rgnumi
-:de:ei(rg numi
-;pr
-:de:e)erg numi
-;pr imperf epic
+#:le:ei(/rgnumi
+#:de:ei(rg numi
+#;pr
+#:de:e)erg numi
+#;pr imperf epic
+#merged with e)/rgw
 
 :le:ei)rhneu/w
 :de:ei)rhn euw
@@ -6456,14 +6490,14 @@
 :le:e)kpagle/omai
 :de:e)kpagl ew_denom mp
 
-:le:e)ktefro/w
-:de:e)k-tefr ow_denom
+:le:tefro/w
+:de:tefr ow_denom
 
-:le:e)kfullofore/w
-:de:fullo-for ew_denom comp_only
+:le:fullofore/w
+:de:fullofor ew_denom comp_only
 
-:le:e)lasei/w
-:vs:e)la^sei w_stem desiderative
+#:le:e)lasei/w
+#:vs:e)la^sei w_stem desiderative moved to e)lau/nw
 
 :le:e)lasso/w
 :de:e)lass ow_denom
@@ -6503,7 +6537,7 @@
 :de:e)l a_stem
 ;pr,poetic,rare,epic
 @ end:a/an inf act
-@ end:wn imperf 3rd pl unaugmented *od.
+@ end:wn imperf 3rd pl unaugmented Od.
 ;fu,-as
 ;fu,-ass  epic
 ;fu,aw_fut attic
@@ -6519,6 +6553,7 @@
 ;ap,-asq late
 ;va,-a^t
 :vs:e)la reg_fut act epic
+:vs:e)la^sei w_stem desiderative
 
 :le:e)lafru/nw
 :de:e)lafr unw
@@ -6648,7 +6683,8 @@
 :le:e(llhni/zw
 :de:e(llhn izw
 
-:le:*(ellhni/zw
+:le:e(llhni/zw
+:de:e(llhn izw
 :de:*(ellhn izw
 ;pr
 ;fu,-is
@@ -6731,6 +6767,16 @@
 ;pr imperf
 ;fu
 
+:le:pedo/w
+:de:ped ow_denom rpb:e)n
+;pr
+;pr imperf
+;fu
+#I have a hunch that "rpb" was meant to take care of this? But we have some en-e- past tenses
+
+:le:e)mpeire/w
+:de:e)mpeir ew_denom
+
 :le:e)mpola/w
 -:vs:e)mpol aw_pr
 -:vs:e)mpol aw_pr imperf ind act
@@ -6749,6 +6795,18 @@
 ;pp
 @  ionic no_redupl
 ;ap
+
+:le:pola/w
+:de:pol aw_denom comp_only
+;pr
+@ imperf
+;fu
+;ao
+;pf
+;pp
+@  ionic no_redupl
+;ap
+#to take care of the stray en-e-p
 
 :le:e)nai/rw
 :de:e)n airw epic poetic
@@ -6789,14 +6847,6 @@
 
 :le:e)ndoia/zw
 :de:e)ndoi azw
-
-:le:e)nedreu/w
-:de:e(dr euw pb:e)n
-;pr
-@ imperf
-;fu
-;ao
-
 
 :le:e)neidofore/w
 :de:e)n-eido-for ew_denom
@@ -6895,9 +6945,9 @@
 :vs:e)i+  perfp_g,plup,ind,pass,3rd,sg,attic_redupl
 @ unaugmented
 :de:ei)k reg_conj
-;pr imperf ind act 3rd sg epic syll_aug *il.
-;fu  attic act *ar.
-:vs:ei)c perf_act 3rd pl end:asi perf ind epic *il.
+;pr imperf ind act 3rd sg epic syll_aug Il.
+;fu  attic act Ar.
+:vs:ei)c perf_act 3rd pl end:asi perf ind epic Il.
 :vb:e)/i+kton perf_act 3rd dual perf ind act epic
 :vb:e)/oigmen perf_act 1st pl perf ind act epic
 :vb:e)i/+kthn perf_act plup ind act epic 3rd dual
@@ -6939,16 +6989,17 @@
 ;pp
 
 :le:e)phbole/w
-:de:e)pa_bol ew_denom doric *pind.
+:de:e)pa_bol ew_denom doric Pind.
 
-:le:e)phkoo/w
-:de:e)phko ow_denom
-:de:e)pako ow_denom doric
+#:le:e)phkoo/w
+#:de:e)phko ow_denom
+#:de:e)pako ow_denom doric
+#not attested
 
 :le:e)pibwmiostate/w
 :de:e)pibwmiosta^t ew_denom
 
-:le:e)pikoure/w
+:le:koure/w
 -:vs:e)pikour ew_pr
 -:vs:e)pikourhs reg_fut
 -:vs:e)pikourhs aor1
@@ -6956,12 +7007,11 @@
 ;pr
 ;fu
 
-:le:e)pilli/zw
-:de:i)ll izw comp_only
-
-:le:e)pimele/omai
+#:le:e)pimele/omai
+:le:mele/omai
 :de:mel ew_denom mp pb:e)pi/
 :vs:mel w_stem mp pb:e)pi/
+#can't seem to get augment working
 
 :le:e)pi/stamai
 :de:e)pist a_stem mp
@@ -6984,13 +7034,15 @@
 ;fu,-hs
 ;ap,-hq
 
-:le:e)pithdeu/w
+:le:thdeu/w
+#:de:thd euw pb:e)pi/
 :de:thd euw pb:e)pi/
 ;pr
 @ imperf
 ;ao
 ;pf
 ;pp
+#hall of shame
 
 :le:xeire/w
 :de:xeir ew_denom  comp_only
@@ -7019,7 +7071,7 @@
 :vs:e(fq aor_pass
 
 :le:e)/pw
-:vs:e)p w_stem pres ind act 3rd pl epic *nicander
+:vs:e)p w_stem pres ind act 3rd pl epic Nicander
 
 :le:e)/ramai
 :de:e)r a_stem mp
@@ -7090,6 +7142,7 @@
 ;pr
 :vs:e)rgac aor2 epic syll_aug
 :de:e)rg azw mp aor ind mp later prose
+:vs:e)rga^sei w_stem desiderative
 
 :le:e)rgaqei=n
 :vs:e)rga^q aor2,syll_aug,epic,poetic
@@ -7101,8 +7154,8 @@
 -:vb:e)erga^qei=n aor2 aor inf poetic epic
 -:vb:ei)rga^qei=n aor2 aor inf poetic attic
 
-:le:e)rgasei/w
-:vs:e)rga^sei w_stem desiderative
+#:le:e)rgasei/w
+#:vs:e)rga^sei w_stem desiderative moved to e)rga/zomai
 
 :le:e)rge/w
 :de:e)rg ew_denom comp_only
@@ -7132,7 +7185,7 @@
 :le:e)rgolabe/w
 :de:e)rgola^b ew_denom
 
-:le:e)/rgw1
+:le:e)/rgw
 :de:e)erg reg_conj epic
 ;pr
 ;pp,epic part
@@ -7156,6 +7209,26 @@
 ;pp,epic
 @ 3rd pl end:xatai
 @ 3rd pl end:xato plup
+:de:e)rg numi
+;pr
+;pr w_stem
+;ap epic
+:de:e)rg reg_conj
+;pr epic part
+;pr inf
+;pr ind mp
+;pr ind sg pres
+;pp syll_aug
+;pp epic ionic no_redupl
+;ap epic
+:de:e)erg numi epic imperf
+;pr imperf
+;pr w_stem comp_only
+;ao comp_only
+:vs:e)er perfp_g
+:de:ei(rg numi
+;pr
+;pr w_stem
 
 :le:e)/rdw
 :vs:e)rd w_stem
@@ -7358,7 +7431,7 @@
 ;ao,-is
 ;ao,-iss epic opt 3rd sg end:eie
 ;ao,-iss epic short_subj 3rd sg end:etai
-;pf *polyb.
+;pf Polyb.
 ;pp perfp_d
 :vs:e)rhri perfp_d
 
@@ -7602,14 +7675,12 @@
 :le:e(stio/omai
 :de:e(sti ow_denom mp
 
-:le:e)sfore/w
-:de:e)s-for ew_denom
-
 :le:e)sxata/w
 :de:e)sxa^t aw_denom
 
 :le:e)ta/zw
 :de:e)t azw
+;fu aw_fut attic
 
 :le:e(taire/w
 :de:e(tair ew_denom
@@ -7626,6 +7697,10 @@
 
 :le:e(teroio/w
 :de:e(teroi ow_denom
+
+:le:e)ti/zw
+:de:e)t izw
+#sun, episun
 
 :le:e(toima/zw
 :de:e(toim azw
@@ -7668,6 +7743,9 @@
 
 :le:eu)daimoni/zw
 :de:eu)daimon izw
+
+:le:eu)dia/zomai
+:de:eu)di azw mp
 
 :le:eu)doke/w
 :de:eu)-dok ew_denom
@@ -7778,6 +7856,11 @@
 ;fu
 ;ao syll_aug
 ;ao
+:vs:eu)loghk perf_act
+:vs:eu)logh perfp_vow
+
+:le:eu)mare/w
+:de:eu)mar ew_denom
 
 :le:eu)mari/zw
 :de:eu)ma^r izw comp_only
@@ -7909,6 +7992,12 @@
 :le:eu)sxhmone/w
 :de:eu)sxhmon ew_denom comp_only
 
+:le:eu)sxole/w
+:de:eu)sxol ew_denom
+
+:le:eu)xrhste/omai
+:de:eu)xrhst ew_denom mp
+
 :le:eu)swmate/w
 :de:eu)swma^t ew_denom
 
@@ -8007,6 +8096,9 @@
 ;ap
 :de:eu)-wx ew_denom
 
+:le:e)fhbeu/w
+:de:e)fhb euw
+
 :le:e)xemuqe/w
 :de:e)xemu_q ew_denom
 
@@ -8057,8 +8149,9 @@
 ;va
 :de:sx e_stem
 ;fu,-hs
-;ap,-eq
 ;pf,-hk
+:vs:sxeq aor_pass
+:vs:e)sxh perfp_vow
 ;va,-et
 ;va,-hm,wn_on
 :vs:sx aor2
@@ -8074,6 +8167,7 @@
 :vb:sxe/s  aor2 aor imperat act 2nd sg
 :vb:w)/xato ath_primary plup 3rd pl ind mp epic comp_only
 :vb:sxh/shsqa ath_primary fut ind act 2nd pl epic
+:vs:sx aor1
 
 :le:e(yia/omai
 :de:e(y iaw_denom mp
@@ -8107,6 +8201,7 @@
 ;fu,-hs
 @ mid
 ;ao,-hs
+;pf,-hk
 :de:zw o_stem
 ;pr,-w,w_stem,ionic,epic
 @ imperf epic
@@ -8267,7 +8362,7 @@
 :de:h)-bol ew_denom comp_only
 
 :le:h(bullia/w
-:de:h(bull iaw_denom *com. diminutive
+:de:h(bull iaw_denom Com. diminutive
 
 :le:h(gemoneu/w
 :de:h(gemon euw
@@ -9235,7 +9330,7 @@
 ;ao,-a_n doric
 ;ap
 
-:le:*)iakxa/zw
+:le:i)akxa/zw
 :de:i)akx azw
 
 :le:i)akxe/w
@@ -9390,7 +9485,7 @@
 :vs:e(s aor1 part act
 :vs:e(ess aor1,epic,mid,ind,has_augment
 :vs:e(ss aor1,poetic
-@ aor inf act doric *pind.
+@ aor inf act doric Pind.
 
 :le:i)hpaiwni/zw
 :de:i)hpaiwn izw
@@ -9477,6 +9572,12 @@
 :le:i)liggia/w
 :de:i)_ligg iaw_denom
 
+:le:i)lli/zw
+:de:i)ll izw comp_only
+
+:le:i)llo/w
+:de:i)ll ow_denom comp_only
+
 :le:i)llw/ptw
 :de:i)llw ptw comp_only
 
@@ -9520,14 +9621,15 @@
 :le:i)obole/w
 :de:i)_obol ew_denom
 
-:le:*)ioudai/zw
-:de:*)iouda izw
+:le:i)oudai/zw
+:de:i)ouda izw
 
 :le:i)po/omai
 :de:i)p ow_denom pass
 
 :le:i(ppa/zomai
 :de:i(pp azw mp
+:de:i(pp azw comp_only
 
 :le:i(pparxe/w
 :de:i(pparx ew_denom
@@ -9587,18 +9689,15 @@
 :le:i)so/w
 :de:i)^s ow_denom
 
-:le:i(sta/nw
-:de:i(st anw
-
-:le:i(sta/nw
-:de:i(st anw  comp_only
+:le:i(/sthmi
+:de:i(st anw comp_only
 ;pr
 
-:le:i(sta/w
-:de:i(st a_stem
-;pr ionic
+#:le:i(/sthmi
+#:de:i(st a_stem
+#;pr ionic
 
-:le:i(sta/w
+:le:i(/sthmi
 :de:i(st a_stem comp_only
 
 :le:i(/sthmi
@@ -9783,7 +9882,8 @@
 :vs:kaqed  ew_fut
 
 :le:kaqeu/dw
-:vs:kaqeud w_stem rpb:kata/ imperf ind
+#:vs:kaqeud w_stem rpb:kata/ imperf ind
+:vs:kaqeud w_stem
 
 :le:kaqi/zw
 :de:kaq izw ind
@@ -10082,8 +10182,8 @@
 :le:kapno/omai
 :de:kapn ow_denom mp
 
-:le:*kappadoki/zw
-:de:*kappa^dok izw
+:le:kappadoki/zw
+:de:kappa^dok izw
 
 :le:kappuri/zw
 :de:kappu^r izw
@@ -10140,8 +10240,8 @@
 :le:kartu/nw
 :de:kart unw
 
-:le:*karuati/zw
-:de:*karua_t izw
+:le:karuati/zw
+:de:karua_t izw
 
 :le:karukopoie/w
 :de:ka^ru_ko-poi ew_denom
@@ -10155,8 +10255,8 @@
 ;fu
 ;ao
 
-:le:*karxhdoni/zw
-:de:*karxhdon izw
+:le:karxhdoni/zw
+:de:karxhdon izw
 
 :le:kasalba/zw
 :de:ka^salb azw
@@ -10216,7 +10316,7 @@
 :de:ke a_stem
 ;va,-a^t
 
-:le:keda/nnumi
+:le:skeda/nnumi
 :de:ked a_stem poetic
 ;fu,-as
 ;ao,-ass
@@ -10225,6 +10325,7 @@
 ;pr
 
 :le:kei=mai
+:vs:ki ath_primary,mp
 :vs:kei ath_primary,mp
 :vs:ke w_stem,mp subj epic
 @ ind epic 3rd pl
@@ -10630,9 +10731,9 @@
 :de:kir nhmi
 ;pr,aw_pr
 @ imperf 3rd sg act
-@ 3rd sg pres *hdt.
+@ 3rd sg pres Hdt.
 ;pr,ami_pr
-@ 1st pl pres ind act *hdt.
+@ 1st pl pres ind act Hdt.
 @ imperf 3rd sg act
 @ part act
 
@@ -10707,7 +10808,7 @@
 :vs:keklhg perf2_act,part,epic
 @ nom masc pl
 :vs:keklhg w_stem part act epic
-:vs:glaz w_stem *pind.
+:vs:glaz w_stem Pind.
 -:vs:keklagc fut_perf mid
 
 :le:klai/w
@@ -10932,7 +11033,7 @@
 
 :le:kna/w
 -:vb:knh= ami_aor epic 3rd sg
-:de:kn a_stem
+:de:kn aw_denom
 ;pr,ajw_pr
 @ 3rd sg pres ind act
 @ 2nd sg pres ind act
@@ -11288,10 +11389,10 @@
 :le:korkoruge/w
 :de:korkorug ew_denom comp_only
 
-:le:*korubantia/w
+:le:korubantia/w
 :de:koru^bant iaw_denom
 
-:le:*korubanti/zw
+:le:korubanti/zw
 :de:koru^bant izw
 
 :le:koruza/w
@@ -11495,8 +11596,8 @@
 :le:krhno/w
 :de:krhn ow_denom comp_only
 
-:le:*krhti/zw
-:de:*krht izw
+:le:krhti/zw
+:de:krht izw
 
 :le:kri/zw
 :vs:kri^z w_stem
@@ -11647,11 +11748,11 @@
 @ end:a/menai aor inf act
 @ end:e/wmen 1st pl aor subj act epic
 :de:ktin numi
-;pr *plat. *xen.
+;pr Plat. Xen.
 ;pr,-nu w_stem attic
 :vs:ktinus aor1
 :de:ktei numi
-;pr *plat.
+;pr Plat.
 :vs:e)kt perf2_act ind perf 1st pl end:amen comp_only
 :vb:kakta/menai perf2_act perf inf act epic rpb:kata/ apocope
 :vb:ka/ktane aor2 3rd sg aor ind act epic rpb:kata/ apocope
@@ -11757,8 +11858,8 @@
 :le:kukle/w
 :de:kukl ew_denom
 
-:le:*kuklobore/w
-:de:*kuklobor ew_denom
+:le:kuklobore/w
+:de:kuklobor ew_denom
 
 :le:kuklosobe/w
 :de:kuklo-sob ew_denom
@@ -12011,11 +12112,11 @@
 :le:lakti/zw
 :de:lakt izw
 
-:le:*lakwni/zw
+:le:lakwni/zw
 :de:la^kwn izw
 
-:le:*lakwnomane/w
-:de:*la^kwno-ma^n ew_denom
+:le:lakwnomane/w
+:de:la^kwno-ma^n ew_denom
 
 :le:lalage/w
 :de:la^la^g ew_denom
@@ -12032,6 +12133,7 @@
 @ fut
 ;pp poetic
 -:vs:lamy reg_fut mid ionic
+:vs:lhmy reg_fut mid
 ;va,-t
 :de:la_b reg_conj
 ;fu,mid,doric end:eu=mai
@@ -12062,6 +12164,7 @@
 @ mid
 ;pf,-hk,ionic
 ;va,verb_adj1
+:vs:lab aor1
 
 :le:lampeta/w
 :de:lampet aw_denom
@@ -12201,6 +12304,7 @@
 ;fu end:e/w epic
 ;ao
 ;ao epic unaugmented
+;ao,-a_n attic r_e_i_alpha
 :de:lei ainw epic
 ;pr
 ;fu
@@ -12330,8 +12434,8 @@
 ;ao
 ;pp
 
-:le:*lesbia/zw
-:de:*lesbi azw
+:le:lesbia/zw
+:de:lesbi azw
 
 :le:lesxa/zw
 :de:lesx azw
@@ -12500,7 +12604,10 @@
 :de:li_pa^r ew_denom
 
 :le:lipa/w
-:de:li^p aw_denom
+:de:li^p ow_denom
+;pr
+:de:li^p aw_denom late Attic
+;pr
 
 :le:lipoyuxe/w
 :de:li^po-yu_x ew_denom
@@ -12680,7 +12787,7 @@
 :le:lugo/w
 :de:lu^g ow_denom
 
-:le:*ludi/zw
+:le:ludi/zw
 :de:lu_d izw
 
 :le:lu/zw
@@ -12690,7 +12797,7 @@
 :le:luko/w
 :de:lu^k ow_denom
 
-:le:lumai/nomai
+:le:lumai/nomai2
 -:vb:lelu/mantai perfp_n 3rd sg perf ind mid
 :de:lu_m ainw mp
 ;pr
@@ -12699,6 +12806,13 @@
 ;pp
 @ end:ntai perfp_n 3rd sg perf ind mid
 ;ap
+:de:lu_m ainw
+;ao late
+#Libanius lumh/nanta
+
+:le:lumai/nomai
+:de:lu_m ainw mp
+;pr
 
 :le:lupe/w
 :de:lu_p ew_denom
@@ -12836,8 +12950,8 @@
 :le:makari/zw
 :de:ma^ka^r izw
 
-:le:*makedoni/zw
-:de:*ma^kedon izw
+:le:makedoni/zw
+:de:ma^kedon izw
 
 :le:makkoa/w
 :de:ma_kko aw_denom
@@ -12905,7 +13019,7 @@
 ;va,hs_es
 
 :le:manteu/omai
-:de:mant euw mp
+:de:mant euw
 ;pr
 ;fu
 ;ao
@@ -13117,8 +13231,8 @@
 :le:megalu/nw
 :de:mega^l unw
 
-:le:*megari/zw
-:de:*mega^r izw
+:le:megari/zw
+:de:mega^r izw
 
 :le:me/domai
 :vs:med w_stem mp
@@ -13210,8 +13324,21 @@
 :le:meli/zw
 :de:mel izw
 ;pr
+;fu ew_fut
+;ao
+;ao poetic unaugmented
+;pf
+;ap
+;ap fut
+;pp
+#dismember stuff, endings from nomi/zw
+
+:le:meli/zw2
+:de:mel izw
+;pr
 ;pr,-isd
 ;fu,-ic mid
+#sing
 
 :le:melito/omai
 :de:meli^t ow_denom
@@ -13410,7 +13537,7 @@
 :le:metriopaqe/w
 :de:metriopa^q ew_denom
 
-:le:*mhdi/zw
+:le:mhdi/zw
 :de:mhd izw
 
 :le:mh/domai
@@ -13548,7 +13675,7 @@
 :le:miga/zomai
 :de:mi^g azw mp
 
-:le:mi/gnumi
+:le:mei/gnumi
 -:vs:memic fut_perf
 :vs:mi^g aor2_pass
 @ fut
@@ -13646,7 +13773,7 @@
 ;fp,-hs
 ;va,-hst
 ;va,-a_st doric aeolic
-:vb:memne/wta perf2_act perf part act masc acc sg epic *hes.
+:vb:memne/wta perf2_act perf part act masc acc sg epic Hes.
 
 :le:mi/mnw
 :de:mn reg_conj syncope
@@ -13909,7 +14036,7 @@
 :le:muqi/zw
 :de:mu_q izw
 ;pr
-;pr,-isd *theocr.
+;pr,-isd Theocr.
 
 :le:muqografe/w
 :de:mu_qograf ew_denom
@@ -14080,9 +14207,10 @@
 :le:naumaxe/w
 :de:nauma^x ew_denom
 :de:nausima^x ew_denom
-
-:le:naumaxhsei/w
 :vs:nauma^xhsei w_stem desiderative
+
+#:le:naumaxhsei/w
+#:vs:nauma^xhsei w_stem desiderative moved to naumaxe/w
 
 :le:nauphge/w
 :de:nauphg ew_denom
@@ -14244,7 +14372,7 @@
 :le:nefe/w
 :de:nef ew_denom comp_only
 
-:le:ne/w1
+:le:ne/w
 :de:n ev_stem act
 ;pr ew_pr
 ;pr ew_pr end:eon epic
@@ -14268,7 +14396,7 @@
 ;pr
 #punt this -- it causes all sorts of conflicts with nh=sos and 
 #lsj only cites it for the Suda.
-#;fu,-hs
+#;fu,-hs comp_only
 ;ao,-hs
 ;pp,-h perfp_vow
 ;pp,-h perfp_s
@@ -14292,7 +14420,7 @@
 :de:nh-koust ew_denom
 
 :le:nhne/w
-:de:nhn ew_denom comp_only
+:de:nhn ew_denom comp_only epic
 
 :le:nhopore/w
 :de:nho-por ew_denom
@@ -14426,6 +14554,9 @@
 
 :le:nosseu/w
 :de:noss euw
+
+:le:nossopoie/omai
+:de:nosso-poi ew_denom
 
 :le:nossotrofe/w
 :de:nosso-trof ew_denom
@@ -14615,10 +14746,13 @@
 
 :le:culoxi/zomai
 :de:cu^lox izw mp
-;pr,-isd doric *theocr.
+;pr,-isd doric Theocr.
 
 :le:culo/w
 :de:cu^l ow_denom
+
+:le:cuno/w
+:de:cu_n ow_denom
 
 :le:cure/w
 :de:cu^r ew_denom
@@ -14627,7 +14761,7 @@
 ;ao
 ;pp
 :de:cu^r aw_denom
-:de:cu^r ow_denom *hdt. ionic
+:de:cu^r ow_denom Hdt. ionic
 :de:c urw
 
 :le:cu/w
@@ -14697,7 +14831,7 @@
 ;pr imperf end:eon
 ;fu,-hs
 ;pf,-hk
-;pp,-h *luc.
+;pp,-h Luc.
 ;pf,-hk no_redupl ionic
 
 :le:o(dopoie/w
@@ -15428,7 +15562,7 @@
 @
 @ imperf 2nd sg end:eo unaugmented
 @ imperf 3rd sg
-@ act pres part poetic *anth.
+@ act pres part poetic Anth.
 
 :le:o)pipteu/w
 :de:o)pipt euw
@@ -15531,6 +15665,11 @@
 ;pf,-ak syll_aug
 ;pp,-a_ perfp_vow syll_aug r_e_i_alpha
 
+:le:o(re/w
+:de:o(r ew_denom comp_only
+;pr
+#pros par orew this may cause trouble..
+
 :le:o)rga/zw
 :de:o)rg azw
 ;pr
@@ -15557,6 +15696,9 @@
 ;ao
 ;pp
 ;ap
+
+:le:o)rgo/w
+:de:o)rg ow_denom comp_only
 
 :le:o)re/gnumi
 :de:o)reg numi
@@ -16091,7 +16233,7 @@
 :de:pai-fa ss
 ;pr,-ss
 
-:le:pai/w1
+:le:pai/w
 :vs:paihs reg_fut
 :de:pai reg_conj
 ;pr
@@ -16100,9 +16242,6 @@
 ;pf
 ;ap,-sq
 ;pp,perfp_s
-
-:le:pai/w2
-:vs:pai w_stem attic *ar.
 
 :le:paiwni/zw
 :de:paiwn izw
@@ -16241,16 +16380,10 @@
 ;ao epic unaugmented
 ;ao,-a_n doric
 
-:le:paraboleu/omai
-:de:para-bol euw mp
-
-:le:paradocologe/w
-:de:para-docolog ew_denom
-
 :le:parakoite/w
 :de:para-koit ew_denom
 
-:le:pareukhle/w
+:le:eu)khle/w
 :de:eu)khl ew_denom comp_only
 
 :le:parqeneu/w
@@ -16643,7 +16776,7 @@
 :le:peraio/w
 :de:perai ow_denom
 
-:le:pera/w1
+:le:pera/w
 -:vb:pera/an aw_pr pres inf act epic
 :de:per aw_denom
 ;pr
@@ -16672,6 +16805,9 @@
 :vs:perd w_stem mp
 @ act comp_only
 :vs:pard aor2
+:de:pard e_stem
+;fu,-hs mid
+#trying to capture pardh/somai
 :vs:pepord perf_act
 @ plup end:ein unaugmented
 
@@ -16688,6 +16824,7 @@
 
 :le:perisqene/w
 :de:peri-sqen ew_denom epic
+#how to get only the pple.
 
 :le:perisseu/w
 :de:periss euw
@@ -16709,11 +16846,11 @@
 :le:perpereu/omai
 :de:perper euw mp
 
-:le:*persi/zw
-:de:*pers izw
+:le:persi/zw
+:de:pers izw
 
-:le:*personome/omai
-:de:*personom ew_denom mp
+:le:personome/omai
+:de:personom ew_denom mp
 :de:personom ew_denom mp
 
 :le:pesseu/w
@@ -16754,7 +16891,7 @@
 @ epic unaugmented
 ;pp perfp_s
 :de:pit numi
-;pr w_stem *hes.
+;pr w_stem Hes.
 
 :le:pe/tomai
 :de:pet reg_conj mp
@@ -16786,12 +16923,14 @@
 :le:peu/qomai
 :de:peuq reg_conj mp poetic
 ;pr
-@ imperf *il. *eur.
+@ imperf Il. Eur.
 
 :le:phga/zw
 :de:phg azw
 
 :le:ph/gnumi
+:de:ph ss reg_conj
+;pr w_stem
 :vs:pa^g aor2_pass
 @ fut
 @ epic unaugmented
@@ -16859,6 +16998,7 @@
 
 :le:phro/w
 :de:phr ow_denom
+:de:pa_r ow_denom doric
 
 :le:phxu/nomai
 :de:phx unw mp
@@ -16899,7 +17039,7 @@
 ;ap
 :de:piez e_stem
 ;pr,epic,ionic imperf ind act epic unaugmented end:eun
-@ end:eu/menos pass *hdt.
+@ end:eu/menos pass Hdt.
 ;pr late
 
 :le:piqanologe/w
@@ -17254,8 +17394,10 @@
 :le:plhmmele/w
 :de:plhmmel ew_denom
 
-:le:plhmmure/w
+:le:plhmure/w
+:de:plhmu_r ew_denom
 :de:plhmmu_r ew_denom
+:de:plhm urw
 
 :le:plhrofore/w
 :de:plhro-for ew_denom
@@ -17289,15 +17431,18 @@
 ;ap,-xq
 ;pp perfp_g
 ;fp pass
-:de:plhg numi *thuc. comp_only
+:de:plhg numi Thuc. comp_only
 ;pr
 :de:pla_ ss
 
 :le:plinqeu/w
 :de:plinq euw
 
-:le:plinqo/mai
-:vs:plinq w_stem mp
+:le:plinqo/omai
+:vs:plinq ow_denom mp
+
+:le:plinqobole/w
+:de:plinqobol ew_denom
 
 :le:plinqopoie/w
 :de:plinqo-poi ew_denom
@@ -17477,9 +17622,10 @@
 ;pp
 ;ap
 ;ap fut
-
-:le:polemhsei/w
 :vs:polemhsei w_stem desiderative
+
+#:le:polemhsei/w
+#:vs:polemhsei w_stem desiderative moved to poleme/w
 
 :le:polemi/zw
 :de:polem izw
@@ -17509,6 +17655,9 @@
 ;pr
 ;ao,-iss epic unaugmented
 ;pp
+
+:le:polio/w
+:de:poli ow_denom
 
 :le:poliorke/w
 :de:poli^ork ew_denom
@@ -17542,6 +17691,9 @@
 :de:pomp euw
 ;pr
 ;pr ionic imperf iterative unaugmented
+
+:le:pompe/w
+:de:pomp ew_denom comp_only
 
 :le:pompostole/w
 :de:pompo-stol ew_denom
@@ -17590,6 +17742,8 @@
 
 :le:ponti/zw
 :de:pont izw
+
+:le:ponto/w
 :de:pont ow_denom
 
 :le:pontoporeu/w
@@ -17807,14 +17961,18 @@
 :le:procene/w
 :de:procen ew_denom
 
+:le:cene/w
+:de:cen ew_denom
+#to deal with augment placement
+
 :le:prooimia/zomai
 :de:prooimi azw mp
 
 :le:proswpolhpte/w
 :de:proswpolhpt ew_denom
 
-:le:protenqeu/w
-:de:protenq euw
+:le:tenqeu/w
+:de:tenq euw
 
 :le:protere/w
 :de:proter ew_denom
@@ -17940,8 +18098,8 @@
 :le:pugmaxe/w
 :de:pugma^x ew_denom
 
-:le:*puqagori/zw
-:de:*pu_qa^gor izw
+:le:puqagori/zw
+:de:pu_qa^gor izw
 
 :le:pu/qw
 :de:pu_q reg_conj
@@ -17964,8 +18122,8 @@
 :le:pukteu/w
 :de:pukt euw
 
-:le:*pulagore/w
-:de:*pu^la_gor ew_denom
+:le:pulagore/w
+:de:pu^la_gor ew_denom
 
 :le:pulo/w
 :de:pu^l ow_denom
@@ -17999,7 +18157,7 @@
 
 :le:purakte/w
 :de:pu^r-akt ew_denom
-:de:pu^r-akt ow_denom *strab. *luc.
+:de:pu^r-akt ow_denom Strab. Luc.
 
 :le:purghre/omai
 :de:purghr ew_denom mp
@@ -18022,6 +18180,9 @@
 
 :le:pureu/w
 :de:pu^r euw comp_only
+
+:le:puria/w
+:de:pur iaw_denom
 
 :le:purimane/w
 :de:pu^ri^-ma^n ew_denom
@@ -18353,6 +18514,9 @@
 :le:r(ombe/w
 :de:r(omb ew_denom comp_only
 
+:le:r(ofa/nw
+:de:r(of anw
+
 :le:r(ofe/w
 :de:r(of ew_denom
 ;pr
@@ -18402,8 +18566,8 @@
 ;pr end:o/w epic
 ;pr imperf
 
-:le:r(upo/omai
-:de:r(u^p ow_denom mp
+:le:r(upo/w
+:de:r(u^p ow_denom
 :vs:r(erupw perfp_vow
 
 :le:r(u/ptw
@@ -18448,8 +18612,8 @@
 ;ao
 @ 3rd pl
 
-:le:*sabbati/zw
-:de:*sabba^t izw
+:le:sabbati/zw
+:de:sabba^t izw
 
 :le:saghneu/w
 :de:sa^ghn euw
@@ -18495,6 +18659,7 @@
 :de:salpigg reg_conj
 ;fu
 ;ao
+;pp
 ;ao epic unaugmented
 :de:salp izw
 ;pr
@@ -18693,8 +18858,8 @@
 :le:sqe/nw
 :vs:sqen w_stem
 
-:le:*sibullia/w
-:de:*si^bull iaw_denom
+:le:sibullia/w
+:de:si^bull iaw_denom
 
 :le:siga/zw
 :de:si_g azw
@@ -18750,9 +18915,9 @@
 :le:sitagwge/w
 :de:si_ta^gwg ew_denom
 
-:le:site/omai
+:le:site/w
 :de:sit ew_denom
-;pr mp
+;pr
 ;pr ionic 3rd pl imperf iterative unaugmented end:e/skonto
 ;fu mid
 ;ap
@@ -18899,6 +19064,7 @@
 ;pp,perfp_d
 @ 3rd pl perf ind pass ionic end:datai
 @ 3rd pl plup ind pass ionic end:dato
+:de:ske azw
 
 :le:skeuopoie/w
 :de:skeuopoi ew_denom
@@ -18949,7 +19115,7 @@
 :le:skia/zw
 :de:ski azw
 ;pr
-;fu aw_fut *soph.
+;fu aw_fut Soph.
 ;ao,-as
 ;ap,-asq
 ;pp,-a perfp_d
@@ -19062,8 +19228,8 @@
 :le:skuqi/zw
 :de:sku^q izw
 
-:le:*skuqi/zw
-:de:*sku^q izw
+:le:skuqi/zw
+:de:sku^q izw
 
 :le:skuqra/zw
 :de:skuqr azw
@@ -19505,7 +19671,7 @@
 :vs:steu ath_primary,poetic,mp
 @ end:tai epic
 @ end:to epic imperf unaugmented
-@ end:ntai poetic *aesch. 3rd pl
+@ end:ntai poetic Aesch. 3rd pl
 
 :le:stefanhfore/w
 :de:stefa^nhfor ew_denom
@@ -19724,7 +19890,7 @@
 :le:strofodine/omai
 :de:strofo-di_n ew_denom mp
 
-:le:sto/rennumi
+:le:store/nnumi
 :de:str o_stem
 ;fu,-ws
 ;ao,-ws
@@ -19747,6 +19913,8 @@
 :de:strwn numi
 ;pr
 ;pr w_stem imperf
+:de:strwnnu_ reg_conj
+;pr
 
 :le:strwfa/w
 :de:strwf aw_denom
@@ -19792,8 +19960,8 @@
 ;fu
 ;ao
 
-:le:*subari/zw
-:de:*su^ba^r izw
+:le:subari/zw
+:de:su^ba^r izw
 
 :le:suggrafe/w
 :de:sug-graf ew_denom  comp_only
@@ -19844,6 +20012,8 @@
 
 :le:sumbole/w
 :de:sumbol ew_denom
+
+:le:sumboleu/w
 :de:sumbol euw
 
 :le:sumposiarxe/w
@@ -19864,8 +20034,8 @@
 :de:tu_ri ss doric 
 ;pr,-sd doric
 
-:le:*suri/zw
-:de:*sur izw
+:le:suri/zw
+:de:sur izw
 ;pr
 ;fu,-is
 
@@ -19995,7 +20165,7 @@
 :le:sxedia/zw
 :de:sxedi azw
 
-:le:sxe/qw%2
+:le:e)/xw
 :vs:sxeq aor2
 @ 3rd sg epic unaugmented
 @ 3rd pl epic unaugmented
@@ -20010,7 +20180,7 @@
 :de:sxhmat izw
 ;pr
 ;fu
-;pp *arist.
+;pp Arist.
 
 :le:sxhmatopoie/w
 :de:sxhma^to-poi ew_denom
@@ -20030,7 +20200,7 @@
 :le:sxola/zw
 :de:sxol azw
 
-:le:sw/zw
+:le:sw/|zw
 :de:swz reg_conj
 ;pr
 ;fu
@@ -20064,16 +20234,19 @@
 ;fu,-ws
 ;ao,-ws
 ;ap
-@ aor inf pass
-@ aor imperat pass 3rd sg
+@ aor imperat pas@ aor inf pass
+s 3rd sg
 @ end:en 3rd pl epic
+:vs:sw w_stem
+
+
 
 :le:swke/w
 :de:swk ew_denom
 ;pr
 
-:le:*swkrate/w
-:de:*swkra^t ew_denom
+:le:swkrate/w
+:de:swkra^t ew_denom
 
 :le:swmaske/w
 :de:swm-ask ew_denom
@@ -20099,14 +20272,14 @@
 :le:sw/xw
 :vs:swx w_stem ionic
 
-:le:sw/w
-:vs:sw w_stem
-
 :le:tageu/w
 :de:ta_g euw
 
 :le:tage/w
 :de:ta_g ew_denom
+
+:le:tainari/zw
+:de:tainar izw
 
 :le:tainio/w
 :de:taini ow_denom
@@ -20180,15 +20353,15 @@
 :le:tarixopwle/w
 :de:ta^ri_xopwl ew_denom
 
-:le:*tartaro/w
-:de:*tarta^r ow_denom
+:le:tartaro/w
+:de:tarta^r ow_denom
 
 :le:tarxu/w
 :de:tarxu_ reg_conj
 ;pr
 ;fu
 ;ao
-;ap epic unaugmented *anth.
+;ap epic unaugmented Anth.
 
 :le:ta/ssw
 :vs:ta^g aor2_pass
@@ -20222,6 +20395,9 @@
 
 :le:tafreu/w
 :de:tafr euw
+
+:le:taxe/w
+:de:ta^x ew_denom
 
 :le:taxu/naute/w
 :de:ta^xu-naut ew_denom
@@ -20429,6 +20605,9 @@
 :le:tereti/zw
 :de:teret izw
 
+:le:termati/zw
+:de:termat izw
+
 :le:terqreu/omai
 :de:terqr euw mp
 
@@ -20554,8 +20733,13 @@
 :le:texnologe/w
 :de:texnolog ew_denom
 
-:le:th=
-:vb:th= ath_secondary 2nd sg aor imperat act epic
+#:le:th=
+#:vb:th= ath_secondary 2nd sg aor imperat act epic
+
+:le:thgani/zw
+:de:thgan izw
+:de:taghn izw
+# see a)pothgani/zw
 
 :le:th/kw
 :vs:tethk perf_act
@@ -20615,6 +20799,7 @@
 @ mp
 @ end:esai mid 2nd sg
 @ end:eso imperat 2nd sg mid
+#@ opt fixed in source file HD
 @ end:esso imperat 2nd sg epic mid
 @ end:h/menai pres inf act epic
 @ end:e/men emi_pr pres inf act epic
@@ -20965,6 +21150,9 @@
 :le:traghmati/zw
 :de:tra^ghma^t izw
 
+:le:tragikeu/omai
+:de:tragik euw mp
+
 :le:tragofage/w
 :de:tra^go-fa^g ew_denom
 
@@ -21293,13 +21481,13 @@
 :le:tuntla/zw
 :de:tuntl azw
 
-:le:tu/nw
-:de:e)n-t unw
+:le:e)ntu/nw
+:de:e)nt unw
 ;pr
 ;pr imperf epic unaugmented
 ;fu
 ;ao epic unaugmented
-:vs:e)n-tu w_stem epic
+:vs:e)ntu w_stem epic
 
 :le:tupo/w
 :de:tu^p ow_denom
@@ -21499,13 +21687,14 @@
 :vs:i)sxn ew_pr mp comp_only
 :vs:sxhs reg_fut mid comp_only
 :vs:sx aor2 mid comp_only
-:vs:e)sxh perfp_vow
+:vs:e)sxh perfp_vow comp_only
 @ plup 3rd sg
 
-:le:u(pna/w
-:de:u(pn aw_denom epic
-;pr
-@ end:w/w
+#:le:u(pna/w
+#:de:u(pn aw_denom epic
+#;pr
+#@ end:w/w
+#MiddleLiddell fossil see u(pno/w, w/w
 
 :le:u(pni/zw
 :de:u(pn izw comp_only
@@ -21515,6 +21704,9 @@
 
 :le:u(pno/w
 :de:u(pn ow_denom
+;pr
+:vs:u(pnw w_stem epic
+@ end:w/w
 
 :le:u(pnw/ssw
 :de:u(pnw ss
@@ -21528,8 +21720,8 @@
 :le:u(ptio/omai
 :de:u(pti ow_denom pass
 
-:le:u(pwpia/zw
-:de:u(pwpi azw
+:le:w)pia/zw
+:de:w)pi azw comp_only
 
 :le:u(stere/w
 :de:u(ster ew_denom
@@ -21597,7 +21789,7 @@
 :le:fai/nw
 :de:fa einw
 ;pr
-:vs:fa^n  aor2_pass
+:vs:fa^n aor2_pass
 @ fut
 @ end:en 3rd pl aor ind pass epic unaugmented
 @ end:h/h| 3rd sg aor subj pass epic
@@ -21606,7 +21798,7 @@
 @ 3rd sg ind pass epic
 :vs:faanq aor_pass epic
 :vs:fan aor2
-@ opt end:oi/hn
+# @ opt end:oi/hn this is future
 :de:f ainw
 ;pr
 @ iterative pass unaugmented 3rd sg imperf
@@ -21627,8 +21819,32 @@
 @ end:nto 3rd pl plup ind pass
 ;va,-ant
 ;va,-an hs_es
-:vs:fa_n ew_fut poetic *eur. pb:a)na/
+:vs:fa_n ew_fut poetic Eur. pb:a)na/
 :vb:fainome/nhfin w_stem pres part mp fem dat sg epic
+
+:le:profai/nw
+:vb:prou)/fhnas aor1 2nd sg aor ind act
+:vb:prou)/fainon w_stem 1st sg imperf ind act
+:vb:prou)/fainon w_stem 3rd pl imperf ind act
+:vb:prou)/faine w_stem 3rd sg imperf ind act
+:vb:prou)/faines w_stem 2nd sg imperf ind act
+:vb:prou)fai/nete w_stem 2nd pl imperf ind act
+:vb:prou)fai/neto w_stem 3rd sg imperf ind mid
+:vb:prou)/fhne aor1 3rd sg aor ind act
+:vb:prou)/fhnan aor1 3rd pl aor ind act
+:vb:prou/fhnas aor1 2nd sg aor ind act
+:vb:prou/fainon w_stem 1st sg imperf ind act
+:vb:prou/fainon w_stem 3rd pl imperf ind act
+:vb:prou/faine w_stem 3rd sg imperf ind act
+:vb:prou/faines w_stem 2nd sg imperf ind act
+:vb:proufai/nete w_stem 2nd pl imperf ind act
+:vb:proufai/neto w_stem 3rd sg imperf ind mid
+:vb:prou/fhne aor1 3rd sg aor ind act
+:vb:prou/fhnan aor1 3rd pl aor ind act
+:vs:prou)fan aor2_pass crasis augment
+:vs:proufan aor2_pass crasis augment
+#Ugly fix; only remaining issue is I can't tell it we have an augment:-)
+
 
 :le:falagge/w
 :de:fa^lagg ew_denom comp_only
@@ -21882,7 +22098,7 @@
 
 :le:fqi/w
 :de:fqi^ reg_conj
-;ao act causal *aesch.
+;ao act causal Aesch.
 ;pp perfp_vow
 @ 3rd sg
 @ plup
@@ -21909,7 +22125,7 @@
 ;ao act causal
 ;ap
 @ 3rd pl end:en epic
-:vs:fqeis aor1 epic *hes.
+:vs:fqeis aor1 epic Hes.
 
 :le:fqogga/zomai
 :de:fqogg azw mp
@@ -22264,9 +22480,9 @@
 ;pp
 ;pp 3rd sg plup ind pass
 :de:frag numi
-;pr *anth. *plut.
+;pr Anth. Plut.
 :de:farg numi,poetic
-;pr soph pres mp
+;pr Soph pres mp
 ;pr
 
 :le:fratria/zw
@@ -22297,7 +22513,7 @@
 ;fu
 
 :le:fri/ssw
-:vs:pefri_k aor2 part act *pind.
+:vs:pefri_k aor2 part act Pind.
 :de:fri_ reg_conj
 ;pf
 :de:fri_ ss
@@ -22370,6 +22586,9 @@
 
 :le:fula/zw
 :de:fu_l azw
+
+:le:fulake/w
+:de:fulak ew_denom comp_only
 
 :le:fularxe/w
 :de:fu_larx ew_denom
@@ -22676,7 +22895,7 @@
 
 :le:xasme/omai
 :de:xasm ew_denom mp
-;pr end:eu/menos part *theocr.
+;pr end:eu/menos part Theocr.
 
 :le:xate/w
 :de:xa^t ew_denom pres
@@ -22699,6 +22918,7 @@
 :vs:xes aor2
 :vs:kexod perf_act
 :vs:kexo perfp_d
+:vs:xesei w_stem desiderative
 
 :le:xeilopote/w
 :de:xeilo-pot ew_denom
@@ -22733,6 +22953,9 @@
 :le:xeiri/zw
 :de:xeir izw comp_only
 
+:le:xeirografe/w
+:de:xeiro-graf ew_denom
+
 :le:xeironome/w
 :de:xeiro-nom ew_denom
 
@@ -22764,15 +22987,15 @@
 :de:xersonhs izw
 :de:xerronhs izw attic
 
-:le:xesei/w
-:vs:xesei w_stem desiderative
+#:le:xesei/w
+#:vs:xesei w_stem desiderative moved to xe/zw
 
 :le:xe/w
 :de:x ev_stem
 ;pr,evw_pr
 @ mid
-;pr,-ei epic *hes.
-;pr,-eu epic *hes.
+;pr,-ei epic Hes.
+;pr,-eu epic Hes.
 ;fu,-e,ew_fut
 @ mid
 ;fu,-eu reg_fut epic
@@ -22798,7 +23021,8 @@
 :vb:e)/xunto ath_u_aor mid aor ind 3rd pl epic
 :vb:xunto ath_u_aor mid aor ind 3rd pl epic unaugmented
 :vb:e)/xuto ath_u_aor mid aor ind 3rd sg epic
-:de:x unw pres *luc. later comp_only
+:de:x unw pres Luc. later comp_only
+:de:xunn w_stem pres Luc. later comp_only
 
 :le:xhleu/w
 :de:xhl euw
@@ -22885,6 +23109,9 @@
 
 :le:xordeu/w
 :de:xord euw
+
+:le:xordi/zw
+:de:xord izw
 
 :le:xoreu/w
 :de:xor euw
@@ -23001,7 +23228,7 @@
 :le:xremi/zw
 :de:xrem izw
 ;pr
-;ao,-is epic unaugmented 3rd pl aor act *hes.
+;ao,-is epic unaugmented 3rd pl aor act Hes.
 
 :le:xre/mptomai
 :de:xrem ptw mp
@@ -23104,7 +23331,7 @@
 ;ap
 ;pp
 ;va,-t
-:de:xrwn numi  *luc.
+:de:xrwn numi  Luc.
 ;pr
 
 :le:xrwmati/zw
@@ -23278,11 +23505,8 @@
 :le:yhlafa/w
 :de:yhla^f aw_denom
 
-:le:*yhni/zw
-:de:*yhn izw
-
-:le:yhfi/zomai
-:de:yhf izw mp
+:le:yhni/zw
+:de:yhn izw
 
 :le:yhfi/zw
 :de:yhf izw
@@ -23290,7 +23514,7 @@
 @ mp
 ;fu ew_fut
 ;ap,-isq
-;ao,-is act 3rd pl ind act attic *soph.
+;ao,-is act 3rd pl ind act attic Soph.
 ;pf
 
 :le:yhfofore/w
@@ -23373,6 +23597,9 @@
 :de:ywx reg_conj
 ;pr
 
+:le:w)|a/zw
+:de:w)| azw comp_only
+
 :le:w)ba/zw
 :de:w)b azw
 ;pr
@@ -23417,6 +23644,9 @@
 
 :le:w)qi/zomai
 :de:w)q izw mp
+
+:le:w)ku/nw
+:de:w)k unw
 
 :le:w)moqete/w
 :de:w)mo-qet ew_denom
@@ -23500,9 +23730,6 @@
 :le:a)kaire/w
 :de:a)kair ew_denom
 
-:le:eu)sxole/w
-:de:eu)sxol ew_denom
-
 :le:sitarke/w
 :de:sitark ew_denom
 
@@ -23511,9 +23738,6 @@
 
 :le:koinopoie/w
 :de:koinopoi ew_denom
-
-:le:eu)xrhste/omai
-:de:eu)xrhst ew_denom mp
 
 :le:politografe/w
 :de:politograf ew_denom
@@ -23531,7 +23755,7 @@
 :vs:mnhmisk w_stem mp
 
 :le:a)hqe/ssw
-:vs:a)hqes w_stem imperf ind act *apoll.
+:vs:a)hqes w_stem imperf ind act Apoll.
 
 :le:ai)nigmati/zw
 :de:ai)nigmat izw

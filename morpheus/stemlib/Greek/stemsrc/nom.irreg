@@ -45,7 +45,7 @@
 :wd:a)/ndras   irreg_decl3 masc acc pl
 :wd:a)ne/ras   irreg_decl3 masc acc pl epic
 
-:le:a)rno/s
+:le:a)rh/n
 :wd:a)rno/s   irreg_decl3 masc/fem gen sg
 :wd:a)rni/   irreg_decl3 masc/fem dat sg
 :wd:a)/rna   irreg_decl3 masc/fem acc sg
@@ -736,19 +736,20 @@
 :wd:ta_/s   article fem acc pl
 :wd:ta/   article neut acc pl
 
-:le:o)/nta
-:wd:o)/nta   irreg_decl3 neut nom/voc/acc pl
-:wd:o)ntw=n   irreg_decl3 neut gen pl
-:wd:ou)si/n   irreg_decl3 neut dat pl attic epic doric ionic nu_movable
-:wd:ou)si/   irreg_decl3 neut dat pl attic epic doric ionic
-:wd:o)/ntesin   irreg_decl3 neut dat pl nu_movable poetic
-:wd:o)/ntesi   irreg_decl3 neut dat pl poetic
-:wd:oi)si/n   irreg_decl3 neut dat pl doric aeolic nu_movable
-:wd:oi)si/   irreg_decl3 neut dat pl doric aeolic
-:wd:ou)si/n   irreg_decl3 neut dat pl epic nu_movable
-:wd:ou)si/   irreg_decl3 neut dat pl epic
-:wd:o)/ntessin   irreg_decl3 neut dat pl epic aeolic nu_movable
-:wd:o)/ntessi   irreg_decl3 neut dat pl epic aeolic
+#:le:o)/nta
+#:wd:o)/nta   irreg_decl3 neut nom/voc/acc pl
+#:wd:o)/ntwn   irreg_decl3 neut gen pl
+#:wd:ou)=sin   irreg_decl3 neut dat pl attic epic doric ionic nu_movable
+#:wd:ou)=si   irreg_decl3 neut dat pl attic epic doric ionic
+#:wd:o)/ntesin   irreg_decl3 neut dat pl nu_movable poetic
+#:wd:o)/ntesi   irreg_decl3 neut dat pl poetic
+#:wd:oi)si/n   irreg_decl3 neut dat pl doric aeolic nu_movable
+#:wd:oi)si/   irreg_decl3 neut dat pl doric aeolic
+#:wd:ou)=si/n   irreg_decl3 neut dat pl epic nu_movable
+#:wd:ou)=si/   irreg_decl3 neut dat pl epic
+#:wd:o)/ntessin   irreg_decl3 neut dat pl epic aeolic nu_movable
+#:wd:o)/ntessi   irreg_decl3 neut dat pl epic aeolic
+#I edited a couple of accents, but regardless this shld just go to eimi sorry
 
 :le:o(/sge
 :wd:o(/ge rel_pron neut nom voc acc sg epic
@@ -1134,7 +1135,7 @@
 :wd:po/dessi   irreg_decl3 masc dat pl epic aeolic
 :wd:po/das   irreg_decl3 masc acc pl
 
-:le:sautou=
+:le:seautou=
 :wd:sautou=   pron1 masc/neut gen sg
 :wd:seautou=   pron1 masc/neut gen sg
 :wd:sewutou=   pron1 masc/neut gen sg ionic
@@ -1348,8 +1349,8 @@
 :wd:tew| indef_pron enclitic dat sg ionic epic
 :wd:tw| indef_pron enclitic dat sg attic epic
 :wd:tewn indef_pron enclitic gen pl ionic epic
-:wd:a)/ssa indef_pron enclitic neut acc pl epic
-:wd:tinw=n indef_pron enclitic gen pl enclitic
+:wd:a)/ssa indef_pron enclitic neut nom acc pl epic
+:wd:a)/tta indef_pron enclitic neut nom acc pl epic
 :wd:tinos   indef gen sg enclitic
 :wd:tini   indef dat sg enclitic
 :wd:tina   indef masc/fem acc sg enclitic

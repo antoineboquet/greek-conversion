@@ -268,32 +268,6 @@
 :le:baqupe/dios
 :aj:baqu-pedi os_on
 
-:le:bh=ma
-:no:ba_ ma_matos neut doric
-
-:le:barubo/hs
-:no:baru-bo hs_ou stem_acc masc
-
-:le:baru/gdoupos
-:aj:baru-gdoup os_on
-
-:le:baru/kompos
-:aj:baru-komp os_on
-
-
-:le:baru/logois
-:aj:baru-log os_on
-
-:le:baru/ophs
-:no:baru-op hs_ou masc
-
-:le:barufqegkth/s
-:no:barufqegkt  hs_ou masc suff_acc
-
-:le:batei/a
-:no:batei h_hs fem 
-:no:bati h_hs fem suff_acc
-
 :le:biaths
 :no:bia_t hs_ou masc suff_acc
 
@@ -315,7 +289,6 @@
 
 :le:bromia/s
 :no:bromia s_dos stem_acc fem
-
 
 :le:bwla/kios
 :aj:bwlaki os_h_on
@@ -488,9 +461,6 @@
 :le:e)/corkos
 :aj:e)cork os_on
 
-:le:e)pagori/a
-:no:e)p-agori h_hs,fem,stem_acc
-
 :le:e)/palpnos
 :aj:e)p-alpn os_on
 
@@ -556,9 +526,6 @@
 
 :le:eu)agkh/s
 :aj:eu)agk hs_es suff_acc
-
-:le:eu)agori/a
-:no:eu)agori h_hs,fem,stem_acc
 
 :le:eu)a/gwn
 :no:eu)-agw n_nos
@@ -841,12 +808,6 @@
 :le:mh/trws
 :no:ma_tr ws_wos,masc doric
 
-:le:megalhnori/a
-:no:mega^la_nori h_hs stem_acc fem  doric
-
-:le:megalh/nwr
-:no:mega^l-a_n wr_oros stem_acc masc fem doric
-
 :le:melihdh/s
 :aj:meli-a_d hs_es suff_acc   doric
 
@@ -888,11 +849,8 @@
 :aj:nhpoin os_on
 :aj:na_poin os_on doric
 
-:le:nauagi/a
-:no:nauagi h_hs,stem_acc,fem
-
 :le:naupru/tanis
-:no:nau-prutan is_ews,fem
+:aj:nau-prutan is_ews
 
 :le:nausikluto/s
 :aj:nausi-klut os_h_on suff_acc
@@ -1179,9 +1137,6 @@
 :le:xrushla/katos
 :aj:xru_s-a_laka^t os_on   doric
 
-:le:xruso/karpos
-:aj:xru_so-karp os_on
-
 :le:xruso/peza
 :no:xru_so-pez a_hs,fem
 
@@ -1190,20 +1145,6 @@
 
 :le:xruso/plokos
 :aj:xru_so-plok os_on
-
-:le:ya/gios
-:aj:yagi os_h_on
-:dnum	[0]	&3askew&.
-
-:le:yefhno/s
-:aj:yefenn os_h_on suff_acc doric
-
-:le:w)ku/ths
-:no:w)kuta_ s_tos ant_acc fem  doric
-
-:le:w)ku/s
-:aj:w)kutat os_h_on irreg_superl
-:aj:w)kuter os_h_on irreg_comp
 
 :le:w)mobo/los
 :aj:w)mo-bol os_on

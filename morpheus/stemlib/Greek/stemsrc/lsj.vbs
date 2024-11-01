@@ -304,8 +304,8 @@
 :le:a)qemitofage/w
 :de:a)qemitofag ew_denom
 
-:le:*)aqhnai/zw
-:de:*)aqhna izw
+:le:a)qhnai/zw
+:de:a)qhna izw
 
 :le:a)qlio/omai
 :de:a)qli ow_denom mp
@@ -334,8 +334,8 @@
 :le:ai)gotrixe/w
 :de:ai)gotrix ew_denom
 
-:le:*ai)guptio/w
-:de:*ai)gupti ow_denom
+:le:ai)guptio/w
+:de:ai)gupti ow_denom
 
 :le:ai)qerobate/w
 :de:ai)qerobat ew_denom
@@ -349,8 +349,8 @@
 :le:ai)qero/omai
 :de:ai)qer ow_denom mp
 
-:le:*ai)qiopi/zw
-:de:*ai)qiop izw
+:le:ai)qiopi/zw
+:de:ai)qiop izw
 
 :le:ai)qriopoie/w
 :de:ai)qriopoi ew_denom
@@ -628,8 +628,8 @@
 :le:a)lea/zw
 :de:a)le azw
 
-:le:*)alecandri/zw
-:de:*)alecandr izw
+:le:a)lecandri/zw
+:de:a)lecandr izw
 
 :le:a)leuropoie/w
 :de:a)leuropoi ew_denom
@@ -865,8 +865,8 @@
 :le:a)mudro/w
 :de:a)mudr ow_denom
 
-:le:*)amuklaia/zw
-:de:*)amuklai azw
+:le:a)muklaia/zw
+:de:a)muklai azw
 
 :le:a)muni/zw
 :de:a)mun izw
@@ -943,11 +943,8 @@
 :le:a)mfidhria/omai
 :de:a)mfidhr iaw_denom mp
 
-:le:a)mfidine/omai
-:de:a)mfidin ew_denom mp
-
-:le:a)mfidindineu/w
-:de:a)mfidindin euw
+:le:a)mfidineu/w
+:de:a)mfidin euw
 
 :le:a)mfidokeu/w
 :de:a)mfidok euw
@@ -2200,7 +2197,7 @@
 :le:a)natroxa/zw
 :de:a)natrox azw
 
-:le:a)natru\/ga/w
+:le:a)natruga/w
 :de:a)natrug aw_denom
 
 :le:a)natuli/ssw
@@ -2352,9 +2349,6 @@
 
 :le:a)nayhlafa/w
 :de:a)nayhlaf aw_denom
-
-:le:a)nayhfi/zw
-:de:a)nayhf izw
 
 :le:a)nayofe/w
 :de:a)nayof ew_denom
@@ -2527,9 +2521,6 @@
 :le:a)nqippeu/w
 :de:a)nqipp euw
 
-:le:a)nqista/w
-:de:a)nqist aw_denom
-
 :le:a)nqografe/w
 :de:a)nqograf ew_denom
 
@@ -2689,8 +2680,8 @@
 :le:a)nixneu/w
 :de:a)nixn euw
 
-:le:*)annibi/zw
-:de:*)annib izw
+:le:a)nnibi/zw
+:de:a)nnib izw
 
 :le:a)nnwnarxe/w
 :de:a)nnwnarx ew_denom
@@ -2884,9 +2875,9 @@
 :le:a)ntapopai/zw
 :de:a)ntapopa izw
 
-:le:a)ntapore/w
-:de:a)ntapor ew_denom
-
+#:le:a)ntapore/w
+#:de:a)ntapor ew_denom
+#
 :le:a)ntapotafreu/w
 :de:a)ntapotafr euw
 
@@ -3184,8 +3175,8 @@
 :le:a)ntighrotrofe/w
 :de:a)ntighrotrof ew_denom
 
-:le:*)antigoni/zw
-:de:*)antigon izw
+:le:a)ntigoni/zw
+:de:a)ntigon izw
 
 :le:a)ntigumnasiarxe/w
 :de:a)ntigumnasiarx ew_denom
@@ -3865,9 +3856,6 @@
 :le:a)ntitexne/w
 :de:a)ntitexn ew_denom
 
-:le:a)ntithre/w
-:de:a)ntithr ew_denom
-
 :le:a)ntitima/w
 :de:a)ntitim aw_denom
 
@@ -3993,9 +3981,6 @@
 
 :le:a)ntixwre/w
 :de:a)ntixwr ew_denom
-
-:le:a)ntiyhfi/zomai
-:de:a)ntiyhf izw mp
 
 :le:a)ntiywmi/zw
 :de:a)ntiywm izw
@@ -4450,7 +4435,7 @@
 :le:a)povhle/w
 :de:a)povhl ew_denom
 
-:le:a)peile/w
+:le:a)peile/w2
 :de:a)peil ew_denom
 
 :le:a)peiragaqe/w
@@ -4599,9 +4584,6 @@
 
 :le:a)phxe/w
 :de:a)phx ew_denom
-
-:le:a)piqu/nw
-:de:a)piq unw
 
 :le:a)pikma/w
 :de:a)pikm aw_denom
@@ -4825,9 +4807,6 @@
 :le:a)podhlo/w
 :de:a)podhl ow_denom
 
-:le:a)podhme/w
-:de:a)podhm ew_denom
-
 :le:a)podiaire/w
 :de:a)podiair ew_denom
 
@@ -5031,9 +5010,6 @@
 
 :le:a)pokaqi/zw
 :de:a)pokaq izw
-
-:le:a)pokaqista/w
-:de:a)pokaqist aw_denom
 
 :le:a)pokaisaro/omai
 :de:a)pokaisar ow_denom mp
@@ -5400,8 +5376,6 @@
 
 :le:a)pomalaki/zomai
 :de:a)pomalak izw mp
-
-:le:a)pomalqaki/zomai
 :de:a)pomalqak izw mp
 
 :le:a)pomanteu/omai
@@ -5425,8 +5399,8 @@
 :le:a)pomeiouri/zw
 :de:a)pomeiour izw
 
-:le:a)pomeiourmuouri/zw
-:de:a)pomeiourmuour izw
+:le:a)pomuouri/zw
+:de:a)pomuour izw
 
 :le:a)pomeio/w
 :de:a)pomei ow_denom
@@ -5698,8 +5672,9 @@
 :le:a)pophni/zomai
 :de:a)pophn izw mp
 
-:le:a)poph/ssw
-:de:a)poph ss
+#:le:a)poph/ssw
+#:de:a)poph ss
+#ought to be solved by adding stem to ph/gnumi
 
 :le:a)popia/zw
 :de:a)popi azw
@@ -6279,9 +6254,7 @@
 
 :le:a)poteleio/w
 :de:a)potelei ow_denom
-
-:le:a)poteleiteleo/w
-:de:a)poteleitele ow_denom
+:de:a)potele ow_denom
 
 :le:a)poteleuta/w
 :de:a)poteleut aw_denom
@@ -6309,12 +6282,6 @@
 
 :le:a)potefro/w
 :de:a)potefr ow_denom
-
-:le:a)pothgani/zw
-:de:a)pothgan izw
-
-:le:a)pothre/w
-:de:a)pothr ew_denom
 
 :le:a)potila/w
 :de:a)potil aw_denom
@@ -6571,9 +6538,6 @@
 :le:a)poya/w
 :de:a)poy aw_denom
 
-:le:a)poyhfi/zomai
-:de:a)poyhf izw mp
-
 :le:a)poyilo/w
 :de:a)poyil ow_denom
 
@@ -6610,8 +6574,8 @@
 :le:a)pwrugi/zw
 :de:a)pwrug izw
 
-:le:*)arabi/zw
-:de:*)arab izw
+:le:a)rabi/zw
+:de:a)rab izw
 
 :le:a)ra/zw
 :de:a)r azw
@@ -6661,7 +6625,7 @@
 :le:a)rhteu/w
 :de:a)rht euw
 
-:le:a)rqre/mbole/w
+:le:a)rqrembole/w
 :de:a)rqrembol ew_denom
 
 :le:a)rima/zw
@@ -6673,14 +6637,14 @@
 :le:a)ristoprage/w
 :de:a)ristoprag ew_denom
 
-:le:*)aristoteli/zw
-:de:*)aristotel izw
+:le:a)ristoteli/zw
+:de:a)ristotel izw
 
 :le:a)rixa/omai
 :de:a)rix aw_denom mp
 
-:le:*)arkadi/zw
-:de:*)arkad izw
+:le:a)rkadi/zw
+:de:a)rkad izw
 
 :le:a)rkteu/w
 :de:a)rkt euw
@@ -6712,8 +6676,8 @@
 :le:a)rmenopoie/w
 :de:a)rmenopoi ew_denom
 
-:le:*(armoni/zw
-:de:*(armon izw
+:le:a(rmoni/zw
+:de:a(rmon izw
 
 :le:a)rotreu/w
 :de:a)rotr euw
@@ -6835,7 +6799,7 @@
 :le:a)rxinakore/w
 :de:a)rxinakor ew_denom
 
-:le:a)rxipolia/rxe/w
+:le:a)rxipoliarxe/w
 :de:a)rxipoliarx ew_denom
 
 :le:a)rxiprostate/w
@@ -6895,8 +6859,8 @@
 :le:a)sqma/omai
 :de:a)sqm aw_denom mp
 
-:le:*)asiarxe/w
-:de:*)asiarx ew_denom
+:le:a)siarxe/w
+:de:a)siarx ew_denom
 
 :le:a)sigmopoie/w
 :de:a)sigmopoi ew_denom
@@ -7357,9 +7321,6 @@
 :le:a)fippeu/w
 :de:a)fipp euw
 
-:le:a)fista/w
-:de:a)fist aw_denom
-
 :le:a)fistore/w
 :de:a)fistor ew_denom
 
@@ -7402,8 +7363,8 @@
 :le:a)fria/w
 :de:a)fr iaw_denom
 
-:le:*)afrodisia/zw
-:de:*)afrodisi azw
+:le:a)frodisia/zw
+:de:a)frodisi azw
 
 :le:a)froneu/omai
 :de:a)fron euw mp
@@ -7461,9 +7422,7 @@
 
 :le:a)xreio/w
 :de:a)xrei ow_denom
-
-:le:a)xreixreo/w
-:de:a)xreixre ow_denom
+:de:a)xre ow_denom
 
 :le:a)xrhmate/w
 :de:a)xrhmat ew_denom
@@ -7522,8 +7481,8 @@
 :le:babi/zw
 :de:bab izw
 
-:le:a)wtu/zw
-:de:a)wt uzw
+:le:babu/zw
+:de:bab uzw
 
 :le:babra/zw
 :de:babr azw
@@ -7546,8 +7505,8 @@
 :le:bakthreu/w
 :de:bakthr euw
 
-:le:*bakxio/w
-:de:*bakxi ow_denom
+:le:bakxio/w
+:de:bakxi ow_denom
 
 :le:balanhfage/w
 :de:balanhfag ew_denom
@@ -7780,9 +7739,6 @@
 :le:bostruxi/zw
 :de:bostrux izw
 
-:le:botani/zw
-:de:botan izw
-
 :le:botanologe/w
 :de:botanolog ew_denom
 
@@ -7924,7 +7880,7 @@
 :le:bu/zw
 :de:b uzw
 
-:le:bu/zw
+:le:bu/zw2
 :de:b uzw
 
 :le:buqa/w
@@ -7932,8 +7888,6 @@
 
 :le:bukana/w
 :de:bukan aw_denom
-
-:le:boukana/w
 :de:boukan aw_denom
 
 :le:bullo/w
@@ -7945,10 +7899,10 @@
 :le:bursotome/w
 :de:bursotom ew_denom
 
-:le:bursdome/w
-:de:bursdom ew_denom
+:le:bussodomeu/w
+:de:bursodom ew_denom
 
-:le:bwqe/w
+:le:bohqe/w
 :de:bwq ew_denom
 
 :le:bwla/zw
@@ -7969,8 +7923,8 @@
 :le:bwmoloxe/w
 :de:bwmolox ew_denom
 
-:le:bwmoloxnike/w
-:de:bwmoloxnik ew_denom
+:le:bwmonike/w
+:de:bwmonik ew_denom
 
 :le:gaggalia/w
 :de:gaggal iaw_denom
@@ -7984,7 +7938,7 @@
 :le:gazofulake/w
 :de:gazofulak ew_denom
 
-:le:gaqe/w
+:le:ghqe/w
 :de:gaq ew_denom
 
 :le:gaio/w
@@ -8004,8 +7958,6 @@
 
 :le:galaktopote/w
 :de:galaktopot ew_denom
-
-:le:galaktopwte/w
 :de:galaktopwt ew_denom
 
 :le:galaktotrofe/w
@@ -8047,7 +7999,7 @@
 :le:gamyo/w
 :de:gamy ow_denom
 
-:le:gaorge/w
+:le:gewrge/w
 :de:gaorg ew_denom
 
 :le:gargari/zw
@@ -8131,8 +8083,8 @@
 :le:gera/zw
 :de:ger azw
 
-:le:nerani/zw
-:de:neran izw
+:le:gerani/zw
+:de:geran izw
 
 :le:geronteu/w
 :de:geront euw
@@ -8308,8 +8260,8 @@
 :le:gorgeu/w
 :de:gorg euw
 
-:le:*gorgia/zw
-:de:*gorgi azw
+:le:gorgia/zw
+:de:gorgi azw
 
 :le:grai/zw
 :de:gra izw
@@ -9574,8 +9526,8 @@
 :le:diaporeu/w
 :de:diapor euw
 
-:le:diapore/w
-:de:diapor ew_denom
+#:le:diapore/w
+#:de:diapor ew_denom
 
 :le:diaporqe/w
 :de:diaporq ew_denom
@@ -9750,9 +9702,7 @@
 
 :le:diasarkwni/zw
 :de:diasarkwn izw
-
-:le:diasarkwnsarwni/zw
-:de:diasarkwnsarwn izw
+:de:diasarwn izw
 
 :le:diasaulo/omai
 :de:diasaul ow_denom mp
@@ -10006,9 +9956,6 @@
 :le:diatele/w
 :de:diatel ew_denom
 
-:le:diathre/w
-:de:diathr ew_denom
-
 :le:diathrtare/w
 :de:diathrtar ew_denom
 
@@ -10090,9 +10037,6 @@
 :le:diauga/zw
 :de:diaug azw
 
-:le:diauge/w
-:de:diaug ew_denom
-
 :le:diaugi/zw
 :de:diaug izw
 
@@ -10158,9 +10102,6 @@
 
 :le:diafra/zw
 :de:diafr azw
-
-:le:diafra/ssw
-:de:diafra ss
 
 :le:diafre/w
 :de:diafr ew_denom
@@ -10266,9 +10207,6 @@
 
 :le:diayhlafa/w
 :de:diayhlaf aw_denom
-
-:le:diayhfi/zw
-:de:diayhf izw
 
 :le:diayhfofore/omai
 :de:diayhfofor ew_denom mp
@@ -10600,9 +10538,6 @@
 :le:diidro/w
 :de:diidr ow_denom
 
-:le:diiqu/nw
-:de:diiq unw
-
 :le:diikma/zw
 :de:diikm azw
 
@@ -10617,9 +10552,6 @@
 
 :le:diisqmi/zw
 :de:diisqm izw
-
-:le:diista/w
-:de:diist aw_denom
 
 :le:diistore/w
 :de:diistor ew_denom
@@ -10747,8 +10679,8 @@
 :le:dionoma/zw
 :de:dionom azw
 
-:le:*dionusomane/w
-:de:*dionusoman ew_denom
+:le:dionusomane/w
+:de:dionusoman ew_denom
 
 :le:diopta/w
 :de:diopt aw_denom
@@ -11269,8 +11201,8 @@
 :le:dwre/omai
 :de:dwr ew_denom mp
 
-:le:*dwriarxe/w
-:de:*dwriarx ew_denom
+:le:dwriarxe/w
+:de:dwriarx ew_denom
 
 :le:dwrodote/w
 :de:dwrodot ew_denom
@@ -11287,8 +11219,8 @@
 :le:e(bdomeu/omai
 :de:e(bdom euw mp
 
-:le:*(ebrai/zw
-:de:*(ebra izw
+:le:e(brai/zw
+:de:e(bra izw
 
 :le:e)ggae/w
 :de:e)gga ew_denom
@@ -11712,8 +11644,6 @@
 
 :le:e)gxeire/w
 :de:e)gxeir ew_denom
-
-:le:i)gxhre/w
 :de:i)gxhr ew_denom
 
 :le:e)gxeiri/zw
@@ -11775,9 +11705,6 @@
 
 :le:e)gxumati/zw
 :de:e)gxumat izw
-
-:le:e)gxu/nw
-:de:e)gx unw
 
 :le:e)gxutlo/w
 :de:e)gxutl ow_denom
@@ -11857,8 +11784,8 @@
 :le:ei(le/w
 :de:ei(l ew_denom
 
-:le:*ei(lwti/zomai
-:de:*ei(lwt izw mp
+:le:ei(lwti/zomai
+:de:ei(lwt izw mp
 
 :le:ei)naeti/zomai
 :de:ei)naet izw mp
@@ -11890,278 +11817,8 @@
 :le:ei)sagwge/w
 :de:ei)sagwg ew_denom
 
-:le:ei)saqre/w
-:de:ei)saqr ew_denom
-
-:le:ei)sai/ssw
-:de:ei)sai ss
-
-:le:ei)sagwga/|ssw
-:de:ei)sagwga| ss
-
-:le:ei)sakonti/zw
-:de:ei)sakont izw
-
-:le:ei)sanagka/zw
-:de:ei)sanagk azw
-
-:le:ei)sandro/w
-:de:ei)sandr ow_denom
-
-:le:ei)santle/w
-:de:ei)santl ew_denom
-
-:le:ei)sara/ssw
-:de:ei)sara ss
-
-:le:ei)sarpa/zw
-:de:ei)sarp azw
-
-:le:ei)sarti/zw
-:de:ei)sart izw
-
-:le:ei)sauga/zw
-:de:ei)saug azw
-
-:le:ei)safa/ssw
-:de:ei)safa ss
-
-:le:ei)safikne/omai
-:de:ei)safikn ew_denom mp
-
-:le:ei)safu/ssw
-:de:ei)safu ss
-
-:le:ei)sbia/zomai
-:de:ei)sbi azw mp
-
-:le:ei)sbiba/zw
-:de:ei)sbib azw
-
-:le:ei)sdanei/zw
-:de:ei)sdane izw
-
-:le:ei)sdu/nw
-:de:ei)sd unw
-
-:le:ei)sea/w
-:de:ei)se aw_denom
-
-:le:ei)seggi/zw
-:de:ei)segg izw
-
-:le:ei)selau/nw
-:de:ei)sela unw
-
-:le:ei)semporeu/omai
-:de:ei)sempor euw mp
-
-:le:ei)sepidhme/w
-:de:ei)sepidhm ew_denom
-
-:le:ei)seupore/w
-:de:ei)seupor ew_denom
-
-:le:ei)shge/omai
-:de:ei)shg ew_denom mp
-
-:le:ei)shqe/w
-:de:ei)shq ew_denom
-
-:le:ei)sqe/w
-:de:ei)sq ew_denom
-
-:le:ei)sqewre/w
-:de:ei)sqewr ew_denom
-
-:le:ei)si/zomai
-:de:ei)s izw mp
-
-:le:ei)sikne/omai
-:de:ei)sikn ew_denom mp
-
-:le:ei)sippeu/w
-:de:ei)sipp euw
-
-:le:ei)skaqora/w
-:de:ei)skaqor aw_denom
-
-:le:ei)skalama/omai
-:de:ei)skalam aw_denom mp
-
-:le:ei)skale/w
-:de:ei)skal ew_denom
-
-:le:ei)skatadu/nw
-:de:ei)skatad unw
-
-:le:ei)skhru/ssw
-:de:ei)skhru ss
-
-:le:ei)skla/w
-:de:ei)skl aw_denom
-
-:le:ei)sklu/zw
-:de:ei)skl uzw
-
-:le:ei)skna/w
-:de:ei)skn aw_denom
-
-:le:ei)skolumba/w
-:de:ei)skolumb aw_denom
-
-:le:ei)skomi/zw
-:de:ei)skom izw
-
-:le:ei)skta/omai
-:de:ei)skt aw_denom mp
-
-:le:ei)skukle/w
-:de:ei)skukl ew_denom
-
-:le:ei)skwma/zw
-:de:ei)skwm azw
-
-:le:ei)sleu/ssw
-:de:ei)sleu ss
-
-:le:ei)smarture/w
-:de:ei)smartur ew_denom
-
-:le:ei)sma/ssomai
-:de:ei)sma ss mp
-
-:le:ei)smate/omai
-:de:ei)smat ew_denom mp
-
-:le:ei)smetre/w
-:de:ei)smetr ew_denom
-
-:le:ei)sne/omai
-:de:ei)sn ew_denom mp
-
-:le:ei)sne/w
-:de:ei)sn ew_denom
-
-:le:ei)snoe/w
-:de:ei)sno ew_denom
-
-:le:ei)sodeu/w
-:de:ei)sod euw
-
-:le:ei)sodia/zw
-:de:ei)sodi azw
-
-:le:ei)sodoipore/w
-:de:ei)sodoipor ew_denom
-
-:le:ei)soikeio/w
-:de:ei)soikei ow_denom
-
-:le:ei)soike/w
-:de:ei)soik ew_denom
-
-:le:ei)soiki/zw
-:de:ei)soik izw
-
-:le:ei)soikodome/w
-:de:ei)soikodom ew_denom
-
-:le:ei)soixne/w
-:de:ei)soixn ew_denom
-
-:le:ei)somile/w
-:de:ei)somil ew_denom
-
-:le:ei)soptri/zw
-:de:ei)soptr izw
-
-:le:ei)sora/w
-:de:ei)sor aw_denom
-
-:le:ei)sorma/w
-:de:ei)sorm aw_denom
-
-:le:ei)sormi/zw
-:de:ei)sorm izw
-
-:le:ei)soxeteu/w
-:de:ei)soxet euw
-
-:le:ei)sphda/w
-:de:ei)sphd aw_denom
-
-:le:ei)sple/w
-:de:ei)spl ew_denom
-
-:le:ei)splhro/w
-:de:ei)splhr ow_denom
-
-:le:ei)spne/w
-:de:ei)spn ew_denom
-
-:le:ei)spoie/w
-:de:ei)spoi ew_denom
-
-:le:ei)sporeu/w
-:de:ei)spor euw
-
-:le:ei)spori/zw
-:de:ei)spor izw
-
-:le:ei)spra/ssw
-:de:ei)spra ss
-
-:le:ei)sre/w
-:de:ei)sr ew_denom
-
-:le:ei)srh/ssw
-:de:ei)srh ss
-
-:le:ei)sspa/omai
-:de:ei)ssp aw_denom mp
-
-:le:ei)stele/w
-:de:ei)stel ew_denom
-
-:le:ei)stoceu/w
-:de:ei)stoc euw
-
-:le:ei)strupa/w
-:de:ei)strup aw_denom
-
 :le:ei)sfla/w
 :de:ei)sfl aw_denom
-
-:le:ei)sfoita/w
-:de:ei)sfoit aw_denom
-
-:le:ei)sfore/w
-:de:ei)sfor ew_denom
-
-:le:ei)sfra/ssw
-:de:ei)sfra ss
-
-:le:ei)sfre/w
-:de:ei)sfr ew_denom
-
-:le:ei)sxeiri/zw
-:de:ei)sxeir izw
-
-:le:ei)sxe/w
-:de:ei)sx ew_denom
-
-:le:ei)sxra/omai
-:de:ei)sxr aw_denom mp
-
-:le:ei)sxwre/w
-:de:ei)sxwr ew_denom
-
-:le:ei)swqe/w
-:de:ei)swq ew_denom
-
-:le:ei)swqi/zomai
-:de:ei)swq izw mp
 
 :le:e(katere/w
 :de:e(kater ew_denom
@@ -12172,65 +11829,8 @@
 :le:e(katosteu/w
 :de:e(katost euw
 
-:le:e(katostobabra/zw
-:de:e(katostobabr azw
-
-:le:e)kba/zw
-:de:e)kb azw
-
-:le:e)kbakxeu/w
-:de:e)kbakx euw
-
-:le:e)kbarbaro/w
-:de:e)kbarbar ow_denom
-
-:le:e)kbasani/zw
-:de:e)kbasan izw
-
-:le:e)kbasili/zomai
-:de:e)kbasil izw mp
-
-:le:e)kbebaio/omai
-:de:e)kbebai ow_denom mp
-
-:le:e)kbebhlo/w
-:de:e)kbebhl ow_denom
-
-:le:e)kbh/ssw
-:de:e)kbh ss
-
-:le:e)kbia/zw
-:de:e)kbi azw
-
-:le:e)kbia/omai
-:de:e)kb iaw_denom mp
-
-:le:e)kbiba/zw
-:de:e)kbib azw
-
-:le:e)kbio/w
-:de:e)kbi ow_denom
-
-:le:e)kblaste/w
-:de:e)kblast ew_denom
-
-:le:e)kblu/zw
-:de:e)kbl uzw
-
-:le:e)kboa/w
-:de:e)kbo aw_denom
-
-:le:e)kbohqe/w
-:de:e)kbohq ew_denom
-
-:le:e)kbolbi/zw
-:de:e)kbolb izw
-
-:le:e)kbombe/w
-:de:e)kbomb ew_denom
-
-:le:e)kbotani/zw
-:de:e)kbotan izw
+:le:e)kbaba/zw
+:de:e)kbab azw
 
 :le:e)kbra/zw
 :de:e)kbr azw
@@ -12861,9 +12461,7 @@
 
 :le:e)klimna/zw
 :de:e)klimn azw
-
-:le:e)klimnlimnia/zw
-:de:e)klimnlimni azw
+:de:e)klimni azw
 
 :le:e)klimno/omai
 :de:e)klimn ow_denom mp
@@ -13194,9 +12792,8 @@
 
 :le:e)kpipi/zw
 :de:e)kpip izw
-
-:le:e)kpikrpini/zw
-:de:e)kpikrpin izw
+:de:e)kpin izw
+#see LSJ entry
 
 :le:e)kpitu/zw
 :de:e)kpit uzw
@@ -13960,8 +13557,8 @@
 :le:ei(li/ssw
 :de:ei(li ss
 
-:le:*(elladarxe/w
-:de:*(elladarx ew_denom
+:le:e(lladarxe/w
+:de:e(lladarx ew_denom
 
 :le:e)llale/w
 :de:e)llal ew_denom
@@ -13969,8 +13566,8 @@
 :le:e)llampru/nomai
 :de:e)llampr unw mp
 
-:le:*(ellanodike/w
-:de:*(ellanodik ew_denom
+:le:e(llanodike/w
+:de:e(llanodik ew_denom
 
 :le:e(lleboria/w
 :de:e(llebor iaw_denom
@@ -13981,8 +13578,8 @@
 :le:e)llhke/w
 :de:e)llhk ew_denom
 
-:le:*(ellhnokope/w
-:de:*(ellhnokop ew_denom
+:le:e(llhnokope/w
+:de:e(llhnokop ew_denom
 
 :le:e)lloga/w
 :de:e)llog aw_denom
@@ -14485,9 +14082,6 @@
 :le:e)mya/w
 :de:e)my aw_denom
 
-:le:e)myhfi/zw
-:de:e)myhf izw
-
 :le:e)myofe/w
 :de:e)myof ew_denom
 
@@ -14545,8 +14139,8 @@
 :le:e)naqre/w
 :de:e)naqr ew_denom
 
-:le:e)n&lt;a&gt;qroi/zomai
-:de:e)n&lt;a&gt;qro izw mp
+:le:e)naqroi/zomai
+:de:e)naqro izw mp
 
 :le:e)naiki/zw
 :de:e)naik izw
@@ -14695,8 +14289,8 @@
 :le:e)napopne/w
 :de:e)napopn ew_denom
 
-:le:e)napore/w
-:de:e)napor ew_denom
+#:le:e)napore/w
+#:de:e)napor ew_denom
 
 :le:e)napospa/w
 :de:e)naposp aw_denom
@@ -14749,8 +14343,8 @@
 :le:e)narke/w
 :de:e)nark ew_denom
 
-:le:e)na=ro/w
-:de:e)na_r ow_denom
+:le:e)naro/w
+:de:e)nar ow_denom
 
 :le:e)narta/w
 :de:e)nart aw_denom
@@ -14875,9 +14469,6 @@
 :le:e)ndiata/ssw
 :de:e)ndiata ss
 
-:le:e)ndiauge/w
-:de:e)ndiaug ew_denom
-
 :le:e)ndihqe/w
 :de:e)ndihq ew_denom
 
@@ -15001,12 +14592,6 @@
 :le:e)neorta/zw
 :de:e)neort azw
 
-:le:e)nephrea/zw
-:de:e)nephre azw
-
-:le:e)nepidhme/w
-:de:e)nepidhm ew_denom
-
 :le:e)nepiorke/w
 :de:e)nepiork ew_denom
 
@@ -15079,7 +14664,7 @@
 :le:e)nexuro/w
 :de:e)nexur ow_denom
 
-:le:e)nvoike/w
+:le:e)noike/w
 :de:e)nvoik ew_denom
 
 :le:e)nza/w
@@ -15214,9 +14799,6 @@
 :le:e(ni/zw
 :de:e(n izw
 
-:le:e)niqu/nw
-:de:e)niq unw
-
 :le:e)nikla/w
 :de:e)nikl aw_denom
 
@@ -15249,9 +14831,6 @@
 
 :le:e)nitele/w
 :de:e)nitel ew_denom
-
-:le:e)niyhfi/zomai
-:de:e)niyhf izw mp
 
 :le:e)nna/ssw
 :de:e)nna ss
@@ -15310,7 +14889,7 @@
 :le:e)noiki/zw
 :de:e)noik izw
 
-:le:e)noiko=dome/w
+:le:e)noikodome/w
 :de:e)noikodom ew_denom
 
 :le:e)noikloge/w
@@ -15577,9 +15156,6 @@
 :le:e)ntexna/zw
 :de:e)ntexn azw
 
-:le:e)nthre/w
-:de:e)nthr ew_denom
-
 :le:e)ntila/w
 :de:e)ntil aw_denom
 
@@ -15624,9 +15200,7 @@
 
 :le:e)ntrulli/zw
 :de:e)ntrull izw
-
-:le:e)ntrugtruli/zw
-:de:e)ntrugtrul izw
+:de:e)ntru_l izw
 
 :le:e)ntrufa/w
 :de:e)ntruf aw_denom
@@ -16099,8 +15673,8 @@
 :le:e)capopne/w
 :de:e)capopn ew_denom
 
-:le:e)capore/w
-:de:e)capor ew_denom
+#:le:e)capore/w
+#:de:e)capor ew_denom
 
 :le:e)capoxe/w
 :de:e)capox ew_denom
@@ -16167,9 +15741,7 @@
 
 :le:e)catima/zw
 :de:e)catim azw
-
-:le:e)catimatima/w
-:de:e)catimatim aw_denom
+:de:e)catim aw_denom
 
 :le:e)catimo/omai
 :de:e)catim ow_denom mp
@@ -16483,9 +16055,6 @@
 :le:e)ciero/w
 :de:e)cier ow_denom
 
-:le:e)ciqu/nw
-:de:e)ciq unw
-
 :le:e)cikano/w
 :de:e)cikan ow_denom
 
@@ -16533,9 +16102,6 @@
 
 :le:e)ciso/w
 :de:e)cis ow_denom
-
-:le:e)cista/w
-:de:e)cist aw_denom
 
 :le:e)cistore/w
 :de:e)cistor ew_denom
@@ -17242,8 +16808,8 @@
 :le:e)papologe/omai
 :de:e)papolog ew_denom mp
 
-:le:e)papore/w
-:de:e)papor ew_denom
+#:le:e)papore/w
+#:de:e)papor ew_denom
 
 :le:e)paposfa/zw
 :de:e)paposf azw
@@ -17382,12 +16948,6 @@
 
 :le:e)pegxumati/zw
 :de:e)pegxumat izw
-
-:le:e)pegxu/nw
-:de:e)pegx unw
-
-:le:e)pegxe/w
-:de:e)pegx ew_denom
 
 :le:e)peqi/zomai
 :de:e)peq izw mp
@@ -17628,9 +17188,6 @@
 
 :le:e)phlugi/zw
 :de:e)phlug izw
-
-:le:e)phrea/zw
-:de:e)phre azw
 
 :le:e)phreme/w
 :de:e)phrem ew_denom
@@ -17899,9 +17456,6 @@
 :le:e)pidihge/omai
 :de:e)pidihg ew_denom mp
 
-:le:e)pidiista/w
-:de:e)pidiist aw_denom
-
 :le:e)pidika/zw
 :de:e)pidik azw
 
@@ -18066,9 +17620,6 @@
 
 :le:e)piqumia/w
 :de:e)piqum iaw_denom
-
-:le:e)piqu/nw
-:de:e)piq unw
 
 :le:e)piqusia/w
 :de:e)piqus iaw_denom
@@ -18679,218 +18230,26 @@
 :le:e)pineu/w
 :de:e)pin euw
 
-:le:e)pine/w
-:de:e)pin ew_denom
-
-:le:e)pine/w
-:de:e)pin ew_denom
-
-:le:e)pine/w
-:de:e)pin ew_denom
-
-:le:e)pinhne/w
-:de:e)pinhn ew_denom
-
-:le:e)pini/ssomai
-:de:e)pini ss mp
-
-:le:e)pinoe/w
-:de:e)pino ew_denom
-
-:le:e)pinomoqete/w
-:de:e)pinomoqet ew_denom
-
-:le:e)pinose/w
-:de:e)pinos ew_denom
-
-:le:e)pinossopoie/omai
-:de:e)pinossopoi ew_denom mp
-
-:le:e)pinoti/zw
-:de:e)pinot izw
-
-:le:e)pinuktereu/w
-:de:e)pinukter euw
-
-:le:e)pinumfeu/omai
-:de:e)pinumf euw mp
-
-:le:e)pinu/ssw
-:de:e)pinu ss
-
-:le:e)pinusta/zw
-:de:e)pinust azw
-
-:le:e)pinwma/w
-:de:e)pinwm aw_denom
-
-:le:e)pinwti/zw
-:de:e)pinwt izw
-
-:le:e)picanqi/zw
-:de:e)picanq izw
-
-:le:e)piceno/omai
-:de:e)picen ow_denom mp
-
-:le:e)pice/w
-:de:e)pic ew_denom
-
-:le:e)picuno/w
-:de:e)picun ow_denom
-
-:le:e)picura/w
-:de:e)picur aw_denom
-
-:le:e)pioinoxoeu/w
-:de:e)pioinoxo euw
-
 :le:e)piopteu/w
 :de:e)piopt euw
-
-:le:e)piorke/w
-:de:e)piork ew_denom
 
 :le:e)fiorke/w
 :de:e)fiork ew_denom
 
-:le:e)piorki/zw
-:de:e)piork izw
-
-:le:e)pio/ssomai
-:de:e)pio ss mp
-
-:le:e)pipaiani/zw
-:de:e)pipaian izw
-
-:le:e)pipai/zw
-:de:e)pipa izw
-
-:le:e)pipakto/w
-:de:e)pipakt ow_denom
-
-:le:e)pipalama/omai
-:de:e)pipalam aw_denom mp
-
 :le:e)pipamfala/w
 :de:e)pipamfal aw_denom
+# 1 unaugmented example in AR.
 
-:le:e)piparane/w
-:de:e)piparan ew_denom
-
-:le:e)piparariqme/w
-:de:e)piparariqm ew_denom
-
-:le:e)piparaskeua/zomai
-:de:e)piparaskeu azw mp
-
-:le:e)piparoine/w
-:de:e)piparoin ew_denom
-
-:le:e)piparocu/nw
-:de:e)piparoc unw
-
-:le:e)piparorma/w
-:de:e)piparorm aw_denom
-
-:le:e)piparrhsia/zomai
-:de:e)piparrhsi azw mp
-
-:le:e)pipa/ssw
-:de:e)pipa ss
-
-:le:e)pipatage/w
-:de:e)pipatag ew_denom
-
-:le:e)pipafla/zw
-:de:e)pipafl azw
-
-:le:e)pipaxu/nw
-:de:e)pipax unw
-
-:le:e)pipeda/w
-:de:e)piped aw_denom
-
-:le:e)pipedo/omai
-:de:e)piped ow_denom mp
-
-:le:e)pipeira/omai
-:de:e)pipeir aw_denom mp
-
-:le:e)pipela/zw
-:de:e)pipel azw
-
-:le:e)piperieli/ssw
-:de:e)piperieli ss
-
-:le:e)piperka/zw
-:de:e)piperk azw
-
-:le:e)pipe/ssw
-:de:e)pipe ss
-
-:le:e)piphda/w
-:de:e)piphd aw_denom
-
-:le:e)piph/ssomai
-:de:e)piph ss mp
-
-:le:e)piplada/w
-:de:e)piplad aw_denom
+#:le:e)piph/ssomai
+#:de:e)piph ss mp
+#ph/gnumi
 
 :le:e)pipla/zomai
 :de:e)pipl azw mp
 
 :le:e)pipla/zw
 :de:e)pipl azw
-
-:le:e)piplana/omai
-:de:e)piplan aw_denom mp
-
-:le:e)pipla/ssw
-:de:e)pipla ss
-
-:le:e)piplatage/w
-:de:e)piplatag ew_denom
-
-:le:e)piplatu/nw
-:de:e)piplat unw
-
-:le:e)piple/w
-:de:e)pipl ew_denom
-
-:le:e)piplhqu/nw
-:de:e)piplhq unw
-
-:le:e)piplhkte/w
-:de:e)piplhkt ew_denom
-
-:le:e)piplhro/w
-:de:e)piplhr ow_denom
-
-:le:e)piplh/ssw
-:de:e)piplh ss
-
-:le:e)piplinqobole/w
-:de:e)piplinqobol ew_denom
-
-:le:e)pipne/w
-:de:e)pipn ew_denom
-
-:le:e)pipoqe/w
-:de:e)pipoq ew_denom
-
-:le:e)pipoie/w
-:de:e)pipoi ew_denom
-
-:le:e)pipola/zw
-:de:e)pipol azw
-
-:le:e)pipoleu/w
-:de:e)pipol euw
-
-:le:e)pipoli/zw
-:de:e)pipol izw
+#one instance in Sappho
 
 :le:e)pipolio/omai
 :de:e)pipoli ow_denom mp
@@ -19191,9 +18550,7 @@
 
 :le:e)pistala/zw
 :de:e)pistal azw
-
-:le:e)pistaqmstala/w
-:de:e)pistaqmstal aw_denom
+:de:e)pistal aw_denom
 
 :le:e)pistasia/zw
 :de:e)pistasi azw
@@ -19303,9 +18660,6 @@
 :le:e)pisunerge/w
 :de:e)pisunerg ew_denom
 
-:le:e)pisunista/w
-:de:e)pisunist aw_denom
-
 :le:e)pisunne/w
 :de:e)pisunn ew_denom
 
@@ -19381,50 +18735,11 @@
 :le:e)pitafe/w
 :de:e)pitaf ew_denom
 
-:le:e)pitaxu/nw
-:de:e)pitax unw
-
-:le:e)piteixi/zw
-:de:e)piteix izw
-
-:le:e)pitekno/w
-:de:e)pitekn ow_denom
-
-:le:e)piteleio/w
-:de:e)pitelei ow_denom
-
-:le:e)pitele/w
-:de:e)pitel ew_denom
-
-:le:e)piteli/zw
-:de:e)pitel izw
-
-:le:e)piterateu/omai
-:de:e)piterat euw mp
-
-:le:e)pitermati/zw
-:de:e)pitermat izw
-
-:le:e)pitexna/zw
-:de:e)pitexn azw
-
-:le:e)pitexna/omai
-:de:e)pitexn aw_denom mp
-
-:le:e)pitexnologe/w
-:de:e)pitexnolog ew_denom
-
-:le:e)pithgani/zw
-:de:e)pithgan izw
-
 :le:e)pithdeio/omai
 :de:e)pithdei ow_denom mp
 
-:le:e)pithre/w
-:de:e)pithr ew_denom
-
-:le:e)pitimtime/w
-:de:e)pitimtim ew_denom
+:le:e)pitima/w
+:de:e)pitim ew_denom ionic
 
 :le:e)pititra/w
 :de:e)pititr aw_denom
@@ -19678,9 +18993,6 @@
 :le:e)pixrwmati/zw
 :de:e)pixrwmat izw
 
-:le:e)pixu/nw
-:de:e)pix unw
-
 :le:e)pixwneu/w
 :de:e)pixwn euw
 
@@ -19704,9 +19016,6 @@
 
 :le:e)piyhlafa/w
 :de:e)piyhlaf aw_denom
-
-:le:e)piyhfi/zw
-:de:e)piyhf izw
 
 :le:e)piyiquri/zw
 :de:e)piyiqur izw
@@ -19819,71 +19128,12 @@
 :le:e)pototu/zw
 :de:e)potot uzw
 
-:le:e)potru/nw
-:de:e)potr unw
-
-:le:e)poulo/w
-:de:e)poul ow_denom
-
-:le:e)poure/w
-:de:e)pour ew_denom
-
-:le:e)pouria/zw
-:de:e)pouri azw
-
-:le:e)pouri/zw
-:de:e)pour izw
-
-:le:e)pouro/w
-:de:e)pour ow_denom
-
-:le:e)pofqalme/w
-:de:e)pofqalm ew_denom
-
-:le:e)pofqalmia/w
-:de:e)pofqalm iaw_denom
-
-:le:e)pofqalmi/zw
-:de:e)pofqalm izw
-
-:le:e)poxe/omai
-:de:e)pox ew_denom mp
-
-:le:e)poxeteu/w
-:de:e)poxet euw
-
-:le:e)poxeu/w
-:de:e)pox euw
-
-:le:e)poxqi/zw
-:de:e)poxq izw
-
-:le:e)poxli/zomai
-:de:e)poxl izw mp
-
-:le:e)poxma/zw
-:de:e)poxm azw
-
-:le:e)poya/omai
-:de:e)poy aw_denom mp
 
 :le:e(ptadeu/w
 :de:e(ptad euw
 
 :le:e(ptaplasia/zw
 :de:e(ptaplasi azw
-
-:le:e)pw|a/zw
-:de:e)pw| azw
-
-:le:e)pwqe/w
-:de:e)pwq ew_denom
-
-:le:e)pwqi/zw
-:de:e)pwq izw
-
-:le:e)pwku/nw
-:de:e)pwk unw
 
 :le:e)pwmi/zomai
 :de:e)pwm izw mp
@@ -19899,9 +19149,6 @@
 
 :le:e)pwteilo/omai
 :de:e)pwteil ow_denom mp
-
-:le:e)pwfele/w
-:de:e)pwfel ew_denom
 
 :le:e)ranarxe/w
 :de:e)ranarx ew_denom
@@ -19939,8 +19186,8 @@
 :le:e)rgwne/w
 :de:e)rgwn ew_denom
 
-:le:*)ereqeimia/zw
-:de:*)ereqeimi azw
+:le:e)reqeimia/zw
+:de:e)reqeimi azw
 
 :le:e)resxele/w
 :de:e)resxel ew_denom
@@ -19972,17 +19219,17 @@
 :le:e(rma/zw
 :de:e(rm azw
 
-:le:*(ermai/zomai
-:de:*(erma izw mp
+:le:e(rmai/zomai
+:de:e(rma izw mp
 
 :le:e(rmati/zw
 :de:e(rmat izw
 
-:le:*(ermologe/w
-:de:*(ermolog ew_denom
+:le:e(rmologe/w
+:de:e(rmolog ew_denom
 
-:le:*(ermomaxe/w
-:de:*(ermomax ew_denom
+:le:e(rmomaxe/w
+:de:e(rmomax ew_denom
 
 :le:e)rno/omai
 :de:e)rn ow_denom mp
@@ -20061,9 +19308,6 @@
 
 :le:e)sxati/zw
 :de:e)sxat izw
-
-:le:pareta/zw
-:de:paret azw
 
 :le:e(taireu/omai
 :de:e(tair euw mp
@@ -20329,17 +19573,14 @@
 :le:eu)luto/w
 :de:eu)lut ow_denom
 
-:le:eu)mare/w
-:de:eu)mar ew_denom
-
 :le:eu)melite/w
 :de:eu)melit ew_denom
 
-:le:*eu)mene/w
-:de:*eu)men ew_denom
+:le:eu)mene/w
+:de:eu)men ew_denom
 
-:le:*eu)meni/zomai
-:de:*eu)men izw mp
+:le:eu)meni/zomai
+:de:eu)men izw mp
 
 :le:eu)moirate/w
 :de:eu)moirat ew_denom
@@ -20662,9 +19903,6 @@
 :le:e)fippeu/w
 :de:e)fipp euw
 
-:le:e)fista/w
-:de:e)fist aw_denom
-
 :le:e)fistore/w
 :de:e)fistor ew_denom
 
@@ -20758,7 +19996,7 @@
 :le:e(wli/zw
 :de:e(wl izw
 
-:le:e)wre/w
+:le:ai)wre/w
 :de:e)wr ew_denom
 
 :le:zakoreu/w
@@ -20862,6 +20100,7 @@
 
 :le:zwotoke/w
 :de:zwotok ew_denom
+:de:zw|otok ew_denom
 
 :le:zw|otrofe/w
 :de:zw|otrof ew_denom
@@ -20882,9 +20121,9 @@
 :de:zw ow_denom
 
 :le:zwfute/w
-:de:zwfut ew_denom
+:de:zwfut ew_denom aeolic
 
-:le:a)ba/w
+:le:h(ba/w
 :de:a)b aw_denom
 
 :le:h(ghlate/w
@@ -20989,8 +20228,8 @@
 :le:h)pio/w
 :de:h)pi ow_denom
 
-:le:*(hrakleiti/zw
-:de:*(hrakleit izw
+:le:(hrakleiti/zw
+:de:(hrakleit izw
 
 :le:h)rema/zw
 :de:h)rem azw
@@ -21009,6 +20248,12 @@
 
 :le:h(suxo/omai
 :de:h(sux ow_denom mp
+
+:le:h)fe/w
+:de:h)f ew_denom comp_only
+
+:le:h)fia/w
+:de:h)fi aw_denom comp_only
 
 :le:qa/zw
 :de:q azw
@@ -21130,7 +20375,7 @@
 :le:qeoplaste/w
 :de:qeoplast ew_denom
 
-:le:qeore/w
+:le:qewre/w
 :de:qeor ew_denom
 
 :le:qeosebe/w
@@ -21142,7 +20387,7 @@
 :le:qeofrone/w
 :de:qeofron ew_denom
 
-:le:qarapeu/w
+:le:qerapeu/w
 :de:qarap euw
 
 :le:qerma/zw
@@ -21175,8 +20420,8 @@
 :le:qesmw|de/w
 :de:qesmw|d ew_denom
 
-:le:*qessali/zw
-:de:*qessal izw
+:le:qessali/zw
+:de:qessal izw
 
 :le:qesfati/zw
 :de:qesfat izw
@@ -21265,8 +20510,8 @@
 :le:qra/zw
 :de:qr azw
 
-:le:*qra|ki/zw
-:de:*qra|k izw
+:le:qra|ki/zw
+:de:qra|k izw
 
 :le:qranu/ssw
 :de:qranu ss
@@ -21418,10 +20663,10 @@
 :le:i)a/zw
 :de:i) azw
 
-:le:i)a/zw
+:le:i)a/zw2
 :de:i) azw
 
-:le:i)a/zw
+:le:i)a/zw3
 :de:i) azw
 
 :le:i)alemi/zw
@@ -21435,9 +20680,6 @@
 
 :le:i)bane/w
 :de:i)ban ew_denom
-
-:le:i)de/w
-:de:i)d ew_denom
 
 :le:i)dia/zw
 :de:i)di azw
@@ -21568,9 +20810,6 @@
 :le:i(e/w
 :de:i( ew_denom
 
-:le:*)ihpaiwni/zw
-:de:*)ihpaiwn izw
-
 :le:i)qupore/w
 :de:i)_qupor ew_denom
 
@@ -21646,8 +20885,8 @@
 :le:i)lli/zw
 :de:i)ll izw
 
-:le:*)illuri/zw
-:de:*)illur izw
+:le:i)lluri/zw
+:de:i)llur izw
 
 :le:i)llwpe/w
 :de:i)llwp ew_denom
@@ -21709,8 +20948,8 @@
 :le:i)pneu/w
 :de:i)pn euw
 
-:le:*(ippia/zw
-:de:*(ippi azw
+:le:i(ppia/zw
+:de:i(ppi azw
 
 :le:i(ppoqute/w
 :de:i(ppoqut ew_denom
@@ -21736,8 +20975,8 @@
 :le:i)shgore/w
 :de:i)shgor ew_denom
 
-:le:*)isqmia/zw
-:de:*)isqmi azw
+:le:i)sqmia/zw
+:de:i)sqmi azw
 
 :le:i)sobare/w
 :de:i)sobar ew_denom
@@ -21814,8 +21053,8 @@
 :le:i)sxuro/w
 :de:i)sxur ow_denom
 
-:le:*)italia/zw
-:de:*)itali azw
+:le:i)talia/zw
+:de:i)tali azw
 
 :le:i)tameu/omai
 :de:i)^tam euw mp
@@ -21838,11 +21077,11 @@
 :le:i)xquofore/w
 :de:i)xquofor ew_denom
 
-:le:*)ixna/omai
-:de:*)ixn aw_denom mp
+:le:i)xna/omai
+:de:i)xn aw_denom mp
 
-:le:*)ixneu/w
-:de:*)ixn euw
+:le:i)xneu/w
+:de:i)xn euw
 
 :le:i)xnhlate/w
 :de:i)xnhlat ew_denom
@@ -21853,14 +21092,14 @@
 :le:i)xwrorroe/w
 :de:i)xwrorro ew_denom
 
-:le:*)iwni/zw
-:de:*)iwn izw
+:le:i)wni/zw
+:de:i)wn izw
 
 :le:i)wtografe/w
 :de:i)wtograf ew_denom
 
-:le:*kabeiria/zomai
-:de:*kabeiri azw mp
+:le:kabeiria/zomai
+:de:kabeiri azw mp
 
 :le:kagxali/zomai
 :de:kagxal izw mp
@@ -21999,9 +21238,6 @@
 
 :le:kaqippotrofe/w
 :de:kaqippotrof ew_denom
-
-:le:kaqista/w
-:de:kaqist aw_denom
 
 :le:kaqistia/w
 :de:kaqist iaw_denom
@@ -22432,8 +21668,8 @@
 :le:karido/w
 :de:karid ow_denom
 
-:le:*kari/zw
-:de:*kar izw
+:le:kari/zw
+:de:kar izw
 
 :le:kario/w
 :de:kari ow_denom
@@ -22716,9 +21952,7 @@
 
 :le:katadhio/w
 :de:katadhi ow_denom
-
-:le:katadesmdh|o/w
-:de:katadesmdh| ow_denom
+:de:katadh| ow_denom
 
 :le:katadhle/omai
 :de:katadhl ew_denom mp
@@ -23719,8 +22953,8 @@
 :le:kataporeu/omai
 :de:katapor euw mp
 
-:le:katapore/w
-:de:katapor ew_denom
+#:le:katapore/w
+#:de:katapor ew_denom
 
 :le:kataporqe/w
 :de:kataporq ew_denom
@@ -24277,8 +23511,9 @@
 :le:katatele/w
 :de:katatel ew_denom
 
-:le:katatartartitra/w
-:de:katatartartitr aw_denom
+:le:katatetrai/nw
+:de:katatetrain w
+:de:katatitr aw_denom
 
 :le:katatefro/w
 :de:katatefr ow_denom
@@ -24351,9 +23586,6 @@
 
 :le:katauga/zw
 :de:kataug azw
-
-:le:katauge/w
-:de:kataug ew_denom
 
 :le:katauda/w
 :de:kataud aw_denom
@@ -24585,9 +23817,6 @@
 
 :le:katayhlafa/w
 :de:katayhlaf aw_denom
-
-:le:katayhfi/zomai
-:de:katayhf izw mp
 
 :le:katayiquri/zw
 :de:katayiqur izw
@@ -24856,9 +24085,6 @@
 :le:katiero/w
 :de:katier ow_denom
 
-:le:katiqu/nw
-:de:katiq unw
-
 :le:katikma/zw
 :de:katikm azw
 
@@ -25075,7 +24301,7 @@
 :le:keirio/w
 :de:keiri ow_denom
 
-:le:ke/w
+:le:kei/w
 :de:k ew_denom
 
 :le:kelainia/w
@@ -25177,9 +24403,6 @@
 :le:kefalotome/w
 :de:kefalotom ew_denom
 
-:le:ke/w
-:de:k ew_denom
-
 :le:khda/zw
 :de:khd azw
 
@@ -25240,11 +24463,11 @@
 :le:kikkaba/zw
 :de:kikkab azw
 
-:le:*kiliki/zw
-:de:*kilik izw
+:le:kiliki/zw
+:de:kilik izw
 
-:le:*kiliki/zomai
-:de:*kilik izw mp
+:le:kiliki/zomai
+:de:kilik izw mp
 
 :le:kinaideu/omai
 :de:kinaid euw mp
@@ -25552,8 +24775,8 @@
 :le:komotrofe/w
 :de:komotrof ew_denom
 
-:le:*kompe/w
-:de:*komp ew_denom
+:le:kompe/w
+:de:komp ew_denom
 
 :le:kompolakuqe/w
 :de:kompolakuq ew_denom
@@ -25633,8 +24856,8 @@
 :le:kori/zw
 :de:kor izw
 
-:le:*korinqia/zomai
-:de:*korinqi azw mp
+:le:korinqia/zomai
+:de:korinqi azw mp
 
 :le:korma/zw
 :de:korm azw
@@ -25834,8 +25057,8 @@
 :le:kriomaxe/w
 :de:kriomax ew_denom
 
-:le:*kritia/zw
-:de:*kriti azw
+:le:kritia/zw
+:de:kriti azw
 
 :le:krokka/w
 :de:krokk aw_denom
@@ -25921,8 +25144,8 @@
 :le:kudro/omai
 :de:kudr ow_denom mp
 
-:le:*kudwnia/w
-:de:*kudwn iaw_denom
+:le:kudwnia/w
+:de:kudwn iaw_denom
 
 :le:kukla/zw
 :de:kukl azw
@@ -25933,8 +25156,8 @@
 :le:kukli/zw
 :de:kukl izw
 
-:le:*kuklografe/w
-:de:*kuklograf ew_denom
+:le:kuklografe/w
+:de:kuklograf ew_denom
 
 :le:kuklopore/w
 :de:kuklopor ew_denom
@@ -26179,8 +25402,8 @@
 :le:laka/w
 :de:lak aw_denom
 
-:le:*lakedaimonia/zw
-:de:*lakedaimoni azw
+:le:lakedaimonia/zw
+:de:lakedaimoni azw
 
 :le:lakeru/zw
 :de:laker uzw
@@ -26253,8 +25476,6 @@
 
 :le:lapi/zw
 :de:lap izw
-
-:le:lapi/ssw
 :de:lapi ss
 
 :le:larineu/omai
@@ -26395,8 +25616,8 @@
 :le:lepurio/w
 :de:lepuri ow_denom
 
-:le:*lesbi/zw
-:de:*lesb izw
+:le:lesbi/zw
+:de:lesb izw
 
 :le:lesxhmoneu/omai
 :de:lesxhmon euw mp
@@ -26440,8 +25661,8 @@
 :le:lhmmati/zw
 :de:lhmmat izw
 
-:le:*lhnai/zw
-:de:*lhna izw
+:le:lhnai/zw
+:de:lhna izw
 
 :le:lhneu/w
 :de:lhn euw
@@ -26695,15 +25916,6 @@
 :le:loutrofore/w
 :de:loutrofor ew_denom
 
-:le:loe/w
-:de:lo ew_denom
-
-:le:lo/w
-:de:l ow_denom
-
-:le:lo/w
-:de:l ow_denom
-
 :le:lofi/zw
 :de:lof izw
 
@@ -26719,8 +25931,8 @@
 :le:lugi/zomai
 :de:lug izw mp
 
-:le:*ludia/zw
-:de:*ludi azw
+:le:ludia/zw
+:de:ludi azw
 
 :le:luqa/zw
 :de:luq azw
@@ -26728,8 +25940,8 @@
 :le:luqro/w
 :de:luqr ow_denom
 
-:le:*lukiarxe/w
-:de:*lukiarx ew_denom
+:le:lukiarxe/w
+:de:lukiarx ew_denom
 
 :le:lukoktone/w
 :de:lukokton ew_denom
@@ -26923,8 +26135,8 @@
 :le:marauge/w
 :de:maraug ew_denom
 
-:le:*marianduni/zw
-:de:*mariandun izw
+:le:marianduni/zw
+:de:mariandun izw
 
 :le:marmarergate/w
 :de:marmarergat ew_denom
@@ -27051,9 +26263,6 @@
 
 :le:meqippeu/w
 :de:meqipp euw
-
-:le:meqista/w
-:de:meqist aw_denom
 
 :le:meqodeu/w
 :de:meqod euw
@@ -27325,17 +26534,14 @@
 :le:metalloio/w
 :de:metalloi ow_denom
 
-:le:e/w
-:de: ew_denom
+:le:metallourge/w
+:de:metallourg ew_denom
 
 :le:metalogi/zomai
 :de:metalog izw mp
 
 :le:metalwfe/w
 :de:metalwf ew_denom
-
-:le:metamele/omai
-:de:metamel ew_denom mp
 
 :le:metamisqo/w
 :de:metamisq ow_denom
@@ -27592,9 +26798,6 @@
 :le:metayala/ssw
 :de:metayala ss
 
-:le:metayhfi/zw
-:de:metayhf izw
-
 :le:metegkentri/zw
 :de:metegkentr izw
 
@@ -27664,7 +26867,7 @@
 :le:metoike/w
 :de:metoik ew_denom
 
-:le:metavoike/w
+:le:metoike/w
 :de:metavoik ew_denom
 
 :le:metoiki/zw
@@ -28222,8 +27425,8 @@
 :le:nebro/omai
 :de:nebr ow_denom mp
 
-:le:*neilobroxe/w
-:de:*neilobrox ew_denom
+:le:neilobroxe/w
+:de:neilobrox ew_denom
 
 :le:nekrokomi/zw
 :de:nekrokom izw
@@ -28282,13 +27485,10 @@
 :le:ne/w
 :de:n ew_denom
 
-:le:ne/w
+:le:ne/w2
 :de:n ew_denom
 
-:le:ne/w
-:de:n ew_denom
-
-:le:ne/w
+:le:ne/w3
 :de:n ew_denom
 
 :le:newpoie/w
@@ -28639,7 +27839,7 @@
 :le:oi)keiotope/w
 :de:oi)keiotop ew_denom
 
-:le:voike/w
+:le:oi)ke/w
 :de:voik ew_denom
 
 :le:oi)kokrate/omai
@@ -28729,8 +27929,9 @@
 :le:o)leqria/w
 :de:o)leqr iaw_denom
 
-:le:o)leqrkrani/zw
-:de:o)leqrkran izw
+#:le:o)lekrani/zw
+#:de:o)lekran izw
+merge with w)le
 
 :le:o)liba/zw
 :de:o)lib azw
@@ -28867,8 +28068,8 @@
 :le:o)mbro/w
 :de:o)mbr ow_denom
 
-:le:*(omhri/zw
-:de:*(omhr izw
+:le:o(mhri/zw
+:de:o(mhr izw
 
 :le:o)mixlo/omai
 :de:o)mixl ow_denom mp
@@ -29299,8 +28500,8 @@
 :le:o)rxe/w
 :de:o)rx ew_denom
 
-:le:*)orxomeni/zw
-:de:*)orxomen izw
+:le:o)rxomeni/zw
+:de:o)rxomen izw
 
 :le:o)rxotome/w
 :de:o)rxotom ew_denom
@@ -29308,8 +28509,8 @@
 :le:o(sieu/w
 :de:o(si euw
 
-:le:*)osiria/zw
-:de:*)osiri azw
+:le:o)siria/zw
+:de:o)siri azw
 
 :le:o)spreu/w
 :de:o)spr euw
@@ -29569,8 +28770,8 @@
 :le:paneufhme/w
 :de:paneufhm ew_denom
 
-:le:*paneu/w
-:de:*pan euw
+:le:paneu/w
+:de:pan euw
 
 :le:panhgura/zw
 :de:panhgur azw
@@ -29796,6 +28997,7 @@
 
 :le:paraisaba/zw
 :de:paraisab azw
+:de:parasab azw
 
 :le:parai/ssw
 :de:parai ss
@@ -29827,14 +29029,8 @@
 :le:parakanqi/zw
 :de:parakanq izw
 
-:le:parakataskeua/zw
-:de:parakataskeu azw
-
 :le:parakataxra/omai
 :de:parakataxr aw_denom mp
-
-:le:parakatoiki/zw
-:de:parakatoik izw
 
 :le:parakatoru/ssw
 :de:parakatoru ss
@@ -30058,1028 +29254,25 @@
 :le:parane/omai
 :de:paran ew_denom mp
 
-:le:paraneuri/zomai
-:de:paraneur izw mp
-
-:le:paraneu/w
-:de:paran euw
-
-:le:parane/w
-:de:paran ew_denom
-
-:le:paranhne/w
-:de:paranhn ew_denom
-
-:le:paranqe/w
-:de:paranq ew_denom
-
-:le:paranqinologe/w
-:de:paranqinolog ew_denom
-
-:le:paranika/w
-:de:paranik aw_denom
-
-:le:parani/ssomai
-:de:parani ss mp
-
-:le:paranoe/w
-:de:parano ew_denom
-
-:le:paranome/w
-:de:paranom ew_denom
-
-:le:paranosfi/zomai
-:de:paranosf izw mp
-
-:le:paranuktereu/w
-:de:paranukter euw
-
-:le:paranumfeu/w
-:de:paranumf euw
-
-:le:paranu/ssw
-:de:paranu ss
-
-:le:parace/w
-:de:parac ew_denom
-
-:le:paracura/w
-:de:paracur aw_denom
-
-:le:parapaidagwge/w
-:de:parapaidagwg ew_denom
-
-:le:parapai/zw
-:de:parapa izw
-
-:le:parapa/ssw
-:de:parapa ss
-
-:le:parapata/w
-:de:parapat aw_denom
-
-:le:parapeira/omai
-:de:parapeir aw_denom mp
-
-:le:parapeleka/omai
-:de:parapelek aw_denom mp
-
-:le:paraperipate/w
-:de:paraperipat ew_denom
-
-:le:paraphda/w
-:de:paraphd aw_denom
-
-:le:paraphro/omai
-:de:paraphr ow_denom mp
-
-:le:parapisteu/w
-:de:parapist euw
-
 :le:parapitna/w
 :de:parapitn aw_denom
 
-:le:paraplagia/zw
-:de:paraplagi azw
-
-:le:parapla/zw
-:de:parapl azw
-
-:le:paraplana/omai
-:de:paraplan aw_denom mp
-
-:le:parapla/ssw
-:de:parapla ss
-
-:le:parapleuro/w
-:de:parapleur ow_denom
-
-:le:paraple/w
-:de:parapl ew_denom
-
-:le:paraplhkteu/omai
-:de:paraplhkt euw mp
-
-:le:paraplhro/w
-:de:paraplhr ow_denom
-
-:le:paraplh/ssw
-:de:paraplh ss
-
-:le:parapne/w
-:de:parapn ew_denom
-
-:le:parapodi/zw
-:de:parapod izw
-
-:le:parapoie/w
-:de:parapoi ew_denom
-
-:le:parapompeu/w
-:de:parapomp euw
-
-:le:paraporeu/omai
-:de:parapor euw mp
-
-:le:paraporqmeu/w
-:de:paraporqm euw
-
-:le:parapra/ssw
-:de:parapra ss
-
-:le:parapresbeu/w
-:de:parapresb euw
-
-:le:parapresbeu/omai
-:de:parapresb euw mp
-
-:le:parapronoe/w
-:de:paraprono ew_denom
-
-:le:paraprospoie/omai
-:de:paraprospoi ew_denom mp
-
-:le:paraproxe/omai
-:de:paraprox ew_denom mp
-
-:le:paraprutaneu/w
-:de:paraprutan euw
-
-:le:parapterugi/zw
-:de:parapterug izw
-
-:le:parapwle/w
-:de:parapwl ew_denom
-
-:le:parapwma/zw
-:de:parapwm azw
-
-:le:pararqre/w
-:de:pararqr ew_denom
-
-:le:pararqro/w
-:de:pararqr ow_denom
-
-:le:parariqme/w
-:de:parariqm ew_denom
-
-:le:pararpa/zw
-:de:pararp azw
-
-:le:pararraqume/w
-:de:pararraqum ew_denom
-
-:le:pararre/w
-:de:pararr ew_denom
-
-:le:pararrigo/w
-:de:pararrig ow_denom
-
-:le:pararrina/w
-:de:pararrin aw_denom
-
-:le:pararroize/omai
-:de:pararroiz ew_denom mp
-
-:le:pararrupo/w
-:de:pararrup ow_denom
-
-:le:pararta/w
-:de:parart aw_denom
-
-:le:pararte/omai
-:de:parart ew_denom mp
-
-:le:pararti/zomai
-:de:parart izw mp
-
-:le:parasaba/zw
-:de:parasab azw
-
-:le:parasaleu/w
-:de:parasal euw
-
-:le:parasaro/w
-:de:parasar ow_denom
-
-:le:paraseu/w
-:de:paras euw
-
-:le:parashmeio/omai
-:de:parashmei ow_denom mp
-
-:le:parasiga/w
-:de:parasig aw_denom
-
-:le:parasite/w
-:de:parasit ew_denom
-
-:le:parasiwpa/w
-:de:parasiwp aw_denom
-
-:le:paraskeua/zw
-:de:paraskeu azw
-
-:le:paraskepskea/zw
-:de:paraskepske azw
-
-:le:paraskhna/w
-:de:paraskhn aw_denom
-
-:le:paraskhne/w
-:de:paraskhn ew_denom
-
-:le:paraskhno/w
-:de:paraskhn ow_denom
-
-:le:paraskia/zw
-:de:paraski azw
-
-:le:paraskirta/w
-:de:paraskirt aw_denom
-
-:le:paraskope/w
-:de:paraskop ew_denom
-
-:le:paraskuto/w
-:de:paraskut ow_denom
-
-:le:parasobe/w
-:de:parasob ew_denom
-
-:le:parasofi/zomai
-:de:parasof izw mp
-
-:le:paraspeira/omai
-:de:paraspeir aw_denom mp
-
-:le:paraspi/zw
-:de:parasp izw
-
-:le:parasponde/w
-:de:paraspond ew_denom
-
-:le:parasta/zw
-:de:parast azw
-
-:le:parastaqmi/zw
-:de:parastaqm izw
-
-:le:parastate/w
-:de:parastat ew_denom
-
-:le:parastauro/w
-:de:parastaur ow_denom
-
-:le:parastega/zw
-:de:parasteg azw
-
-:le:parasti/zw
-:de:parast izw
-
-:le:parastoxa/zomai
-:de:parastox azw mp
-
-:le:parastrateu/omai
-:de:parastrat euw mp
-
-:le:parastrathge/w
-:de:parastrathg ew_denom
-
-:le:parastratopedeu/w
-:de:parastratoped euw
-
-:le:parastrwfa/w
-:de:parastrwf aw_denom
-
-:le:parasuggrafe/w
-:de:parasuggraf ew_denom
-
-:le:parasugxe/w
-:de:parasugx ew_denom
-
-:le:parasugxwre/w
-:de:parasugxwr ew_denom
-
-:le:parasukofante/w
-:de:parasukofant ew_denom
-
-:le:parasuri/zw
-:de:parasur izw
-
-:le:parasfa/zw
-:de:parasf azw
-
-:le:parasfali/zw
-:de:parasfal izw
-
-:le:parasfhno/w
-:de:parasfhn ow_denom
-
-:le:parasfragi/zw
-:de:parasfrag izw
-
-:le:parasxa/zw
-:de:parasx azw
-
-:le:parasxedia/zw
-:de:parasxedi azw
-
-:le:parasxhmati/zw
-:de:parasxhmat izw
-
-:le:parasxi/zw
-:de:parasx izw
-
-:le:parasxoini/zw
-:de:parasxoin izw
-
-:le:paraswreu/w
-:de:paraswr euw
-
-:le:paratainari/zw
-:de:paratainar izw
-
-:le:paratara/ssw
-:de:paratara ss
-
-:le:parata/ssw
-:de:parata ss
-
-:le:parateixi/zw
-:de:parateix izw
-
-:le:parateleuta/w
-:de:parateleut aw_denom
-
-:le:paratelwne/omai
-:de:paratelwn ew_denom mp
-
-:le:paratexna/omai
-:de:paratexn aw_denom mp
-
-:le:paratexnologe/w
-:de:paratexnolog ew_denom
-
-:le:parathre/w
-:de:parathr ew_denom
-
-:le:paratima/w
-:de:paratim aw_denom
-
-:le:paratmi/zw
-:de:paratm izw
-
-:le:paratolma/w
-:de:paratolm aw_denom
-
-:le:paratragikeu/omai
-:de:paratragik euw mp
-
-:le:paratragw|de/w
-:de:paratragw|d ew_denom
-
-:le:paratragw|de/w
-:de:paratragw|d ew_denom
-
-:le:paratre/w
-:de:paratr ew_denom
-
-:le:paratrope/w
-:de:paratrop ew_denom
-
-:le:paratroxa/zw
-:de:paratrox azw
-
-:le:paratruga/w
-:de:paratrug aw_denom
-
-:le:paratru/zw
-:de:paratr uzw
-
-:le:paratrwpa/w
-:de:paratrwp aw_denom
-
-:le:paratupo/omai
-:de:paratup ow_denom mp
-
-:le:parauga/zw
-:de:paraug azw
-
-:le:parauge/w
-:de:paraug ew_denom
-
-:le:parauda/w
-:de:paraud aw_denom
-
-:le:paraule/w
-:de:paraul ew_denom
-
-:le:parauli/zw
-:de:paraul izw
-
-:le:parauxeni/zw
-:de:parauxen izw
-
-:le:parafaire/w
-:de:parafair ew_denom
-
-:le:parafa/ssw
-:de:parafa ss
-
-:le:parafa/ssw
-:de:parafa ss
-
-:le:parafhlo/w
-:de:parafhl ow_denom
-
-:le:parafluare/w
-:de:parafluar ew_denom
-
-:le:parafomoio/w
-:de:parafomoi ow_denom
-
-:le:parafore/w
-:de:parafor ew_denom
-
-:le:paraforti/zomai
-:de:parafort izw mp
-
-:le:parafra/zw
-:de:parafr azw
-
-:le:parafra/ssw
-:de:parafra ss
-
-:le:parafri/zw
-:de:parafr izw
-
-:le:parafrone/w
-:de:parafron ew_denom
-
-:le:parafroure/w
-:de:parafrour ew_denom
-
-:le:parafrugani/zw
-:de:parafrugan izw
-
-:le:parafruktwreu/omai
-:de:parafruktwr euw mp
-
-:le:parafruktwre/w
-:de:parafruktwr ew_denom
-
-:le:parafulake/w
-:de:parafulak ew_denom
-
-:le:parafula/ssw
-:de:parafula ss
-
-:le:parafusa/w
-:de:parafus aw_denom
-
-:le:parafuteu/w
-:de:parafut euw
-
-:le:parafwne/w
-:de:parafwn ew_denom
-
-:le:paraxa/zw
-:de:parax azw
-
-:le:paraxala/w
-:de:paraxal aw_denom
-
-:le:paraxalkeu/w
-:de:paraxalk euw
-
-:le:paraxara/ssw
-:de:paraxara ss
-
-:le:paraxeima/zw
-:de:paraxeim azw
-
-:le:paraxeirografe/w
-:de:paraxeirograf ew_denom
-
-:le:paraxe/w
-:de:parax ew_denom
-
-:le:paraxordi/zw
-:de:paraxord izw
-
-:le:paraxorhge/w
-:de:paraxorhg ew_denom
-
-:le:paraxra/omai
-:de:paraxr aw_denom mp
-
-:le:paraxra/w
-:de:paraxr aw_denom
-
-:le:paraxrhothria/zw
-:de:paraxrhothri azw
-
-:le:paraxwre/w
-:de:paraxwr ew_denom
-
-:le:paraxwri/zw
-:de:paraxwr izw
-
-:le:paraya/w
-:de:paray aw_denom
-
-:le:parayelli/zw
-:de:parayell izw
-
-:le:parayhlafa/w
-:de:parayhlaf aw_denom
-
-:le:parayhfi/zomai
-:de:parayhf izw mp
-
-:le:parayida/zw
-:de:parayid azw
-
-:le:parayofe/w
-:de:parayof ew_denom
-
-:le:parea/w
-:de:pare aw_denom
-
-:le:pareggi/zw
-:de:paregg izw
-
-:le:pareggua/w
-:de:pareggu aw_denom
-
-:le:paregkeleu/omai
-:de:paregkel euw mp
-
-:le:paregkukle/w
-:de:paregkukl ew_denom
-
-:le:paregxeire/w
-:de:paregxeir ew_denom
-
-:le:paregxe/w
-:de:paregx ew_denom
-
-:le:paregxumati/zw
-:de:paregxumat izw
-
-:le:paredreu/w
-:de:paredr euw
-
-:le:paredrh/ssw
-:de:paredrh ss
-
-:le:paredria/w
-:de:paredr iaw_denom
-
-:le:pareika/zw
-:de:pareik azw
-
-:le:pareile/w
-:de:pareil ew_denom
-
-:le:pareisbia/zomai
-:de:pareisbi azw mp
-
-:le:pareisdu/nw
-:de:pareisd unw
-
-:le:pareiskomi/zw
-:de:pareiskom izw
-
-:le:pareiskukle/w
-:de:pareiskukl ew_denom
-
-:le:pareisodeu/w
-:de:pareisod euw
-
-:le:pareisporeu/omai
-:de:pareispor euw mp
-
-:le:pareispra/ssw
-:de:pareispra ss
-
-:le:pareisre/w
-:de:pareisr ew_denom
-
-:le:pareisfre/w
-:de:pareisfr ew_denom
-
-:le:pareisxe/w
-:de:pareisx ew_denom
-
-:le:parekboleu/omai
-:de:parekbol euw mp
-
-:le:parekqe/w
-:de:parekq ew_denom
-
-:le:parekne/omai
-:de:parekn ew_denom mp
-
-:le:parekneu/w
-:de:parekn euw
-
-:le:parekpera/w
-:de:parekper aw_denom
-
-:le:parekplhro/w
-:de:parekplhr ow_denom
-
-:le:parekpuro/omai
-:de:parekpur ow_denom mp
-
-:le:parekre/w
-:de:parekr ew_denom
-
-:le:parektele/w
-:de:parektel ew_denom
-
-:le:parektroxa/zw
-:de:parektrox azw
-
-:le:parekxe/w
-:de:parekx ew_denom
-
-:le:parelau/nw
-:de:parela unw
-
-:le:parekela/w
-:de:parekel aw_denom
-
-:le:parelpi/zw
-:de:parelp izw
-
-:le:parempa/ssw
-:de:parempa ss
-
-:le:paremphda/w
-:de:paremphd aw_denom
-
-:le:parempla/ssw
-:de:parempla ss
-
-:le:parempodi/zw
-:de:parempod izw
-
-:le:parempoie/w
-:de:parempoi ew_denom
-
-:le:parempola/w
-:de:parempol aw_denom
-
-:le:paremporeu/omai
-:de:parempor euw mp
-
-:le:paremfani/zw
-:de:paremfan izw
-
-:le:paremfra/ssw
-:de:paremfra ss
-
-:le:parenalla/ssomai
-:de:parenalla ss mp
-
-:le:parendhme/w
-:de:parendhm ew_denom
-
-:le:parenqume/omai
-:de:parenqum ew_denom mp
-
-:le:parenoxle/w
-:de:parenoxl ew_denom
-
-:le:parensaleu/w
-:de:parensal euw
-
-:le:parensta/zw
-:de:parenst azw
-
-:le:parensfhno/omai
-:de:parensfhn ow_denom mp
-
-:le:parecaire/w
-:de:parecair ew_denom
-
-:le:parecarke/w
-:de:parecark ew_denom
-
-:le:parecaule/w
-:de:parecaul ew_denom
-
-:le:parecelau/nw
-:de:parecela unw
-
-:le:parecere/omai
-:de:parecer ew_denom mp
-
-:le:pareceta/zw
-:de:parecet azw
-
-:le:parechge/omai
-:de:parechg ew_denom mp
-
-:le:pareciso/w
-:de:parecis ow_denom
-
-:le:parecoudene/w
-:de:parecouden ew_denom
-
-:le:parecwqe/w
-:de:parecwq ew_denom
-
-:le:parepibohqe/w
-:de:parepibohq ew_denom
-
-:le:parepikoure/w
-:de:parepikour ew_denom
-
-:le:parepimolu/nw
-:de:parepimol unw
-
-:le:parepinoe/w
-:de:parepino ew_denom
-
-:le:parepipa/ssw
-:de:parepipa ss
-
-:le:parepiskope/w
-:de:parepiskop ew_denom
-
-:le:parepispa/omai
-:de:parepisp aw_denom mp
-
-:le:parepithdeu/omai
-:de:parepithd euw mp
-
-:le:parepixe/w
-:de:parepix ew_denom
-
-:le:parergolabe/w
-:de:parergolab ew_denom
-
-:le:parereqi/zw
-:de:parereq izw
-
-:le:parermhneu/w
-:de:parermhn euw
-
-:le:parerpu/zw
-:de:parerp uzw
-
-:le:pareta/zw
-:de:paret azw
-
-:le:paretoima/zw
-:de:paretoim azw
-
-:le:paretumologe/w
-:de:paretumolog ew_denom
-
-:le:pareudia/zomai
-:de:pareudi azw mp
-
-:le:pareudokime/w
-:de:pareudokim ew_denom
-
-:le:pareuhmere/w
-:de:pareuhmer ew_denom
-
-:le:pareuqu/nw
-:de:pareuq unw
-
-:le:pareulabe/omai
-:de:pareulab ew_denom mp
-
-:le:pareumare/w
-:de:pareumar ew_denom
-
-:le:pareuna/zomai
-:de:pareun azw mp
-
-:le:pareuna/omai
-:de:pareun aw_denom mp
-
 :le:pareuneta/w
 :de:pareunet aw_denom
-
-:le:pareutakte/w
-:de:pareutakt ew_denom
-
-:le:pareutrepi/zw
-:de:pareutrep izw
-
-:le:pareuwxe/omai
-:de:pareuwx ew_denom mp
-
-:le:parefedreu/w
-:de:parefedr euw
-
-:le:parhba/w
-:de:parhb aw_denom
-
-:le:parhge/omai
-:de:parhg ew_denom mp
-
-:le:parhgore/w
-:de:parhgor ew_denom
-
-:le:parhqe/w
-:de:parhq ew_denom
-
-:le:parhmereu/w
-:de:parhmer euw
-
-:le:parhsuxa/zw
-:de:parhsux azw
-
-:le:parhxe/omai
-:de:parhx ew_denom mp
+#1 possible unaugmented instance
 
 :le:parqenotrofe/w
 :de:parqenotrof ew_denom
 
-:le:pari/zw
-:de:par izw
-
-:le:parippa/zw
-:de:paripp azw
-
-:le:parippeu/w
-:de:paripp euw
-
-:le:parisa/zomai
-:de:paris azw mp
-
-:le:pariso/w
-:de:paris ow_denom
-
-:le:parista/w
-:de:parist aw_denom
-
-:le:paristore/w
-:de:paristor ew_denom
-
-:le:parogko/omai
-:de:parogk ow_denom mp
-
 :le:parode/omai
 :de:parod ew_denom mp
-
-:le:parodeu/w
-:de:parod euw
-
-:le:parodopoie/w
-:de:parodopoi ew_denom
-
-:le:paroide/w
-:de:paroid ew_denom
-
-:le:paroike/w
-:de:paroik ew_denom
-
-:le:paroiki/zw
-:de:paroik izw
-
-:le:paroikodome/w
-:de:paroikodom ew_denom
-
-:le:paroinia/zw
-:de:paroini azw
-
-:le:paroinoxoe/w
-:de:paroinoxo ew_denom
-
-:le:paroistra/w
-:de:paroistr aw_denom
-
-:le:parokla/zw
-:de:parokl azw
-
-:le:paroligwre/w
-:de:paroligwr ew_denom
-
-:le:paromarte/w
-:de:paromart ew_denom
-
-:le:paromoia/zw
-:de:paromoi azw
-
-:le:paromoio/w
-:de:paromoi ow_denom
-
-:le:paromologe/w
-:de:paromolog ew_denom
-
-:le:paroneidi/zw
-:de:paroneid izw
-
-:le:paronoma/zw
-:de:paronom azw
-
-:le:paronomatopoie/w
-:de:paronomatopoi ew_denom
-
-:le:paroci/zw
-:de:paroc izw
-
-:le:parocu/nw
-:de:paroc unw
-
-:le:parocutone/w
-:de:parocuton ew_denom
-
-:le:paropli/zw
-:de:paropl izw
-
-:le:paropta/w
-:de:paropt aw_denom
-
-:le:parora/w
-:de:paror aw_denom
-
-:le:parorgi/zw
-:de:parorg izw
-
-:le:parore/w
-:de:paror ew_denom
-
-:le:parori/zw
-:de:paror izw
-
-:le:parorke/w
-:de:parork ew_denom
-
-:le:parorma/w
-:de:parorm aw_denom
-
-:le:parorme/w
-:de:parorm ew_denom
-
-:le:parormi/zw
-:de:parorm izw
-
-:le:paroru/ssw
-:de:paroru ss
-
-:le:parorxe/omai
-:de:parorx ew_denom mp
 
 :le:parousia/zw
 :de:parousi azw
 
-:le:paroxe/omai
-:de:parox ew_denom mp
-
-:le:paroxeteu/w
-:de:paroxet euw
-
-:le:paroxeu/omai
-:de:parox euw mp
-
-:le:paroxle/w
-:de:paroxl ew_denom
-
-:le:paroxli/zw
-:de:paroxl izw
-
-:le:paroya/omai
-:de:paroy aw_denom mp
-
-:le:paroywne/w
-:de:paroywn ew_denom
-
-:le:paro/w
-:de:par ow_denom
-
-:le:parubri/zomai
-:de:parubr izw mp
-
-:le:paruli/zw
-:de:parul izw
-
-:le:parumne/w
-:de:parumn ew_denom
-
-:le:parupanta/w
-:de:parupant aw_denom
-
-:le:parupno/w
-:de:parupn ow_denom
-
-:le:parupodu/nw
-:de:parupod unw
-
-:le:paruponoe/w
-:de:parupono ew_denom
-
-:le:paruptia/w
-:de:parupt iaw_denom
+#:le:paro/w
+#:de:par ow_denom
+#merged with phro/w
 
 :le:parw|de/w
 :de:parw|d ew_denom
@@ -31381,7 +29574,7 @@
 :le:perigomfa/omai
 :de:perigomf aw_denom mp
 
-:le:perigu=reu/w
+:le:perigureu/w
 :de:perigu_r euw
 
 :le:peridapana/omai
@@ -31795,8 +29988,8 @@
 :le:periora/w
 :de:perior aw_denom
 
-:le:i/zomai
-:de: izw mp
+:le:periorgi/zomai
+:de:periorg izw mp
 
 :le:periorguio/omai
 :de:periorgui ow_denom mp
@@ -32449,8 +30642,9 @@
 :le:phnhki/zw
 :de:phnhk izw
 
-:le:ph/ssw
-:de:ph ss
+#:le:ph/ssw
+#:de:ph ss
+#ought to be solved by adding stem to ph/gnumi
 
 :le:phxi/zw
 :de:phx izw
@@ -32851,8 +31045,8 @@
 :le:polulogi/zw
 :de:polulog izw
 
-:le:poluolve/w
-:de:poluolv ew_denom
+:le:poluoine/w
+:de:poluoin ew_denom
 
 :le:poluoxle/w
 :de:poluoxl ew_denom
@@ -32932,8 +31126,8 @@
 :le:pone/omai
 :de:pon ew_denom mp
 
-:le:*pontarxe/w
-:de:*pontarx ew_denom
+:le:pontarxe/w
+:de:pontarx ew_denom
 
 :le:ponto/w
 :de:pont ow_denom
@@ -33082,8 +31276,8 @@
 :le:priamo/omai
 :de:priam ow_denom mp
 
-:le:*priapi/zw
-:de:*priap izw
+:le:priapi/zw
+:de:priap izw
 
 :le:pri/zw
 :de:pr izw
@@ -33156,9 +31350,7 @@
 
 :le:proaisumna/w
 :de:proaisumn aw_denom
-
-:le:proaisqaisimna/w
-:de:proaisqaisimn aw_denom
+:de:proaisimn aw_denom
 
 :le:proaite/w
 :de:proait ew_denom
@@ -33190,14 +31382,17 @@
 :le:proalla/ssomai
 :de:proalla ss mp
 
+:le:proamei/bomai
+:de:proameib w mp
+
 :le:proameu/w
 :de:proam euw
 
-:le:proamboa/w
+:le:proanaboa/w
 :de:proambo aw_denom
 
-:le:proamgargari/zomai
-:de:proamgargar izw mp
+:le:proanagargari/zomai
+:de:proanagargar izw mp
 
 :le:proanagka/zw
 :de:proanagk azw
@@ -33223,14 +31418,14 @@
 :le:proanaisxunte/w
 :de:proanaisxunt ew_denom
 
-:le:proanakh/ru/ssw
+:le:proanakhru/ssw
 :de:proanakhru ss
 
 :le:proanakine/w
 :de:proanakin ew_denom
 
-:le:proanakolno/omai
-:de:proanakoln ow_denom mp
+:le:proanakoino/omai
+:de:proanakoin ow_denom mp
 
 :le:proanakoufi/zw
 :de:proanakouf izw
@@ -33291,9 +31486,6 @@
 
 :le:proanaxwre/w
 :de:proanaxwr ew_denom
-
-:le:proanayhfi/zw
-:de:proanayhf izw
 
 :le:proanqe/w
 :de:proanq ew_denom
@@ -33379,8 +31571,8 @@
 :le:proapopne/w
 :de:proapopn ew_denom
 
-:le:proapore/w
-:de:proapor ew_denom
+#:le:proapore/w
+#:de:proapor ew_denom
 
 :le:proapospa/w
 :de:proaposp aw_denom
@@ -33850,8 +32042,8 @@
 :le:proekkale/w
 :de:proekkal ew_denom
 
-:le:proekkevo/w
-:de:proekkev ow_denom
+:le:proekkeno/w
+:de:proekken ow_denom
 
 :le:proekklu/zw
 :de:proekkl uzw
@@ -34825,8 +33017,8 @@
 :le:proomologe/w
 :de:proomolog ew_denom
 
-:le:prooveidi/zw
-:de:prooveid izw
+:le:prooneidi/zw
+:de:prooneid izw
 
 :le:proocutone/w
 :de:proocuton ew_denom
@@ -34948,392 +33140,19 @@
 :le:propisto/omai
 :de:propist ow_denom mp
 
-:le:propla/ssw
-:de:propla ss
-
-:le:prople/w
-:de:propl ew_denom
-
-:le:proplhro/w
-:de:proplhr ow_denom
-
-:le:proplh/ssw
-:de:proplh ss
-
-:le:proplu/nw
-:de:propl unw
-
 :le:propode/w
 :de:propod ew_denom
+# 1 example no augment
 
-:le:propodi/zw
-:de:propod izw
-
-:le:propoie/w
-:de:propoi ew_denom
-
-:le:propoleme/w
-:de:propolem ew_denom
-
-:le:propoleu/w
-:de:propol euw
-
-:le:propole/w
-:de:propol ew_denom
-
-:le:propolio/omai
-:de:propoli ow_denom mp
-
-:le:propoliteu/omai
-:de:propolit euw mp
-
-:le:propompeu/w
-:de:propomp euw
-
-:le:propompe/w
-:de:propomp ew_denom
-
-:le:propone/w
-:de:propon ew_denom
-
-:le:proporeu/w
-:de:propor euw
-
-:le:propori/zomai
-:de:propor izw mp
-
-:le:propoti/zw
-:de:propot izw
-
-:le:propagmateu/omai
-:de:propagmat euw mp
-
-:le:propra/ssw
-:de:propra ss
-
-:le:propresbeu/w
-:de:propresb euw
-
-:le:proprobia/zomai
-:de:proprobi azw mp
-
-:le:proproqe/w
-:de:proproq ew_denom
-
-:le:propuria/w
-:de:propur iaw_denom
-
-:le:propuro/w
-:de:propur ow_denom
-
-:le:propwle/w
-:de:propwl ew_denom
-
-:le:prore/w
-:de:pror ew_denom
-
-:le:propwlrofe/w
-:de:propwlrof ew_denom
-
-:le:prorruqmi/zw
-:de:prorruqm izw
-
-:le:prosaganakte/w
-:de:prosaganakt ew_denom
 
 :le:prosagela/zw
 :de:prosagel azw
 
-:le:prosagkali/zomai
-:de:prosagkal izw mp
 
-:le:prosagkulo/omai
-:de:prosagkul ow_denom mp
-
-:le:prosaglai/zomai
-:de:prosagla izw mp
-
-:le:prosagnoe/w
-:de:prosagno ew_denom
-
-:le:prosagora/zw
-:de:prosagor azw
-
-:le:prosagoreu/w
-:de:prosagor euw
-
-:le:prosagrupne/w
-:de:prosagrupn ew_denom
-
-:le:prosagwni/zomai
-:de:prosagwn izw mp
-
-:le:prosadike/w
-:de:prosadik ew_denom
-
-:le:prosaqroi/zw
-:de:prosaqro izw
-
-:le:prosaqume/w
-:de:prosaqum ew_denom
-
-:le:prosaiqri/zw
-:de:prosaiqr izw
-
-:le:prosaiki/zomai
-:de:prosaik izw mp
-
-:le:prosaiona/w
-:de:prosaion aw_denom
-
-:le:prosaire/omai
-:de:prosair ew_denom mp
-
-:le:prosai/ssw
-:de:prosai ss
-
-:le:prosaite/w
-:de:prosait ew_denom
-
-:le:prosaitia/omai
-:de:prosait iaw_denom mp
-
-:le:prosaiwre/omai
-:de:prosaiwr ew_denom mp
-
-:le:prosakonti/zw
-:de:prosakont izw
-
-:le:prosakribo/w
-:de:prosakrib ow_denom
-
-:le:prosakroboli/zomai
-:de:prosakrobol izw mp
-
-:le:prosalazoneu/w
-:de:prosalazon euw
-
-:le:prosali/zomai
-:de:prosal izw mp
-
-:le:prosallotrio/omai
-:de:prosallotri ow_denom mp
-
-:le:prosamilla/omai
-:de:prosamill aw_denom mp
-
-:le:prosamu/nw
-:de:prosam unw
-
-:le:prosamu/ssw
-:de:prosamu ss
-
-:le:prosanagargari/zomai
-:de:prosanagargar izw mp
-
-:le:prosanagka/zw
-:de:prosanagk azw
-
-:le:prosanagoreu/w
-:de:prosanagor euw
-
-:le:prosanazhte/w
-:de:prosanazht ew_denom
-
-:le:prosanazwgrafe/w
-:de:prosanazwgraf ew_denom
-
-:le:prosanaideu/omai
-:de:prosanaid euw mp
-
-:le:prosanaire/w
-:de:prosanair ew_denom
-
-:le:prosanaisimo/omai
-:de:prosanaisim ow_denom mp
-
-:le:prosanakaqi/zw
-:de:prosanakaq izw
-
-:le:prosanakefalaio/omai
-:de:prosanakefalai ow_denom mp
-
-:le:prosanakla/w
-:de:prosanakl aw_denom
-
-:le:prosanakoino/omai
-:de:prosanakoin ow_denom mp
-
-:le:prosanakoufi/zw
-:de:prosanakouf izw
-
-:le:prosanakta/omai
-:de:prosanakt aw_denom mp
-
-:le:prosanalikma/w
-:de:prosanalikm aw_denom
-
-:le:prosanalogi/zomai
-:de:prosanalog izw mp
-
-:le:prosanametre/w
-:de:prosanametr ew_denom
-
-:le:prosananeo/omai
-:de:prosanane ow_denom mp
-
-:le:prosanapeira/omai
-:de:prosanapeir aw_denom mp
-
-:le:prosanaphda/w
-:de:prosanaphd aw_denom
-
-:le:prosanapla/ssw
-:de:prosanapla ss
-
-:le:prosanaplhro/w
-:de:prosanaplhr ow_denom
-
-:le:prosanaptu/ssw
-:de:prosanaptu ss
-
-:le:prosanarripi/zw
-:de:prosanarrip izw
-
-:le:prosanarta/w
-:de:prosanart aw_denom
-
-:le:prosanaspa/w
-:de:prosanasp aw_denom
-
-:le:prosanata/ssw
-:de:prosanata ss
-
-:le:prosanateni/zw
-:de:prosanaten izw
-
-:le:prosanatupo/w
-:de:prosanatup ow_denom
-
-:le:prosanafusa/w
-:de:prosanafus aw_denom
-
-:le:prosanaxala/w
-:de:prosanaxal aw_denom
-
-:le:prosanerwta/w
-:de:prosanerwt aw_denom
-
-:le:prosaneuru/nw
-:de:prosaneur unw
-
-:le:prosanqe/w
-:de:prosanq ew_denom
-
-:le:prosanima/w
-:de:prosanim aw_denom
-
-:le:prosanoide/w
-:de:prosanoid ew_denom
-
-:le:prosanoikodome/omai
-:de:prosanoikodom ew_denom mp
-
-:le:prosanta/w
-:de:prosant aw_denom
-
-:le:prosantepita/ssw
-:de:prosantepita ss
-
-:le:prosantibole/w
-:de:prosantibol ew_denom
-
-:le:prosantle/w
-:de:prosantl ew_denom
-
-:le:prosacio/w
-:de:prosaci ow_denom
-
-:le:prosapagoreu/w
-:de:prosapagor euw
-
-:le:prosapaite/w
-:de:prosapait ew_denom
-
-:le:prosapanta/w
-:de:prosapant aw_denom
-
-:le:prosaparti/zw
-:de:prosapart izw
-
-:le:prosapata/w
-:de:prosapat aw_denom
-
-:le:prosapauda/w
-:de:prosapaud aw_denom
-
-:le:prosapeile/w
-:de:prosapeil ew_denom
-
-:le:prosaperga/zomai
-:de:prosaperg azw mp
 
 :le:prosapiste/w
 :de:prosapist ew_denom
 
-:le:prosapoklu/zw
-:de:prosapokl uzw
-
-:le:prosapoce/w
-:de:prosapoc ew_denom
-
-:le:prosapore/w
-:de:prosapor ew_denom
-
-:le:prosaposkeua/zomai
-:de:prosaposkeu azw mp
-
-:le:prosapostere/w
-:de:prosaposter ew_denom
-
-:le:prosapotima/w
-:de:prosapotim aw_denom
-
-:le:prosapofra/ssw
-:de:prosapofra ss
-
-:le:prosapofwne/w
-:de:prosapofwn ew_denom
-
-:le:prosapwqe/w
-:de:prosapwq ew_denom
-
-:le:prosara/ssw
-:de:prosara ss
-
-:le:prosarqro/omai
-:de:prosarqr ow_denom mp
-
-:le:prosariqme/w
-:de:prosariqm ew_denom
-
-:le:prosarista/w
-:de:prosarist aw_denom
-
-:le:prosarke/w
-:de:prosark ew_denom
-
-:le:prosarko/w
-:de:prosark ow_denom
-
-:le:prosarta/w
-:de:prosart aw_denom
-
-:le:prosaske/w
-:de:prosask ew_denom
-
-:le:prosaspa/zomai
-:de:prosasp azw mp
 
 :le:prosa/ssw
 :de:prosa ss
@@ -35350,14 +33169,6 @@
 :le:prosatimo/omai
 :de:prosatim ow_denom mp
 
-:le:prosauga/zw
-:de:prosaug azw
-
-:le:prosauda/w
-:de:prosaud aw_denom
-
-:le:prosaule/w
-:de:prosaul ew_denom
 
 :le:prosauri/zw
 :de:prosaur izw
@@ -35365,164 +33176,17 @@
 :le:prosaute/w
 :de:prosaut ew_denom
 
-:le:prosautourge/w
-:de:prosautourg ew_denom
-
-:le:prosafaire/w
-:de:prosafair ew_denom
-
-:le:prosafikne/omai
-:de:prosafikn ew_denom mp
-
 :le:prosafodeu/w
 :de:prosafod euw
 
 :le:prosafori/zw
 :de:prosafor izw
 
-:le:prosafri/zw
-:de:prosafr izw
-
-:le:prosbadi/zw
-:de:prosbad izw
-
-:le:prosbaqu/nw
-:de:prosbaq unw
-
-:le:prosbakxeu/w
-:de:prosbakx euw
-
-:le:prosbasani/zw
-:de:prosbasan izw
-
-:le:prosbebaio/w
-:de:prosbebai ow_denom
-
-:le:prosbia/zomai
-:de:prosbi azw mp
-
-:le:prosbiba/zw
-:de:prosbib azw
-
-:le:prosbio/w
-:de:prosbi ow_denom
-
-:le:prosblasfhme/w
-:de:prosblasfhm ew_denom
-
-:le:prosblu/zw
-:de:prosbl uzw
-
-:le:prosboa/w
-:de:prosbo aw_denom
-
-:le:prosbohqe/w
-:de:prosbohq ew_denom
-
-:le:prosbotani/zw
-:de:prosbotan izw
-
-:le:prosbra/ssw
-:de:prosbra ss
-
-:le:prosgeitnia/w
-:de:prosgeitn iaw_denom
-
-:le:prosgela/w
-:de:prosgel aw_denom
-
-:le:prosgomfo/w
-:de:prosgomf ow_denom
-
-:le:prosgumna/zw
-:de:prosgumn azw
-
-:le:prosdanei/zw
-:de:prosdane izw
-
-:le:prosdapana/w
-:de:prosdapan aw_denom
-
-:le:prosdate/omai
-:de:prosdat ew_denom mp
-
-:le:prosdayileu/omai
-:de:prosdayil euw mp
-
-:le:prosdesmeu/w
-:de:prosdesm euw
-
-:le:prosdesme/w
-:de:prosdesm ew_denom
-
-:le:prosde/w
-:de:prosd ew_denom
-
-:le:prosde/w
-:de:prosd ew_denom
-
-:le:prosde/omai
-:de:prosd ew_denom mp
-
-:le:prosdhle/omai
-:de:prosdhl ew_denom mp
-
-:le:prosdhlo/w
-:de:prosdhl ow_denom
-
-:le:prosdhmagwge/w
-:de:prosdhmagwg ew_denom
-
-:le:prosdiaire/w
-:de:prosdiair ew_denom
-
 :le:prosdiaita/omai
 :de:prosdiait aw_denom mp
 
 :le:prosdiakribo/w
 :de:prosdiakrib ow_denom
-
-:le:prosdiamarture/w
-:de:prosdiamartur ew_denom
-
-:le:prosdiamaxe/w
-:de:prosdiamax ew_denom
-
-:le:prosdianagka/zw
-:de:prosdianagk azw
-
-:le:prosdianoe/omai
-:de:prosdiano ew_denom mp
-
-:le:prosdiapoleme/w
-:de:prosdiapolem ew_denom
-
-:le:prosdiapore/w
-:de:prosdiapor ew_denom
-
-:le:prosdiapra/ssw
-:de:prosdiapra ss
-
-:le:prosdiarqro/w
-:de:prosdiarqr ow_denom
-
-:le:prosdiarke/w
-:de:prosdiark ew_denom
-
-:le:prosdiarpa/zw
-:de:prosdiarp azw
-
-:le:prosdiasafe/w
-:de:prosdiasaf ew_denom
-
-:le:prosdiatara/ssw
-:de:prosdiatara ss
-
-:le:prosdiata/ssw
-:de:prosdiata ss
-
-:le:prosdiafore/w
-:de:prosdiafor ew_denom
 
 :le:prosdieggua/w
 :de:prosdieggu aw_denom
@@ -35542,506 +33206,17 @@
 :le:prosdika/zw
 :de:prosdik azw
 
-:le:prosdioike/w
-:de:prosdioik ew_denom
-
-:le:prosdiorqo/w
-:de:prosdiorq ow_denom
-
-:le:prosdiori/zw
-:de:prosdior izw
-
-:le:prosdoka/w
-:de:prosdok aw_denom
-
-:le:prosdoke/w
-:de:prosdok ew_denom
-
-:le:prosdoca/zw
-:de:prosdoc azw
-
-:le:prosdouleu/w
-:de:prosdoul euw
-
-:le:prosdu/nw
-:de:prosd unw
-
-:le:prosdwre/omai
-:de:prosdwr ew_denom mp
-
-:le:prosea/w
-:de:prose aw_denom
-
-:le:proseba/zomai
-:de:proseb azw mp
-
-:le:proseggela/w
-:de:proseggel aw_denom
-
-:le:proseggi/zw
-:de:prosegg izw
-
-:le:proseggua/omai
-:de:proseggu aw_denom mp
-
-:le:prosegkale/w
-:de:prosegkal ew_denom
-
-:le:prosegkeleu/omai
-:de:prosegkel euw mp
-
-:le:prosegxe/w
-:de:prosegx ew_denom
-
-:le:prosedafi/zw
-:de:prosedaf izw
-
-:le:prosedreu/w
-:de:prosedr euw
-
-:le:proseqi/zw
-:de:proseq izw
-
-:le:proseika/zw
-:de:proseik azw
-
-:le:proseile/w
-:de:proseil ew_denom
-
-:le:proseiseupore/w
-:de:proseiseupor ew_denom
-
-:le:proseispra/ssw
-:de:proseispra ss
-
-:le:prosekboa/w
-:de:prosekbo aw_denom
-
-:le:proseklogi/zomai
-:de:proseklog izw mp
-
-:le:prosekloidore/w
-:de:prosekloidor ew_denom
-
-:le:prosekplatu/nw
-:de:prosekplat unw
-
-:le:prosekplhro/w
-:de:prosekplhr ow_denom
-
-:le:prosekpne/w
-:de:prosekpn ew_denom
-
-:le:prosekpone/w
-:de:prosekpon ew_denom
-
-:le:prosekpori/zw
-:de:prosekpor izw
-
-:le:prosekpuro/w
-:de:prosekpur ow_denom
-
-:le:prosekspa/w
-:de:proseksp aw_denom
-
-:le:prosektapeino/w
-:de:prosektapein ow_denom
-
-:le:prosektara/ssw
-:de:prosektara ss
-
-:le:prosektraxhli/zw
-:de:prosektraxhl izw
-
-:le:prosektuflo/w
-:de:prosektufl ow_denom
-
-:le:prosekfobe/w
-:de:prosekfob ew_denom
-
-:le:prosekfuteu/w
-:de:prosekfut euw
-
-:le:prosekxleua/zw
-:de:prosekxleu azw
-
-:le:proselau/nw
-:de:prosela unw
-
-:le:proselafru/nw
-:de:proselafr unw
-
-:le:proselpi/zw
-:de:proselp izw
-
 :le:proselutro/w
 :de:proselutr ow_denom
-
-:le:prosembateu/w
-:de:prosembat euw
-
-:le:prosembrima/omai
-:de:prosembrim aw_denom mp
-
-:le:prosempa/ssw
-:de:prosempa ss
-
-:le:prosempedo/w
-:de:prosemped ow_denom
-
-:le:prosempla/ssw
-:de:prosempla ss
-
-:le:prosempola/w
-:de:prosempol aw_denom
-
-:le:prosempone/w
-:de:prosempon ew_denom
-
-:le:prosempuri/zw
-:de:prosempur izw
-
-:le:prosemfani/zw
-:de:prosemfan izw
-
-:le:prosemfore/w
-:de:prosemfor ew_denom
-
-:le:prosemfra/ssw
-:de:prosemfra ss
-
-:le:prosemfusa/w
-:de:prosemfus aw_denom
-
-:le:prosemfusio/w
-:de:prosemfusi ow_denom
-
-:le:prosendayileu/omai
-:de:prosendayil euw mp
-
-:le:prosenexura/zw
-:de:prosenexur azw
-
-:le:prosenqume/omai
-:de:prosenqum ew_denom mp
-
-:le:prosennoe/w
-:de:prosenno ew_denom
-
-:le:prosenoxle/w
-:de:prosenoxl ew_denom
-
-:le:proseno/w
-:de:prosen ow_denom
-
-:le:prosentupo/w
-:de:prosentup ow_denom
-
-:le:prosenubri/zw
-:de:prosenubr izw
-
-:le:prosecaire/w
-:de:prosecair ew_denom
-
-:le:prosecandrapodi/zomai
-:de:prosecandrapod izw mp
-
-:le:prosecapata/w
-:de:prosecapat aw_denom
-
-:le:prosecaplo/w
-:de:prosecapl ow_denom
-
-:le:prosecaske/w
-:de:prosecask ew_denom
-
-:le:prosecelau/nw
-:de:prosecela unw
-
-:le:proseceli/ssw
-:de:proseceli ss
-
-:le:proseceme/w
-:de:prosecem ew_denom
-
-:le:prosecerga/zomai
-:de:prosecerg azw mp
-
-:le:prosecereqi/zw
-:de:prosecereq izw
-
-:le:proseceta/zw
-:de:prosecet azw
-
-:le:proseceupore/w
-:de:proseceupor ew_denom
-
-:le:prosechge/omai
-:de:prosechg ew_denom mp
-
-:le:prosechpeiro/w
-:de:prosechpeir ow_denom
-
-:le:prosecikma/zw
-:de:prosecikm azw
-
-:le:prosecorki/zw
-:de:prosecork izw
-
-:le:prosecubri/zw
-:de:prosecubr izw
-
-:le:prosepaine/w
-:de:prosepain ew_denom
-
-:le:prosepaitia/omai
-:de:prosepait iaw_denom mp
-
-:le:prosepapeile/w
-:de:prosepapeil ew_denom
-
-:le:prosepara/omai
-:de:prosepar aw_denom mp
-
-:le:prosepeisfore/w
-:de:prosepeisfor ew_denom
-
-:le:prosepelpi/zw
-:de:prosepelp izw
-
-:le:prosepecerga/zomai
-:de:prosepecerg azw mp
-
-:le:proseperwta/w
-:de:proseperwt aw_denom
-
-:le:prosepeuwni/zw
-:de:prosepeuwn izw
-
-:le:prosephrea/zw
-:de:prosephre azw
-
-:le:prosephxe/w
-:de:prosephx ew_denom
-
-:le:prosepiboa/w
-:de:prosepibo aw_denom
-
-:le:prosepibohqe/w
-:de:prosepibohq ew_denom
-
-:le:prosepigenna/w
-:de:prosepigenn aw_denom
-
-:le:prosepidayileu/omai
-:de:prosepidayil euw mp
-
-:le:prosepide/omai
-:de:prosepid ew_denom mp
-
-:le:prosepidesme/w
-:de:prosepidesm ew_denom
-
-:le:prosepide/w
-:de:prosepid ew_denom
-
-:le:prosepidhme/w
-:de:prosepidhm ew_denom
-
-:le:prosepidiaire/w
-:de:prosepidiair ew_denom
-
-:le:prosepidiori/zw
-:de:prosepidior izw
-
-:le:prosepidoca/zw
-:de:prosepidoc azw
-
-:le:prosepidra/ssomai
-:de:prosepidra ss mp
-
-:le:prosepizhte/w
-:de:prosepizht ew_denom
-
-:le:prosepiqea/omai
-:de:prosepiqe aw_denom mp
-
-:le:prosepiqespi/zw
-:de:prosepiqesp izw
-
-:le:prosepikale/w
-:de:prosepikal ew_denom
-
-:le:prosepikatade/w
-:de:prosepikatad ew_denom
-
-:le:prosepikertome/w
-:de:prosepikertom ew_denom
-
-:le:prosepikhru/ssw
-:de:prosepikhru ss
-
-:le:prosepikosme/w
-:de:prosepikosm ew_denom
-
-:le:prosepikta/omai
-:de:prosepikt aw_denom mp
-
-:le:prosepilixma/omai
-:de:prosepilixm aw_denom mp
-
-:le:prosepilogi/zomai
-:de:prosepilog izw mp
 
 :le:prosepimasa/omai
 :de:prosepimas aw_denom mp
 
-:le:prosepimele/omai
-:de:prosepimel ew_denom mp
-
 :le:prosepimeri/zw
 :de:prosepimer izw
 
-:le:prosepimetre/w
-:de:prosepimetr ew_denom
-
-:le:prosepimhxana/omai
-:de:prosepimhxan aw_denom mp
-
-:le:prosepineu/w
-:de:prosepin euw
-
-:le:prosepinoe/w
-:de:prosepino ew_denom
-
-:le:prosepinu/ssw
-:de:prosepinu ss
-
-:le:prosepiorke/w
-:de:prosepiork ew_denom
-
-:le:prosepiparakale/w
-:de:prosepiparakal ew_denom
-
-:le:prosepipa/ssw
-:de:prosepipa ss
-
-:le:prosepiphda/w
-:de:prosepiphd aw_denom
-
-:le:prosepipla/ssw
-:de:prosepipla ss
-
-:le:prosepiple/w
-:de:prosepipl ew_denom
-
-:le:prosepiplhro/w
-:de:prosepiplhr ow_denom
-
-:le:prosepiplh/ssw
-:de:prosepiplh ss
-
-:le:prosepipone/w
-:de:prosepipon ew_denom
-
-:le:prosepirre/w
-:de:prosepirr ew_denom
-
-:le:prosepirrhtoreu/w
-:de:prosepirrhtor euw
-
-:le:prosepirrofe/w
-:de:prosepirrof ew_denom
-
-:le:prosepisemnu/nw
-:de:prosepisemn unw
-
-:le:prosepisiti/zomai
-:de:prosepisit izw mp
-
-:le:prosepiskeua/zw
-:de:prosepiskeu azw
-
-:le:prosepiskope/w
-:de:prosepiskop ew_denom
-
-:le:prosepispa/omai
-:de:prosepisp aw_denom mp
-
-:le:prosepistefano/w
-:de:prosepistefan ow_denom
-
 :le:prosepisuneti/zw
 :de:prosepisunet izw
-
-:le:prosepisfa/zw
-:de:prosepisf azw
-
-:le:prosepisfragi/zomai
-:de:prosepisfrag izw mp
-
-:le:prosepisxuri/zw
-:de:prosepisxur izw
-
-:le:prosepiswreu/w
-:de:prosepiswr euw
-
-:le:prosepitalaipwre/w
-:de:prosepitalaipwr ew_denom
-
-:le:prosepita/ssw
-:de:prosepita ss
-
-:le:prosepitele/w
-:de:prosepitel ew_denom
-
-:le:prosepitexna/omai
-:de:prosepitexn aw_denom mp
-
-:le:prosepitima/w
-:de:prosepitim aw_denom
-
-:le:prosepitragw|de/w
-:de:prosepitragw|d ew_denom
-
-:le:prosepitropeu/omai
-:de:prosepitrop euw mp
-
-:le:prosepifhmi/zw
-:de:prosepifhm izw
-
-:le:prosepifqone/w
-:de:prosepifqon ew_denom
-
-:le:prosepifoita/w
-:de:prosepifoit aw_denom
-
-:le:prosepifwne/w
-:de:prosepifwn ew_denom
-
-:le:prosepifwti/zw
-:de:prosepifwt izw
-
-:le:prosepixara/ssw
-:de:prosepixara ss
-
-:le:prosepixari/zomai
-:de:prosepixar izw mp
-
-:le:prosepixe/w
-:de:prosepix ew_denom
-
-:le:prosepiyhfi/zomai
-:de:prosepiyhf izw mp
-
-:le:proserani/zw
-:de:proseran izw
-
-:le:proserga/zomai
-:de:proserg azw mp
-
-:le:prosereqi/zw
-:de:prosereq izw
 
 :le:prosere/ssw
 :de:prosere ss
@@ -36619,9 +33794,6 @@
 :le:prosorgi/zomai
 :de:prosorg izw mp
 
-:le:prosore/w
-:de:prosor ew_denom
-
 :le:prosori/zw
 :de:prosor izw
 
@@ -36697,12 +33869,6 @@
 :le:prospassalo/w
 :de:prospassal ow_denom
 
-:le:prospa/ssw
-:de:prospa ss
-
-:le:prospa/w
-:de:prosp aw_denom
-
 :le:prospeira/zw
 :de:prospeir azw
 
@@ -36721,9 +33887,6 @@
 :le:prosperiori/zomai
 :de:prosperior izw mp
 
-:le:prosperipoie/w
-:de:prosperipoi ew_denom
-
 :le:prosperona/w
 :de:prosperon aw_denom
 
@@ -36733,8 +33896,9 @@
 :le:prosphlo/w
 :de:prosphl ow_denom
 
-:le:prosph/ssw
-:de:prosph ss
+#:le:prosph/ssw
+#:de:prosph ss
+#ought to be solved by adding stem to ph/gnumi
 
 :le:prosphxu/nomai
 :de:prosphx unw mp
@@ -36970,9 +34134,6 @@
 :le:prostexna/omai
 :de:prostexn aw_denom mp
 
-:le:prosthre/w
-:de:prosthr ew_denom
-
 :le:prostila/w
 :de:prostil aw_denom
 
@@ -37192,9 +34353,6 @@
 :le:prosxwre/w
 :de:prosxwr ew_denom
 
-:le:prosyhfi/zomai
-:de:prosyhf izw mp
-
 :le:prosyiquri/zw
 :de:prosyiqur izw
 
@@ -37264,9 +34422,6 @@
 :le:protexno/omai
 :de:protexn ow_denom mp
 
-:le:prothre/w
-:de:prothr ew_denom
-
 :le:protiqaseu/w
 :de:protiqas euw
 
@@ -37279,8 +34434,8 @@
 :le:protina/ssw
 :de:protina ss
 
-:le:protio/ssomai
-:de:protio ss mp
+#:le:protio/ssomai
+#:de:protio ss mp
 
 :le:protitlo/w
 :de:protitl ow_denom
@@ -37489,9 +34644,6 @@
 :le:proyhni/zw
 :de:proyhn izw
 
-:le:proyhfi/zomai
-:de:proyhf izw mp
-
 :le:proyuxri/zw
 :de:proyuxr izw
 
@@ -37504,10 +34656,10 @@
 :le:prowfele/w
 :de:prowfel ew_denom
 
-:le:brutaneu/w
+:le:prutaneu/w
 :de:brutan euw
 
-:le:prwggueu/w
+:le:proeggueu/w
 :de:prwggu euw
 
 :le:prwiblaste/w
@@ -37627,8 +34779,8 @@
 :le:pugi/zw
 :de:pug izw
 
-:le:*puqai/zw
-:de:*puqa izw
+:le:puqai/zw
+:de:puqa izw
 
 :le:puqia/zw
 :de:puqi azw
@@ -37987,17 +35139,14 @@
 :le:r(upofore/w
 :de:r(upofor ew_denom
 
-:le:r(upo/w
-:de:r(up ow_denom
-
 :le:r(usa/w
 :de:r(us aw_denom
 
 :le:r(uso/w
 :de:r(us ow_denom
 
-:le:*(rwmai/zw
-:de:*(rwma izw
+:le:r(wmai/zw
+:de:r(wma izw
 
 :le:r(wmaleo/omai
 :de:r(wmale ow_denom mp
@@ -38014,10 +35163,10 @@
 :le:r(wtaki/zw
 :de:r(wtak izw
 
-:le:*saba/zw
-:de:*sab azw
-
 :le:saba/zw
+:de:sab azw
+
+:le:saba/zw2
 :de:sab azw
 
 :le:sagaphni/zw
@@ -38059,7 +35208,7 @@
 :le:salo/omai
 :de:sal ow_denom mp
 
-:le:salpi/ssw
+:le:salpi/zw
 :de:salpi ss
 
 :le:samyouxi/zw
@@ -38067,9 +35216,7 @@
 
 :le:sandaraki/zw
 :de:sandarak izw
-
-:le:sandarakxi/zw
-:de:sandarakx izw
+:de:sandarax izw
 
 :le:saostre/w
 :de:saostr ew_denom
@@ -38125,17 +35272,17 @@
 :le:saunia/zw
 :de:sauni azw
 
-:le:*sebasmia/zw
-:de:*sebasmi azw
+:le:sebasmia/zw
+:de:sebasmi azw
 
-:le:*sebasteu/w
-:de:*sebast euw
+:le:sebasteu/w
+:de:sebast euw
 
-:le:*sebastokrate/w
-:de:*sebastokrat ew_denom
+:le:sebastokrate/w
+:de:sebastokrat ew_denom
 
-:le:*sebastofante/w
-:de:*sebastofant ew_denom
+:le:sebastofante/w
+:de:sebastofant ew_denom
 
 :le:seira/w
 :de:seir aw_denom
@@ -38146,11 +35293,11 @@
 :le:seire/w
 :de:seir ew_denom
 
-:le:seiri=a/zw
-:de:seiri_ azw
+:le:seiria/zw
+:de:seiri azw
 
-:le:seira/w
-:de:seir aw_denom
+:le:seiria/w
+:de:seiri aw_denom
 
 :le:seiro/w
 :de:seir ow_denom
@@ -38164,8 +35311,8 @@
 :le:sela/w
 :de:sel aw_denom
 
-:le:*seleuki/zw
-:de:*seleuk izw
+:le:seleuki/zw
+:de:seleuk izw
 
 :le:selhna/zw
 :de:selhn azw
@@ -38188,8 +35335,8 @@
 :le:septeu/w
 :de:sept euw
 
-:le:se/w
-:de:s ew_denom
+:le:qe/w
+:de:s ew_denom doric
 
 :le:shmati/zomai
 :de:shmat izw mp
@@ -38214,9 +35361,10 @@
 
 :le:siali/zw
 :de:sial izw
+:de:siel izw
 
-:le:loxoe/w
-:de:loxo ew_denom
+:le:sialoxoe/w
+:de:sialoxo ew_denom
 
 :le:sialo/w
 :de:sial ow_denom
@@ -38236,8 +35384,8 @@
 :le:sidhrodete/w
 :de:sidhrodet ew_denom
 
-:le:*sikeli/zw
-:de:*sikel izw
+:le:sikeli/zw
+:de:sikel izw
 
 :le:sikua/zw
 :de:siku azw
@@ -38284,10 +35432,10 @@
 :le:sino/w
 :de:sin ow_denom
 
-:le:*sinwpi/zw
-:de:*sinwp izw
+:le:sinwpi/zw
+:de:sinwp izw
 
-:le:siria/w
+:le:seiria/w
 :de:sir iaw_denom
 
 :le:sisufi/zw
@@ -38298,9 +35446,6 @@
 
 :le:siteuwne/w
 :de:siteuwn ew_denom
-
-:le:site/w
-:de:sit ew_denom
 
 :le:sithresia/zw
 :de:sithresi azw
@@ -39121,9 +36266,6 @@
 :le:stroggulo/w
 :de:stroggul ow_denom
 
-:le:ttroggulo/omai
-:de:ttroggul ow_denom mp
-
 :le:strombe/w
 :de:stromb ew_denom
 
@@ -39394,9 +36536,6 @@
 :le:sugkataxwri/zw
 :de:sugkataxwr izw
 
-:le:sugkatayhfi/zomai
-:de:sugkatayhf izw mp
-
 :le:sugkaterga/zomai
 :de:sugkaterg azw mp
 
@@ -39601,8 +36740,9 @@
 :le:sugkuro/w
 :de:sugkur ow_denom
 
-:le:sugkurkure/w
-:de:sugkurkur ew_denom
+:le:sugku/rw
+:de:sugk urw
+:de:sugkur ew_denom
 
 :le:sugkwqwni/zomai
 :de:sugkwqwn izw mp
@@ -39690,9 +36830,6 @@
 
 :le:sugxulo/omai
 :de:sugxul ow_denom mp
-
-:le:sugxu/nw
-:de:sugx unw
 
 :le:sugxutro/w
 :de:sugxutr ow_denom
@@ -40063,9 +37200,6 @@
 :le:sumparata/ssomai
 :de:sumparata ss mp
 
-:le:sumparathre/w
-:de:sumparathr ew_denom
-
 :le:sumparatroxa/zw
 :de:sumparatrox azw
 
@@ -40189,8 +37323,9 @@
 :le:sumphlo/w
 :de:sumphl ow_denom
 
-:le:sumph/ssw
-:de:sumph ss
+#:le:sumph/ssw
+#:de:sumph ss
+#ought to be solved by adding stem to ph/gnumi
 
 :le:sumpile/w
 :de:sumpil ew_denom
@@ -40467,9 +37602,6 @@
 
 :le:sumyelli/zw
 :de:sumyell izw
-
-:le:sumyhfi/zw
-:de:sumyhf izw
 
 :le:sumyhfoqete/w
 :de:sumyhfoqet ew_denom
@@ -40957,8 +38089,8 @@
 :le:sunapople/w
 :de:sunapopl ew_denom
 
-:le:sunapore/w
-:de:sunapor ew_denom
+#:le:sunapore/w
+#:de:sunapor ew_denom
 
 :le:sunaporre/w
 :de:sunaporr ew_denom
@@ -41272,8 +38404,8 @@
 :le:sundiapone/w
 :de:sundiapon ew_denom
 
-:le:sundiapore/w
-:de:sundiapor ew_denom
+#:le:sundiapore/w
+#:de:sundiapor ew_denom
 
 :le:sundiaporqmeu/omai
 :de:sundiaporqm euw mp
@@ -41304,9 +38436,6 @@
 
 :le:sundiatele/w
 :de:sundiatel ew_denom
-
-:le:sundiathre/w
-:de:sundiathr ew_denom
 
 :le:sundiatta/w
 :de:sundiatt aw_denom
@@ -41503,8 +38632,8 @@
 :le:sunekbra/ssw
 :de:sunekbra ss
 
-:le:pana/w
-:de:pan aw_denom
+:le:sunekdapana/w
+:de:sunekdapan aw_denom
 
 :le:sunekdhme/w
 :de:sunekdhm ew_denom
@@ -41878,182 +39007,20 @@
 :le:sunepaitia/omai
 :de:sunepait iaw_denom mp
 
-:le:sunepaiwre/omai
-:de:sunepaiwr ew_denom mp
-
-:le:sunepakolouqe/w
-:de:sunepakolouq ew_denom
-
-:le:sunepalala/zw
-:de:sunepalal azw
-
-:le:sunepanorqo/w
-:de:sunepanorq ow_denom
-
-:le:sunepaske/w
-:de:sunepask ew_denom
-
-:le:sunepeiskukle/w
-:de:sunepeiskukl ew_denom
-
-:le:sunepeisre/w
-:de:sunepeisr ew_denom
-
-:le:sunepelafri/zw
-:de:sunepelafr izw
-
-:le:sunepelafru/nw
-:de:sunepelafr unw
-
-:le:sunepecerga/zomai
-:de:sunepecerg azw mp
-
-:le:suneperi/zw
-:de:suneper izw
-
-:le:sunepeudoke/w
-:de:sunepeudok ew_denom
-
-:le:sunepeuqu/nw
-:de:sunepeuq unw
-
-:le:sunepeufhme/w
-:de:sunepeufhm ew_denom
-
-:le:sunephxe/w
-:de:sunephx ew_denom
-
-:le:sunepibohqe/w
-:de:sunepibohq ew_denom
-
-:le:sunepibouleu/w
-:de:sunepiboul euw
-
-:le:sunepigauro/w
-:de:sunepigaur ow_denom
-
-:le:sunepigela/w
-:de:sunepigel aw_denom
-
-:le:sunepidesme/w
-:de:sunepidesm ew_denom
-
-:le:sunepide/w
-:de:sunepid ew_denom
-
-:le:sunepidhme/w
-:de:sunepidhm ew_denom
-
-:le:sunepizhte/w
-:de:sunepizht ew_denom
-
-:le:sunepiqeia/zw
-:de:sunepiqei azw
-
-:le:sunepiqewre/w
-:de:sunepiqewr ew_denom
-
-:le:sunepiqorube/w
-:de:sunepiqorub ew_denom
-
-:le:sunepiqrhne/w
-:de:sunepiqrhn ew_denom
-
-:le:sunepiqume/w
-:de:sunepiqum ew_denom
-
 :le:sunepiqwu/ssw
 :de:sunepiqwu ss
 
 :le:sunepikale/omai
 :de:sunepikal ew_denom mp
 
-:le:sunepikeleu/w
-:de:sunepikel euw
-
 :le:sunepikirna/w
 :de:sunepikirn aw_denom
-
-:le:sunepikla/w
-:de:sunepikl aw_denom
-
-:le:sunepikosme/w
-:de:sunepikosm ew_denom
-
-:le:sunepikoure/w
-:de:sunepikour ew_denom
-
-:le:sunepikoufi/zw
-:de:sunepikouf izw
-
-:le:sunepikrate/w
-:de:sunepikrat ew_denom
-
-:le:sunepikrote/w
-:de:sunepikrot ew_denom
-
-:le:sunepikuro/w
-:de:sunepikur ow_denom
-
-:le:sunepikwma/zw
-:de:sunepikwm azw
-
-:le:sunepilampru/nw
-:de:sunepilampr unw
-
-:le:sunepilogi/zomai
-:de:sunepilog izw mp
-
-:le:sunepimarture/w
-:de:sunepimartur ew_denom
-
-:le:sunepimeidia/w
-:de:sunepimeid iaw_denom
-
-:le:sunepimele/omai
-:de:sunepimel ew_denom mp
 
 :le:sunepimeri/zw
 :de:sunepimer izw
 
-:le:sunepineu/w
-:de:sunepin euw
-
-:le:sunepinoe/w
-:de:sunepino ew_denom
-
 :le:sunepiorke/w
 :de:sunepiork ew_denom
-
-:le:sunepiple/w
-:de:sunepipl ew_denom
-
-:le:sunepipone/w
-:de:sunepipon ew_denom
-
-:le:sunepiporeu/omai
-:de:sunepipor euw mp
-
-:le:sunepirre/w
-:de:sunepirr ew_denom
-
-:le:sunepiskeua/zw
-:de:sunepiskeu azw
-
-:le:sunepiskope/w
-:de:sunepiskop ew_denom
-
-:le:sunepiskuqrwpa/zw
-:de:sunepiskuqrwp azw
-
-:le:sunepispa/w
-:de:sunepisp aw_denom
-
-:le:sunepistate/w
-:de:sunepistat ew_denom
-
-:le:sunepistena/zw
-:de:sunepisten azw
 
 :le:sunepistrateu/w
 :de:sunepistrat euw
@@ -42082,41 +39049,8 @@
 :le:sunepitroxa/zomai
 :de:sunepitrox azw mp
 
-:le:sunepitufo/w
-:de:sunepituf ow_denom
-
-:le:sunepiforti/zw
-:de:sunepifort izw
-
-:le:sunepifwne/w
-:de:sunepifwn ew_denom
-
-:le:sunepixeire/w
-:de:sunepixeir ew_denom
-
-:le:sunepixeironome/w
-:de:sunepixeironom ew_denom
-
-:le:sunepixwre/w
-:de:sunepixwr ew_denom
-
-:le:sunepiyhfi/zw
-:de:sunepiyhf izw
-
-:le:sunepoikodome/w
-:de:sunepoikodom ew_denom
-
-:le:sunepopteu/w
-:de:sunepopt euw
-
-:le:sunepotru/nw
-:de:sunepotr unw
-
 :le:sunepoulo/omai
 :de:sunepoul ow_denom mp
-
-:le:sunepouri/zw
-:de:sunepour izw
 
 :le:sunepw|a/zw
 :de:sunepw| azw
@@ -42124,89 +39058,11 @@
 :le:sunepwqe/w
 :de:sunepwq ew_denom
 
-:le:sunerani/zw
-:de:suneran izw
-
-:le:sunera/w
-:de:suner aw_denom
-
-:le:sunera/w
-:de:suner aw_denom
-
-:le:sunerga/zomai
-:de:sunerg azw mp
-
-:le:sunergepistate/w
-:de:sunergepistat ew_denom
-
-:le:sunerge/w
-:de:sunerg ew_denom
-
-:le:sunergopone/w
-:de:sunergopon ew_denom
-
-:le:sunere/w
-:de:suner ew_denom
-
-:le:suneri/zw
-:de:suner izw
-
 :le:sunerpu/zw
 :de:sunerp uzw
 
-:le:sunerwta/w
-:de:sunerwt aw_denom
-
-:le:sunestia/zw
-:de:sunesti azw
-
-:le:sunestia/w
-:de:sunest iaw_denom
-
-:le:sunetaire/w
-:de:sunetair ew_denom
-
-:le:sunetairi/zw
-:de:sunetair izw
-
-:le:suneti/zw
-:de:sunet izw
-
-:le:sunetumologe/w
-:de:sunetumolog ew_denom
-
 :le:suneuareste/w
 :de:suneuarest ew_denom
-
-:le:suneudaimone/w
-:de:suneudaimon ew_denom
-
-:le:suneudoke/w
-:de:suneudok ew_denom
-
-:le:suneuergete/w
-:de:suneuerget ew_denom
-
-:le:suneuhmere/w
-:de:suneuhmer ew_denom
-
-:le:suneuqume/omai
-:de:suneuqum ew_denom mp
-
-:le:suneuqu/nw
-:de:suneuq unw
-
-:le:suneukaire/w
-:de:suneukair ew_denom
-
-:le:suneukosme/w
-:de:suneukosm ew_denom
-
-:le:suneuna/zw
-:de:suneun azw
-
-:le:suneuna/omai
-:de:suneun aw_denom mp
 
 :le:suneunete/w
 :de:suneunet ew_denom
@@ -42231,9 +39087,6 @@
 
 :le:suneutrofe/w
 :de:suneutrof ew_denom
-
-:le:suneutuxe/w
-:de:suneutux ew_denom
 
 :le:suneufhme/w
 :de:suneufhm ew_denom
@@ -42459,9 +39312,6 @@
 
 :le:suniso/omai
 :de:sunis ow_denom mp
-
-:le:sunista/w
-:de:sunist aw_denom
 
 :le:sunistore/w
 :de:sunistor ew_denom
@@ -42786,9 +39636,6 @@
 
 :le:suntexniteu/w
 :de:suntexnit euw
-
-:le:sunthre/w
-:de:sunthr ew_denom
 
 :le:suntima/w
 :de:suntim aw_denom
@@ -43285,8 +40132,8 @@
 :le:sxendula/w
 :de:sxendul aw_denom
 
-:le:sxetli=a/zw
-:de:sxetli_ azw
+:le:sxetlia/zw
+:de:sxetli azw
 
 :le:sxhmatografe/w
 :de:sxhmatograf ew_denom
@@ -43309,8 +40156,8 @@
 :le:sao/w
 :de:sa ow_denom
 
-:le:*swkrati/zw
-:de:*swkrat izw
+:le:swkrati/zw
+:de:swkrat izw
 
 :le:swlhneu/omai
 :de:swlhn euw mp
@@ -43351,14 +40198,8 @@
 :le:taggi/zw
 :de:tagg izw
 
-:le:taghni/zw
-:de:taghn izw
-
 :le:tagmatarxe/w
 :de:tagmatarx ew_denom
-
-:le:*tainari/zw
-:de:*tainar izw
 
 :le:tainia/zw
 :de:taini azw
@@ -43393,11 +40234,11 @@
 :le:tapeinofrone/w
 :de:tapeinofron ew_denom
 
-:le:*tarantinarxe/w
-:de:*tarantinarx ew_denom
+:le:tarantinarxe/w
+:de:tarantinarx ew_denom
 
-:le:*tarantini/zw
-:de:*tarantin izw
+:le:tarantini/zw
+:de:tarantin izw
 
 :le:targano/omai
 :de:targan ow_denom mp
@@ -43417,8 +40258,8 @@
 :le:tarso/omai
 :de:tars ow_denom mp
 
-:le:*tartari/zw
-:de:*tartar izw
+:le:tartari/zw
+:de:tartar izw
 
 :le:tatali/zw
 :de:tatal izw
@@ -43537,8 +40378,8 @@
 :le:teleiourge/w
 :de:teleiourg ew_denom
 
-:le:*teleniki/zw
-:de:*telenik izw
+:le:teleniki/zw
+:de:telenik izw
 
 :le:teleodrome/w
 :de:teleodrom ew_denom
@@ -43678,9 +40519,6 @@
 :le:thbennofore/w
 :de:thbennofor ew_denom
 
-:le:thgani/zw
-:de:thgan izw
-
 :le:thqeu/omai
 :de:thq euw mp
 
@@ -43696,8 +40534,8 @@
 :le:tiqhne/w
 :de:tiqhn ew_denom
 
-:le:*timaiografe/w
-:de:*timaiograf ew_denom
+:le:timaiografe/w
+:de:timaiograf ew_denom
 
 :le:time/w
 :de:tim ew_denom
@@ -43815,9 +40653,6 @@
 
 :le:tragi/zw
 :de:trag izw
-
-:le:tragikeu/omai
-:de:tragik euw mp
 
 :le:traktai/zw
 :de:trakta izw
@@ -44089,8 +40924,8 @@
 :le:turokome/w
 :de:turokom ew_denom
 
-:le:*turrhni/zw
-:de:*turrhn izw
+:le:turrhni/zw
+:de:turrhn izw
 
 :le:tuflhgore/w
 :de:tuflhgor ew_denom
@@ -44199,8 +41034,6 @@
 
 :le:u(hne/w
 :de:u(hn ew_denom
-
-:le:suhne/w
 :de:suhn ew_denom
 
 :le:u(i/zw
@@ -44622,9 +41455,6 @@
 
 :le:u(perauga/zw
 :de:u(peraug azw
-
-:le:u(perauge/w
-:de:u(peraug ew_denom
 
 :le:u(perauqente/w
 :de:u(perauqent ew_denom
@@ -45207,9 +42037,6 @@
 
 :le:u(phqe/w
 :de:u(phq ew_denom
-
-:le:u(phrea/zw
-:de:u(phre azw
 
 :le:u(phreteu/w
 :de:u(phret euw
@@ -46135,9 +42962,6 @@
 :le:u(potexna/omai
 :de:u(potexn aw_denom mp
 
-:le:u(pothre/w
-:de:u(pothr ew_denom
-
 :le:u(potima/w
 :de:u(potim aw_denom
 
@@ -46312,9 +43136,6 @@
 :le:u(poxuli/zw
 :de:u(poxul izw
 
-:le:u(poxu/nw
-:de:u(pox unw
-
 :le:u(poxwleu/w
 :de:u(poxwl euw
 
@@ -46410,9 +43231,6 @@
 
 :le:u(fi/zw
 :de:u(f izw
-
-:le:u(fista/w
-:de:u(fist aw_denom
 
 :le:u(fodo/w
 :de:u(fod ow_denom
@@ -46882,7 +43700,7 @@
 :le:foini/zw
 :de:foin izw
 
-:le:foinika/rxe/w
+:le:foinikarxe/w
 :de:foinikarx ew_denom
 
 :le:foiniki/zw
@@ -47222,7 +44040,7 @@
 :de:xauni azw
 
 :le:xa/w
-:de:x aw_denom
+:de:x aw_denom coinage
 
 :le:xeimadeu/w
 :de:xeimad euw
@@ -47494,11 +44312,11 @@
 :le:xorthge/w
 :de:xorthg ew_denom
 
-:le:xoprtologe/w
-:de:xoprtolog ew_denom
+:le:xortologe/w
+:de:xortolog ew_denom
 
-:le:xoprtomane/w
-:de:xoprtoman ew_denom
+:le:xortomane/w
+:de:xortoman ew_denom
 
 :le:xortospore/w
 :de:xortospor ew_denom
@@ -47532,9 +44350,6 @@
 
 :le:xrhii/zw
 :de:xrhi izw
-
-:le:xrei/zw
-:de:xre izw
 
 :le:xrei/zw
 :de:xre izw
@@ -47623,9 +44438,6 @@
 :le:xumo/w
 :de:xum ow_denom
 
-:le:xu/nw
-:de:x unw
-
 :le:xutrotome/w
 :de:xutrotom ew_denom
 
@@ -47647,8 +44459,8 @@
 :le:xwrobate/w
 :de:xwrobat ew_denom
 
-:le:xwrmetre/w
-:de:xwrmetr ew_denom
+:le:xwrometre/w
+:de:xwrometr ew_denom
 
 :le:xwfore/w
 :de:xwfor ew_denom
@@ -47713,7 +44525,7 @@
 :le:yeudorke/w
 :de:yeudork ew_denom
 
-:le:ye/w
+:le:ya/w
 :de:y ew_denom
 
 :le:yhktri/zw
@@ -47836,14 +44648,12 @@
 :le:w)kudrome/w
 :de:w)kudrom ew_denom
 
-:le:w)ku/nw
-:de:w)k unw
-
 :le:w)kupore/w
 :de:w)kupor ew_denom
 
 :le:w)lekrani/zw
 :de:w)lekran izw
+:de:o)lekran izw
 
 :le:w)liggia/w
 :de:w)ligg iaw_denom
@@ -47875,14 +44685,14 @@
 :le:w)|otoke/w
 :de:w)|otok ew_denom
 
-:le:w)|o=fage/w
+:le:w)|ofage/w
 :de:w)|ofag ew_denom
 
-:le:w)|otokfore/w
-:de:w)|otokfor ew_denom
+:le:w)|ofore/w
+:de:w)|ofor ew_denom
 
-:le:w)|otokfulake/w
-:de:w)|otokfulak ew_denom
+:le:w)|ofulake/w
+:de:w)|ofulak ew_denom
 
 :le:w)pa/zomai
 :de:w)p azw mp
