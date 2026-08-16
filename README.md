@@ -27,7 +27,7 @@ A small, yet powerful, JavaScript library for converting both polytonic and mono
 ### With a package manager (recommended)
 In order to use this library in your project, simply type:
 ```shell
-<pkg manager> install greek-conversion # you can use npm, pnpm, deno, bun, and so on
+<pkg-manager> install greek-conversion # where <pkg-manager> is npm, pnpm, deno, bun, and so on.
 ```
 
 Import the library's functionalities as needed:
