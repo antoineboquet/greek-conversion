@@ -401,8 +401,9 @@ export const removeGreekVariants = (
   if (!preserveAccents) {
     greekStr = greekStr
       .normalize("NFD")
-      .replace(new RegExp(GRAVE_ACCENT, "g"), ACUTE_ACCENT)
-      .normalize();
+      .replace(new RegExp(GRAVE_ACCENT, "g"), ACUTE_ACCENT);
+
+    greekStr = normalizeGreek(greekStr);
   }
 
   return greekStr
