@@ -88,7 +88,7 @@ settings: Preset | MixedPreset | Partial<IConversionOptions> = {}
 
 **`settings`** can be filled with:
 1. a `Preset`;
-2. a user-defined `IConversionOptions` object;
+2. a user-defined `Partial<IConversionOptions>` object;
 3. a preset mixed with user-defined conversion options (`[Preset, Partial<IConversionOptions>]`).
 
 ### Conversion presets
