@@ -18,7 +18,7 @@ import {
 export function toGreek(
   str: string,
   fromType: KeyType,
-  settings: Preset | MixedPreset | IConversionOptions = {},
+  settings: Preset | MixedPreset | Partial<IConversionOptions> = {},
   declaredMapping?: Mapping
 ): string {
   const options = handleOptions(str, fromType, settings);

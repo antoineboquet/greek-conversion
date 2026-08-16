@@ -200,7 +200,7 @@ describe('GreekString', () => {
     expect(gs1.greek).toBe('ἄνθρωπος')
     expect(gs1.transliteration).toBe('ánthrōpos')
 
-    const trStyleGs2: IConversionOptions = {
+    const trStyleGs2: Partial<IConversionOptions> = {
       transliterationStyle: {
         lunatesigma_s: false
       }
@@ -212,7 +212,7 @@ describe('GreekString', () => {
     expect(gs2.greek).toBe('ανθρωπος')
     expect(gs2.transliteration).toBe('anthrōpos')
 
-    const trStyleGs3: IConversionOptions = {
+    const trStyleGs3: Partial<IConversionOptions> = {
       additionalChars: undefined
     }
     const gs3 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs3])
@@ -222,7 +222,7 @@ describe('GreekString', () => {
     expect(gs3.greek).toBe('ανθρωποϲ')
     expect(gs3.transliteration).toBe('anthrōpos')
 
-    const trStyleGs4: IConversionOptions = {
+    const trStyleGs4: Partial<IConversionOptions> = {
       additionalChars: AdditionalChar.DIGAMMA
     }
     const gs4 = new GreekString('a)/nqrwpos3', KeyType.BETA_CODE, [Preset.ALA_LC, trStyleGs4])
@@ -232,7 +232,7 @@ describe('GreekString', () => {
     expect(gs4.greek).toBe('ανθρωποϲ')
     expect(gs4.transliteration).toBe('anthrōpos')
 
-    const trStyleGs5: IConversionOptions = {
+    const trStyleGs5: Partial<IConversionOptions> = {
       additionalChars: AdditionalChar.LUNATE_SIGMA,
       removeExtraWhitespace: true
     }
@@ -257,7 +257,7 @@ describe('GreekString', () => {
 
   test('Testing useLunateSigma', () => {
     // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       greekStyle: {
         useLunateSigma: true
       }
@@ -271,7 +271,7 @@ describe('GreekString', () => {
 
   test('Testing lunatesigma_s', () => {
     // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       transliterationStyle: {
         lunatesigma_s: true
       }
@@ -285,7 +285,7 @@ describe('GreekString', () => {
   
   test('Testing useLunateSigma + lunatesigma_s', () => {
     // `AdditionalChar.LUNATE_SIGMA` is silently enabled.
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       greekStyle: {
         useLunateSigma: true
       },

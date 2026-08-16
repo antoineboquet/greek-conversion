@@ -130,7 +130,7 @@ export const toTLG = (betaCodeStr: string): string => {
 export const handleOptions = (
   str: string,
   fromType: KeyType,
-  settings: Preset | MixedPreset | IConversionOptions = {}
+  settings: Preset | MixedPreset | Partial<IConversionOptions> = {}
 ): IInternalConversionOptions => {
   if (!Object.values(KeyType).includes(fromType)) {
     notImplemented('KeyType', fromType);
@@ -170,7 +170,12 @@ export const handleOptions = (
 
   return {
     isUpperCase: isUpperCase(str, fromType),
-    ...settings
+    removeDiacritics: settings.removeDiacritics ?? false,
+    removeExtraWhitespace: settings.removeExtraWhitespace ?? false,
+    betaCodeStyle: settings.betaCodeStyle ?? {},
+    greekStyle: settings.greekStyle ?? {},
+    transliterationStyle: settings.transliterationStyle ?? {},
+    additionalChars: settings.additionalChars ?? []
   };
 };
 
@@ -314,7 +319,7 @@ export const normalizeTransliteration = (
  * Returns a string without diacritics.
  *
  * @remarks
- * The set of diacritical signs depends of the greek string representation.
+ * The set of diacritical signs depends on the greek string representation.
  *
  * @param str - The input string
  * @param type - The kind of representation associated to the input string

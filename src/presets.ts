@@ -2,7 +2,7 @@ import { AdditionalChar, Coronis, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 import { notImplemented } from './utils';
 
-const ALA_LC_SHARED_OPTIONS = (): IConversionOptions => ({
+const ALA_LC_SHARED_OPTIONS = (): Partial<IConversionOptions> => ({
   removeDiacritics: true,
   transliterationStyle: {
     gammaNasal_n: Preset.ALA_LC,
@@ -16,14 +16,14 @@ const ALA_LC_SHARED_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const ALA_LC_OPTIONS = (): IConversionOptions =>
+const ALA_LC_OPTIONS = (): Partial<IConversionOptions> =>
   mergeOptions(ALA_LC_SHARED_OPTIONS(), {
     transliterationStyle: {
       rho_rh: true
     }
   });
 
-const ALA_LC_MODERN_OPTIONS = (): IConversionOptions =>
+const ALA_LC_MODERN_OPTIONS = (): Partial<IConversionOptions> =>
   mergeOptions(ALA_LC_SHARED_OPTIONS(), {
     transliterationStyle: {
       beta_v: true,
@@ -32,7 +32,7 @@ const ALA_LC_MODERN_OPTIONS = (): IConversionOptions =>
     }
   });
 
-const BNF_ADAPTED_OPTIONS = (): IConversionOptions => ({
+const BNF_ADAPTED_OPTIONS = (): Partial<IConversionOptions> => ({
   greekStyle: {
     useGreekQuestionMark: true
   },
@@ -49,7 +49,7 @@ const BNF_ADAPTED_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const ISO_OPTIONS = (): IConversionOptions => ({
+const ISO_OPTIONS = (): Partial<IConversionOptions> => ({
   transliterationStyle: {
     setCoronisStyle: Coronis.APOSTROPHE,
     beta_v: true,
@@ -65,7 +65,7 @@ const ISO_OPTIONS = (): IConversionOptions => ({
   ]
 });
 
-const SBL_OPTIONS = (): IConversionOptions => ({
+const SBL_OPTIONS = (): Partial<IConversionOptions> => ({
   removeDiacritics: true,
   transliterationStyle: {
     gammaNasal_n: true,
@@ -74,11 +74,11 @@ const SBL_OPTIONS = (): IConversionOptions => ({
   }
 });
 
-const SIMPLE_BC_OPTIONS = (): IConversionOptions => ({
+const SIMPLE_BC_OPTIONS = (): Partial<IConversionOptions> => ({
   additionalChars: AdditionalChar.ALL
 });
 
-const TLG_OPTIONS = (): IConversionOptions => ({
+const TLG_OPTIONS = (): Partial<IConversionOptions> => ({
   betaCodeStyle: {
     useTLGStyle: true
   },
@@ -87,9 +87,9 @@ const TLG_OPTIONS = (): IConversionOptions => ({
 
 export const applyPreset = (
   preset: Preset | MixedPreset
-): IConversionOptions => {
-  let options: IConversionOptions = {};
-  let mixedOptions: IConversionOptions = {};
+): Partial<IConversionOptions> => {
+  let options: Partial<IConversionOptions> = {};
+  let mixedOptions: Partial<IConversionOptions> = {};
 
   if (Array.isArray(preset)) [preset, mixedOptions] = preset;
 
@@ -132,9 +132,9 @@ export const applyPreset = (
 };
 
 const mergeOptions = (
-  target: IConversionOptions,
-  source: IConversionOptions
-): IConversionOptions => {
+  target: Partial<IConversionOptions>,
+  source: Partial<IConversionOptions>
+): Partial<IConversionOptions> => {
   const isObject = (obj: object): boolean => obj && typeof obj === 'object';
 
   for (const key in source) {

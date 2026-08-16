@@ -157,7 +157,7 @@ describe('From beta code to greek', () => {
 
   test.each`
     str                    | expected
-    ${'a)/nqrwpos'}         | ${'άνθρωπος'}
+    ${'a)/nqrwpos'}        | ${'άνθρωπος'}
     ${'kalo\\s ka)gaqo/s'} | ${'καλος καγαθός'}
     ${'poih=|'}            | ${'ποιη'}
     ${'A)/i+da'}           | ${'Άϊδα'}
@@ -453,7 +453,7 @@ describe('Self-conversion', () => {
   // Using beta variant
 
   test('Using beta variant', () => {
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       greekStyle: {
         useBetaVariant: true
       }
@@ -466,7 +466,7 @@ describe('Self-conversion', () => {
   // Using greek question mark
 
   test('Using greek question mark', () => {
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       greekStyle: {
         useGreekQuestionMark: true
       }
@@ -480,7 +480,7 @@ describe('Self-conversion', () => {
   // Using lunate sigma
 
   test('Using lunate sigma', () => {
-    const options: IConversionOptions = {
+    const options: Partial<IConversionOptions> = {
       greekStyle: {
         useLunateSigma: true
       }
@@ -493,9 +493,9 @@ describe('Self-conversion', () => {
   test.each`
     str                | expected
     ${'ἄνθρωπος'}      | ${'άνθρωπος'}
-    ${'καλὸς κἀγαθός'} | ${'καλος καγαθός'}
+    ${'καλὸς κἀγαθός'} | ${'καλός καγαθός'}
     ${'ποιῇ'}          | ${'ποιη'}
-    ${'Ἄϊδα'}         | ${'Άϊδα'}
+    ${'Ἄϊδα'}          | ${'Άϊδα'}
   `('Using monotonic orthography', ({ str, expected }) => { expect(toGreek(str, KeyType.GREEK, { greekStyle: { useMonotonicOrthography: true } })).toBe(expected) })
   
 })

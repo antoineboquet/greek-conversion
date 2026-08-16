@@ -1,19 +1,19 @@
 import { AdditionalChar, Coronis, Preset } from './enums';
 
 export interface IConversionOptions {
-  removeDiacritics?: boolean;
-  removeExtraWhitespace?: boolean;
-  betaCodeStyle?: IBetaCodeStyle;
-  greekStyle?: IGreekStyle;
-  transliterationStyle?: ITransliterationStyle;
-  additionalChars?: AdditionalChar[] | AdditionalChar;
+  removeDiacritics: boolean;
+  removeExtraWhitespace: boolean;
+  betaCodeStyle: IBetaCodeStyle;
+  greekStyle: IGreekStyle;
+  transliterationStyle: ITransliterationStyle;
+  additionalChars: AdditionalChar[] | AdditionalChar;
 }
 
 export interface IInternalConversionOptions extends IConversionOptions {
-  isUpperCase?: boolean;
+  isUpperCase: boolean;
 }
 
-export type MixedPreset = [Preset, IConversionOptions];
+export type MixedPreset = [Preset, Partial<IConversionOptions>];
 
 export interface IBetaCodeStyle {
   skipSanitization?: boolean;
