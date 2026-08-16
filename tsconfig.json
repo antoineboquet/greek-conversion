@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest"],
     "useDefineForClassFields": true,
     "esModuleInterop": true,
     "isolatedModules": true,
