@@ -4,7 +4,7 @@ import { Mapping } from './Mapping';
 import { toBetaCode } from './toBetaCode';
 import { toGreek } from './toGreek';
 import { toTransliteration } from './toTransliteration';
-import { handleOptions, handleTLGInput, notImplemented } from './utils';
+import { handleOptions, handleTLGInput, notImplementedError } from './utils';
 
 export class GreekString {
   readonly #fromType: KeyType;
@@ -46,6 +46,8 @@ export class GreekString {
           return this.#transliteration ?? this.#source;
         case KeyType.GREEK:
           return this.#greek ?? this.#source;
+        default:
+          throw notImplementedError('KeyType', toType);
       }
     };
 

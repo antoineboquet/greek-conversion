@@ -26,8 +26,8 @@ import {
 } from './Mapping';
 import { applyPreset } from './presets';
 
-export const notImplemented = (subject: string, value: string): never => {
-  throw new RangeError(`${subject} '${value}' is not implemented.`);
+export const notImplementedError = (subject: string, value: string): RangeError => {
+  return new RangeError(`${subject} '${value}' is not implemented.`);
 };
 
 /**
@@ -69,6 +69,9 @@ export const applyGammaNasals = (
 
     case KeyType.BETA_CODE:
       return str.replace(/(n)([gkcx])/gi, (m, $1, $2) => reReturn('g', $1, $2));
+
+    default:
+      throw notImplementedError('KeyType', type);
   }
 };
 
@@ -133,7 +136,7 @@ export const handleOptions = (
   settings: Preset | MixedPreset | Partial<IConversionOptions> = {}
 ): IInternalConversionOptions => {
   if (!Object.values(KeyType).includes(fromType)) {
-    notImplemented('KeyType', fromType);
+    throw notImplementedError('KeyType', fromType);
   }
 
   if (typeof settings === 'string') {
@@ -364,7 +367,7 @@ export const removeDiacritics = (
       return str.normalize();
 
     default:
-      notImplemented('KeyType', type);
+      throw notImplementedError('KeyType', type);
   }
 };
 

@@ -15,6 +15,7 @@ import {
   handleTLGInput,
   normalizeBetaCode,
   normalizeTransliteration,
+  notImplementedError,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants
@@ -247,6 +248,9 @@ function flagDiaereses(str: string, fromType: KeyType): string {
         .normalize('NFD')
         .replace(new RegExp(DIAERESIS, 'g'), '$&@')
         .normalize();
+
+      default:
+        throw notImplementedError("KeyType", fromType);
   }
 }
 
