@@ -233,7 +233,7 @@ You can use the **`GreekString`** object if you want to manage several represent
 ```ts
 str: string,
 fromType: KeyType,
-settings?: Preset | MixedPreset | IConversionOptions
+settings?: Preset | MixedPreset | Partial<IConversionOptions>
 ```
 
 You can access each representation by calling the following properties: `betaCode`, `greek` & `transliteration`.
