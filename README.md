@@ -259,7 +259,7 @@ person.source // ἄνθρωπος
 ```
 
 > [!TIP]
-> Interactive examples are available in the `/examples` folder and accessible on this [page](https://antoineboquet.github.io/greek-conversion/examples/).
+> Interactive examples are available in the `/examples` folder and accessible on this <a href="https://antoineboquet.github.io/greek-conversion/examples/" target="_blank">page</a>.
 
 ## Helper functions
 
