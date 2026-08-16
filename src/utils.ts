@@ -157,9 +157,7 @@ export const handleOptions = (
       settings.additionalChars = AdditionalChar.LUNATE_SIGMA;
     } else if (Array.isArray(additionalChars)) {
       if (!additionalChars.includes(AdditionalChar.LUNATE_SIGMA)) {
-        settings.additionalChars = additionalChars.push(
-          AdditionalChar.LUNATE_SIGMA
-        );
+        additionalChars.push(AdditionalChar.LUNATE_SIGMA);
       }
     } else if (additionalChars !== AdditionalChar.LUNATE_SIGMA) {
       settings.additionalChars = [
