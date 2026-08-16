@@ -376,11 +376,14 @@ export class Mapping {
 
     if (this.#isUpperCase) {
       for (const [k, v] of Object.entries(this.#capitalLetters)) {
-        if (v.tr?.length > 1 /* Th, Ph, etc */) {
-          this.#capitalLetters[k].tr = v.tr.toUpperCase();
+        const tr = v.tr ?? "";
+        const trBase =  v.trBase ?? "";
+
+        if (tr.length > 1 /* Th, Ph, etc */) {
+          this.#capitalLetters[k].tr = tr.toUpperCase();
         }
-        if (v.trBase?.length > 1) {
-          this.#capitalLetters[k].trBase = v.trBase.toUpperCase();
+        if (trBase.length > 1) {
+          this.#capitalLetters[k].trBase = trBase.toUpperCase();
         }
       }
     }
@@ -424,7 +427,7 @@ export class Mapping {
     }
 
     const mappingProps = this.#getPropsMapOrderByLengthDesc(fromType, toType);
-    let conversionArr: string[] = new Array(fromStr.length);
+    let conversionArr = new Array(fromStr.length);
 
     // Apply mapped chars.
     for (const [lval, rval] of mappingProps) {
@@ -549,12 +552,15 @@ export class Mapping {
       ...this.#capitalLetters,
       ...this.#smallLetters
     }).reduce((acc, v) => {
-      if (!/\u0302|\u0304/.test(v.tr?.normalize('NFD'))) return acc;
+      const tr = v.tr ?? "";
+      const trBase = v.trBase ?? "";
 
-      const letter = v.tr.normalize('NFD').charAt(0).normalize();
+      if (!/\u0302|\u0304/.test(tr.normalize('NFD'))) return acc;
 
-      return v.trBase !== v.tr
-        ? acc.concat([v.trBase.normalize('NFD').charAt(0).normalize(), letter])
+      const letter = tr.normalize('NFD').charAt(0).normalize();
+
+      return trBase !== tr
+        ? acc.concat([trBase.normalize('NFD').charAt(0).normalize(), letter])
         : acc.concat(letter);
     }, []);
   }
