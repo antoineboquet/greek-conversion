@@ -1,4 +1,4 @@
-import { Coronis, KeyType, Preset } from './enums';
+import { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 import {
   IConversionOptions,
   IInternalConversionOptions,
@@ -12,7 +12,7 @@ import {
 } from './Mapping';
 import {
   handleOptions,
-  handleTLGInput,
+  handleTLGInput, hasAdditionalChar,
   normalizeBetaCode,
   normalizeTransliteration,
   notImplementedError,
@@ -29,6 +29,7 @@ export function toTransliteration(
 ): string {
   const options = handleOptions(str, fromType, settings);
   const {
+    additionalChars,
     removeDiacritics,
     removeExtraWhitespace,
     betaCodeStyle,
@@ -61,7 +62,10 @@ export function toTransliteration(
     case KeyType.GREEK:
       str = grConvertBreathings(str, options);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      str = utilRmGreekVariants(str);
+      str = utilRmGreekVariants(str, {
+        preserveAccents: true,
+        preserveLunateSigma: hasAdditionalChar(AdditionalChar.LUNATE_SIGMA, additionalChars),
+      });
       str = mapping.apply(str, fromType, KeyType.TRANSLITERATION);
       break;
 

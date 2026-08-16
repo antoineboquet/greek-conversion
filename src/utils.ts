@@ -8,6 +8,7 @@ import {
   MixedPreset
 } from './interfaces';
 import {
+  ACUTE_ACCENT,
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
   CIRCUMFLEX,
@@ -183,6 +184,17 @@ export const handleOptions = (
 export const handleTLGInput = (str: string): [string, KeyType] => {
   return [fromTLG(str), KeyType.BETA_CODE];
 };
+
+export const hasAdditionalChar = (
+  key: AdditionalChar,
+  value: AdditionalChar | AdditionalChar[]
+): boolean => {
+  return (
+    value === AdditionalChar.ALL ||
+    value === key ||
+    (Array.isArray(value) && value.includes(key))
+  );
+}
 
 /**
  * Returns a boolean that indicates if the given string is uppercase or not.
@@ -370,18 +382,32 @@ export const removeDiacritics = (
 };
 
 export const removeGreekVariants = (
-  greekStr: string,
-  removeLunateSigma?: boolean
+  greekStr: string, options: {
+    preserveAccents?: boolean
+    preserveLunateSigma?: boolean
+  } = {}
 ): string => {
-  if (removeLunateSigma) {
+  const {
+    preserveAccents = false,
+    preserveLunateSigma = false
+  } = options;
+
+  if (!preserveLunateSigma) {
     greekStr = greekStr
       .replace(new RegExp(CAPITAL_LUNATE_SIGMA, 'g'), 'Σ')
-      .replace(new RegExp(SMALL_LUNATE_SIGMA, 'g'), 'ς');
+      .replace(new RegExp(SMALL_LUNATE_SIGMA, 'g'), 'ς')
+  }
+
+  if (!preserveAccents) {
+    greekStr = greekStr
+      .normalize("NFD")
+      .replace(new RegExp(GRAVE_ACCENT, "g"), ACUTE_ACCENT)
+      .normalize();
   }
 
   return greekStr
     .replace(new RegExp(GREEK_BETA_SYMBOL, 'g'), 'β')
-    .replace(/ς/g, 'σ');
+    .replace(/ς/g, 'σ')
 };
 
 export const removeExtraWhitespace = (str: string): string => {

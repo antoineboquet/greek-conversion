@@ -1,16 +1,17 @@
-import { KeyType, Preset } from './enums';
+import { AdditionalChar, KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
 import {
   applyGammaNasals,
   fromTLG,
   handleOptions,
+  hasAdditionalChar,
   normalizeBetaCode,
   normalizeTransliteration,
-  toTLG,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
   removeGreekVariants as utilRmGreekVariants,
+  toTLG,
   trApplyUppercaseChars
 } from './utils';
 
@@ -22,6 +23,7 @@ export function toBetaCode(
 ): string {
   const options = handleOptions(str, fromType, settings);
   const {
+    additionalChars,
     removeDiacritics,
     removeExtraWhitespace,
     betaCodeStyle,
@@ -43,7 +45,10 @@ export function toBetaCode(
 
     case KeyType.GREEK:
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      str = utilRmGreekVariants(str);
+      str = utilRmGreekVariants(str, {
+        preserveAccents: true,
+        preserveLunateSigma: hasAdditionalChar(AdditionalChar.LUNATE_SIGMA, additionalChars)
+      });
       str = mapping.apply(str, fromType, KeyType.BETA_CODE);
       break;
 

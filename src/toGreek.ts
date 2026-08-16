@@ -43,7 +43,7 @@ export function toGreek(
 
     case KeyType.GREEK:
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
-      str = utilRmGreekVariants(str);
+      str = utilRmGreekVariants(str, { preserveLunateSigma: greekStyle?.useLunateSigma });
       str = applyGammaNasals(str, fromType);
       break;
 
