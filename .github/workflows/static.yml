@@ -3,6 +3,7 @@ name: Examples Pages
 on:
   push:
     branches: ["main"]
+    paths: ["examples/**"]
   workflow_dispatch:
 
 permissions:
