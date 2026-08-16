@@ -26,7 +26,7 @@ A small, yet powerful, JavaScript library for converting both polytonic and mono
 ### With a package manager (recommended)
 In order to use this library in your project, simply type:
 ```shell
-npm install greek-conversion
+<pkg manager> install greek-conversion # you can use npm, pnpm, deno, bun, and so on
 ```
 
 Import the library's functionalities as needed:
@@ -79,7 +79,7 @@ Functions signature is consistently:
 ```ts
 str: string,
 fromType: KeyType,
-settings: Preset | MixedPreset | IConversionOptions = {}
+settings: Preset | MixedPreset | Partial<IConversionOptions> = {}
 ```
 
 **`fromType`** can be set to `BETA_CODE | TLG_BETA_CODE | GREEK | TRANSLITERATION` (e.g. `KeyType.GREEK`).
@@ -87,7 +87,7 @@ settings: Preset | MixedPreset | IConversionOptions = {}
 **`settings`** can be filled with:
 1. a `Preset`;
 2. a user-defined `IConversionOptions` object;
-3. a preset mixed with user-defined conversion options (`[Preset, IConversionOptions]`).
+3. a preset mixed with user-defined conversion options (`[Preset, Partial<IConversionOptions>]`).
 
 ### Conversion presets
 
@@ -265,11 +265,11 @@ This function evaluates booleans `useBetaVariant` & `useLunateSigma` provided by
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
-Removes all the diacritics from a given string. The set of diacritical marks depends of the greek string representation.
+Removes all the diacritics from a given string. The set of diacritical marks depends on the greek string representation.
 
-#### `removeGreekVariants (greekStr: string, removeLunateSigma?: boolean): string`
+#### `removeGreekVariants (greekStr: string, options?: { preserveAccents?: boolean, preserveLunateSigma?: boolean }): string`
 
-Removes beta and sigma variants.
+Removes beta and sigma variants; replaces grave accents with acute accents.
 
 ## Limitations
 
@@ -279,7 +279,7 @@ This is what you should know before using this library:
 
 ## License
 
-Copyright (C) 2021, 2022, 2023, 2024  Antoine Boquet
+Copyright (C) 2021-2026  Antoine Boquet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
