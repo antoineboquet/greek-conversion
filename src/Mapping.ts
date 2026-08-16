@@ -1,11 +1,11 @@
-import { Chars, KeyType } from './enums';
-import { IConversionOptions, ITransliterationStyle } from './interfaces';
+import { Chars, KeyType } from './enums.ts';
+import { IConversionOptions, ITransliterationStyle } from './interfaces.ts';
+import { notImplemented } from "./utils.ts";
 
 type MappingSource = { [key in Char]: string };
 type Char = keyof typeof Chars;
 type CharIndex = { [key in string]: number[] };
 
-// prettier-ignore
 export const PRECOMPOSED_CHARS_WITH_TONOS_OXIA: [string, string][] = [
   ['ά', 'ά'], ['έ', 'έ'], ['ή', 'ή'], ['ί', 'ί'],
   ['ό', 'ό'], ['ύ', 'ύ'], ['ώ', 'ώ'], ['Ά', 'Ά'],
@@ -280,10 +280,15 @@ export class Mapping {
     switch (type) {
       case KeyType.BETA_CODE:
         return betaCode();
+
       case KeyType.TRANSLITERATION:
         return transliteration();
+
       case KeyType.GREEK:
         return greek();
+
+      default:
+        return notImplemented('KeyType', type);
     }
   }
 

@@ -1,10 +1,9 @@
-import { AdditionalChar, KeyType, Preset } from './enums';
+import { AdditionalChar, KeyType, Preset } from './enums.ts';
 import {
   IConversionOptions,
   IGreekStyle,
-  IInternalConversionOptions,
   MixedPreset
-} from './interfaces';
+} from './interfaces.ts';
 import {
   ANO_TELEIA,
   CAPITAL_LUNATE_SIGMA,
@@ -19,8 +18,8 @@ import {
   ROUGH_BREATHING,
   SMALL_LUNATE_SIGMA,
   SMOOTH_BREATHING
-} from './Mapping';
-import { applyPreset } from './presets';
+} from './Mapping.ts';
+import { applyPreset } from './presets.ts';
 
 export const notImplemented = (subject: string, value: string): never => {
   throw new RangeError(`${subject} '${value}' is not implemented.`);
@@ -58,7 +57,7 @@ export const fromTLG = (betaCodeStr: string): string => {
     .toLowerCase()
     .replace(
       /(\*)([()\\/+=|?]*)([a-z])/g,
-      (m, $1, $2, $3) => $3.toUpperCase() + $2
+      (_m, _$1, $2, $3) => $3.toUpperCase() + $2
     );
 };
 
@@ -98,7 +97,7 @@ export const handleOptions = (
     settings = applyPreset(settings);
   }
 
-  let { greekStyle, transliterationStyle, additionalChars } = settings ?? {};
+  const { greekStyle, transliterationStyle, additionalChars } = settings ?? {};
 
   // Silently enable `AdditionalChar.LUNATE_SIGMA` if related options are enabled.
   if (greekStyle?.useLunateSigma || transliterationStyle?.lunatesigma_s) {

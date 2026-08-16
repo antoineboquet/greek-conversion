@@ -72,7 +72,6 @@
     "test-coverage": "jest --coverage"
   },
   "devDependencies": {
-    "@types/bun": "latest",
     "@swc/core": "^1.7.39",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.14",

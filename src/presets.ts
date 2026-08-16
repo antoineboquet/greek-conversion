@@ -1,6 +1,6 @@
-import { AdditionalChar, Coronis, Preset } from './enums';
-import { IConversionOptions, MixedPreset } from './interfaces';
-import { notImplemented } from './utils';
+import { AdditionalChar, Coronis, Preset } from './enums.ts';
+import { IConversionOptions, MixedPreset } from './interfaces.ts';
+import { notImplemented } from './utils.ts';
 
 const ALA_LC_SHARED_OPTIONS = (): IConversionOptions => ({
   removeDiacritics: true,
@@ -112,7 +112,7 @@ export const applyPreset = (
       break;
 
     default:
-      notImplemented('Preset', preset);
+      notImplemented('Preset', String(preset));
   }
 
   return Object.keys(mixedOptions).length

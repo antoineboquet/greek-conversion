@@ -1,12 +1,12 @@
-import { KeyType, Preset } from './enums';
-import { IConversionOptions, MixedPreset } from './interfaces';
-import { Mapping } from './Mapping';
+import { KeyType, Preset } from './enums.ts';
+import { IConversionOptions, MixedPreset } from './interfaces.ts';
+import { Mapping } from './Mapping.ts';
 import {
   applyGreekVariants,
   fromTLG,
   handleOptions,
   normalizeGreek
-} from './utils';
+} from './utils.ts';
 
 export function toGreek(
   str: string = '',
@@ -16,11 +16,11 @@ export function toGreek(
 ): string {
   const options = handleOptions(fromType, settings);
   const {
-    removeDiacritics,
-    removeExtraWhitespace,
-    betaCodeStyle,
+    //removeDiacritics,
+    //removeExtraWhitespace,
+    //betaCodeStyle,
     greekStyle,
-    transliterationStyle
+    //transliterationStyle
   } = options;
 
   if (fromType === KeyType.BETA_CODE /* TLG */) str = fromTLG(str);
