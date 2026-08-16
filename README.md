@@ -1,5 +1,6 @@
 # greek-conversion
 
+> [!NOTE]
 > **This library needs some feedback before getting its first stable release!**
 
 A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
@@ -54,6 +55,7 @@ toTransliteration(
 
 ### The old way
 
+> [!NOTE]
 > This is primarily intended for the use of the library in the browser in the absence of a modern development environment.
 
 You can either import the library from the unpkg <abbr title="Content Delivery Network">CDN</abbr> (`https://www.unpkg.com/greek-conversion`) or download the latest release on Github then include `greekConversion.min.js` into your project (but you could experience a CORS issue in this case and need to use a local server to run your project).
@@ -151,7 +153,8 @@ additionalChars?:                    // extend the default mapping with addition
  AdditionalChar[] | AdditionalChar   //   (use AdditionalChar.ALL to enable the whole set)
 ```
 
-A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
+> [!TIP]
+> A more detailed description of these conversion options is available on this [page](https://github.com/antoineboquet/greek-conversion/wiki#conversion-options).
 
 ### Examples
 
@@ -254,6 +257,9 @@ person.transliteration // anthrōpos
 
 person.source // ἄνθρωπος
 ```
+
+> [!TIP]
+> Interactive examples are available in the `/examples` folder and accessible on this [page](https://antoineboquet.github.io/greek-conversion/examples/).
 
 ## Helper functions
 
