@@ -2,7 +2,7 @@
   "name": "greek-conversion",
   "author": "Antoine Boquet",
   "license": "agpl-3.0",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "A small library to convert a polytonic greek string from/into various representations.",
   "keywords": [
     "greek",
@@ -61,15 +61,8 @@
     "/dist"
   ],
   "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
     "transform": {
-      "\\.[jt]sx?$": [
-        "ts-jest",
-        {
-          "isolatedModules": true
-        }
-      ]
+      "^.+\\.(t|j)sx?$": "@swc/jest"
     }
   },
   "scripts": {
@@ -80,10 +73,18 @@
   },
   "devDependencies": {
     "@parcel/packager-ts": "^2.11.0",
-    "@parcel/transformer-typescript-types": "^2.11.0",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "parcel": "^2.11.0",
-    "ts-jest": "^29.1.2"
+    "@parcel/transformer-typescript-types": "^2.16.4",
+    "@swc/core": "^1.4.11",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "parcel": "^2.16.4",
+    "typescript": "^6.0.3"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "@swc/core@1.16.0": true,
+    "lmdb@2.8.5": true,
+    "msgpackr-extract@3.0.4": true
   }
 }
