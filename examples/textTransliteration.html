@@ -1,136 +1,20 @@
 <!DOCTYPE html>
-<title>Text transliteration example &mdash; greek-conversion</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-<link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
-<style>
-  body {
-    grid-template-columns: 1fr min(70em, 90%) 1fr;
-  }
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link href="https://cdn.simplecss.org/simple.min.css" rel="stylesheet">
+  <title>Text transliteration example &mdash; greek-conversion</title>
+  <script type="module">
+    import {
+      KeyType,
+      Preset,
+      toTransliteration
+    } from 'https://www.unpkg.com/greek-conversion';
 
-  table tbody {
-    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  }
-
-  th span.flex-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  button,
-  select {
-    margin-bottom: 0;
-  }
-
-  .icon {
-    vertical-align: sub;
-    padding-right: .25rem;
-    display: inline-block;
-    width: 1em;
-    height: 1.3em;
-    margin-right: 0.2rem;
-    stroke-width: 0;
-    stroke: currentColor;
-    fill: currentColor;
-  }
-
-  nav a.current {
-    color: var(--accent) !important;
-    border-color: var(--accent) !important;
-  }
-</style>
-
-<header>
-  <nav>
-    <a href="/searchBar.html">Search bar</a>
-    <a class="current" href="/textTransliteration.html">Text transliteration</a>
-    <a href="/playground.html">Playground</a>
-    <a href="https://github.com/antoineboquet/greek-conversion" target="_blank"><svg class="icon" viewBox="0 0 32 32"><path d="M16 0.395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182 0.8 0.148 1.094-0.347 1.094-0.77 0-0.381-0.015-1.642-0.022-2.979-4.452 0.968-5.391-1.888-5.391-1.888-0.728-1.849-1.776-2.341-1.776-2.341-1.452-0.993 0.11-0.973 0.11-0.973 1.606 0.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33 0.143-1.034 0.558-1.74 1.016-2.14-3.554-0.404-7.29-1.777-7.29-7.907 0-1.747 0.625-3.174 1.649-4.295-0.166-0.403-0.714-2.030 0.155-4.234 0 0 1.344-0.43 4.401 1.64 1.276-0.355 2.645-0.532 4.005-0.539 1.359 0.006 2.729 0.184 4.008 0.539 3.054-2.070 4.395-1.64 4.395-1.64 0.871 2.204 0.323 3.831 0.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895 0.574 0.497 1.085 1.47 1.085 2.963 0 2.141-0.019 3.864-0.019 4.391 0 0.426 0.288 0.925 1.099 0.768 6.354-2.118 10.933-8.113 10.933-15.18 0-8.837-7.164-16-16-16z"></path></svg>Github</a>
-  </nav>
-  <h1>Text transliteration example</h1>
-  <p>
-    This example shows how <code>greek-conversion</code> can be used
-    to transliterate Greek texts using transliteration presets.
-  </p>
-</header>
-
-<main>
-  <table style="width:100%;table-layout:fixed">
-    <thead>
-      <tr>
-        <th style="position:sticky;top:0">
-          <span class="flex-head">
-            Greek source
-            <select id="text-selection">
-              <option value="" disabled>Available texts</option>
-              <option value="hymn-to-liberty" selected>
-                Ύμνος εις την Ελευθερίαν (first stanzas)
-              </option>
-              <option value="aristotle-poetics">
-                Αριστοτέλης &mdash; Περί Ποιητικής
-              </option>
-              <option value="epicurus-doctrines">
-                Επίκουρος &mdash; Κύριαι Δόξαι
-              </option>
-              <option value="plato-seventh-letter">
-                Πλάτων &mdash; Ἐπιστολὴ Ζʹ
-              </option>
-              <option value="delphic-honorific-inscription">
-                Honorific inscription from Delphi
-              </option>
-            </select>
-          </span>
-        </th>
-        <th style="position:sticky;top:0;background:white">
-          <span class="flex-head">
-            Transliteration
-            <span>
-              <select id="preset-selection">
-                <option value="" disabled>Presets</option>
-                <option value="ALA_LC" selected>ALA-LC</option>
-                <option value="ALA_LC_MODERN" selected>ALA-LC Modern</option>
-                <option value="BNF_ADAPTED">BNF (adapted)</option>
-                <option value="ISO">ISO</option>
-                <option value="SBL">SBL</option>
-              </select>
-              <button id="conversion-button">Convert</button>
-            </span>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody style="height:100px">
-      <tr style="vertical-align:top">
-        <td id="greek-source" style="white-space:pre-line;background:var(--accent-bg)"></td>
-        <td id="transliterated-text" style="white-space:pre-line"></td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <th colspan="2" style="font-size:.75em;text-align:center">
-          Sources:
-          <a href="http://el.wikisource.org" target="_blank">Wikisource</a>,
-          <a href="https://edh.ub.uni-heidelberg.de/" target="_blank">Epigraphic Database Heidelberg</a>
-          &mdash; Greek texts are under
-          <a href="https://creativecommons.org/licenses/by-sa/3.0/deed" target="_blank">CC BY-SA 3.0</a>
-          license; Greek inscriptions are under
-          <a href="https://creativecommons.org/licenses/by-sa/4.0/deed" target="_blank">CC BY-SA 4.0</a>.
-        </th>
-      </tr>
-    </tfoot>
-  </table>
-</main>
-
-<script type="module">
-  import {
-    KeyType,
-    Preset,
-    toTransliteration
-  } from 'https://www.unpkg.com/greek-conversion';
-
-  const hymnToLiberty = `\
+    const hymnToLiberty = `\
     (polytonic orthography)
 
     Σὲ γνωρίζω ἀπὸ τὴν κόψι
@@ -156,7 +40,7 @@
     Χαίρε, ω χαίρε, ελευθεριά!
   `;
 
-  const aristotlePoetics = `\
+    const aristotlePoetics = `\
     [1447a][8] 1. Περὶ ποιητικῆς αὐτῆς τε καὶ τῶν εἰδῶν αὐτῆς, ἥν τινα δύναμιν ἕκαστον ἔχει, καὶ πῶς δεῖ συνίστασθαι τοὺς μύθους [10] εἰ μέλλει καλῶς ἕξειν ἡ ποίησις, ἔτι δὲ ἐκ πόσων καὶ ποίων ἐστὶ μορίων, ὁμοίως δὲ καὶ περὶ τῶν ἄλλων ὅσα τῆς αὐτῆς ἐστι μεθόδου, λέγωμεν ἀρξάμενοι κατὰ φύσιν πρῶτον ἀπὸ τῶν πρώτων. 	Ἐποποιία δὴ καὶ ἡ τῆς τραγῳδίας ποίησις ἔτι δὲ κωμῳδία καὶ ἡ διθυραμβοποιητικὴ καὶ τῆς [15] αὐλητικῆς ἡ πλείστη καὶ κιθαριστικῆς πᾶσαι τυγχάνουσιν οὖσαι μιμήσεις τὸ σύνολον· διαφέρουσι δὲ ἀλλήλων τρισίν, ἢ γὰρ τῷ ἐν ἑτέροις μιμεῖσθαι ἢ τῷ ἕτερα ἢ τῷ ἑτέρως καὶ μὴ τὸν αὐτὸν τρόπον. 	Ὥσπερ γὰρ καὶ χρώμασι καὶ σχήμασι πολλὰ μιμοῦνταί τινες ἀπεικάζοντες (οἱ μὲν [20] διὰ τέχνης οἱ δὲ διὰ συνηθείας), ἕτεροι δὲ διὰ τῆς φωνῆς, οὕτω κἀν ταῖς εἰρημέναις τέχναις ἅπασαι μὲν ποιοῦνται τὴν μίμησιν ἐν ῥυθμῷ καὶ λόγῳ καὶ ἁρμονίᾳ, τούτοις δ᾽ ἢ χωρὶς ἢ μεμιγμένοις· οἷον ἁρμονίᾳ μὲν καὶ ῥυθμῷ χρώμεναι μόνον ἥ τε αὐλητικὴ καὶ ἡ κιθαριστικὴ κἂν εἴ τινες [25] ἕτεραι τυγχάνωσιν οὖσαι τοιαῦται τὴν δύναμιν, οἷον ἡ τῶν συρίγγων, αὐτῷ δὲ τῷ ῥυθμῷ [μιμοῦνται] χωρὶς ἁρμονίας ἡ τῶν ὀρχηστῶν (καὶ γὰρ οὗτοι διὰ τῶν σχηματιζομένων ῥυθμῶν μιμοῦνται καὶ ἤθη καὶ πάθη καὶ πράξεις)· 	Ἡ δὲ [ἐποποιία] μόνον τοῖς λόγοις ψιλοῖς <καὶ> ἡ τοῖς [1447b][1] μέτροις καὶ τούτοις εἴτε μιγνῦσα μετ᾽ ἀλλήλων εἴθ᾽ ἑνί τινι γένει χρωμένη τῶν μέτρων ἀνώνυμοι τυγχάνουσι μέχρι τοῦ νῦν· οὐδὲν γὰρ ἂν [10] ἔχοιμεν ὀνομάσαι κοινὸν τοὺς Σώφρονος καὶ Ξενάρχου μίμους καὶ τοὺς Σωκρατικοὺς λόγους οὐδὲ εἴ τις διὰ τριμέτρων ἢ ἐλεγείων ἢ τῶν ἄλλων τινῶν τῶν τοιούτων ποιοῖτο τὴν μίμησιν. Πλὴν οἱ ἄνθρωποί γε συνάπτοντες τῷ μέτρῳ τὸ ποιεῖν ἐλεγειοποιοὺς τοὺς δὲ ἐποποιοὺς ὀνομάζουσιν, οὐχ ὡς [15] κατὰ τὴν μίμησιν ποιητὰς ἀλλὰ κοινῇ κατὰ τὸ μέτρον προσαγορεύοντες· καὶ γὰρ ἂν ἰατρικὸν ἢ φυσικόν τι διὰ τῶν μέτρων ἐκφέρωσιν, οὕτω καλεῖν εἰώθασιν· οὐδὲν δὲ κοινόν ἐστιν Ὁμήρῳ καὶ Ἐμπεδοκλεῖ πλὴν τὸ μέτρον, διὸ τὸν μὲν ποιητὴν δίκαιον καλεῖν, τὸν δὲ φυσιολόγον μᾶλλον ἢ [20] ποιητήν· ὁμοίως δὲ κἂν εἴ τις ἅπαντα τὰ μέτρα μιγνύων ποιοῖτο τὴν μίμησιν καθάπερ Χαιρήμων ἐποίησε Κένταυρον μικτὴν ῥαψῳδίαν ἐξ ἁπάντων τῶν μέτρων, καὶ ποιητὴν προσαγορευτέον. 	Περὶ μὲν οὖν τούτων διωρίσθω τοῦτον τὸν τρόπον. Εἰσὶ δέ τινες αἳ πᾶσι χρῶνται τοῖς [25] εἰρημένοις, λέγω δὲ οἷον ῥυθμῷ καὶ μέλει καὶ μέτρῳ, ὥσπερ ἥ τε τῶν διθυραμβικῶν ποίησις καὶ ἡ τῶν νόμων καὶ ἥ τε τραγῳδία καὶ ἡ κωμῳδία· διαφέρουσι δὲ ὅτι αἱ μὲν ἅμα πᾶσιν αἱ δὲ κατὰ μέρος. Ταύτας μὲν οὖν λέγω τὰς διαφορὰς τῶν τεχνῶν ἐν οἷς ποιοῦνται τὴν μίμησιν.\n
     [1448a][1] 2. Ἐπεὶ δὲ μιμοῦνται οἱ μιμούμενοι πράττοντας, ἀνάγκη δὲ τούτους ἢ σπουδαίους ἢ φαύλους εἶναι (τὰ γὰρ ἤθη σχεδὸν ἀεὶ τούτοις ἀκολουθεῖ μόνοις, κακίᾳ γὰρ καὶ ἀρετῇ τὰ ἤθη διαφέρουσι πάντες), ἤτοι βελτίονας ἢ καθ᾽ ἡμᾶς ἢ χείρονας [5] ἢ καὶ τοιούτους, ὥσπερ οἱ γραφεῖς· Πολύγνωτος μὲν γὰρ κρείττους, Παύσων δὲ χείρους, Διονύσιος δὲ ὁμοίους εἴκαζεν. Δῆλον δὲ ὅτι καὶ τῶν λεχθεισῶν ἑκάστη μιμήσεων ἕξει ταύτας τὰς διαφορὰς καὶ ἔσται ἑτέρα τῷ ἕτερα μιμεῖσθαι τοῦτον τὸν τρόπον. 	Καὶ γὰρ ἐν ὀρχήσει καὶ αὐλήσει καὶ [10] κιθαρίσει ἔστι γενέσθαι ταύτας τὰς ἀνομοιότητας, καὶ [τὸ] περὶ τοὺς λόγους δὲ καὶ τὴν ψιλομετρίαν, οἷον Ὅμηρος μὲν βελτίους, Κλεοφῶν δὲ ὁμοίους, Ἡγήμων δὲ ὁ Θάσιος <ὁ> τὰς παρῳδίας ποιήσας πρῶτος καὶ Νικοχάρης ὁ τὴν Δειλιάδα χείρους· ὁμοίως δὲ καὶ περὶ τοὺς διθυράμβους καὶ περὶ τοὺς [15] νόμους, ὥσπερ γᾶρ Κύκλωπας Τιμόθεος καὶ Φιλόξενος μιμήσαιτο ἄν τις. Ἐν αὐτῇ δὲ τῇ διαφορᾷ καὶ ἡ τραγῳδία πρὸς τὴν κωμῳδίαν διέστηκεν· ἡ μὲν γὰρ χείρους ἡ δὲ βελτίους μιμεῖσθαι βούλεται τῶν νῦν.\n
     3. Ἔτι δὲ τούτων τρίτη διαφορὰ τὸ ὡς ἕκαστα τούτων [20] μιμήσαιτο ἄν τις. Καὶ γὰρ ἐν τοῖς αὐτοῖς καὶ τὰ αὐτὰ μιμεῖσθαι ἔστιν ὁτὲ μὲν ἀπαγγέλλοντα, ἢ ἕτερόν τι γιγνόμενον ὥσπερ Ὅμηρος ποιεῖ ἢ ὡς τὸν αὐτὸν καὶ μὴ μεταβάλλοντα, ἢ πάντας ὡς πράττοντας καὶ ἐνεργοῦντας [τοὺς] μιμουμένους. 	Ἐν τρισὶ δὴ ταύταις διαφοραῖς ἡ μίμησίς ἐστιν, [25] ὡς εἴπομεν κατ᾽ ἀρχάς, ἐν οἷς τε <καὶ ἃ> καὶ ὥς. Ὥστε τῇ μὲν ὁ αὐτὸς ἂν εἴη μιμητὴς Ὁμήρῳ Σοφοκλῆς, μιμοῦνται γὰρ ἄμφω σπουδαίους, τῇ δὲ Ἀριστοφάνει, πράττοντας γὰρ μιμοῦνται καὶ δρῶντας ἄμφω. Ὅθεν καὶ δράματα καλεῖσθαί τινες αὐτά φασιν, ὅτι μιμοῦνται δρῶντας. 	Διὸ καὶ [30] ἀντιποιοῦνται τῆς τε τραγῳδίας καὶ τῆς κωμῳδίας οἱ Δωριεῖς (τῆς μὲν γὰρ κωμῳδίας οἱ Μεγαρεῖς οἵ τε ἐνταῦθα ὡς ἐπὶ τῆς παρ᾽ αὐτοῖς δημοκρατίας γενομένης καὶ οἱ ἐκ Σικελίας, ἐκεῖθεν γὰρ ἦν Ἐπίχαρμος ὁ ποιητὴς πολλῷ πρότερος ὢν Χιωνίδου καὶ Μάγνητος· καὶ τῆς τραγῳδίας ἔνιοι [35] τῶν ἐν Πελοποννήσῳ) ποιούμενοι τὰ ὀνόματα σημεῖον· αὐτοὶ μὲν γὰρ κώμας τὰς περιοικίδας καλεῖν φασιν, Ἀθηναίους δὲ δήμους, ὡς κωμῳδοὺς οὐκ ἀπὸ τοῦ κωμάζειν λεχθέντας ἀλλὰ τῇ κατὰ κώμας πλάνῃ ἀτιμαζομένους ἐκ τοῦ ἄστεως· [1448b][1] καὶ τὸ ποιεῖν αὐτοὶ μὲν δρᾶν, Ἀθηναίους δὲ πράττειν προσαγορεύειν. 	Περὶ μὲν οὖν τῶν διαφορῶν καὶ πόσαι καὶ τίνες τῆς μιμήσεως εἰρήσθω ταῦτα.\n
@@ -185,7 +69,7 @@
     26. Πότερον δὲ βελτίων ἡ ἐποποιικὴ μίμησις ἢ ἡ τραγική, διαπορήσειεν ἄν τις. 	Εἰ γὰρ ἡ ἧττον φορτικὴ βελτίων, τοιαύτη δ᾽ ἡ πρὸς βελτίους θεατάς ἐστιν ἀεί, λίαν δῆλον ὅτι ἡ ἅπαντα μιμουμένη φορτική· ὡς γὰρ οὐκ αἰσθανομένων [30] ἂν μὴ αὐτὸς προσθῇ, πολλὴν κίνησιν κινοῦνται, οἷον οἱ φαῦλοι αὐληταὶ κυλιόμενοι ἂν δίσκον δέῃ μιμεῖσθαι, καὶ ἕλκοντες τὸν κορυφαῖον ἂν Σκύλλαν αὐλῶσιν. Ἡ μὲν οὖν τραγῳδία τοιαύτη ἐστίν, ὡς καὶ οἱ πρότερον τοὺς ὑστέρους αὐτῶν ᾤοντο ὑποκριτάς· ὡς λίαν γὰρ ὑπερβάλλοντα πίθηκον ὁ Μυννίσκος [35] τὸν Καλλιππίδην ἐκάλει, τοιαύτη δὲ δόξα καὶ περὶ Πινδάρου ἦν· [1462a][1] ὡς δ᾽ οὗτοι ἔχουσι πρὸς αὐτούς, ἡ ὅλη τέχνη πρὸς τὴν ἐποποιίαν ἔχει. Τὴν μὲν οὖν πρὸς θεατὰς ἐπιεικεῖς φασιν εἶναι <οἳ> οὐδὲν δέονται τῶν σχημάτων, τὴν δὲ τραγικὴν πρὸς φαύλους· εἰ οὖν φορτική, χείρων δῆλον ὅτι ἂν εἴη. 	[5] Πρῶτον μὲν οὐ τῆς ποιητικῆς ἡ κατηγορία ἀλλὰ τῆς ὑποκριτικῆς, ἐπεὶ ἔστι περιεργάζεσθαι τοῖς σημείοις καὶ ῥαψῳδοῦντα, ὅπερ [ἐστὶ] Σωσίστρατος, καὶ διᾴδοντα, ὅπερ ἐποίει Μνασίθεος ὁ Ὀπούντιος. Εἶτα οὐδὲ κίνησις ἅπασα ἀποδοκιμαστέα, εἴπερ μηδ᾽ ὄρχησις, ἀλλ᾽ ἡ φαύλων, ὅπερ καὶ Καλλιππίδῃ [10] ἐπετιμᾶτο καὶ νῦν ἄλλοις ὡς οὐκ ἐλευθέρας γυναῖκας μιμουμένων. Ἔτι ἡ τραγῳδία καὶ ἄνευ κινήσεως ποιεῖ τὸ αὑτῆς, ὥσπερ ἡ ἐποποιία· διὰ γὰρ τοῦ ἀναγινώσκειν φανερὰ ὁποία τίς ἐστιν· εἰ οὖν ἐστι τά γ᾽ ἄλλα κρείττων, τοῦτό γε οὐκ ἀναγκαῖον αὐτῇ ὑπάρχειν. 	Ἔπειτα διότι πάντ᾽ ἔχει ὅσαπερ ἡ [15] ἐποποιία (καὶ γὰρ τῷ μέτρῳ ἔξεστι χρῆσθαι), καὶ ἔτι οὐ μικρὸν μέρος τὴν μουσικήν [καὶ τὰς ὄψεις], δι᾽ ἧς αἱ ἡδοναὶ συνίστανται ἐναργέστατα· εἶτα καὶ τὸ ἐναργὲς ἔχει καὶ ἐν τῇ ἀναγνώσει καὶ ἐπὶ τῶν ἔργων· [1462b][1] ἔτι τῷ ἐν ἐλάττονι μήκει τὸ τέλος τῆς μιμήσεως εἶναι (τὸ γὰρ ἀθροώτερον ἥδιον ἢ πολλῷ κεκραμένον τῷ χρόνῳ, λέγω δ᾽ οἷον εἴ τις τὸν Οἰδίπουν θείη τὸν Σοφοκλέους ἐν ἔπεσιν ὅσοις ἡ Ἰλιάς)· ἔτι ἧττον μία ἡ μίμησις ἡ τῶν ἐποποιῶν (σημεῖον δέ, ἐκ γὰρ ὁποιασοῦν [5] μιμήσεως πλείους τραγῳδίαι γίνονται), ὥστε ἐὰν μὲν ἕνα μῦθον ποιῶσιν, ἢ βραχέως δεικνύμενον μύουρον φαίνεσθαι, ἢ ἀκολουθοῦντα τῷ τοῦ μέτρου μήκει ὑδαρῆ· λέγω δὲ οἷον ἐὰν ἐκ πλειόνων πράξεων ᾖ συγκειμένη, ὥσπερ ἡ Ἰλιὰς ἔχει πολλὰ τοιαῦτα μέρη καὶ ἡ Ὀδύσσεια <ἃ> καὶ καθ᾽ ἑαυτὰ [10] ἔχει μέγεθος· καίτοι ταῦτα τὰ ποιήματα συνέστηκεν ὡς ἐνδέχεται ἄριστα καὶ ὅτι μάλιστα μιᾶς πράξεως μίμησις. 	Εἰ οὖν τούτοις τε διαφέρει πᾶσιν καὶ ἔτι τῷ τῆς τέχνης ἔργῳ (δεῖ γὰρ οὐ τὴν τυχοῦσαν ἡδονὴν ποιεῖν αὐτὰς ἀλλὰ τὴν εἰρημένην), φανερὸν ὅτι κρείττων ἂν εἴη μᾶλλον τοῦ [15] τέλους τυγχάνουσα τῆς ἐποποιίας. 	Περὶ μὲν οὖν τραγῳδίας καὶ ἐποποιίας, καὶ αὐτῶν καὶ τῶν εἰδῶν καὶ τῶν μερῶν, καὶ πόσα καὶ τί διαφέρει, καὶ τοῦ εὖ ἢ μὴ τίνες αἰτίαι, καὶ περὶ ἐπιτιμήσεων καὶ λύσεων, εἰρήσθω τοσαῦτα. 	Περὶ δὲ ἰάμβων καὶ κωμῳδίας . . .
   `;
 
-  const epicurusDoctrines = `\
+    const epicurusDoctrines = `\
     1 Τὸ μακάριον καὶ ἄφθαρτον οὔτε αὐτὸ πράγματα ἔχει οὔτε ἄλλῳ παρέχει· ὥστε οὔτε ὀργαῖς οὔτε χάρισι συνέχεται· ἐν ἀσθενεῖ γὰρ πᾶν τὸ τοιοῦτον. (ἐν ἄλλοις δέ φησι τοὺς θεοὺς λόγῳ θεωρητούς͵ οὓς μὲν κατ΄ ἀριθμὸν ὑφεστῶτας͵ οὓς δὲ κατὰ ὁμοείδειαν͵ ἐκ τῆς συνεχοῦς ἐπιῤῥύσεως τῶν ὁμοίων εἰδώλων ἐπὶ τὸ αὐτὸ ἀποτετελεσμένων͵ ἀνθρωποειδεῖς.)\n
     2 Ὁ θάνατος οὐδὲν πρὸς ἡμᾶς· τὸ γὰρ διαλυθὲν ἀναισθητεῖ͵ τὸ δ΄ ἀναισθητοῦν οὐδὲν πρὸς ἡμᾶς.\n
     3 Ὅρος τοῦ μεγέθους τῶν ἡδονῶν ἡ παντὸς τοῦ ἀλγοῦντος ὑπεξαίρεσις. ὅπου δ΄ ἂν τὸ ἡδόμενον ἐνῇ͵ καθ΄ ὃν ἂν χρόνον ᾖ͵ οὐκ ἔστι τὸ ἀλγοῦν ἢ λυπούμενον ἢ τὸ συναμφότερον.\n
@@ -228,7 +112,7 @@
     40 Ὅσοι τὴν δύναμιν ἔσχον τοῦ τὸ θαῤῥεῖν μάλιστα ἐκ τῶν ὁμοῤῥούντων παρασκευάσασθαι͵ οὗτοι καὶ ἐβίωσαν μετ΄ ἀλλήλων ἥδιστα τὸ βεβαιότατον πίστωμα ἔχοντες͵ καὶ πληρεστάτην οἰκειότητα ἀπολαβόντες οὐκ ὠδύραντο ὡς πρὸς ἔλεον τὴν τοῦ τελευτήσαντος προκαταστροφήν.
   `;
 
-  const platoSeventhLetter = `\
+    const platoSeventhLetter = `\
     [323d] Πλάτων τοῖς Δίωνος οἰκείοις τε καὶ ἑταίροις εὖ πράττειν.\n
     ἐπεστείλατέ μοι νομίζειν δεῖν τὴν διάνοιαν ὑμῶν εἶναι τὴν αὐτὴν ἣν εἶχεν καὶ δίων, καὶ δὴ καὶ κοινωνεῖν διεκελεύεσθέ [324a] μοι, καθ᾽ ὅσον οἷός τέ εἰμι ἔργῳ καὶ λόγῳ. ἐγὼ δέ, εἰ μὲν δόξαν καὶ ἐπιθυμίαν τὴν αὐτὴν ἔχετε ἐκείνῳ, σύμφημι κοινωνήσειν, εἰ δὲ μή, βουλεύσεσθαι πολλάκις. τίς δ᾽ ἦν ἡ ἐκείνου διάνοια καὶ ἐπιθυμία, σχεδὸν οὐκ εἰκάζων ἀλλ᾽ ὡς εἰδὼς σαφῶς εἴποιμ᾽ ἄν. ὅτε γὰρ κατ᾽ ἀρχὰς εἰς Συρακούσας ἐγὼ ἀφικόμην, σχεδὸν ἔτη τετταράκοντα γεγονώς, δίων εἶχε τὴν ἡλικίαν ἣν τὰ νῦν Ἱππαρῖνος γέγονεν, καὶ ἣν ἔσχεν [324b] τότε δόξαν, ταύτην καὶ διετέλεσεν ἔχων, Συρακοσίους οἴεσθαι δεῖν ἐλευθέρους εἶναι, κατὰ νόμους τοὺς ἀρίστους οἰκοῦντας: ὥστε οὐδὲν θαυμαστὸν εἴ τις θεῶν καὶ τοῦτον εἰς τὴν αὐτὴν δόξαν περὶ πολιτείας ἐκείνῳ γενέσθαι σύμφρονα ποιήσειεν. τίς δ᾽ ἦν ὁ τρόπος τῆς γενέσεως αὐτῆς, οὐκ ἀπάξιον ἀκοῦσαι νέῳ καὶ μὴ νέῳ, πειράσομαι δὲ ἐξ ἀρχῆς αὐτὴν ἐγὼ πρὸς ὑμᾶς διεξελθεῖν: ἔχει γὰρ καιρὸν τὰ νῦν.\n
     νέος ἐγώ ποτε ὢν πολλοῖς δὴ ταὐτὸν ἔπαθον: ᾠήθην, εἰ θᾶττον ἐμαυτοῦ γενοίμην κύριος, ἐπὶ τὰ κοινὰ τῆς πόλεως [324c] εὐθὺς ἰέναι. καί μοι τύχαι τινὲς τῶν τῆς πόλεως πραγμάτων τοιαίδε παρέπεσον. ὑπὸ πολλῶν γὰρ τῆς τότε πολιτείας λοιδορουμένης μεταβολὴ γίγνεται, καὶ τῆς μεταβολῆς εἷς καὶ πεντήκοντά τινες ἄνδρες προύστησαν ἄρχοντες, ἕνδεκα μὲν ἐν ἄστει, δέκα δ᾽ ἐν Πειραεῖ—περί τε ἀγορὰν ἑκάτεροι τούτων ὅσα τ᾽ ἐν τοῖς ἄστεσι διοικεῖν ἔδει—τριάκοντα δὲ πάντων [324d] ἄρχοντες κατέστησαν αὐτοκράτορες. τούτων δή τινες οἰκεῖοί τε ὄντες καὶ γνώριμοι ἐτύγχανον ἐμοί, καὶ δὴ καὶ παρεκάλουν εὐθὺς ὡς ἐπὶ προσήκοντα πράγματά με. καὶ ἐγὼ θαυμαστὸν οὐδὲν ἔπαθον ὑπὸ νεότητος: ᾠήθην γὰρ αὐτοὺς ἔκ τινος ἀδίκου βίου ἐπὶ δίκαιον τρόπον ἄγοντας διοικήσειν δὴ τὴν πόλιν, ὥστε αὐτοῖς σφόδρα προσεῖχον τὸν νοῦν, τί πράξοιεν. καὶ ὁρῶν δήπου τοὺς ἄνδρας ἐν χρόνῳ ὀλίγῳ χρυσὸν ἀποδείξαντας τὴν ἔμπροσθεν πολιτείαν—τά τε ἄλλα καὶ φίλον [324e] ἄνδρα ἐμοὶ πρεσβύτερον Σωκράτη, ὃν ἐγὼ σχεδὸν οὐκ ἂν αἰσχυνοίμην εἰπὼν δικαιότατον εἶναι τῶν τότε, ἐπί τινα τῶν πολιτῶν μεθ᾽ ἑτέρων ἔπεμπον, βίᾳ ἄξοντα ὡς ἀποθανούμενον, [325a] ἵνα δὴ μετέχοι τῶν πραγμάτων αὐτοῖς, εἴτε βούλοιτο εἴτε μή: ὁ δ᾽ οὐκ ἐπείθετο, πᾶν δὲ παρεκινδύνευσεν παθεῖν πρὶν ἀνοσίων αὐτοῖς ἔργων γενέσθαι κοινωνός—ἃ δὴ πάντα καθορῶν καὶ εἴ τιν᾽ ἄλλα τοιαῦτα οὐ σμικρά, ἐδυσχέρανά τε καὶ ἐμαυτὸν ἐπανήγαγον ἀπὸ τῶν τότε κακῶν. χρόνῳ δὲ οὐ πολλῷ μετέπεσε τὰ τῶν τριάκοντά τε καὶ πᾶσα ἡ τότε πολιτεία: πάλιν δὲ βραδύτερον μέν, εἷλκεν δέ με ὅμως ἡ [325b] περὶ τὸ πράττειν τὰ κοινὰ καὶ πολιτικὰ ἐπιθυμία. ἦν οὖν καὶ ἐν ἐκείνοις ἅτε τεταραγμένοις πολλὰ γιγνόμενα ἅ τις ἂν δυσχεράνειεν, καὶ οὐδέν τι θαυμαστὸν ἦν τιμωρίας ἐχθρῶν γίγνεσθαί τινών τισιν μείζους ἐν μεταβολαῖς: καίτοι πολλῇ γε ἐχρήσαντο οἱ τότε κατελθόντες ἐπιεικείᾳ. κατὰ δέ τινα τύχην αὖ τὸν ἑταῖρον ἡμῶν Σωκράτη τοῦτον δυναστεύοντές τινες εἰσάγουσιν εἰς δικαστήριον, ἀνοσιωτάτην αἰτίαν ἐπιβαλόντες [325c] καὶ πάντων ἥκιστα Σωκράτει προσήκουσαν: ὡς ἀσεβῆ γὰρ οἱ μὲν εἰσήγαγον, οἱ δὲ κατεψηφίσαντο καὶ ἀπέκτειναν τὸν τότε τῆς ἀνοσίου ἀγωγῆς οὐκ ἐθελήσαντα μετασχεῖν περὶ ἕνα τῶν τότε φευγόντων φίλων, ὅτε φεύγοντες ἐδυστύχουν αὐτοί. σκοποῦντι δή μοι ταῦτά τε καὶ τοὺς ἀνθρώπους τοὺς πράττοντας τὰ πολιτικά, καὶ τοὺς νόμους γε καὶ ἔθη, ὅσῳ μᾶλλον διεσκόπουν ἡλικίας τε εἰς τὸ πρόσθε προύβαινον, τοσούτῳ χαλεπώτερον ἐφαίνετο ὀρθῶς εἶναί μοι τὰ πολιτικὰ [325d] διοικεῖν: οὔτε γὰρ ἄνευ φίλων ἀνδρῶν καὶ ἑταίρων πιστῶν οἷόν τ᾽ εἶναι πράττειν—οὓς οὔθ᾽ ὑπάρχοντας ἦν εὑρεῖν εὐπετές, οὐ γὰρ ἔτι ἐν τοῖς τῶν πατέρων ἤθεσιν καὶ ἐπιτηδεύμασιν ἡ πόλις ἡμῶν διῳκεῖτο, καινούς τε ἄλλους ἀδύνατον ἦν κτᾶσθαι μετά τινος ῥᾳστώνης—τά τε τῶν νόμων γράμματα καὶ ἔθη διεφθείρετο καὶ ἐπεδίδου θαυμαστὸν ὅσον, ὥστε με, [325e] τὸ πρῶτον πολλῆς μεστὸν ὄντα ὁρμῆς ἐπὶ τὸ πράττειν τὰ κοινά, βλέποντα εἰς ταῦτα καὶ φερόμενα ὁρῶντα πάντῃ πάντως, τελευτῶντα ἰλιγγιᾶν, καὶ τοῦ μὲν σκοπεῖν μὴ ἀποστῆναι μή ποτε ἄμεινον ἂν γίγνοιτο περί τε αὐτὰ ταῦτα καὶ [326a] δὴ καὶ περὶ τὴν πᾶσαν πολιτείαν, τοῦ δὲ πράττειν αὖ περιμένειν ἀεὶ καιρούς, τελευτῶντα δὲ νοῆσαι περὶ πασῶν τῶν νῦν πόλεων ὅτι κακῶς σύμπασαι πολιτεύονται—τὰ γὰρ τῶν νόμων αὐταῖς σχεδὸν ἀνιάτως ἔχοντά ἐστιν ἄνευ παρασκευῆς θαυμαστῆς τινος μετὰ τύχης—λέγειν τε ἠναγκάσθην, ἐπαινῶν τὴν ὀρθὴν φιλοσοφίαν, ὡς ἐκ ταύτης ἔστιν τά τε πολιτικὰ δίκαια καὶ τὰ τῶν ἰδιωτῶν πάντα κατιδεῖν: κακῶν οὖν οὐ [326b] λήξειν τὰ ἀνθρώπινα γένη, πρὶν ἂν ἢ τὸ τῶν φιλοσοφούντων ὀρθῶς γε καὶ ἀληθῶς γένος εἰς ἀρχὰς ἔλθῃ τὰς πολιτικὰς ἢ τὸ τῶν δυναστευόντων ἐν ταῖς πόλεσιν ἔκ τινος μοίρας θείας ὄντως φιλοσοφήσῃ.\n
@@ -245,8 +129,8 @@
     [352a] τὰ δὴ μετὰ τὰ νῦν ῥηθέντα ἃ συμβουλεύω, σχεδὸν εἴρηταί τέ μοι καὶ εἰρήσθω: ὧν δ᾽ ἐπανέλαβον ἕνεκα τὴν εἰς Σικελίαν ἄφιξιν τὴν δευτέραν, ἀναγκαῖον εἶναι ἔδοξέ μοι ῥηθῆναι δεῖν διὰ τὴν ἀτοπίαν καὶ ἀλογίαν τῶν γενομένων. εἰ δ᾽ ἄρα τινὶ νῦν ῥηθέντα εὐλογώτερα ἐφάνη καὶ προφάσεις πρὸς τὰ γενόμενα ἱκανὰς ἔχειν ἔδοξέν τῳ, μετρίως ἂν ἡμῖν καὶ ἱκανῶς εἴη τὰ νῦν εἰρημένα.
   `;
 
-  // Source: https://edh.ub.uni-heidelberg.de/edh/inschrift/HD037030
-  const delphicHonorificInscription = `\
+    // Source: https://edh.ub.uni-heidelberg.de/edh/inschrift/HD037030
+    const delphicHonorificInscription = `\
     ΤΟΝ ΚΥΡΙΟΝ ΗΜΩΝ
     ΕΠΕΙΦΑΝΕΣΤΑ
     ΤΟΝ ΑΥΓΟΥΣΤΟΝ ΦΛΑΒ
@@ -254,55 +138,171 @@
     ΦΩΝ ΠΟΛΙΣ
   `;
 
-  function showGreekSource(text) {
-    switch (text) {
-      case 'hymn-to-liberty':
-        greekSource.textContent = hymnToLiberty;
-        break;
+    function showGreekSource(text) {
+      switch (text) {
+        case 'hymn-to-liberty':
+          greekSource.textContent = hymnToLiberty;
+          break;
 
-      case 'aristotle-poetics':
-        greekSource.textContent = aristotlePoetics;
-        break;
+        case 'aristotle-poetics':
+          greekSource.textContent = aristotlePoetics;
+          break;
 
-      case 'epicurus-doctrines':
-        greekSource.textContent = epicurusDoctrines;
-        break;
+        case 'epicurus-doctrines':
+          greekSource.textContent = epicurusDoctrines;
+          break;
 
-      case 'plato-seventh-letter':
-        greekSource.textContent = platoSeventhLetter;
-        break;
+        case 'plato-seventh-letter':
+          greekSource.textContent = platoSeventhLetter;
+          break;
 
-      case 'delphic-honorific-inscription':
-        greekSource.textContent = delphicHonorificInscription;
-        break;
+        case 'delphic-honorific-inscription':
+          greekSource.textContent = delphicHonorificInscription;
+          break;
 
-      default:
-        greekSource.textContent = '';
+        default:
+          greekSource.textContent = '';
+      }
     }
-  }
 
-  const greekSource = document.getElementById('greek-source');
-  const sourceSelection = document.getElementById('text-selection');
+    const greekSource = document.getElementById('greek-source');
+    const sourceSelection = document.getElementById('text-selection');
 
-  const transliteratatedText = document.getElementById('transliterated-text');
-  const presetSelection = document.getElementById('preset-selection');
-  const conversionButton = document.getElementById('conversion-button');
+    const transliteratatedText = document.getElementById('transliterated-text');
+    const presetSelection = document.getElementById('preset-selection');
+    const conversionButton = document.getElementById('conversion-button');
 
-  showGreekSource(sourceSelection.value);
-
-  sourceSelection.addEventListener('change', (e) => {
-    transliteratatedText.textContent = '';
     showGreekSource(sourceSelection.value);
-  });
 
-  let currentPreset = presetSelection.value;
-  presetSelection.addEventListener('change', (e) => currentPreset = e.target.value);
+    sourceSelection.addEventListener('change', (e) => {
+      transliteratatedText.textContent = '';
+      showGreekSource(sourceSelection.value);
+    });
 
-  conversionButton.addEventListener('click', (e) => {
-    transliteratatedText.textContent = toTransliteration(
-      greekSource.textContent,
-      KeyType.GREEK,
-      Preset[currentPreset]
-    );
-  });
-</script>
+    let currentPreset = presetSelection.value;
+    presetSelection.addEventListener('change', (e) => currentPreset = e.target.value);
+
+    conversionButton.addEventListener('click', (e) => {
+      transliteratatedText.textContent = toTransliteration(
+        greekSource.textContent,
+        KeyType.GREEK,
+        Preset[currentPreset]
+      );
+    });
+  </script>
+  <style>
+  body {
+    grid-template-columns: 1fr min(70em, 90%) 1fr;
+  }
+  table tbody {
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  th span.flex-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  button,
+  select {
+    margin-bottom: 0;
+  }
+  .icon {
+    vertical-align: sub;
+    padding-right: .25rem;
+    display: inline-block;
+    width: 1em;
+    height: 1.3em;
+    margin-right: 0.2rem;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+  }
+  nav a.current {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/searchBar.html">Search bar</a>
+      <a class="current" href="/textTransliteration.html">Text transliteration</a>
+      <a href="/playground.html">Playground</a>
+      <a href="https://github.com/antoineboquet/greek-conversion" target="_blank"><svg class="icon" viewBox="0 0 32 32"><path d="M16 0.395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182 0.8 0.148 1.094-0.347 1.094-0.77 0-0.381-0.015-1.642-0.022-2.979-4.452 0.968-5.391-1.888-5.391-1.888-0.728-1.849-1.776-2.341-1.776-2.341-1.452-0.993 0.11-0.973 0.11-0.973 1.606 0.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33 0.143-1.034 0.558-1.74 1.016-2.14-3.554-0.404-7.29-1.777-7.29-7.907 0-1.747 0.625-3.174 1.649-4.295-0.166-0.403-0.714-2.030 0.155-4.234 0 0 1.344-0.43 4.401 1.64 1.276-0.355 2.645-0.532 4.005-0.539 1.359 0.006 2.729 0.184 4.008 0.539 3.054-2.070 4.395-1.64 4.395-1.64 0.871 2.204 0.323 3.831 0.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895 0.574 0.497 1.085 1.47 1.085 2.963 0 2.141-0.019 3.864-0.019 4.391 0 0.426 0.288 0.925 1.099 0.768 6.354-2.118 10.933-8.113 10.933-15.18 0-8.837-7.164-16-16-16z"></path></svg>Github</a>
+    </nav>
+    <h1>Text transliteration example</h1>
+    <p>
+      This example shows how <code>greek-conversion</code> can be used
+      to transliterate Greek texts using transliteration presets.
+    </p>
+  </header>
+
+  <main>
+    <table style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th style="position:sticky;top:0">
+            <span class="flex-head">
+              Greek source
+              <select id="text-selection">
+                <option value="" disabled>Available texts</option>
+                <option value="hymn-to-liberty" selected>
+                  Ύμνος εις την Ελευθερίαν (first stanzas)
+                </option>
+                <option value="aristotle-poetics">
+                  Αριστοτέλης &mdash; Περί Ποιητικής
+                </option>
+                <option value="epicurus-doctrines">
+                  Επίκουρος &mdash; Κύριαι Δόξαι
+                </option>
+                <option value="plato-seventh-letter">
+                  Πλάτων &mdash; Ἐπιστολὴ Ζʹ
+                </option>
+                <option value="delphic-honorific-inscription">
+                  Honorific inscription from Delphi
+                </option>
+              </select>
+            </span>
+          </th>
+          <th style="position:sticky;top:0;background:white">
+            <span class="flex-head">
+              Transliteration
+              <span>
+                <select id="preset-selection">
+                  <option value="" disabled>Presets</option>
+                  <option value="ALA_LC" selected>ALA-LC</option>
+                  <option value="ALA_LC_MODERN" selected>ALA-LC Modern</option>
+                  <option value="BNF_ADAPTED">BNF (adapted)</option>
+                  <option value="ISO">ISO</option>
+                  <option value="SBL">SBL</option>
+                </select>
+                <button id="conversion-button">Convert</button>
+              </span>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody style="height:100px">
+        <tr style="vertical-align:top">
+          <td id="greek-source" style="white-space:pre-line;background:var(--accent-bg)"></td>
+          <td id="transliterated-text" style="white-space:pre-line"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2" style="font-size:.75em;text-align:center">
+            Sources:
+            <a href="http://el.wikisource.org" target="_blank">Wikisource</a>,
+            <a href="https://edh.ub.uni-heidelberg.de/" target="_blank">Epigraphic Database Heidelberg</a>
+            &mdash; Greek texts are under
+            <a href="https://creativecommons.org/licenses/by-sa/3.0/deed" target="_blank">CC BY-SA 3.0</a>
+            license; Greek inscriptions are under
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/deed" target="_blank">CC BY-SA 4.0</a>.
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </main>
+</body>
+</html>
