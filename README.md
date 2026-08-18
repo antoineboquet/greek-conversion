@@ -1,6 +1,5 @@
 # greek-conversion
 
-> [!NOTE]
 > **This library needs some feedback before getting its first stable release!**
 
 A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
@@ -223,6 +222,9 @@ const trStyle = { transliterationStyle: { lunatesigma_s: true } }
 toTransliteration('Cōkrátēc', KeyType.TRANSLITERATION, trStyle) // Sōkrátēs
 ```
 
+> [!TIP]
+> Interactive examples are available in the `/examples` folder and accessible on this <a href="https://antoineboquet.github.io/greek-conversion/examples/" target="_blank">page</a>.
+
 ## OOP style
 
 ### Summary
@@ -265,17 +267,17 @@ person.source // ἄνθρωπος
 
 #### `applyGreekVariants (greekStr: string, options?: IGreekStyle): string`
 
-Applies beta/sigma variants and transforms `πσ` into `ψ`.
-
-This function evaluates booleans `useBetaVariant` & `useLunateSigma` provided by the `IGreekStyle` interface.
+- Applies beta and sigma variants (evaluating booleans `useBetaVariant` and `useLunateSigma` provided by the `IGreekStyle` interface);
+- Replaces sequence 'πσ' with the letter psi.
 
 #### `removeDiacritics (str: string, type: KeyType): string`
 
-Removes all the diacritics from a given string. The set of diacritical marks depends on the greek string representation.
+Removes all the diacritics—according to the greek string representation—from a given string.
 
 #### `removeGreekVariants (greekStr: string, options?: { preserveAccents?: boolean, preserveLunateSigma?: boolean }): string`
 
-Removes beta and sigma variants; replaces grave accents with acute accents.
+- Removes beta and sigma variants;
+- Replaces grave accents with acute accents.
 
 ## Limitations
 
