@@ -1,4 +1,9 @@
-import { removeGreekVariants } from '../src/index';
+import { KeyType, removeDiacritics, removeGreekVariants } from '../src/index';
+import {
+  ANO_TELEIA,
+  GREEK_QUESTION_MARK,
+  RIGHT_SINGLE_QUOTATION_MARK
+} from '../src/Mapping';
 
 describe('Remove greek variants', () => {
 
@@ -35,6 +40,24 @@ describe('Remove greek variants', () => {
     ${'Ϲειϲμόϲ'}                       | ${'Ϲειϲμόϲ'}
   `('Preserving lunate sigmas', ({ str, expected }) => {
     expect(removeGreekVariants(str, { preserveLunateSigma: true })).toBe(expected)
+  })
+
+})
+
+describe('Remove diacritics', () => {
+
+  // Preserving punctuation marks
+
+  // Note: the internal `normalize()` call currently loses the 'ano teleia' and the 'greek question mark'.
+
+  test.each`
+    str                                                                                   | type                       | expected
+    ${`τί${GREEK_QUESTION_MARK} καὶ τό${ANO_TELEIA} ἀλλ${RIGHT_SINGLE_QUOTATION_MARK} —`} | ${KeyType.GREEK}           | ${`τι; και το· αλλ${RIGHT_SINGLE_QUOTATION_MARK} —`}
+    ${'τί; καὶ τό· ἀλλ’ —'}                                                               | ${KeyType.GREEK}           | ${`τι; και το· αλλ${RIGHT_SINGLE_QUOTATION_MARK} —`}
+    ${'ti/; kai\\ to/: a)ll\' _'}                                                         | ${KeyType.BETA_CODE}       | ${'ti; kai to: all\' _'}
+    ${`tí? kaì tó; all${RIGHT_SINGLE_QUOTATION_MARK} —`}                                  | ${KeyType.TRANSLITERATION} | ${`ti? kai to; all${RIGHT_SINGLE_QUOTATION_MARK} —`}
+  `('Preserving punctuation marks', ({ str, type, expected }) => {
+    expect(removeDiacritics(str, type)).toBe(expected)
   })
 
 })

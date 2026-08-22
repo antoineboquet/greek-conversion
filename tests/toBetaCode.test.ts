@@ -1,4 +1,4 @@
-import { AdditionalChar, Coronis, KeyType, Preset, toBetaCode } from '../src/index'
+import { AdditionalChar, Coronis, KeyType, Preset, toBetaCode, toGreek } from '../src/index'
 
 /*
  * Special characters:
@@ -52,6 +52,33 @@ describe('From greek to beta code', () => {
     ${'ἀ̆ᾱεηῐῑοωῠῡ'}    | ${'aaehiiowuu'}
     ${aristotle.gr}    | ${aristotle.bcNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true })).toBe(expected) })
+
+  // Elision
+
+  test.each`
+    str                                | expected
+    ${'δ\u2019'}                       | ${'d\''}
+    ${'ἀφ\u2019, ἀλλ\u2019.'}          | ${'a)f\', a)ll\'.'}
+    ${'δ\u2019'}                       | ${'d\''}
+    ${'δ\u02BC'}                       | ${'d\''}
+  `('Elision', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK)).toBe(expected) })
+
+
+  // Elision w/ removing diacritics
+
+  test.each`
+    str                                | expected
+    ${'ἀφ\u2019, ἀλλ\u2019.'}          | ${'af\', all\'.'}
+    ${'δ\u02BC'}                       | ${'d\''}
+  `('Elision removing diacritics', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true })).toBe(expected) })
+
+  // Elision w/ removing diacritics + skipping sanitization
+
+  test.each`
+    str                                | expected
+    ${'δ\u02BC'}                       | ${'d\''}
+  `('Elision removing diacritics w/ skipSanitization', ({ str, expected }) => { expect(toBetaCode(str, KeyType.GREEK, { removeDiacritics: true, betaCodeStyle: {skipSanitization: true }})).toBe(expected) })
+
 
   // Testing useTLGStyle / TLG preset
 
@@ -120,7 +147,7 @@ describe('From greek to beta code', () => {
     expect(toBetaCode('Ῥόδος\nῬόδος\tῬόδος Ῥόδος', KeyType.GREEK)).toBe('R(o/dos\nR(o/dos\tR(o/dos R(o/dos')
   })
 
-  // Testing diacritics order
+  // Testing diacritic order
 
   test.each`
     str        | expected
@@ -200,7 +227,7 @@ describe('From transliteration to beta code', () => {
     expect(toBetaCode('Pátroḳlos', KeyType.TRANSLITERATION, { removeDiacritics: true, additionalChars: AdditionalChar.ALL })).toBe('Patro#3los')
   })
 
-  // Testing breathings placement rules
+  // Testing breathing placement rules
 
   test.each`
     str             | expected

@@ -22,7 +22,7 @@ const thucydides = {
 const plato = {
   tr: 'Chalepón gé se elénxai, ō̃ Sṓkrates; all\' ouchì ka̓̀n paĩs se elénxeien hóti ouk alēthē̃ légeis?',
   trCx: 'Chalepón gé se elénxai, ỗ Sốkrates; all\' ouchì ka̓̀n paĩs se elénxeien hóti ouk alêthễ légeis?',
-  gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κἂν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις;'
+  gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\u2019 οὐχὶ κἂν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις;'
 }
 
 describe('From beta code to greek', () => {
@@ -61,6 +61,36 @@ describe('From beta code to greek', () => {
     ${aristotle.bc}                    | ${aristotle.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
 
+
+  // Elision
+
+  test.each`
+    str                                | expected
+    ${'d\''}                           | ${'δ\u2019'}
+    ${'a)f\', a)ll\'.'}                | ${'ἀφ\u2019, ἀλλ\u2019.'}
+    ${'d\u2019'}                       | ${'δ'}
+    ${'d\u02BC'}                       | ${'δ'}
+  `('Elision', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE)).toBe(expected) })
+
+
+  // Elision w/ removing diacritics
+
+  test.each`
+    str                                | expected
+    ${'a)f\', a)ll\'.'}                | ${'αφ\u2019, αλλ\u2019.'}
+    ${'d\u2019'}                       | ${'δ'}
+    ${'d\u02BC'}                       | ${'δ'}
+  `('Elision removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true })).toBe(expected) })
+
+  // Elision w/ removing diacritics + skipping sanitization
+
+  test.each`
+    str                                | expected
+    ${'a)f\', a)ll\'.'}                | ${'αφ\u2019, αλλ\u2019.'}
+    ${'d\u2019'}                       | ${'δ\u2019'}
+    ${'d\u02BC'}                       | ${'δ\u2019'}
+  `('Elision removing diacritics w/ skipSanitization', ({ str, expected }) => { expect(toGreek(str, KeyType.BETA_CODE, { removeDiacritics: true, betaCodeStyle: {skipSanitization: true }})).toBe(expected) })
+
   // Testing KeyType.TLG_BETA_CODE
 
   test.each`
@@ -78,7 +108,6 @@ describe('From beta code to greek', () => {
     ${'*(R*/O*D*O*S'} | ${'ῬΌΔΟΣ'}
     ${'*(r*/o*d*o*s'} | ${'ῬΌΔΟΣ'}
     `('Testing KeyType.TLG_BETA_CODE', ({ str, expected }) => expect(toGreek(str, KeyType.TLG_BETA_CODE)).toBe(expected))
-
 
   // Using beta variant
 
@@ -131,7 +160,7 @@ describe('From beta code to greek', () => {
     expect(toGreek('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('αἴξ κριός')
   })
 
-  // Testing various diacritics order
+  // Testing various diacritic order
 
   test.each`
     str       | expected
@@ -213,7 +242,7 @@ describe('From transliteration to greek', () => {
     ${thucydides.trNoAcc} | ${thucydides.grNoAcc}
   `('Removing diacritics', ({ str, expected }) => { expect(toGreek(str, KeyType.TRANSLITERATION, { removeDiacritics: true })).toBe(expected) })
 
-  // Testing breathings placement rules
+  // Testing breathing placement rules
 
   test.each`
     str             | expected

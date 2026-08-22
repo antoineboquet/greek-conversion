@@ -20,8 +20,8 @@ const thucydides = {
 
 const plato = {
   gr: 'Χαλεπόν γέ σε ἐλέγξαι, ὦ Σώκρατες· ἀλλ\' οὐχὶ κὰν παῖς σε ἐλέγξειεν ὅτι οὐκ ἀληθῆ λέγεις\u037E',
-  tr: 'Chalepón gé se elégxai, ō̃ Sṓkrates; all\' ouchì kàn paĩs se elégxeien hóti ouk alēthē̃ légeis?',
-  trCrx: 'Chalepón gé se elégxai, ỗ Sốkrates; all\' ouchì kàn paĩs se elégxeien hóti ouk alêthễ légeis?'
+  tr: 'Chalepón gé se elégxai, ō̃ Sṓkrates; all\u2019 ouchì kàn paĩs se elégxeien hóti ouk alēthē̃ légeis?',
+  trCrx: 'Chalepón gé se elégxai, ỗ Sốkrates; all\u2019 ouchì kàn paĩs se elégxeien hóti ouk alêthễ légeis?'
 }
 
 describe('From beta code to transliteration', () => {
@@ -228,7 +228,7 @@ describe('From beta code to transliteration', () => {
     expect(toTransliteration('ai)/c   krio/s', KeyType.BETA_CODE, { removeExtraWhitespace: true })).toBe('aíx kriós')
   })
 
-  // Testing various diacritics order
+  // Testing various diacritic order
   
   test.each`
     str       | expected
