@@ -231,18 +231,24 @@ export const normalizeBetaCode = (
   betaCodeStr: string,
   options: IBetaCodeStyle
 ): string => {
-  const order: string[] = [')', '(', '+', '/', '\\', '=', '|', '?'];
+  const DIACRITIC_ORDER: Record<string, number> = {
+    ')': 1, // Smooth breathing
+    '(': 2, // Rough breathing
+    '+': 3, // Diaeresis
+    '/': 4, // Acute accent
+    '\\': 5, // Grave accent
+    '=': 6, // Circumflex
+    '|': 7, // Iota subscript
+    '?': 8  // Dot below
+  };
 
-  betaCodeStr = betaCodeStr.replace(/([()\\/+=|?]{2,})/gi, (m, diacritics) => {
-    // Converting to a `Set` prevents data duplication.
-    return [...new Set(diacritics)]
-      .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b))
+  betaCodeStr = betaCodeStr.replace(/[()\\/+=|?]{2,}/g, (match) => {
+    return Array.from(new Set(match))
+      .sort((a, b) => (DIACRITIC_ORDER[a] ?? 0) - (DIACRITIC_ORDER[b] ?? 0))
       .join('');
   });
 
-  if (options?.skipSanitization) return betaCodeStr;
-
-  return betaCodeStr
+  return options?.skipSanitization ? betaCodeStr : betaCodeStr
     .normalize('NFD')
     .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,;:]/gi, '')
     .normalize();
