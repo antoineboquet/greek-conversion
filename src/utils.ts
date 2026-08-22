@@ -221,7 +221,7 @@ export const isUpperCase = (str: string, type: KeyType): boolean => {
  *
  * @remarks
  * (1) Ensure the right diacritics order (and remove duplicates).
- * (2) Sanitize the given string, removing all non beta code characters.
+ * (2) Sanitize the given string, removing all non-beta code characters.
  *
  * @privateRemarks
  * The correct diacritics order seems to be: (1) breathings; (2) diaereses;
@@ -258,7 +258,7 @@ export const normalizeBetaCode = (
  * Returns a normalized greek string.
  *
  * @remarks
- * (1) Some characters must be applied in the canonically-decomposed form.
+ * (1) Some characters must be applied in the canonically decomposed form.
  * (2) Due to the poor Unicode canonical equivalences, any subsequent
  * normalization may break the replacements made by this function.
  */
@@ -341,7 +341,7 @@ export const normalizeTransliteration = (
  * The set of diacritical signs depends on the greek string representation.
  *
  * @param str - The input string
- * @param type - The kind of representation associated to the input string
+ * @param type - The kind of representation associated with the input string
  * @param trPreserveLetters - An array of letters paired with a diacritical
  * mark (see the next parameter) to preserve.
  * @param trUseCxOverMacron - The diacritical mark to match (defaults to

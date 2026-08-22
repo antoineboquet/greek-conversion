@@ -551,7 +551,7 @@ export class Mapping {
     return Object.values({
       ...this.#capitalLetters,
       ...this.#smallLetters
-    }).reduce((acc, v) => {
+    }).reduce<string[]>((acc, v) => {
       const tr = v.tr ?? "";
       const trBase = v.trBase ?? "";
 
