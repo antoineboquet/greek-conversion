@@ -244,7 +244,22 @@ const PUNCTUATION = (): {
     gr: ANO_TELEIA,
     bc: ':',
     tr: ';'
-  }
+  },
+  PUNCT_APOSTROPHE: {
+    gr: RIGHT_SINGLE_QUOTATION_MARK,
+    bc: '\'',
+    tr: RIGHT_SINGLE_QUOTATION_MARK
+  },
+  PUNCT_EM_DASH: {
+    gr: '—',
+    bc: '_', // low line
+    tr: '—'
+  },
+  /*PUNCT_HYPHEN: {
+    gr: '‐',
+    bc: '-', // hyphen-minus
+    tr: '‐'
+  }*/
 });
 
 const DIACRITICS = (): {

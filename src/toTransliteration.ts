@@ -7,6 +7,7 @@ import {
 import {
   DIAERESIS,
   Mapping,
+  RIGHT_SINGLE_QUOTATION_MARK,
   ROUGH_BREATHING,
   SMOOTH_BREATHING
 } from './Mapping';
@@ -112,6 +113,12 @@ export function toTransliteration(
   }
 
   if (removeExtraWhitespace) str = utilRmExtraWhitespace(str);
+
+  // @FIXME It should be part of a normalization processes (cf. `./utils.ts` >
+  //        `normalizeTransliteration()`), but transliteration normalization is
+  //        currently not handled as expected.
+  // \u02BC = 'modified letter apostrophe'; \u0027 = 'apostrophe'.
+  str = str.replace(/[\u02BC\u0027]/g, RIGHT_SINGLE_QUOTATION_MARK);
 
   return trApplyCoronis(str, setCoronisStyle);
 }

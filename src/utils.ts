@@ -21,6 +21,7 @@ import {
   MACRON,
   MIDDLE_DOT,
   PRECOMPOSED_CHARS_WITH_TONOS_OXIA,
+  RIGHT_SINGLE_QUOTATION_MARK,
   ROUGH_BREATHING,
   SMALL_LUNATE_SIGMA,
   SMOOTH_BREATHING
@@ -250,7 +251,8 @@ export const normalizeBetaCode = (
 
   return options?.skipSanitization ? betaCodeStr : betaCodeStr
     .normalize('NFD')
-    .replace(/[^*a-z0-9$&^@{<{[\]%#\s()\\/+=|?.,;:]/gi, '')
+
+    .replace(/[^*a-z0-9$&^@{}<[\]%#\s()\\/+=|?.,;:'_-]/gi, '')
     .normalize();
 };
 
@@ -270,7 +272,9 @@ export const normalizeGreek = (
 
   greekStr = greekStr
     .normalize('NFD')
-    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE);
+    .replace(new RegExp(LATIN_TILDE, 'g'), GREEK_TILDE)
+    // \u02BC = 'modified letter apostrophe'; \u0027 = 'apostrophe'.
+    .replace(/[\u02BC\u0027]/g, RIGHT_SINGLE_QUOTATION_MARK);
 
   if (useMonotonicOrthography) {
     const diacritics = [
@@ -308,11 +312,15 @@ export const normalizeTransliteration = (
   isUpperCase?: boolean
 ): string => {
   const { setCoronisStyle, beta_v, muPi_b } = options ?? {};
-  const re = new RegExp(`(?<=\\S)${Coronis.APOSTROPHE}(?=\\S)`, 'g');
 
-  // @fixme: check the logic behind this.
+  transliteratedStr = transliteratedStr.normalize('NFD');
+
   if (setCoronisStyle === Coronis.APOSTROPHE) {
-    transliteratedStr = transliteratedStr.replace(re, SMOOTH_BREATHING);
+    // Replace intra-word coronis apostrophe with smooth breathing before any combining accents
+    transliteratedStr = transliteratedStr.replace(
+      new RegExp(`(\\p{M}*)${Coronis.APOSTROPHE}(?=\\p{L})`, 'gu'),
+      `${SMOOTH_BREATHING}$1`
+    );
   }
 
   if (muPi_b && beta_v) {
@@ -328,9 +336,7 @@ export const normalizeTransliteration = (
   });
 
   return transliteratedStr
-    .normalize('NFD')
-    .replace(/Y/g, 'U')
-    .replace(/y/g, 'u')
+    .replace(/y/gi, (m) => (m === 'Y' ? 'U' : 'u'))
     .normalize();
 };
 
@@ -407,9 +413,8 @@ export const removeGreekVariants = (
   if (!preserveAccents) {
     greekStr = greekStr
       .normalize("NFD")
-      .replace(new RegExp(GRAVE_ACCENT, "g"), ACUTE_ACCENT);
-
-    greekStr = normalizeGreek(greekStr);
+      .replace(new RegExp(GRAVE_ACCENT, "g"), ACUTE_ACCENT)
+      .normalize();
   }
 
   return greekStr

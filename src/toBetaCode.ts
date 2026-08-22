@@ -1,4 +1,4 @@
-import { AdditionalChar, KeyType, Preset } from './enums';
+import { AdditionalChar, Coronis, KeyType, Preset } from './enums';
 import { IConversionOptions, MixedPreset } from './interfaces';
 import { Mapping } from './Mapping';
 import {
@@ -7,6 +7,7 @@ import {
   handleOptions,
   hasAdditionalChar,
   normalizeBetaCode,
+  normalizeGreek,
   normalizeTransliteration,
   removeDiacritics as utilRmDiacritics,
   removeExtraWhitespace as utilRmExtraWhitespace,
@@ -44,6 +45,7 @@ export function toBetaCode(
       break;
 
     case KeyType.GREEK:
+      str = normalizeGreek(str);
       if (removeDiacritics) str = utilRmDiacritics(str, fromType);
       str = utilRmGreekVariants(str, {
         preserveAccents: true,
@@ -58,6 +60,14 @@ export function toBetaCode(
 
       // Flag transliterated rough breathings.
       str = str.replace(/(?<=\p{P}|\s|^|r{1,2})h/gimu, '$');
+
+      // Remove the intra-words apostrophes that are invalid chars unless the coronis style uses them.
+      if (transliterationStyle?.setCoronisStyle !== Coronis.APOSTROPHE) {
+        str = str.replace(
+          new RegExp(`(?<=[\\p{L}\\p{M}])${Coronis.APOSTROPHE}(?=\\p{L})`, 'gu'),
+          ''
+        );
+      }
 
       str = mapping.apply(str, fromType, KeyType.BETA_CODE);
 
