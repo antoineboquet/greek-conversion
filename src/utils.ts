@@ -299,7 +299,7 @@ export const normalizeGreek = (
   }
 
   return useGreekQuestionMark
-    ? (greekStr = greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK))
+    ? greekStr.replace(new RegExp(';', 'g'), GREEK_QUESTION_MARK)
     : greekStr;
 };
 
