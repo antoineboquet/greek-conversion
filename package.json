@@ -83,7 +83,7 @@
   },
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
-    "@swc/core@1.16.0": true,
+    "@swc/core@1.16.1": true,
     "lmdb@2.8.5": true,
     "msgpackr-extract@3.0.4": true,
     "fsevents@2.3.3": true,
