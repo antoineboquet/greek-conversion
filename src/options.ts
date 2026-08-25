@@ -29,6 +29,14 @@ export type LetterCaseOrthography =
   | "uppercase"
   | "title";
 export type DiacriticDisposition = "preserve" | "remove";
+export type Preset =
+  | "iso-843-type-1"
+  | "ala-lc-ancient"
+  | "ala-lc-modern"
+  | "sbl-academic"
+  | "sbl-general"
+  | "tlg-core"
+  | "bnf-core";
 
 export interface DiacriticOptions {
   accents?: DiacriticDisposition;
@@ -70,6 +78,7 @@ export interface GreekUnicodeOptions {
 }
 
 export interface ConversionOptions {
+  preset?: Preset;
   orthography?: OrthographyOptions;
   unicode?: GreekUnicodeOptions;
   diacritics?: DiacriticOptions;

@@ -16,6 +16,7 @@ import {
 import { parseBetaCode } from "./parsers/beta_code.ts";
 import { parseGreek } from "./parsers/greek.ts";
 import { parseTransliteration } from "./parsers/transliteration.ts";
+import { resolveConversionOptions } from "./presets.ts";
 
 export type {
   Diacritic,
@@ -54,6 +55,7 @@ export type {
   NumeralOrthography,
   OrthographyOptions,
   PhiTransliteration,
+  Preset,
   RhoTransliteration,
   SigmaOrthography,
   UnicodeComposition,
@@ -61,6 +63,12 @@ export type {
   WhitespaceOrthography,
   XiTransliteration,
 } from "./options.ts";
+export {
+  getPresetOptions,
+  PRESETS,
+  resolveConversionOptions,
+} from "./presets.ts";
+export type { PresetOptions } from "./presets.ts";
 export { applyGreekOrthography, applyOrthography } from "./orthography.ts";
 export {
   ANO_TELEIA,
@@ -78,13 +86,14 @@ export function parse(
   format: Format,
   options: ConversionOptions = {},
 ): Document {
+  const resolved = resolveConversionOptions(options);
   switch (format) {
     case "greek":
       return parseGreek(input);
     case "beta-code":
       return parseBetaCode(input);
     case "transliteration":
-      return parseTransliteration(input, options);
+      return parseTransliteration(input, resolved);
   }
 }
 
@@ -93,17 +102,18 @@ export function encode(
   format: Format,
   options: ConversionOptions = {},
 ): string {
+  const resolved = resolveConversionOptions(options);
   const prepared = format === "transliteration"
-    ? applyNumeralOrthography(document, options)
-    : applyOrthography(document, options);
+    ? applyNumeralOrthography(document, resolved)
+    : applyOrthography(document, resolved);
 
   switch (format) {
     case "greek":
-      return encodeGreek(prepared, options);
+      return encodeGreek(prepared, resolved);
     case "beta-code":
-      return encodeBetaCode(prepared, options);
+      return encodeBetaCode(prepared, resolved);
     case "transliteration":
-      return encodeTransliteration(prepared, options);
+      return encodeTransliteration(prepared, resolved);
   }
 }
 
@@ -151,8 +161,9 @@ function runConversion(
   to: Format,
   options: ConversionOptions,
 ): { source: Document; output: string } {
-  const source = parse(input, from, options);
-  return { source, output: encode(source, to, options) };
+  const resolved = resolveConversionOptions(options);
+  const source = parse(input, from, resolved);
+  return { source, output: encode(source, to, resolved) };
 }
 
 export const greekToBetaCode = (

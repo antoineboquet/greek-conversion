@@ -3,6 +3,7 @@ import {
   breathingTarget,
   followsNasalGamma,
   hasQuantity,
+  isDiphthongAt,
   isGreekNumeralContext,
   isVowel,
 } from "../context.ts";
@@ -48,6 +49,7 @@ export function parseTransliteration(
   );
   const out: Token[] = [];
   const trie = transliterationTrie(options);
+  const contextualY = new Set<number>();
 
   for (let i = 0; i < chars.length;) {
     let rough = false;
@@ -148,6 +150,36 @@ export function parseTransliteration(
       marks,
       structuralCircumflex,
     );
+
+    if (
+      letter === "upsilon" &&
+      options.orthography?.upsilon === "y-with-diphthong-u" &&
+      source.toLowerCase() === "y"
+    ) {
+      const candidate = grapheme(letter, false, marks);
+      if (isDiphthongAt([...out, candidate], out.length - 1)) {
+        marks.add("diaeresis");
+      }
+    }
+
+    if (
+      letter === "iota" &&
+      options.orthography?.upsilon === "y-with-diphthong-u" &&
+      contextualY.has(out.length - 1)
+    ) {
+      const candidate = grapheme(letter, false, marks);
+      if (isDiphthongAt([...out, candidate], out.length - 1)) {
+        marks.add("diaeresis");
+      }
+    }
+
+    if (
+      letter === "upsilon" &&
+      options.orthography?.upsilon === "y-with-diphthong-u" &&
+      source.toLowerCase() === "y"
+    ) {
+      contextualY.add(out.length);
+    }
 
     out.push(
       grapheme(
