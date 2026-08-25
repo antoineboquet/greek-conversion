@@ -89,6 +89,15 @@ const PROFILES = [
     },
   },
   {
+    name: "ALA-LC modern digraphs",
+    options: {
+      orthography: {
+        beta: "v",
+        modernDigraphs: "ala-lc",
+      },
+    },
+  },
+  {
     name: "decomposed Greek with forced punctuation",
     options: {
       unicode: {

@@ -122,7 +122,8 @@ export function encodeTransliteration(
 
     const modernDigraph = modernDigraphAt(doc, index, options);
     if (modernDigraph !== undefined) {
-      return token.uppercase ? modernDigraph.toUpperCase() : modernDigraph;
+      const second = doc[index + 1];
+      return caseDigraph(modernDigraph, token, second);
     }
     if (modernDigraphAt(doc, index - 1, options) !== undefined) return "";
 
@@ -187,8 +188,9 @@ function modernDigraphAt(
   document: Document,
   index: number,
   options: ConversionOptions,
-): "b" | "d" | undefined {
-  if (options.orthography?.modernDigraphs !== "phonetic" || index < 0) {
+): string | undefined {
+  const policy = options.orthography?.modernDigraphs;
+  if ((policy !== "phonetic" && policy !== "ala-lc") || index < 0) {
     return undefined;
   }
 
@@ -199,15 +201,36 @@ function modernDigraphAt(
     second?.kind !== "grapheme" ||
     first.diacritics.size > 0 ||
     second.diacritics.size > 0 ||
-    !isWordInitial(document, index) ||
     isGreekNumeralContext(document, index)
   ) {
     return undefined;
   }
 
-  if (first.letter === "mu" && second.letter === "pi") return "b";
-  if (first.letter === "nu" && second.letter === "tau") return "d";
+  const initial = isWordInitial(document, index);
+  if (first.letter === "mu" && second.letter === "pi" && initial) return "b";
+  if (first.letter === "nu" && second.letter === "tau" && initial) {
+    return policy === "ala-lc" ? "d\u0332" : "d";
+  }
+  if (
+    policy === "ala-lc" &&
+    first.letter === "gamma" &&
+    second.letter === "kappa"
+  ) {
+    return initial || isWordFinal(document, index + 1) ? "gk" : "nk";
+  }
   return undefined;
+}
+
+function caseDigraph(
+  value: string,
+  first: Grapheme,
+  second: Document[number] | undefined,
+): string {
+  if (!first.uppercase) return value;
+  if (second?.kind === "grapheme" && second.uppercase) {
+    return value.toUpperCase();
+  }
+  return value[0].toUpperCase() + value.slice(1);
 }
 
 function transliterationBase(

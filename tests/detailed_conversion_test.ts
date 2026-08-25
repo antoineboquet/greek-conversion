@@ -126,6 +126,24 @@ Deno.test("selected transliteration variants retain recoverable letters", () => 
   assertEquals(result.losses, []);
 });
 
+Deno.test("ALA-LC modern digraph spellings retain recoverable letters", () => {
+  const result = convertDetailed(
+    "μπ β ντ δ γκ αγκά αγκ",
+    "greek",
+    "transliteration",
+    {
+      orthography: {
+        beta: "v",
+        modernDigraphs: "ala-lc",
+      },
+    },
+  );
+
+  assertEquals(result.output, "b v d̲ d gk anká agk");
+  assertEquals(result.lossy, false);
+  assertEquals(result.losses, []);
+});
+
 Deno.test("reports destructive orthography policies from their actual input", () => {
   const whitespace = convertDetailed("  α\tβ  ", "greek", "greek", {
     orthography: { whitespace: "collapse" },

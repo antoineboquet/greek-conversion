@@ -21,7 +21,7 @@ export type EtaTransliteration = "ē" | "ī";
 export type XiTransliteration = "x" | "ks";
 export type PhiTransliteration = "ph" | "f";
 export type ChiTransliteration = "ch" | "kh";
-export type ModernDigraphOrthography = "preserve" | "phonetic";
+export type ModernDigraphOrthography = "preserve" | "phonetic" | "ala-lc";
 export type RhoTransliteration = "contextual" | "systematic";
 
 export interface OrthographyOptions {

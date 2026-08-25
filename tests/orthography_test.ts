@@ -203,6 +203,47 @@ Deno.test("recognizes modern b when beta uses v", () => {
   );
 });
 
+Deno.test("applies contextual ALA-LC modern digraphs", () => {
+  const alaLc = {
+    orthography: {
+      beta: "v",
+      modernDigraphs: "ala-lc",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert(
+      "μπάλα αμπέλι λαμπ ντομάτα ένταση γκαράζ αγκάλη πάρκιγκ",
+      "greek",
+      "transliteration",
+      alaLc,
+    ),
+    "bála ampéli lamp d̲omáta éntasē gkaráz ankálē párkigk",
+  );
+  assertNfcEquals(
+    convert("Μπάλα ΝΤΟ Γκα ΓΚ αγκά αγκ", "greek", "transliteration", alaLc),
+    "Bála D̲O Gka GK anká agk",
+  );
+});
+
+Deno.test("recognizes reversible ALA-LC digraph spellings", () => {
+  const alaLc = {
+    orthography: {
+      beta: "v",
+      modernDigraphs: "ala-lc",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert("b v d̲ d gk nk", "transliteration", "greek", alaLc),
+    "μπ β ντ δ γκ γκ",
+  );
+  assertNfcEquals(
+    convert("μπ β ντ δ γκ αγκά αγκ", "greek", "transliteration", alaLc),
+    "b v d̲ d gk anká agk",
+  );
+});
+
 Deno.test("applies the requested coronis transliteration", () => {
   assertNfcEquals(convert("κἀγώ", "greek", "transliteration"), "kagṓ");
   assertNfcEquals(

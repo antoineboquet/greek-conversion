@@ -54,13 +54,25 @@ export function parseTransliteration(
     let roughUppercase = false;
 
     if (
-      options.orthography?.modernDigraphs === "phonetic" &&
+      (options.orthography?.modernDigraphs === "phonetic" ||
+        options.orthography?.modernDigraphs === "ala-lc") &&
       options.orthography.beta === "v" &&
       chars[i].toLowerCase() === "b"
     ) {
       const uppercase = chars[i] !== chars[i].toLowerCase();
       out.push(grapheme("mu", uppercase), grapheme("pi"));
       i++;
+      continue;
+    }
+
+    if (
+      options.orthography?.modernDigraphs === "ala-lc" &&
+      chars[i].toLowerCase() === "d" &&
+      chars[i + 1] === "\u0332"
+    ) {
+      const uppercase = chars[i] !== chars[i].toLowerCase();
+      out.push(grapheme("nu", uppercase), grapheme("tau"));
+      i += 2;
       continue;
     }
 

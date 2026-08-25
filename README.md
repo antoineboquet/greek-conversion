@@ -151,6 +151,14 @@ with `beta: "v"`, input `b` is read as `μπ` so the selected output remains
 stable; plain `d` remains the canonical input spelling of delta because it
 cannot distinguish `δ` from `ντ`.
 
+Set `modernDigraphs` to `"ala-lc"` for the position-dependent modern Greek
+rules of the ALA-LC table. Word-initial `μπ` becomes `b`, word-initial `ντ`
+becomes `d̲` (LATIN D followed by COMBINING LOW LINE), and `γκ` becomes `gk`
+initially or finally but `nk` medially. Elsewhere, `μπ` and `ντ` remain `mp`
+and `nt`. The marked `d̲` is recognized on input without colliding with
+delta's `d`; combine this policy with `beta: "v"` so `b` can unambiguously be
+read as `μπ`.
+
 Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi
 by default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental
