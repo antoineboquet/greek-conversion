@@ -1,6 +1,8 @@
 import { BETA_MARKS, BY_BETA } from "../alphabet.ts";
 import {
+  ARISTERI_KERAIA,
   classifyCoronides,
+  DEXIA_KERAIA,
   normalizeInitialDiphthongBreathings,
 } from "../context.ts";
 import {
@@ -21,6 +23,24 @@ export function parseBetaCode(input: string): Document {
     if (chars[i] === "*" && i + 1 < chars.length) {
       upper = true;
       i++;
+    }
+
+    const additional = additionalCharacter(chars, i);
+    if (additional) {
+      out.push(grapheme(additional.letter, upper));
+      i += additional.length;
+      continue;
+    }
+
+    if (chars[i] === "#") {
+      if (chars[i + 1] === "2" && chars[i + 2] === "2") {
+        out.push(literal(ARISTERI_KERAIA));
+        i += 3;
+      } else {
+        out.push(literal(DEXIA_KERAIA));
+        i++;
+      }
+      continue;
     }
 
     const source = chars[i];
@@ -52,4 +72,27 @@ export function parseBetaCode(input: string): Document {
   classifyCoronides(out);
 
   return out;
+}
+
+function additionalCharacter(
+  chars: readonly string[],
+  start: number,
+):
+  | { letter: "stigma" | "koppa" | "archaic-koppa" | "sampi"; length: 2 }
+  | undefined {
+  if (chars[start] !== "#") return undefined;
+
+  switch (chars[start + 1]) {
+    case "1":
+      return { letter: "koppa", length: 2 };
+    case "2":
+      if (chars[start + 2] === "2") return undefined;
+      return { letter: "stigma", length: 2 };
+    case "3":
+      return { letter: "archaic-koppa", length: 2 };
+    case "5":
+      return { letter: "sampi", length: 2 };
+    default:
+      return undefined;
+  }
 }

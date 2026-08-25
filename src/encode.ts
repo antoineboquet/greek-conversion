@@ -1,9 +1,12 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
 import {
+  ARISTERI_KERAIA,
   breathingTarget,
   contractedSigma,
+  DEXIA_KERAIA,
   elidedAspirate,
   initialBreathingStart,
+  isGreekNumeralContext,
   isNasalGamma,
   isWordFinal,
   isWordInitial,
@@ -37,11 +40,18 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     const outputLetter = elidedAspirate(doc, i) ?? token.letter;
     let base = ALPHABET[outputLetter].greek;
 
-    if (token.letter === "sigma" && isWordFinal(doc, i)) base = "ς";
+    if (
+      token.letter === "sigma" &&
+      isWordFinal(doc, i) &&
+      !isGreekNumeralContext(doc, i)
+    ) {
+      base = "ς";
+    }
     if (
       token.letter === "beta" &&
       !token.uppercase &&
       options.orthography?.medialBeta === "symbol" &&
+      !isGreekNumeralContext(doc, i) &&
       !isWordInitial(doc, i)
     ) {
       base = "ϐ";
@@ -56,9 +66,15 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
 
 export function encodeBetaCode(doc: Document) {
   return doc.map((token) => {
-    if (token.kind === "literal") return token.value;
+    if (token.kind === "literal") {
+      if (token.value === DEXIA_KERAIA) return "#";
+      if (token.value === ARISTERI_KERAIA) return "#22";
+      return token.value;
+    }
     let base = ALPHABET[token.letter].beta;
-    if (token.uppercase) base = base.toUpperCase();
+    if (token.uppercase) {
+      base = base.startsWith("#") ? `*${base}` : base.toUpperCase();
+    }
     return base + marks(token).map((mark) => BETA_FOR[mark]).join("");
   }).join("");
 }

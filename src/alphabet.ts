@@ -31,6 +31,11 @@ export const ALPHABET: Record<Letter, Forms> = {
   chi: { greek: "χ", beta: "x", tr: "ch" },
   psi: { greek: "ψ", beta: "y", tr: "ps" },
   omega: { greek: "ω", beta: "w", tr: "ō" },
+  digamma: { greek: "ϝ", beta: "v", tr: "w" },
+  stigma: { greek: "ϛ", beta: "#2", tr: "c\u0304" },
+  koppa: { greek: "ϟ", beta: "#1", tr: "q" },
+  "archaic-koppa": { greek: "ϙ", beta: "#3", tr: "q" },
+  sampi: { greek: "ϡ", beta: "#5", tr: "s\u0304" },
 };
 
 const reverse = (key: keyof Forms) =>

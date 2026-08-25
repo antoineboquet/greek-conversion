@@ -158,6 +158,14 @@ export const LOSSY_CONVERSIONS = [
     intermediate: "ἀφ’ ἡμῶν",
     canonicalRoundTrip: "aph’ hēmō̃n",
   },
+  {
+    name: "archaic koppa converges to numeric koppa in transliteration",
+    sourceFormat: "greek",
+    intermediateFormat: "transliteration",
+    source: "ϙ",
+    intermediate: "q",
+    canonicalRoundTrip: "ϟ",
+  },
 ] as const satisfies readonly LossyConversion[];
 
 export const SMOOTH_ROUGH_DOUBLE_RHO = {

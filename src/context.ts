@@ -33,6 +33,9 @@ const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", "\u2019"]);
 
 const WORD_JOIN_CONTROLS = new Set(["\u200C", "\u200D", "\u2060", "\uFEFF"]);
 
+export const DEXIA_KERAIA = "\u02B9";
+export const ARISTERI_KERAIA = "\u0375";
+
 const ELIDED_ASPIRATES = new Map<Letter, Letter>([
   ["pi", "phi"],
   ["tau", "theta"],
@@ -74,6 +77,26 @@ export function isVowel(letter: Letter): boolean {
  */
 export function hasQuantity(token: Grapheme): boolean {
   return token.diacritics.has("macron") || token.diacritics.has("breve");
+}
+
+export function isGreekNumeralContext(
+  document: Document,
+  start: number,
+): boolean {
+  const previous = document[start - 1];
+  if (
+    previous?.kind === "literal" && previous.value === ARISTERI_KERAIA
+  ) {
+    return true;
+  }
+
+  for (let i = start; i < document.length; i++) {
+    const token = document[i];
+    if (token.kind === "grapheme" || isBoundaryTransparent(token)) continue;
+    return token.value === DEXIA_KERAIA;
+  }
+
+  return false;
 }
 
 export function breathingTarget(document: Document, start: number): number {

@@ -187,6 +187,52 @@ Deno.test("shares transparent boundaries with medial beta", () => {
   );
 });
 
+Deno.test("converts archaic Greek letters in every format", () => {
+  assertNfcEquals(
+    convert("ϝ ϛ ϟ ϙ ϡ", "greek", "beta-code"),
+    "v #2 #1 #3 #5",
+  );
+  assertNfcEquals(
+    convert("v #2 #1 #3 #5", "beta-code", "greek"),
+    "ϝ ϛ ϟ ϙ ϡ",
+  );
+  assertNfcEquals(
+    convert("Ϝ Ϛ Ϟ Ϙ Ϡ", "greek", "beta-code"),
+    "V *#2 *#1 *#3 *#5",
+  );
+  assertNfcEquals(
+    convert("w c̄ q s̄", "transliteration", "greek"),
+    "ϝ ϛ ϟ ϡ",
+  );
+  assertNfcEquals(
+    convert("ϝ ϛ ϟ ϡ", "greek", "transliteration"),
+    "w c̄ q s̄",
+  );
+});
+
+Deno.test("preserves Greek alphabetic numeral notation", () => {
+  const greek = "αʹ ͵α ϛʹ ϟʹ ϡʹ σʹ";
+  const betaCode = "a# #22a #2# #1# #5# s#";
+  const transliteration = "aʹ ͵a c̄ʹ qʹ s̄ʹ sʹ";
+
+  assertNfcEquals(convert(greek, "greek", "beta-code"), betaCode);
+  assertNfcEquals(convert(betaCode, "beta-code", "greek"), greek);
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration"),
+    transliteration,
+  );
+  assertNfcEquals(
+    convert(transliteration, "transliteration", "greek"),
+    greek,
+  );
+  assertNfcEquals(
+    convert("αβʹ", "greek", "greek", {
+      orthography: { medialBeta: "symbol" },
+    }),
+    "αβʹ",
+  );
+});
+
 Deno.test("quantity marks do not infer an initial smooth breathing", () => {
   assertNfcEquals(
     convert("ā ĭ ī ŭ ū", "transliteration", "greek"),

@@ -29,6 +29,16 @@ Combining marks and the explicit join controls ZWNJ, ZWJ, and WORD JOINER are
 transparent, so they do not incorrectly turn a medial sigma into `ς`. The same
 boundary logic is shared with medial beta and other contextual rules.
 
+The archaic letters digamma (`ϝ`), stigma (`ϛ`), koppa (`ϟ`), archaic koppa
+(`ϙ`), and sampi (`ϡ`) are represented explicitly. Beta Code follows the TLG
+codes `v`, `#2`, `#1`, `#3`, and `#5`; transliteration uses `w`, `c̄`, `q`, `q`,
+and `s̄`. The two koppas are therefore distinct in Greek and Beta Code but
+converge to numeric koppa after transliteration. Greek numeral signs are
+preserved in transliteration and encoded as `#` (dexia keraia) and `#22`
+(aristeri keraia) in Beta Code. Numeric vowels do not acquire an implicit smooth
+breathing, numeric sigma remains `σ`, and medial-beta styling does not alter
+numeric beta.
+
 ```ts
 import {
   betaCodeToGreek,

@@ -24,7 +24,12 @@ export type Letter =
   | "phi"
   | "chi"
   | "psi"
-  | "omega";
+  | "omega"
+  | "digamma"
+  | "stigma"
+  | "koppa"
+  | "archaic-koppa"
+  | "sampi";
 
 export type Diacritic =
   | "smooth"

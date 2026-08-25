@@ -3,6 +3,7 @@ import {
   breathingTarget,
   followsNasalGamma,
   hasQuantity,
+  isGreekNumeralContext,
   isVowel,
 } from "../context.ts";
 import {
@@ -18,7 +19,13 @@ import { Trie } from "../trie.ts";
 
 const TRIE = new Trie<Letter>(
   Object.entries(ALPHABET)
-    .filter(([letter]) => letter !== "eta" && letter !== "omega")
+    .filter(([letter]) =>
+      letter !== "eta" &&
+      letter !== "omega" &&
+      letter !== "stigma" &&
+      letter !== "sampi" &&
+      letter !== "archaic-koppa"
+    )
     .map(([letter, forms]) =>
       [
         forms.tr.normalize("NFD").replaceAll(/\p{M}/gu, ""),
@@ -44,7 +51,7 @@ export function parseTransliteration(
       i++;
     }
 
-    const match = TRIE.longest(chars, i);
+    const match = markedArchaicLetter(chars, i) ?? TRIE.longest(chars, i);
 
     if (!match) {
       if (rough) out.push(literal(roughUppercase ? "H" : "h"));
@@ -95,6 +102,22 @@ export function parseTransliteration(
   inferInitialBreathings(out);
 
   return out;
+}
+
+function markedArchaicLetter(
+  chars: readonly string[],
+  start: number,
+): { value: "stigma" | "sampi"; length: 2 } | undefined {
+  if (chars[start + 1] !== "\u0304") return undefined;
+
+  switch (chars[start].toLowerCase()) {
+    case "c":
+      return { value: "stigma", length: 2 };
+    case "s":
+      return { value: "sampi", length: 2 };
+    default:
+      return undefined;
+  }
 }
 
 function inferNasalGammas(tokens: Token[]) {
@@ -154,7 +177,7 @@ function inferInitialBreathings(tokens: Token[]) {
     if (!wordStart) continue;
     wordStart = false;
 
-    if (!isVowel(token.letter)) continue;
+    if (!isVowel(token.letter) || isGreekNumeralContext(tokens, i)) continue;
 
     const target = tokens[breathingTarget(tokens, i)];
     if (target.kind !== "grapheme") continue;
