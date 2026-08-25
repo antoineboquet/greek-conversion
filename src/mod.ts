@@ -3,6 +3,10 @@ import {
   encodeGreek,
   encodeTransliteration,
 } from "./encode.ts";
+import {
+  type ConversionResult,
+  findConversionLosses,
+} from "./losses.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import {
@@ -22,6 +26,11 @@ export type {
   Literal,
   Token,
 } from "./model.ts";
+export type {
+  ConversionLoss,
+  ConversionLossCode,
+  ConversionResult,
+} from "./losses.ts";
 export type {
   ConversionOptions,
   CoronisOrthography,
@@ -110,7 +119,30 @@ export const convert = (
   from: Format,
   to: Format,
   options: ConversionOptions = {},
-) => encode(parse(input, from, options), to, options);
+) => runConversion(input, from, to, options).output;
+
+export function convertDetailed(
+  input: string,
+  from: Format,
+  to: Format,
+  options: ConversionOptions = {},
+): ConversionResult {
+  const { source, output } = runConversion(input, from, to, options);
+  const target = parse(output, to, options);
+  const losses = findConversionLosses(source, target);
+
+  return { output, lossy: losses.length > 0, losses };
+}
+
+function runConversion(
+  input: string,
+  from: Format,
+  to: Format,
+  options: ConversionOptions,
+): { source: Document; output: string } {
+  const source = parse(input, from, options);
+  return { source, output: encode(source, to, options) };
+}
 
 export const greekToBetaCode = (
   input: string,
