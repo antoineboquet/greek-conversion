@@ -1,13 +1,12 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
-import type { Diacritic, Document, Grapheme, Token } from "./model.ts";
+import { isWordFinal, isWordInitial } from "./context.ts";
+import type { Diacritic, Document, Grapheme } from "./model.ts";
+import type { ConversionOptions } from "./options.ts";
 
 const marks = (token: Grapheme) =>
   ORDER.filter((mark) => token.diacritics.has(mark));
 
-const wordEnd = (next: Token | undefined) =>
-  next === undefined || next.kind === "literal";
-
-export function encodeGreek(doc: Document) {
+export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
   let out = "";
 
   for (let i = 0; i < doc.length; i++) {
@@ -20,7 +19,15 @@ export function encodeGreek(doc: Document) {
 
     let base = ALPHABET[token.letter].greek;
 
-    if (token.letter === "sigma" && wordEnd(doc[i + 1])) base = "ς";
+    if (token.letter === "sigma" && isWordFinal(doc, i)) base = "ς";
+    if (
+      token.letter === "beta" &&
+      !token.uppercase &&
+      options.orthography?.medialBeta === "symbol" &&
+      !isWordInitial(doc, i)
+    ) {
+      base = "ϐ";
+    }
     if (token.uppercase) base = base.toLocaleUpperCase("el");
 
     out += base + marks(token).map((mark) => GREEK_FOR[mark]).join("");

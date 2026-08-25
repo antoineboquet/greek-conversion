@@ -46,6 +46,7 @@ export const EQUIVALENCES = [
 ] as const satisfies readonly Equivalence[];
 
 export const ACCEPTED_ALIASES = [
+  { format: "greek", input: "βάρϐαρος", transliteration: "bárbaros" },
   { format: "greek", input: "πολύῤῥιζος", transliteration: "polúrrhizos" },
   {
     format: "beta-code",
@@ -104,6 +105,10 @@ export const LOSSY_CONVERSIONS = [
 
 export const SMOOTH_ROUGH_DOUBLE_RHO = {
   orthography: { doubleRho: "smooth-rough" },
+} as const satisfies ConversionOptions;
+
+export const MEDIAL_BETA_SYMBOL = {
+  orthography: { medialBeta: "symbol" },
 } as const satisfies ConversionOptions;
 
 export const FORMATS = ["greek", "beta-code", "transliteration"] as const;

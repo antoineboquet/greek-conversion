@@ -22,6 +22,7 @@ export type {
 export type {
   ConversionOptions,
   DoubleRhoOrthography,
+  MedialBetaOrthography,
   OrthographyOptions,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
@@ -50,7 +51,7 @@ export function encode(
 
   switch (format) {
     case "greek":
-      return encodeGreek(prepared);
+      return encodeGreek(prepared, options);
     case "beta-code":
       return encodeBetaCode(prepared);
     case "transliteration":

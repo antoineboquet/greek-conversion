@@ -5,6 +5,7 @@ export interface Forms {
   beta: string;
   tr: string;
 }
+
 export const ALPHABET: Record<Letter, Forms> = {
   alpha: { greek: "α", beta: "a", tr: "a" },
   beta: { greek: "β", beta: "b", tr: "b" },
@@ -39,7 +40,10 @@ const reverse = (key: keyof Forms) =>
     ) => [forms[key], letter as Letter]),
   );
 
-export const BY_GREEK = reverse("greek"), BY_BETA = reverse("beta");
+export const BY_GREEK = reverse("greek");
+export const BY_BETA = reverse("beta");
+
+BY_GREEK.set("ϐ", "beta");
 
 export const GREEK_MARKS = new Map<string, Diacritic>([
   ["\u0313", "smooth"],

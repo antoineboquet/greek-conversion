@@ -23,4 +23,13 @@ transliterationToGreek("polúrrhizos", {
 }); // πολύῤῥιζος
 ```
 
+The medial beta symbol can likewise be requested for lowercase beta inside a
+Greek word. Initial and uppercase beta remain `β` and `Β`:
+
+```ts
+transliterationToGreek("bárbaros", {
+  orthography: { medialBeta: "symbol" },
+}); // βάρϐαρος
+```
+
 Run `deno task check` and `deno task test`.
