@@ -1,0 +1,49 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: vars.PUBLISH_ENABLED == 'true'
+    environment: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          registry-url: https://registry.npmjs.org
+      - name: Resolve release metadata
+        id: release
+        run: >-
+          deno run --allow-read --allow-env --allow-write
+          scripts/release_metadata.ts
+          "${{ github.event.release.tag_name }}"
+      - run: deno task check
+      - run: deno task test
+      - run: deno task publish:check
+      - run: deno task npm:check
+      - name: Publish to JSR
+        run: deno publish --check=all
+      - name: Install trusted-publishing npm client
+        run: npm install --global npm@11.5.1
+      - name: Publish to npm
+        run: >-
+          npm publish ./npm
+          --tag "${{ steps.release.outputs.npm_tag }}"
+          --provenance

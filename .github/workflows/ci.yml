@@ -15,4 +15,16 @@ jobs:
           deno-version: v2.x
       - run: deno task check
       - run: deno task test
-
+      - run: deno task publish:check
+  npm-package:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: deno task npm:check
