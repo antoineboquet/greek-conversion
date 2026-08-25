@@ -1,5 +1,8 @@
 import { BETA_MARKS, BY_BETA } from "../alphabet.ts";
-import { classifyCoronides } from "../context.ts";
+import {
+  classifyCoronides,
+  normalizeInitialDiphthongBreathings,
+} from "../context.ts";
 import {
   type Diacritic,
   type Document,
@@ -45,6 +48,7 @@ export function parseBetaCode(input: string): Document {
     out.push(grapheme(letter, upper, marks));
   }
 
+  normalizeInitialDiphthongBreathings(out);
   classifyCoronides(out);
 
   return out;

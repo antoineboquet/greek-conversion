@@ -103,6 +103,39 @@ Deno.test("diaeresis prevents an initial diphthong", () => {
   );
 });
 
+Deno.test("handles rare omega-upsilon as an initial diphthong", () => {
+  assertNfcEquals(
+    convert("hōu", "transliteration", "greek"),
+    "ωὑ",
+  );
+  assertNfcEquals(
+    convert("ωὑ", "greek", "transliteration"),
+    "hōu",
+  );
+});
+
+Deno.test("normalizes a misplaced initial diphthong breathing", () => {
+  assertNfcEquals(convert("ἁι", "greek", "greek"), "αἱ");
+  assertNfcEquals(convert("a(i", "beta-code", "beta-code"), "ai(");
+  assertNfcEquals(convert("a)i", "beta-code", "greek"), "αἰ");
+});
+
+Deno.test("does not infer breathings on internal vowel groups", () => {
+  assertNfcEquals(convert("kau", "transliteration", "greek"), "καυ");
+  assertNfcEquals(convert("καὑ", "greek", "transliteration"), "kahu");
+  assertNfcEquals(convert("kahu", "transliteration", "greek"), "καὑ");
+});
+
+Deno.test("iota subscript prevents grouping with a following vowel", () => {
+  assertNfcEquals(
+    encode([
+      grapheme("alpha", false, ["rough", "iota-subscript"]),
+      grapheme("upsilon"),
+    ], "greek"),
+    "ᾁυ",
+  );
+});
+
 Deno.test("quantity marks do not infer an initial smooth breathing", () => {
   assertNfcEquals(
     convert("ā ĭ ī ŭ ū", "transliteration", "greek"),

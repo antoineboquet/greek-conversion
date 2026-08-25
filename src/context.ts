@@ -26,6 +26,7 @@ const DIPHTHONGS = new Set([
   "omicron-iota",
   "omicron-upsilon",
   "upsilon-iota",
+  "omega-upsilon",
 ]);
 
 const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", "\u2019"]);
@@ -67,12 +68,44 @@ export function breathingTarget(document: Document, start: number): number {
     first?.kind === "grapheme" &&
     second?.kind === "grapheme" &&
     DIPHTHONGS.has(`${first.letter}-${second.letter}`) &&
+    !first.diacritics.has("iota-subscript") &&
     !second.diacritics.has("diaeresis")
   ) {
     return start + 1;
   }
 
   return start;
+}
+
+/** Moves an initial breathing supplied on the first half of a diphthong. */
+export function normalizeInitialDiphthongBreathings(tokens: Token[]): void {
+  for (let start = 0; start < tokens.length; start++) {
+    const first = tokens[start];
+    if (
+      first.kind !== "grapheme" ||
+      !isWordInitial(tokens, start) ||
+      !isVowel(first.letter)
+    ) {
+      continue;
+    }
+
+    const targetIndex = breathingTarget(tokens, start);
+    if (targetIndex === start) continue;
+
+    const target = tokens[targetIndex];
+    if (target.kind !== "grapheme") continue;
+
+    for (const breathing of ["smooth", "rough"] as const) {
+      if (
+        first.diacritics.has(breathing) &&
+        !target.diacritics.has("smooth") &&
+        !target.diacritics.has("rough")
+      ) {
+        first.diacritics.delete(breathing);
+        target.diacritics.add(breathing);
+      }
+    }
+  }
 }
 
 export function initialBreathingStart(
