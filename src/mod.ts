@@ -4,6 +4,8 @@ import {
   encodeTransliteration,
 } from "./encode.ts";
 import type { Document, Format } from "./model.ts";
+import type { ConversionOptions } from "./options.ts";
+import { applyOrthography } from "./orthography.ts";
 import { parseBetaCode } from "./parsers/beta_code.ts";
 import { parseGreek } from "./parsers/greek.ts";
 import { parseTransliteration } from "./parsers/transliteration.ts";
@@ -17,6 +19,12 @@ export type {
   Literal,
   Token,
 } from "./model.ts";
+export type {
+  ConversionOptions,
+  DoubleRhoOrthography,
+  OrthographyOptions,
+} from "./options.ts";
+export { applyOrthography } from "./orthography.ts";
 
 export function parse(input: string, format: Format): Document {
   switch (format) {
@@ -29,34 +37,58 @@ export function parse(input: string, format: Format): Document {
   }
 }
 
-export function encode(document: Document, format: Format): string {
+export function encode(
+  document: Document,
+  format: Format,
+  options: ConversionOptions = {},
+): string {
+  const prepared = format === "transliteration"
+    ? document
+    : applyOrthography(document, options);
+
   switch (format) {
     case "greek":
-      return encodeGreek(document);
+      return encodeGreek(prepared);
     case "beta-code":
-      return encodeBetaCode(document);
+      return encodeBetaCode(prepared);
     case "transliteration":
-      return encodeTransliteration(document);
+      return encodeTransliteration(prepared);
   }
 }
 
-export const convert = (input: string, from: Format, to: Format) =>
-  encode(parse(input, from), to);
+export const convert = (
+  input: string,
+  from: Format,
+  to: Format,
+  options: ConversionOptions = {},
+) => encode(parse(input, from), to, options);
 
-export const greekToBetaCode = (input: string) =>
-  convert(input, "greek", "beta-code");
+export const greekToBetaCode = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "greek", "beta-code", options);
 
-export const greekToTransliteration = (input: string) =>
-  convert(input, "greek", "transliteration");
+export const greekToTransliteration = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "greek", "transliteration", options);
 
-export const betaCodeToGreek = (input: string) =>
-  convert(input, "beta-code", "greek");
+export const betaCodeToGreek = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "beta-code", "greek", options);
 
-export const betaCodeToTransliteration = (input: string) =>
-  convert(input, "beta-code", "transliteration");
+export const betaCodeToTransliteration = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "beta-code", "transliteration", options);
 
-export const transliterationToGreek = (input: string) =>
-  convert(input, "transliteration", "greek");
+export const transliterationToGreek = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "transliteration", "greek", options);
 
-export const transliterationToBetaCode = (input: string) =>
-  convert(input, "transliteration", "beta-code");
+export const transliterationToBetaCode = (
+  input: string,
+  options: ConversionOptions = {},
+) => convert(input, "transliteration", "beta-code", options);

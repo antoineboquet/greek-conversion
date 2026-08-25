@@ -2,6 +2,7 @@ import { assertEquals } from "@std/assert";
 import {
   betaCodeToGreek,
   betaCodeToTransliteration,
+  type ConversionOptions,
   convert,
   encode,
   type Format,
@@ -120,6 +121,12 @@ const ACCEPTED_ALIASES = [
 
 const FORMATS = ["greek", "beta-code", "transliteration"] as const;
 
+const SMOOTH_ROUGH_DOUBLE_RHO = {
+  orthography: {
+    doubleRho: "smooth-rough",
+  },
+} as const satisfies ConversionOptions;
+
 function valueFor(equivalence: Equivalence, format: Format): string {
   switch (format) {
     case "greek":
@@ -175,6 +182,26 @@ Deno.test("accepts non-canonical aliases", () => {
       transliteration,
     );
   }
+});
+
+Deno.test("applies double-rho orthography on demand", () => {
+  assertNfcEquals(
+    transliterationToGreek("polúrrhizos", SMOOTH_ROUGH_DOUBLE_RHO),
+    "πολύῤῥιζος",
+  );
+  assertNfcEquals(
+    transliterationToBetaCode("polúrrhizos", SMOOTH_ROUGH_DOUBLE_RHO),
+    "polu/r)r(izos",
+  );
+  assertNfcEquals(
+    convert(
+      "πολύρριζος",
+      "greek",
+      "greek",
+      SMOOTH_ROUGH_DOUBLE_RHO,
+    ),
+    "πολύῤῥιζος",
+  );
 });
 
 Deno.test("preserves literals", () =>
