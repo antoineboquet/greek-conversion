@@ -136,6 +136,57 @@ Deno.test("iota subscript prevents grouping with a following vowel", () => {
   );
 });
 
+Deno.test("uses final sigma before Unicode separators and punctuation", () => {
+  const boundaries = [
+    " ",
+    "\u00A0",
+    "\u202F",
+    "\u2028",
+    "\u2029",
+    "«",
+    "”",
+    "‐",
+    "–",
+    "—",
+    "'",
+    "’",
+    "·",
+    "·",
+    ";",
+    ";",
+    "\u200B",
+  ];
+
+  for (const boundary of boundaries) {
+    assertNfcEquals(
+      convert(`ασ${boundary}α`, "greek", "greek"),
+      `ας${boundary}α`,
+    );
+  }
+});
+
+Deno.test("ignores combining marks and join controls at word boundaries", () => {
+  for (const transparent of ["\u0323", "\u200C", "\u200D", "\u2060"]) {
+    assertNfcEquals(
+      convert(`ασ${transparent}α`, "greek", "greek"),
+      `ασ${transparent}α`,
+    );
+    assertNfcEquals(
+      convert(`ασ${transparent}`, "greek", "greek"),
+      `ας${transparent}`,
+    );
+  }
+});
+
+Deno.test("shares transparent boundaries with medial beta", () => {
+  assertNfcEquals(
+    convert("α\u200Dβ", "greek", "greek", {
+      orthography: { medialBeta: "symbol" },
+    }),
+    "α\u200Dϐ",
+  );
+});
+
 Deno.test("quantity marks do not infer an initial smooth breathing", () => {
   assertNfcEquals(
     convert("ā ĭ ī ŭ ū", "transliteration", "greek"),

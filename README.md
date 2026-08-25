@@ -22,6 +22,12 @@ coronis on an internal vowel. Greek and Beta Code preserve the coronis and the
 contracted crasis. Transliteration omits the coronis by default and therefore
 cannot reconstruct it.
 
+Final sigma recognizes Unicode spaces, line and paragraph separators, quotes,
+dashes, apostrophes, Greek punctuation, and zero-width space as word boundaries.
+Combining marks and the explicit join controls ZWNJ, ZWJ, and WORD JOINER are
+transparent, so they do not incorrectly turn a medial sigma into `ς`. The same
+boundary logic is shared with medial beta and other contextual rules.
+
 ```ts
 import {
   betaCodeToGreek,

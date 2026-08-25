@@ -31,6 +31,8 @@ const DIPHTHONGS = new Set([
 
 const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", "\u2019"]);
 
+const WORD_JOIN_CONTROLS = new Set(["\u200C", "\u200D", "\u2060", "\uFEFF"]);
+
 const ELIDED_ASPIRATES = new Map<Letter, Letter>([
   ["pi", "phi"],
   ["tau", "theta"],
@@ -38,12 +40,17 @@ const ELIDED_ASPIRATES = new Map<Letter, Letter>([
 ]);
 
 export function isWordInitial(document: Document, index: number): boolean {
-  return index === 0 || document[index - 1].kind === "literal";
+  let previous = index - 1;
+  while (previous >= 0 && isBoundaryTransparent(document[previous])) previous--;
+  return previous < 0 || document[previous].kind === "literal";
 }
 
 export function isWordFinal(document: Document, index: number): boolean {
-  return index === document.length - 1 ||
-    document[index + 1].kind === "literal";
+  let next = index + 1;
+  while (next < document.length && isBoundaryTransparent(document[next])) {
+    next++;
+  }
+  return next === document.length || document[next].kind === "literal";
 }
 
 export function isVowel(letter: Letter): boolean {
@@ -200,6 +207,12 @@ function isElisionMark(token: Token | undefined): boolean {
 
 function isWhitespace(token: Token | undefined): boolean {
   return token?.kind === "literal" && /^\p{White_Space}$/u.test(token.value);
+}
+
+/** Marks and explicit join controls do not interrupt an orthographic word. */
+function isBoundaryTransparent(token: Token | undefined): boolean {
+  return token?.kind === "literal" &&
+    (/^\p{M}$/u.test(token.value) || WORD_JOIN_CONTROLS.has(token.value));
 }
 
 export function contractedPsiUppercase(
