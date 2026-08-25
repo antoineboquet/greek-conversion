@@ -29,3 +29,25 @@ export function isNasalGamma(document: Document, index: number): boolean {
 export function followsNasalGamma(letter: Letter): boolean {
   return NASAL_GAMMA_FOLLOWERS.has(letter);
 }
+
+export function contractedPsiUppercase(
+  document: Document,
+  index: number,
+): boolean | undefined {
+  const pi = document[index];
+  const sigma = document[index + 1];
+
+  if (
+    pi.kind !== "grapheme" ||
+    pi.letter !== "pi" ||
+    pi.diacritics.size > 0 ||
+    sigma?.kind !== "grapheme" ||
+    sigma.letter !== "sigma" ||
+    sigma.diacritics.size > 0
+  ) {
+    return undefined;
+  }
+
+  if (pi.uppercase) return true;
+  return sigma.uppercase ? undefined : false;
+}

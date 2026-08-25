@@ -7,7 +7,7 @@ The engine separates parsers, a canonical grapheme model, and encoders. It
 supports every direction between the three formats, uses one canonical spelling
 per output format, normalizes output to NFC, and preserves unknown characters.
 Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and
-chi.
+chi. Canonical Greek output contracts an adjacent unmarked `πσ` sequence to `ψ`.
 
 ```ts
 import { betaCodeToGreek, convert } from "./src/mod.ts";

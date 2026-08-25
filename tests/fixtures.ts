@@ -113,6 +113,14 @@ export const LOSSY_CONVERSIONS = [
     intermediate: "ng",
     canonicalRoundTrip: "γγ",
   },
+  {
+    name: "pi-sigma converges to psi through canonical Greek",
+    sourceFormat: "beta-code",
+    intermediateFormat: "greek",
+    source: "ps",
+    intermediate: "ψ",
+    canonicalRoundTrip: "y",
+  },
 ] as const satisfies readonly LossyConversion[];
 
 export const SMOOTH_ROUGH_DOUBLE_RHO = {

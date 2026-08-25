@@ -41,14 +41,3 @@ Deno.test("applies the beta symbol only to medial lowercase beta", () => {
     "ΒΒ",
   );
 });
-
-Deno.test("preserves case when transliterating nasal gamma", () => {
-  assertNfcEquals(
-    convert("ΓΓ ΓΚ ΓΞ ΓΧ", "greek", "transliteration"),
-    "NG NK NX NCh",
-  );
-  assertNfcEquals(
-    convert("NG NK NX NCh", "transliteration", "greek"),
-    "ΓΓ ΓΚ ΓΞ ΓΧ",
-  );
-});

@@ -1,5 +1,10 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
-import { isNasalGamma, isWordFinal, isWordInitial } from "./context.ts";
+import {
+  contractedPsiUppercase,
+  isNasalGamma,
+  isWordFinal,
+  isWordInitial,
+} from "./context.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 
@@ -14,6 +19,15 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
 
     if (token.kind === "literal") {
       out += token.value;
+      continue;
+    }
+
+    const psiUppercase = contractedPsiUppercase(doc, i);
+
+    if (psiUppercase !== undefined) {
+      const psi = ALPHABET.psi.greek;
+      out += psiUppercase ? psi.toLocaleUpperCase("el") : psi;
+      i++;
       continue;
     }
 
