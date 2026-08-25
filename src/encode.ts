@@ -41,6 +41,8 @@ export function encodeBetaCode(doc: Document) {
 export function encodeTransliteration(doc: Document) {
   return doc.map((token, index) => {
     if (token.kind === "literal") return token.value;
+
+    const previous = doc[index - 1];
     let base = ALPHABET[token.letter].tr;
     if (token.uppercase) base = base[0].toUpperCase() + base.slice(1);
     if (token.diacritics.has("rough")) {
@@ -49,8 +51,8 @@ export function encodeTransliteration(doc: Document) {
       else base = "h" + base;
     } else if (
       token.letter === "rho" &&
-      doc[index - 1]?.kind === "grapheme" &&
-      doc[index - 1].letter === "rho"
+      previous?.kind === "grapheme" &&
+      previous.letter === "rho"
     ) {
       base += "h";
     }
