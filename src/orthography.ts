@@ -1,23 +1,126 @@
-import type { Diacritic, Document, Grapheme, Token } from "./model.ts";
+import { ARISTERI_KERAIA, DEXIA_KERAIA } from "./context.ts";
+import { literal } from "./model.ts";
+import type { Diacritic, Document, Grapheme, Letter, Token } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
+
+const NUMERAL_VALUES = new Map<Letter, number>([
+  ["alpha", 1],
+  ["beta", 2],
+  ["gamma", 3],
+  ["delta", 4],
+  ["epsilon", 5],
+  ["digamma", 6],
+  ["stigma", 6],
+  ["zeta", 7],
+  ["eta", 8],
+  ["theta", 9],
+  ["iota", 10],
+  ["kappa", 20],
+  ["lambda", 30],
+  ["mu", 40],
+  ["nu", 50],
+  ["xi", 60],
+  ["omicron", 70],
+  ["pi", 80],
+  ["koppa", 90],
+  ["archaic-koppa", 90],
+  ["rho", 100],
+  ["sigma", 200],
+  ["tau", 300],
+  ["upsilon", 400],
+  ["phi", 500],
+  ["chi", 600],
+  ["psi", 700],
+  ["omega", 800],
+  ["sampi", 900],
+]);
 
 export function applyOrthography(
   document: Document,
   options: ConversionOptions = {},
 ): Document {
-  if (options.orthography?.doubleRho !== "smooth-rough") return document;
+  const numbered = applyNumeralOrthography(document, options);
+  if (options.orthography?.doubleRho !== "smooth-rough") return numbered;
 
-  return document.map((token, index) => {
+  return numbered.map((token, index) => {
     if (token.kind !== "grapheme" || token.letter !== "rho") return token;
 
-    const previous = document[index - 1];
-    const next = document[index + 1];
+    const previous = numbered[index - 1];
+    const next = numbered[index + 1];
 
     if (isRho(next)) return withDiacritic(token, "smooth");
     if (isRho(previous)) return withDiacritic(token, "rough");
 
     return token;
   });
+}
+
+export function applyNumeralOrthography(
+  document: Document,
+  options: ConversionOptions = {},
+): Document {
+  if (options.orthography?.numerals !== "decimal") return document;
+
+  const output: Token[] = [];
+  for (let index = 0; index < document.length;) {
+    const numeral = readNumeral(document, index);
+    if (numeral === undefined) {
+      output.push(document[index]);
+      index++;
+      continue;
+    }
+
+    output.push(literal(String(numeral.value)));
+    index = numeral.end;
+  }
+  return output;
+}
+
+function readNumeral(
+  document: Document,
+  start: number,
+): { value: number; end: number } | undefined {
+  const previousToken = document[start - 1];
+  if (
+    previousToken?.kind === "grapheme" ||
+    isLiteral(previousToken, ARISTERI_KERAIA)
+  ) {
+    return undefined;
+  }
+
+  let index = start;
+  let value = 0;
+
+  if (isLiteral(document[index], ARISTERI_KERAIA)) {
+    const thousands = numericValue(document[index + 1]);
+    if (thousands === undefined || thousands > 9) return undefined;
+    value = thousands * 1000;
+    index += 2;
+  }
+
+  let previous = 1000;
+  let digits = 0;
+  while (index < document.length) {
+    const current = numericValue(document[index]);
+    if (current === undefined || current >= previous) break;
+    value += current;
+    previous = current;
+    digits++;
+    index++;
+  }
+
+  if (value === 0 || (digits === 0 && start === index)) return undefined;
+  if (!isLiteral(document[index], DEXIA_KERAIA)) return undefined;
+  return { value, end: index + 1 };
+}
+
+function numericValue(token: Token | undefined): number | undefined {
+  if (token?.kind !== "grapheme" || token.diacritics.size > 0) return undefined;
+  return NUMERAL_VALUES.get(token.letter);
+}
+
+function isLiteral(token: Token | undefined, value: string): boolean {
+  return token?.kind === "literal" && token.value === value;
 }
 
 function isRho(token: Token | undefined): token is Grapheme {

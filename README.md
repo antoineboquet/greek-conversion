@@ -49,6 +49,21 @@ preserved in transliteration and encoded as `#` (dexia keraia) and `#22`
 breathing, numeric sigma remains `σ`, and medial-beta styling does not alter
 numeric beta.
 
+Alphabetic numerals are preserved by default. Set `numerals` to `"decimal"` to
+render valid, explicitly marked numeral groups as decimal digits in any output
+format:
+
+```ts
+convert("͵βκγʹ", "greek", "transliteration", {
+  orthography: { numerals: "decimal" },
+}); // 2023
+```
+
+Only descending alphabetic groups ending in dexia keraia are converted. An
+optional aristeri keraia may prefix a unit letter for the thousands component.
+Unmarked text and malformed numeral groups are left unchanged. Decimal output is
+intentionally lossy and is not expanded back into Greek alphabetic notation.
+
 ```ts
 import {
   betaCodeToGreek,

@@ -5,7 +5,7 @@ import {
 } from "./encode.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
-import { applyOrthography } from "./orthography.ts";
+import { applyNumeralOrthography, applyOrthography } from "./orthography.ts";
 import { parseBetaCode } from "./parsers/beta_code.ts";
 import { parseGreek } from "./parsers/greek.ts";
 import { parseTransliteration } from "./parsers/transliteration.ts";
@@ -25,6 +25,7 @@ export type {
   DoubleRhoOrthography,
   MedialBetaOrthography,
   NasalGammaOrthography,
+  NumeralOrthography,
   OrthographyOptions,
   SigmaOrthography,
 } from "./options.ts";
@@ -53,7 +54,7 @@ export function encode(
   options: ConversionOptions = {},
 ): string {
   const prepared = format === "transliteration"
-    ? document
+    ? applyNumeralOrthography(document, options)
     : applyOrthography(document, options);
 
   switch (format) {

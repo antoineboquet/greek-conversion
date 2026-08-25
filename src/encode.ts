@@ -40,7 +40,11 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     const outputLetter = elidedAspirate(doc, i) ?? token.letter;
     let base = ALPHABET[outputLetter].greek;
 
-    if (token.letter === "sigma" && options.orthography?.sigma === "lunate") {
+    if (
+      token.letter === "sigma" &&
+      options.orthography?.sigma === "lunate" &&
+      !isGreekNumeralContext(doc, i)
+    ) {
       base = "ϲ";
     } else if (
       token.letter === "sigma" &&
@@ -70,13 +74,17 @@ export function encodeBetaCode(
   doc: Document,
   options: ConversionOptions = {},
 ) {
-  return doc.map((token) => {
+  return doc.map((token, index) => {
     if (token.kind === "literal") {
       if (token.value === DEXIA_KERAIA) return "#";
       if (token.value === ARISTERI_KERAIA) return "#22";
       return token.value;
     }
-    if (token.letter === "sigma" && options.orthography?.sigma === "lunate") {
+    if (
+      token.letter === "sigma" &&
+      options.orthography?.sigma === "lunate" &&
+      !isGreekNumeralContext(doc, index)
+    ) {
       return token.uppercase ? "*S3" : "S3";
     }
     let base = ALPHABET[token.letter].beta;

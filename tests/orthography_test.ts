@@ -108,3 +108,39 @@ Deno.test("applies lunate sigma orthography on demand", () => {
   );
   assertNfcEquals(convert("ϲοϲ", "greek", "transliteration"), "sos");
 });
+
+Deno.test("converts marked alphabetic numerals to decimal on demand", () => {
+  const decimal = { orthography: { numerals: "decimal" } } as const;
+  const greek = "αʹ ͵βκγʹ ϛʹ ϝʹ ϟʹ ϙʹ ϡʹ σʹ";
+
+  assertNfcEquals(convert(greek, "greek", "greek"), greek);
+  for (const format of ["greek", "beta-code", "transliteration"] as const) {
+    assertNfcEquals(
+      convert(greek, "greek", format, decimal),
+      "1 2023 6 6 90 90 900 200",
+    );
+  }
+  assertNfcEquals(
+    convert("#22bkg#", "beta-code", "greek", decimal),
+    "2023",
+  );
+  assertNfcEquals(
+    convert("͵bkgʹ", "transliteration", "greek", decimal),
+    "2023",
+  );
+
+  assertNfcEquals(
+    convert("αβγ αβʹ ͵ιʹ", "greek", "greek", decimal),
+    "αβγ αβʹ ͵ιʹ",
+  );
+});
+
+Deno.test("numeral glyphs override contextual letter styling", () => {
+  const styled = {
+    orthography: { medialBeta: "symbol", sigma: "lunate" },
+  } as const;
+
+  assertNfcEquals(convert("βίος σός", "greek", "greek", styled), "βίοϲ ϲόϲ");
+  assertNfcEquals(convert("βʹ σʹ", "greek", "greek", styled), "βʹ σʹ");
+  assertNfcEquals(convert("βʹ σʹ", "greek", "beta-code", styled), "b# s#");
+});
