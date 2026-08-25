@@ -340,6 +340,46 @@ Deno.test("applies the requested coronis transliteration", () => {
   );
 });
 
+Deno.test("preserves the provenance of the Greek coronis scalar", () => {
+  const greekCoronis = { orthography: { coronis: "greek" } } as const;
+  const transliteration = convert(
+    "κἀγώ",
+    "greek",
+    "transliteration",
+    greekCoronis,
+  );
+
+  assertNfcEquals(transliteration, "ka\u1FBDgṓ");
+  assertNfcEquals(
+    convert(
+      transliteration,
+      "transliteration",
+      "transliteration",
+      greekCoronis,
+    ),
+    transliteration,
+  );
+  assertNfcEquals(
+    convert(transliteration, "transliteration", "greek", greekCoronis),
+    "κἀγώ",
+  );
+});
+
+Deno.test("does not infer coronis from ordinary apostrophe punctuation", () => {
+  assertNfcEquals(
+    convert("ka’gṓ", "transliteration", "greek", {
+      orthography: { coronis: "greek" },
+    }),
+    "κα’γώ",
+  );
+  assertNfcEquals(
+    convert("᾽a", "transliteration", "greek", {
+      orthography: { coronis: "greek" },
+    }),
+    "’ἀ",
+  );
+});
+
 Deno.test("applies lunate sigma orthography on demand", () => {
   const lunate = { orthography: { sigma: "lunate" } } as const;
 

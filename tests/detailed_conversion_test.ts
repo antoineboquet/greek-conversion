@@ -132,6 +132,19 @@ Deno.test("canonical Unicode variants are not information loss", () => {
   assertEquals(decomposed.lossy, false);
 });
 
+Deno.test("Greek coronis scalar retains semantic provenance", () => {
+  const result = convertDetailed(
+    "κἀγώ",
+    "greek",
+    "transliteration",
+    { orthography: { coronis: "greek" } },
+  );
+
+  assertEquals(result.output, "ka\u1FBDgṓ");
+  assertEquals(result.lossy, false);
+  assertEquals(result.losses, []);
+});
+
 Deno.test("deterministic added marks are not information loss", () => {
   const result = convertDetailed(
     "πολύρριζος",

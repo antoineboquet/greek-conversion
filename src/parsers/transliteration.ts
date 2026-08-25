@@ -87,6 +87,17 @@ export function parseTransliteration(
     const match = markedArchaicLetter(chars, i) ?? trie.longest(chars, i);
 
     if (!match) {
+      if (chars[i] === "\u1FBD") {
+        const previous = out.at(-1);
+        if (
+          previous?.kind === "grapheme" && isVowel(previous.letter)
+        ) {
+          previous.diacritics.add("coronis");
+          i++;
+          continue;
+        }
+      }
+
       if (rough) out.push(literal(roughUppercase ? "H" : "h"));
       out.push(
         literal(parsePunctuation(chars[i], "transliteration") ?? chars[i]),
