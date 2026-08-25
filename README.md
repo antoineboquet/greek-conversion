@@ -33,6 +33,23 @@ Loss is evaluated on canonical documents, so Unicode composition and glyph
 preferences are not destructive. See the formal
 [conversion-analysis contract](docs/conversion-analysis.md).
 
+Use `GreekText` when several representations of the same source are needed. It
+parses once into the canonical document and caches each encoded format:
+
+```ts
+const text = new GreekText("a)/nqrwpos", "beta-code", {
+  preset: "sbl-academic",
+});
+
+text.greek; // ἄνθρωπος
+text.betaCode; // a)/nqrwpos
+text.transliteration; // ánthrōpos
+text.toDetailed("transliteration");
+```
+
+The instance is immutable, and its exposed document and resolved options are
+detached copies. See the complete [`GreekText` contract](docs/greek-text.md).
+
 Named conversion presets are available for ISO 843 Type 1, ancient and modern
 ALA-LC, academic and general SBL policies, `tlg-core`, and `bnf-core`:
 
@@ -305,6 +322,7 @@ import {
   convert,
   convertDetailed,
   formatGreekUnicode,
+  GreekText,
   greekToTransliteration,
   toUnicodeCodePoints,
   transliterationToGreek,
