@@ -17,6 +17,10 @@
       "src/**/*.ts"
     ]
   },
+  "exclude": [
+    "npm/",
+    "scripts/npm_smoke.mjs"
+  ],
   "fmt": {
     "include": [
       "src/**/*.ts",
@@ -25,10 +29,18 @@
       "scripts/**/*.mjs",
       ".github/**/*.yml",
       "*.json"
+    ],
+    "exclude": [
+      "!scripts/npm_smoke.mjs"
+    ]
+  },
+  "lint": {
+    "exclude": [
+      "!scripts/npm_smoke.mjs"
     ]
   },
   "tasks": {
-    "check": "deno fmt --check && deno lint && deno check src/mod.ts src/document.ts tests/aliases_test.ts tests/context_test.ts tests/detailed_conversion_test.ts tests/diacritics_test.ts tests/equivalences_test.ts tests/greek_text_test.ts tests/greek_unicode_test.ts tests/invariants_test.ts tests/long_vowels_test.ts tests/lossy_conversions_test.ts tests/options_interactions_test.ts tests/orthography_test.ts tests/presets_test.ts tests/public_api_test.ts tests/punctuation_test.ts tests/stability_test.ts tests/unicode_test.ts tests/validation_test.ts && deno task doc",
+    "check": "deno fmt --check && deno lint && deno check && deno task doc",
     "doc": "deno doc --lint src/mod.ts src/document.ts",
     "test": "deno test",
     "publish:check": "deno publish --dry-run --check=all",
