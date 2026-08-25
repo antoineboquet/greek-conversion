@@ -10,9 +10,14 @@ import {
 import { Trie } from "../trie.ts";
 
 const TRIE = new Trie<Letter>(
-  Object.entries(ALPHABET).map(([letter, forms]) =>
-    [forms.tr.normalize("NFD"), letter as Letter] as const
-  ),
+  Object.entries(ALPHABET)
+    .filter(([letter]) => letter !== "eta" && letter !== "omega")
+    .map(([letter, forms]) =>
+      [
+        forms.tr.normalize("NFD").replaceAll(/\p{M}/gu, ""),
+        letter as Letter,
+      ] as const
+    ),
 );
 
 const VOWELS = new Set<Letter>([
@@ -42,16 +47,18 @@ export function parseTransliteration(input: string): Document {
 
   for (let i = 0; i < chars.length;) {
     let rough = false;
+    let roughUppercase = false;
 
     if (chars[i].toLowerCase() === "h" && startsVowel(chars, i + 1)) {
       rough = true;
+      roughUppercase = chars[i] !== chars[i].toLowerCase();
       i++;
     }
 
     const match = TRIE.longest(chars, i);
 
     if (!match) {
-      if (rough) out.push(literal("h"));
+      if (rough) out.push(literal(roughUppercase ? "H" : "h"));
       out.push(literal(chars[i]));
       i++;
       continue;
@@ -77,7 +84,15 @@ export function parseTransliteration(input: string): Document {
       i++;
     }
 
-    out.push(grapheme(match.value, source !== source.toLowerCase(), marks));
+    const letter = resolveLongVowel(match.value, marks);
+
+    out.push(
+      grapheme(
+        letter,
+        roughUppercase || source !== source.toLowerCase(),
+        marks,
+      ),
+    );
   }
 
   inferSmooth(out);
@@ -94,6 +109,22 @@ function trMark(char: string): Diacritic | undefined {
   if (char === "\u0303" || char === "\u0342") return "circumflex";
   if (char === "\u0327") return "iota-subscript";
   return GREEK_MARKS.get(char);
+}
+
+function resolveLongVowel(letter: Letter, marks: Set<Diacritic>): Letter {
+  if (!marks.has("macron")) return letter;
+
+  if (letter === "epsilon") {
+    marks.delete("macron");
+    return "eta";
+  }
+
+  if (letter === "omicron") {
+    marks.delete("macron");
+    return "omega";
+  }
+
+  return letter;
 }
 
 function inferSmooth(tokens: Token[]) {

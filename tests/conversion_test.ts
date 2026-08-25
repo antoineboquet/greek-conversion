@@ -2,8 +2,11 @@ import { assertEquals } from "@std/assert";
 import {
   betaCodeToGreek,
   betaCodeToTransliteration,
+  encode,
+  type Format,
   greekToBetaCode,
   greekToTransliteration,
+  parse,
   transliterationToBetaCode,
   transliterationToGreek,
 } from "../src/mod.ts";
@@ -31,9 +34,19 @@ const EQUIVALENCES = [
     transliteration: "Rhódos",
   },
   {
+    greek: "ποιῇ",
+    betaCode: "poih=|",
+    transliteration: "poiȩ̄̃",
+  },
+  {
     greek: "Φίληβος ἢ Περὶ ἡδονῆς",
     betaCode: "Fi/lhbos h)\\ Peri\\ h(donh=s",
     transliteration: "Phílēbos ḕ Perì hēdonē̃s",
+  },
+  {
+    greek: "Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων,",
+    betaCode: "E(/llhsin e)ge/neto kai\\ me/rei tini\\ tw=n barba/rwn,",
+    transliteration: "Héllēsin egéneto kaì mérei tinì tō̃n barbárōn,",
   },
   {
     greek: "ὡς δὲ εἰπεῖν καὶ ἐπὶ πλεῖστον ἀνθρώπων.",
@@ -41,6 +54,19 @@ const EQUIVALENCES = [
     transliteration: "hōs dè eipeĩn kaì epì pleĩston anthrṓpōn.",
   },
 ] as const satisfies readonly Equivalence[];
+
+const FORMATS = ["greek", "beta-code", "transliteration"] as const;
+
+function valueFor(equivalence: Equivalence, format: Format): string {
+  switch (format) {
+    case "greek":
+      return equivalence.greek;
+    case "beta-code":
+      return equivalence.betaCode;
+    case "transliteration":
+      return equivalence.transliteration;
+  }
+}
 
 function assertNfcEquals(actual: string, expected: string): void {
   assertEquals(actual, actual.normalize("NFC"), "Output must be NFC");
@@ -65,6 +91,17 @@ Deno.test("Beta Code and transliteration", () => {
   for (const { betaCode, transliteration } of EQUIVALENCES) {
     assertNfcEquals(betaCodeToTransliteration(betaCode), transliteration);
     assertNfcEquals(transliterationToBetaCode(transliteration), betaCode);
+  }
+});
+
+Deno.test("canonical documents survive encode-parse round trips", () => {
+  for (const equivalence of EQUIVALENCES) {
+    for (const format of FORMATS) {
+      const document = parse(valueFor(equivalence, format), format);
+      const reparsed = parse(encode(document, format), format);
+
+      assertEquals(reparsed, document);
+    }
   }
 });
 
