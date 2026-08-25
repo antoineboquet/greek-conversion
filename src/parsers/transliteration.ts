@@ -51,6 +51,17 @@ export function parseTransliteration(
     let roughUppercase = false;
 
     if (
+      options.orthography?.modernDigraphs === "phonetic" &&
+      options.orthography.beta === "v" &&
+      chars[i].toLowerCase() === "b"
+    ) {
+      const uppercase = chars[i] !== chars[i].toLowerCase();
+      out.push(grapheme("mu", uppercase), grapheme("pi"));
+      i++;
+      continue;
+    }
+
+    if (
       chars[i].toLowerCase() === "h" && startsVowel(chars, i + 1, trie)
     ) {
       rough = true;

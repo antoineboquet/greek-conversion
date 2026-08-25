@@ -21,6 +21,7 @@ export type EtaTransliteration = "ē" | "ī";
 export type XiTransliteration = "x" | "ks";
 export type PhiTransliteration = "ph" | "f";
 export type ChiTransliteration = "ch" | "kh";
+export type ModernDigraphOrthography = "preserve" | "phonetic";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -39,6 +40,7 @@ export interface OrthographyOptions {
   xi?: XiTransliteration;
   phi?: PhiTransliteration;
   chi?: ChiTransliteration;
+  modernDigraphs?: ModernDigraphOrthography;
 }
 
 export interface GreekUnicodeOptions {

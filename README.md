@@ -136,6 +136,20 @@ convert("βηξφχυ", "greek", "transliteration", {
 
 The selected spellings are also recognized on transliteration input. Selecting
 `eta: "ī"` necessarily interprets `ī` as eta rather than quantity-marked iota.
+Set `modernDigraphs` to `"phonetic"` to transliterate word-initial `μπ` as `b`
+and word-initial `ντ` as `d`; internal pairs remain `mp` and `nt`:
+
+```ts
+convert("μπάλα ντομάτα αμπέλι", "greek", "transliteration", {
+  orthography: { modernDigraphs: "phonetic" },
+}); // bála domáta ampéli
+```
+
+These phonetic spellings merge distinctions in transliteration. When combined
+with `beta: "v"`, input `b` is read as `μπ` so the selected output remains
+stable; plain `d` remains the canonical input spelling of delta because it
+cannot distinguish `δ` from `ντ`.
+
 Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi
 by default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental

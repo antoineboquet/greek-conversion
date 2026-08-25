@@ -93,10 +93,11 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
 | `coronis: "omit"` (default) | Omits coronis from transliteration | No |
 | `accentuation: "monotonic"` | Keeps diaeresis, maps every accent to acute, and removes other polytonic marks | No |
+| `modernDigraphs: "phonetic"` | Maps word-initial `μπ/ντ` to `b/d` in transliteration | No; `b/d` are also canonical spellings of beta/delta |
 | `composition: "decomposed"` | Emits Greek letters and marks as canonical decomposed sequences | Yes, unless combined with another lossy policy |
 | `acute: "tonos"` or `"oxia"` | Selects an eligible composed acute scalar | The accent is recoverable; its scalar preference is not |
 | Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
-| `doubleRho`, `medialBeta`, `sigma`, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but the source spelling/policy does not |
+| `doubleRho`, `medialBeta`, `sigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
 
 `removeDiacritics` is applied during encoding, after contextual analysis. It
 therefore cannot manufacture a diphthong or enable a consonant contraction by

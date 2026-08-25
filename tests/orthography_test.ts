@@ -128,6 +128,45 @@ Deno.test("applies individual transliteration variants", () => {
   );
 });
 
+Deno.test("transliterates initial modern Greek digraphs phonetically", () => {
+  const modern = {
+    orthography: { modernDigraphs: "phonetic" },
+  } as const;
+
+  assertNfcEquals(
+    convert(
+      "μπάλα ντομάτα αμπέλι ένταση",
+      "greek",
+      "transliteration",
+      modern,
+    ),
+    "bála domáta ampéli éntasē",
+  );
+  assertNfcEquals(
+    convert("Μπάλα, ΝΤΟ. μπ", "greek", "transliteration", modern),
+    "Bála, DO. b",
+  );
+  assertNfcEquals(
+    convert("μπάλα ντομάτα", "greek", "transliteration"),
+    "mpála ntomáta",
+  );
+});
+
+Deno.test("recognizes modern b when beta uses v", () => {
+  const modern = {
+    orthography: { beta: "v", modernDigraphs: "phonetic" },
+  } as const;
+
+  assertNfcEquals(
+    convert("b v d", "transliteration", "greek", modern),
+    "μπ β δ",
+  );
+  assertNfcEquals(
+    convert("μπ β δ", "greek", "transliteration", modern),
+    "b v d",
+  );
+});
+
 Deno.test("applies the requested coronis transliteration", () => {
   assertNfcEquals(convert("κἀγώ", "greek", "transliteration"), "kagṓ");
   assertNfcEquals(

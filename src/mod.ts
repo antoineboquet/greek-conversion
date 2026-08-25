@@ -46,6 +46,7 @@ export type {
   GreekUnicodeOptions,
   LongVowelOrthography,
   MedialBetaOrthography,
+  ModernDigraphOrthography,
   NasalGammaOrthography,
   NumeralOrthography,
   OrthographyOptions,

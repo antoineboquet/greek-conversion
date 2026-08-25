@@ -120,6 +120,12 @@ export function encodeTransliteration(
       return encodePunctuation(token.value, "transliteration") ?? token.value;
     }
 
+    const modernDigraph = modernDigraphAt(doc, index, options);
+    if (modernDigraph !== undefined) {
+      return token.uppercase ? modernDigraph.toUpperCase() : modernDigraph;
+    }
+    if (modernDigraphAt(doc, index - 1, options) !== undefined) return "";
+
     const previous = doc[index - 1];
     const breathingStart = initialBreathingStart(doc, index);
     const breathingIndex = breathingStart === undefined
@@ -169,6 +175,33 @@ export function encodeTransliteration(
 
     return base + transliteratedMarks + coronis;
   }).join("").normalize("NFC");
+}
+
+function modernDigraphAt(
+  document: Document,
+  index: number,
+  options: ConversionOptions,
+): "b" | "d" | undefined {
+  if (options.orthography?.modernDigraphs !== "phonetic" || index < 0) {
+    return undefined;
+  }
+
+  const first = document[index];
+  const second = document[index + 1];
+  if (
+    first?.kind !== "grapheme" ||
+    second?.kind !== "grapheme" ||
+    first.diacritics.size > 0 ||
+    second.diacritics.size > 0 ||
+    !isWordInitial(document, index) ||
+    isGreekNumeralContext(document, index)
+  ) {
+    return undefined;
+  }
+
+  if (first.letter === "mu" && second.letter === "pi") return "b";
+  if (first.letter === "nu" && second.letter === "tau") return "d";
+  return undefined;
 }
 
 function transliterationBase(
