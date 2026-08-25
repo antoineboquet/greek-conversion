@@ -1,5 +1,10 @@
 import { ALPHABET, GREEK_MARKS } from "../alphabet.ts";
-import { breathingTarget, followsNasalGamma, isVowel } from "../context.ts";
+import {
+  breathingTarget,
+  followsNasalGamma,
+  hasQuantity,
+  isVowel,
+} from "../context.ts";
 import {
   type Diacritic,
   type Document,
@@ -151,7 +156,11 @@ function inferInitialBreathings(tokens: Token[]) {
     if (token.diacritics.has("rough") && target !== token) {
       token.diacritics.delete("rough");
       target.diacritics.add("rough");
-    } else if (!target.diacritics.has("rough")) {
+    } else if (
+      !target.diacritics.has("rough") &&
+      !hasQuantity(token) &&
+      !hasQuantity(target)
+    ) {
       target.diacritics.add("smooth");
     }
   }

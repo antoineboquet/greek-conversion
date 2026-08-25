@@ -1,4 +1,4 @@
-import type { Document, Letter } from "./model.ts";
+import type { Document, Grapheme, Letter } from "./model.ts";
 
 const NASAL_GAMMA_FOLLOWERS = new Set<Letter>([
   "gamma",
@@ -39,6 +39,16 @@ export function isWordFinal(document: Document, index: number): boolean {
 
 export function isVowel(letter: Letter): boolean {
   return VOWELS.has(letter);
+}
+
+/**
+ * A quantity sign in transliteration preserves metrical information but does
+ * not say whether a word-initial vowel bore a smooth breathing.  In
+ * particular, this lets forms such as `ā` round-trip as `ᾱ`, rather than
+ * inventing `ἀ̄`.
+ */
+export function hasQuantity(token: Grapheme): boolean {
+  return token.diacritics.has("macron") || token.diacritics.has("breve");
 }
 
 export function breathingTarget(document: Document, start: number): number {

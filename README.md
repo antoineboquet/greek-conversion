@@ -10,6 +10,9 @@ Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and
 chi. Canonical Greek output contracts an adjacent unmarked `πσ` sequence to `ψ`.
 Initial breathings are placed on the second vowel of a diphthong and rendered
 before the whole vowel group in transliteration; a diaeresis prevents this rule.
+Initial transliterated vowels normally receive the canonical smooth breathing.
+Quantity signs (`ā`, `ĭ`, `ī`, `ŭ`, `ū`) are the exception: because they do not
+encode a breathing, they are rendered without an inferred one.
 
 ```ts
 import { betaCodeToGreek, convert } from "./src/mod.ts";

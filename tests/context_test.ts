@@ -43,6 +43,25 @@ Deno.test("diaeresis prevents an initial diphthong", () => {
   );
 });
 
+Deno.test("quantity marks do not infer an initial smooth breathing", () => {
+  assertNfcEquals(
+    convert("ā ĭ ī ŭ ū", "transliteration", "greek"),
+    "ᾱ ῐ ῑ ῠ ῡ",
+  );
+  assertNfcEquals(
+    convert("ᾱ ῐ ῑ ῠ ῡ", "greek", "transliteration"),
+    "ā ĭ ī ŭ ū",
+  );
+  assertNfcEquals(
+    convert("ā", "transliteration", "beta-code"),
+    "a&",
+  );
+  assertNfcEquals(
+    convert("hā", "transliteration", "greek"),
+    "ἁ̄",
+  );
+});
+
 Deno.test("contracts pi-sigma in canonical Greek output", () => {
   assertNfcEquals(convert("πσ ΠΣ Πσ πΣ", "greek", "greek"), "ψ Ψ Ψ πΣ");
   assertNfcEquals(convert("ps PS Ps", "beta-code", "greek"), "ψ Ψ Ψ");

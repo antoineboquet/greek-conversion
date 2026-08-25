@@ -101,12 +101,12 @@ export const LOSSY_CONVERSIONS = [
     canonicalRoundTrip: "καγώ",
   },
   {
-    name: "an initial long vowel receives the canonical smooth breathing",
+    name: "a smooth breathing on a quantity-marked vowel is not represented in transliteration",
     sourceFormat: "greek",
     intermediateFormat: "transliteration",
-    source: "ᾱ",
+    source: "ἀ̄",
     intermediate: "ā",
-    canonicalRoundTrip: "ἀ̄",
+    canonicalRoundTrip: "ᾱ",
   },
   {
     name: "nu before a velar converges to canonical nasal gamma",
