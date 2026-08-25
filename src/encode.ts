@@ -61,7 +61,10 @@ export function encodeBetaCode(doc: Document) {
   }).join("");
 }
 
-export function encodeTransliteration(doc: Document) {
+export function encodeTransliteration(
+  doc: Document,
+  options: ConversionOptions = {},
+) {
   return doc.map((token, index) => {
     if (token.kind === "literal") return token.value;
 
@@ -98,11 +101,20 @@ export function encodeTransliteration(doc: Document) {
     ) {
       base += "h";
     }
-    return base + marks(token).map(trMark).join("");
+    const tokenMarks = marks(token);
+    const transliteratedMarks = tokenMarks
+      .filter((mark) => mark !== "coronis")
+      .map((mark) => trMark(mark, options))
+      .join("");
+    const coronis = tokenMarks.includes("coronis")
+      ? trMark("coronis", options)
+      : "";
+
+    return base + transliteratedMarks + coronis;
   }).join("").normalize("NFC");
 }
 
-function trMark(mark: Diacritic) {
+function trMark(mark: Diacritic, options: ConversionOptions) {
   switch (mark) {
     case "acute":
       return "\u0301";
@@ -118,6 +130,15 @@ function trMark(mark: Diacritic) {
       return "\u0304";
     case "breve":
       return "\u0306";
+    case "coronis":
+      switch (options.orthography?.coronis) {
+        case "apostrophe":
+          return "\u2019";
+        case "greek":
+          return "\u1FBD";
+        default:
+          return "";
+      }
     default:
       return "";
   }

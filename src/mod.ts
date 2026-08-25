@@ -20,6 +20,7 @@ export type {
   Token,
 } from "./model.ts";
 export type {
+  CoronisOrthography,
   ConversionOptions,
   DoubleRhoOrthography,
   MedialBetaOrthography,
@@ -55,7 +56,7 @@ export function encode(
     case "beta-code":
       return encodeBetaCode(prepared);
     case "transliteration":
-      return encodeTransliteration(prepared);
+      return encodeTransliteration(prepared, options);
   }
 }
 

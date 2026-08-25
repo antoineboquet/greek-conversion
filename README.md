@@ -15,11 +15,16 @@ Quantity signs (`ā`, `ĭ`, `ī`, `ŭ`, `ū`) are the exception: because they do
 encode a breathing, they are rendered without an inferred one.
 The shared smooth mark is classified contextually as a breathing on an initial
 vowel group and as a coronis on an internal vowel. Greek and Beta Code preserve
-the coronis and the contracted crasis; transliteration omits the coronis and
-therefore cannot reconstruct it.
+the coronis and the contracted crasis. Transliteration omits the coronis by
+default and therefore cannot reconstruct it.
 
 ```ts
-import { betaCodeToGreek, convert } from "./src/mod.ts";
+import {
+  betaCodeToGreek,
+  convert,
+  greekToTransliteration,
+  transliterationToGreek,
+} from "./src/mod.ts";
 
 betaCodeToGreek("a)/nqrwpos"); // ἄνθρωπος
 convert("ἄνθρωπος", "greek", "transliteration"); // ánthrōpos
@@ -41,6 +46,25 @@ Greek word. Initial and uppercase beta remain `β` and `Β`:
 transliterationToGreek("bárbaros", {
   orthography: { medialBeta: "symbol" },
 }); // βάρϐαρος
+```
+
+The coronis has three transliteration policies. It can be omitted (the
+default), rendered as RIGHT SINGLE QUOTATION MARK (`U+2019`) following ISO 843,
+or preserved as GREEK KORONIS (`U+1FBD`) following BnF practice:
+
+```ts
+greekToTransliteration("κἀγώ");
+// kagṓ
+
+greekToTransliteration("κἀγώ", {
+  orthography: { coronis: "apostrophe" },
+});
+// ka’gṓ
+
+greekToTransliteration("κἀγώ", {
+  orthography: { coronis: "greek" },
+});
+// ka᾽gṓ
 ```
 
 Run `deno task check` and `deno task test`.

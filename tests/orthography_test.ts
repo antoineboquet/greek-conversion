@@ -41,3 +41,43 @@ Deno.test("applies the beta symbol only to medial lowercase beta", () => {
     "ΒΒ",
   );
 });
+
+Deno.test("applies the requested coronis transliteration", () => {
+  assertNfcEquals(convert("κἀγώ", "greek", "transliteration"), "kagṓ");
+  assertNfcEquals(
+    convert("κἀγώ", "greek", "transliteration", {
+      orthography: { coronis: "omit" },
+    }),
+    "kagṓ",
+  );
+  assertNfcEquals(
+    convert("κἀγώ", "greek", "transliteration", {
+      orthography: { coronis: "apostrophe" },
+    }),
+    "ka\u2019gṓ",
+  );
+  assertNfcEquals(
+    convert("κἀγώ", "greek", "transliteration", {
+      orthography: { coronis: "greek" },
+    }),
+    "ka\u1FBDgṓ",
+  );
+  assertNfcEquals(
+    convert("τοὔνομα", "greek", "transliteration", {
+      orthography: { coronis: "apostrophe" },
+    }),
+    "toú\u2019noma",
+  );
+  assertNfcEquals(
+    convert("τοὔνομα", "greek", "transliteration", {
+      orthography: { coronis: "greek" },
+    }),
+    "toú\u1FBDnoma",
+  );
+  assertNfcEquals(
+    convert("ἄνθρωπος", "greek", "transliteration", {
+      orthography: { coronis: "apostrophe" },
+    }),
+    "ánthrōpos",
+  );
+});
