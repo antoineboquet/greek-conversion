@@ -23,6 +23,17 @@ export type PhiTransliteration = "ph" | "f";
 export type ChiTransliteration = "ch" | "kh";
 export type ModernDigraphOrthography = "preserve" | "phonetic" | "ala-lc";
 export type RhoTransliteration = "contextual" | "systematic";
+export type DiacriticDisposition = "preserve" | "remove";
+
+export interface DiacriticOptions {
+  accents?: DiacriticDisposition;
+  smoothBreathing?: DiacriticDisposition;
+  roughBreathing?: DiacriticDisposition;
+  coronis?: DiacriticDisposition;
+  diaeresis?: DiacriticDisposition;
+  iotaSubscript?: DiacriticDisposition;
+  quantity?: DiacriticDisposition;
+}
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -55,5 +66,6 @@ export interface GreekUnicodeOptions {
 export interface ConversionOptions {
   orthography?: OrthographyOptions;
   unicode?: GreekUnicodeOptions;
+  diacritics?: DiacriticOptions;
   removeDiacritics?: boolean;
 }

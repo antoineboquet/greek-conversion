@@ -23,6 +23,63 @@ Deno.test("removes canonical diacritics from every output format", () => {
   );
 });
 
+Deno.test("selects semantic diacritic classes independently", () => {
+  const selective = {
+    diacritics: {
+      accents: "remove",
+      smoothBreathing: "remove",
+      roughBreathing: "preserve",
+      coronis: "remove",
+      diaeresis: "preserve",
+      iotaSubscript: "remove",
+      quantity: "remove",
+    },
+  } as const;
+  const greek = "ἄ ἅ κἀ ΐ ᾷ ᾱ ῐ";
+
+  assertNfcEquals(
+    convert(greek, "greek", "greek", selective),
+    "α ἁ κα ϊ α α ι",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "beta-code", selective),
+    "a a( ka i+ a a i",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", selective),
+    "a ha ka ï a a i",
+  );
+});
+
+Deno.test("preserves unspecified diacritic classes by default", () => {
+  const accentsOnly = {
+    diacritics: { accents: "remove" },
+  } as const;
+
+  assertNfcEquals(
+    convert("ἄ ἅ κἀ ΐ ᾷ ᾱ ῐ", "greek", "greek", accentsOnly),
+    "ἀ ἁ κἀ ϊ ᾳ ᾱ ῐ",
+  );
+});
+
+Deno.test("removeDiacritics dominates selective preservation", () => {
+  const legacyShortcut = {
+    removeDiacritics: true,
+    diacritics: {
+      accents: "preserve",
+      roughBreathing: "preserve",
+      diaeresis: "preserve",
+      iotaSubscript: "preserve",
+      quantity: "preserve",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert("ἄ ἅ ΐ ᾷ ᾱ", "greek", "greek", legacyShortcut),
+    "α α ι α α",
+  );
+});
+
 Deno.test("exposes format-aware diacritic removal as a public helper", () => {
   assertNfcEquals(
     removeDiacritics("ἄνθρωπος· ἀπ’", "greek"),

@@ -12,6 +12,7 @@ import {
   isWordFinal,
   isWordInitial,
 } from "./context.ts";
+import { preservesDiacritic } from "./diacritics.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import { applyGreekOrthography } from "./orthography.ts";
@@ -19,9 +20,9 @@ import { encodePunctuation } from "./punctuation.ts";
 import { applyGreekUnicode } from "./unicode.ts";
 
 const marks = (token: Grapheme, options: ConversionOptions) =>
-  options.removeDiacritics
-    ? []
-    : ORDER.filter((mark) => token.diacritics.has(mark));
+  ORDER.filter((mark) =>
+    token.diacritics.has(mark) && preservesDiacritic(mark, options)
+  );
 
 export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
   let out = "";
@@ -136,7 +137,7 @@ export function encodeTransliteration(
     const breathingToken = breathingIndex === undefined
       ? undefined
       : doc[breathingIndex];
-    const initialRough = !options.removeDiacritics &&
+    const initialRough = preservesDiacritic("rough", options) &&
       breathingToken?.kind === "grapheme" &&
       breathingToken.diacritics.has("rough");
     const groupUppercase = initialRough && breathingStart !== undefined &&
@@ -158,7 +159,7 @@ export function encodeTransliteration(
     ) {
       if (next?.kind !== "grapheme" || next.letter !== "rho") base += "h";
     } else if (
-      !options.removeDiacritics &&
+      preservesDiacritic("rough", options) &&
       token.diacritics.has("rough") && index !== breathingIndex
     ) {
       if (token.letter === "rho") base = base + "h";

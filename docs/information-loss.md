@@ -88,6 +88,7 @@ nu; this changes the accepted spelling contract for transliteration input.
 | Option | Effect | Reconstructible from output? |
 | --- | --- | --- |
 | `removeDiacritics: true` | Removes accents, breathings, coronis, diaeresis, explicit quantity, and iota subscript | No |
+| `diacritics.<class>: "remove"` | Removes only the selected semantic class during rendering | No when that class occurs; unselected classes remain recoverable |
 | `numerals: "decimal"` | Replaces a valid marked alphabetic numeral group with decimal digits | No |
 | `dentalSigma: "assimilate"` | Deletes `τ`, `δ`, or `θ` before sigma in Greek output | No |
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
@@ -101,10 +102,12 @@ nu; this changes the accepted spelling contract for transliteration input.
 | Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
 | `doubleRho`, `medialBeta`, `sigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
 
-`removeDiacritics` is applied during encoding, after contextual analysis. It
-therefore cannot manufacture a diphthong or enable a consonant contraction by
-first deleting a blocking mark. Structural marks used to distinguish letters
-remain: `ē/ō`, `c̄/s̄`, and `ḳ` are not removable diacritics.
+`removeDiacritics` and the granular `diacritics` policy are applied during
+encoding, after contextual analysis. They therefore cannot manufacture a
+diphthong or enable a consonant contraction by first deleting a blocking mark.
+`removeDiacritics: true` dominates granular `"preserve"` settings. Structural
+marks used to distinguish letters remain: `ē/ō`, `c̄/s̄`, and `ḳ` are not
+removable diacritics.
 
 ## Stability guarantee
 

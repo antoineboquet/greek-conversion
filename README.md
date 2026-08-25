@@ -67,6 +67,35 @@ removeDiacritics("a)/nqrwpos a)=| i&", "beta-code");
 // anqrwpos a i
 ```
 
+The all-or-nothing shortcut removes accents, breathings, coronides,
+diaereses, explicit quantities, and iota subscripts. Structural marks required
+to identify a letter are retained: `ē/ō`, `c̄/s̄`, and `ḳ` therefore remain
+distinct from `e/o`, `c/s`, and `k`. The helper accepts the same optional
+orthography settings as conversion functions and otherwise returns the
+canonical spelling of the selected format.
+
+Diacritics can instead be selected by semantic class. Each class defaults to
+`"preserve"`; `removeDiacritics: true` remains a shorthand that overrides all
+selective settings:
+
+```ts
+convert("ἄνθρωπος ἅγιος κἀγώ ΐ ᾷ ᾱ", "greek", "transliteration", {
+  diacritics: {
+    accents: "remove",
+    smoothBreathing: "remove",
+    roughBreathing: "preserve",
+    coronis: "remove",
+    diaeresis: "preserve",
+    iotaSubscript: "remove",
+    quantity: "remove",
+  },
+}); // anthrōpos hagios kagō ï a a
+```
+
+Selective removal is a rendering policy. Context such as diphthongs,
+diaeresis-blocked vowel groups, contractions, and crasis is analyzed from the
+source document before any mark is hidden.
+
 Whitespace is preserved by default. Set `whitespace` to `"collapse"` to trim
 the output and replace every Unicode whitespace run with one ASCII space in any
 output format:
@@ -76,13 +105,6 @@ convert("  ἄνθρωπος\n\tλόγος  ", "greek", "greek", {
   orthography: { whitespace: "collapse" },
 }); // ἄνθρωπος λόγος
 ```
-
-Accents, breathings, coronides, diaereses, explicit quantities, and iota
-subscripts are removed. Structural marks required to identify a letter are
-retained: `ē/ō`, `c̄/s̄`, and `ḳ` therefore remain distinct from
-`e/o`, `c/s`, and `k`. The helper accepts the same optional orthography
-settings as conversion functions and otherwise returns the canonical spelling
-of the selected format.
 
 Structural long vowels in transliteration use macrons by default (`η → ē`,
 `ω → ō`). The output policy can instead distinguish the raw Greek letter with a

@@ -36,6 +36,8 @@ export type {
   ChiTransliteration,
   ConversionOptions,
   CoronisOrthography,
+  DiacriticDisposition,
+  DiacriticOptions,
   DentalSigmaOrthography,
   DoubleRhoOrthography,
   EtaTransliteration,

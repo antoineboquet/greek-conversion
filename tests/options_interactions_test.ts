@@ -13,9 +13,33 @@ Deno.test("classifies diphthongs before removing their diacritics", () => {
   );
 });
 
+Deno.test("classifies context before selective diacritic removal", () => {
+  const options = {
+    diacritics: { diaeresis: "remove" },
+    orthography: { upsilon: "y-with-diphthong-u" },
+  } as const;
+
+  assertNfcEquals(
+    convert("αϋ αυ", "greek", "transliteration", options),
+    "ay au",
+  );
+});
+
 Deno.test("does not create contractions by removing blocking marks", () => {
   const options = {
     removeDiacritics: true,
+    orthography: { dentalSigma: "assimilate" },
+  } as const;
+
+  assertNfcEquals(
+    convert("βσ́ τσ́", "greek", "greek", options),
+    "βς τς",
+  );
+});
+
+Deno.test("selective removal does not create blocked contractions", () => {
+  const options = {
+    diacritics: { accents: "remove" },
     orthography: { dentalSigma: "assimilate" },
   } as const;
 

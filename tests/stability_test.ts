@@ -19,6 +19,18 @@ const PROFILES = [
   { name: "defaults", options: {} },
   { name: "without diacritics", options: { removeDiacritics: true } },
   {
+    name: "selective diacritics",
+    options: {
+      diacritics: {
+        accents: "remove",
+        smoothBreathing: "remove",
+        coronis: "remove",
+        iotaSubscript: "remove",
+        quantity: "remove",
+      },
+    },
+  },
+  {
     name: "circumflex long vowels and contextual upsilon",
     options: {
       orthography: {

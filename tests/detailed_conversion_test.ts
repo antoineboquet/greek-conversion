@@ -73,6 +73,26 @@ Deno.test("reports each removed diacritic at its source token", () => {
   ]);
 });
 
+Deno.test("reports only selectively removed diacritics", () => {
+  const result = convertDetailed("ἄ ἅ", "greek", "greek", {
+    diacritics: { accents: "remove" },
+  });
+
+  assertEquals(result.output, "ἀ ἁ");
+  assertEquals(result.lossy, true);
+  assertEquals(
+    result.losses.map(({ code, index, diacritic }) => ({
+      code,
+      index,
+      diacritic,
+    })),
+    [
+      { code: "removed-diacritic", index: 0, diacritic: "acute" },
+      { code: "removed-diacritic", index: 2, diacritic: "acute" },
+    ],
+  );
+});
+
 Deno.test("canonical Unicode variants are not information loss", () => {
   const oxia = convertDetailed("ά;·", "greek", "greek", {
     unicode: {
