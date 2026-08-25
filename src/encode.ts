@@ -130,7 +130,7 @@ export function encodeTransliteration(
     let base = options.orthography?.nasalGamma !== "literal" &&
         isNasalGamma(doc, index)
       ? "n"
-      : ALPHABET[token.letter].tr;
+      : transliterationBase(token.letter, options);
     if (token.uppercase && !groupUppercase) {
       base = base[0].toUpperCase() + base.slice(1);
     }
@@ -160,6 +160,23 @@ export function encodeTransliteration(
 
     return base + transliteratedMarks + coronis;
   }).join("").normalize("NFC");
+}
+
+function transliterationBase(
+  letter: Grapheme["letter"],
+  options: ConversionOptions,
+): string {
+  if (letter !== "eta" && letter !== "omega") return ALPHABET[letter].tr;
+
+  const base = letter === "eta" ? "e" : "o";
+  switch (options.orthography?.longVowels) {
+    case "circumflex":
+      return `${base}\u0302`;
+    case "circumflex-macron":
+      return `${base}\u0302\u0304`;
+    default:
+      return `${base}\u0304`;
+  }
 }
 
 function trMark(mark: Diacritic, options: ConversionOptions) {

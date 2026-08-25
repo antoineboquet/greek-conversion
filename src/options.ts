@@ -5,6 +5,10 @@ export type NasalGammaOrthography = "nasal" | "literal";
 export type SigmaOrthography = "standard" | "lunate";
 export type NumeralOrthography = "alphabetic" | "decimal";
 export type DentalSigmaOrthography = "preserve" | "assimilate";
+export type LongVowelOrthography =
+  | "macron"
+  | "circumflex"
+  | "circumflex-macron";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -14,6 +18,7 @@ export interface OrthographyOptions {
   sigma?: SigmaOrthography;
   numerals?: NumeralOrthography;
   dentalSigma?: DentalSigmaOrthography;
+  longVowels?: LongVowelOrthography;
 }
 
 export interface ConversionOptions {

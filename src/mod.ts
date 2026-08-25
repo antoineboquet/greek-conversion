@@ -24,6 +24,7 @@ export type {
   CoronisOrthography,
   DentalSigmaOrthography,
   DoubleRhoOrthography,
+  LongVowelOrthography,
   MedialBetaOrthography,
   NasalGammaOrthography,
   NumeralOrthography,

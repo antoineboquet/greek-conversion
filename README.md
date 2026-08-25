@@ -6,8 +6,29 @@ transliteration.
 The engine separates parsers, a canonical grapheme model, and encoders. It
 supports every direction between the three formats, uses one canonical spelling
 per output format, normalizes output to NFC, and preserves unknown characters.
-Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi
-by default. Before sigma, canonical Greek output contracts adjacent unmarked
+
+Structural long vowels in transliteration use macrons by default (`η → ē`,
+`ω → ō`). The output policy can instead distinguish the raw Greek letter with a
+circumflex, optionally retaining a macron as an explicit philological quantity
+annotation:
+
+```ts
+convert("βη βω βᾱ", "greek", "transliteration", {
+  orthography: { longVowels: "circumflex" },
+}); // bê bô bā
+
+convert("βη βω βᾱ", "greek", "transliteration", {
+  orthography: { longVowels: "circumflex-macron" },
+}); // bê̄ bô̄ bā
+```
+
+The values are `"macron"` (default), `"circumflex"`, and `"circumflex-macron"`.
+Explicit long `α`, `ι`, and `υ` always retain their macron because Greek does
+not encode their quantity with a distinct letter. A tilde continues to represent
+the Greek circumflex accent, so `ῆ` becomes `ễ` under the circumflex policy. All
+three structural spellings (`ē`, `ê`, `ê̄`) are accepted on input. Contextual
+nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi by
+default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental
 assimilation is opt-in because it deletes `τ`, `δ`, or `θ` before `σ`:
 

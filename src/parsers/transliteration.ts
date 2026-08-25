@@ -78,17 +78,30 @@ export function parseTransliteration(
     }
 
     const marks = new Set<Diacritic>();
+    let structuralCircumflex = false;
 
     if (rough) marks.add("rough");
 
     while (i < chars.length) {
+      if (
+        chars[i] === "\u0302" &&
+        (match.value === "epsilon" || match.value === "omicron")
+      ) {
+        structuralCircumflex = true;
+        i++;
+        continue;
+      }
       const mark = trMark(chars[i]);
       if (!mark) break;
       marks.add(mark);
       i++;
     }
 
-    const letter = resolveLongVowel(match.value, marks);
+    const letter = resolveLongVowel(
+      match.value,
+      marks,
+      structuralCircumflex,
+    );
 
     out.push(
       grapheme(
@@ -150,8 +163,12 @@ function trMark(char: string): Diacritic | undefined {
   return GREEK_MARKS.get(char);
 }
 
-function resolveLongVowel(letter: Letter, marks: Set<Diacritic>): Letter {
-  if (!marks.has("macron")) return letter;
+function resolveLongVowel(
+  letter: Letter,
+  marks: Set<Diacritic>,
+  structuralCircumflex: boolean,
+): Letter {
+  if (!marks.has("macron") && !structuralCircumflex) return letter;
 
   if (letter === "epsilon") {
     marks.delete("macron");
