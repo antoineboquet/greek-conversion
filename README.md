@@ -7,6 +7,11 @@ The engine separates parsers, a canonical grapheme model, and encoders. It
 supports every direction between the three formats, uses one canonical spelling
 per output format, normalizes output to NFC, and preserves unknown characters.
 
+The formal [information-loss contract](docs/information-loss.md) distinguishes
+canonicalization, representation loss, and option-induced loss for every format
+pair. [Validation](docs/validation.md) deliberately remains a separate,
+diagnostic step over the canonical document rather than a mode of `convert()`.
+
 Set `removeDiacritics` to `true` to remove the canonical diacritics before
 encoding any output format:
 

@@ -111,6 +111,14 @@ const DENTAL_SIGMA_ASSIMILATION = {
   orthography: { dentalSigma: "assimilate" },
 } as const satisfies ConversionOptions;
 
+const DECIMAL_NUMERALS = {
+  orthography: { numerals: "decimal" },
+} as const satisfies ConversionOptions;
+
+const VISIBLE_CORONIS = {
+  orthography: { coronis: "apostrophe" },
+} as const satisfies ConversionOptions;
+
 export const LOSSY_CONVERSIONS = [
   {
     name: "marked Greek double rho becomes canonical unmarked Greek",
@@ -144,6 +152,15 @@ export const LOSSY_CONVERSIONS = [
     source: "τοὔνομα",
     intermediate: "toúnoma",
     canonicalRoundTrip: "τούνομα",
+  },
+  {
+    name: "a visible transliterated coronis is display-only punctuation",
+    sourceFormat: "greek",
+    intermediateFormat: "transliteration",
+    source: "κἀγώ",
+    intermediate: "ka’gṓ",
+    canonicalRoundTrip: "κα’γώ",
+    options: VISIBLE_CORONIS,
   },
   {
     name:
@@ -220,6 +237,24 @@ export const LOSSY_CONVERSIONS = [
     source: "ap’ hēmō̃n",
     intermediate: "ἀφ’ ἡμῶν",
     canonicalRoundTrip: "aph’ hēmō̃n",
+  },
+  {
+    name: "diacritic removal cannot reconstruct accents or breathings",
+    sourceFormat: "greek",
+    intermediateFormat: "transliteration",
+    source: "ἄνθρωπος",
+    intermediate: "anthrōpos",
+    canonicalRoundTrip: "ἀνθρωπος",
+    options: { removeDiacritics: true },
+  },
+  {
+    name: "decimal numerals cannot reconstruct alphabetic notation",
+    sourceFormat: "greek",
+    intermediateFormat: "beta-code",
+    source: "͵βκγʹ",
+    intermediate: "2023",
+    canonicalRoundTrip: "2023",
+    options: DECIMAL_NUMERALS,
   },
 ] as const satisfies readonly LossyConversion[];
 
