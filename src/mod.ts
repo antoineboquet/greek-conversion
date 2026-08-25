@@ -8,7 +8,7 @@ import {
   findConversionLosses,
 } from "./losses.ts";
 import type { Document, Format } from "./model.ts";
-import type { ConversionOptions } from "./options.ts";
+import type { ConversionOptions, GreekUnicodeOptions } from "./options.ts";
 import {
   applyNumeralOrthography,
   applyOrthography,
