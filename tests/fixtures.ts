@@ -135,6 +135,22 @@ export const LOSSY_CONVERSIONS = [
     canonicalRoundTrip: "y",
   },
   {
+    name: "beta-sigma converges to psi through canonical Greek",
+    sourceFormat: "beta-code",
+    intermediateFormat: "greek",
+    source: "bs",
+    intermediate: "ψ",
+    canonicalRoundTrip: "y",
+  },
+  {
+    name: "gamma-sigma converges to xi through canonical Greek",
+    sourceFormat: "beta-code",
+    intermediateFormat: "greek",
+    source: "gs",
+    intermediate: "ξ",
+    canonicalRoundTrip: "c",
+  },
+  {
     name: "an elided smooth mute is aspirated before a rough breathing",
     sourceFormat: "transliteration",
     intermediateFormat: "greek",

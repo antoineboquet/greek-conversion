@@ -1,7 +1,7 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
 import {
   breathingTarget,
-  contractedPsiUppercase,
+  contractedSigma,
   elidedAspirate,
   initialBreathingStart,
   isNasalGamma,
@@ -25,11 +25,11 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       continue;
     }
 
-    const psiUppercase = contractedPsiUppercase(doc, i);
+    const contraction = contractedSigma(doc, i);
 
-    if (psiUppercase !== undefined) {
-      const psi = ALPHABET.psi.greek;
-      out += psiUppercase ? psi.toLocaleUpperCase("el") : psi;
+    if (contraction !== undefined) {
+      const base = ALPHABET[contraction.letter].greek;
+      out += contraction.uppercase ? base.toLocaleUpperCase("el") : base;
       i++;
       continue;
     }

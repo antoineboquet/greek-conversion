@@ -225,19 +225,31 @@ Deno.test("preserves crasis while transliteration remains lossy", () => {
   assertNfcEquals(convert("toúnoma", "transliteration", "greek"), "τούνομα");
 });
 
-Deno.test("contracts pi-sigma in canonical Greek output", () => {
-  assertNfcEquals(convert("πσ ΠΣ Πσ πΣ", "greek", "greek"), "ψ Ψ Ψ πΣ");
-  assertNfcEquals(convert("ps PS Ps", "beta-code", "greek"), "ψ Ψ Ψ");
+Deno.test("contracts labials and velars before sigma in Greek output", () => {
+  assertNfcEquals(
+    convert("πσ βσ φσ κσ γσ χσ", "greek", "greek"),
+    "ψ ψ ψ ξ ξ ξ",
+  );
+  assertNfcEquals(
+    convert("ΠΣ ΒΣ Φσ ΚΣ ΓΣ Χσ", "greek", "greek"),
+    "Ψ Ψ Ψ Ξ Ξ Ξ",
+  );
+  assertNfcEquals(convert("πΣ βΣ κΣ γΣ", "greek", "greek"), "πΣ βΣ κΣ γΣ");
+  assertNfcEquals(
+    convert("ps bs fs ks gs xs", "beta-code", "greek"),
+    "ψ ψ ψ ξ ξ ξ",
+  );
   assertNfcEquals(greekToBetaCode("πσ"), "ps");
 });
 
-Deno.test("does not contract separated or marked pi-sigma", () => {
-  assertNfcEquals(convert("π σ", "greek", "greek"), "π ς");
+Deno.test("does not contract separated, marked, or dental-sigma pairs", () => {
+  assertNfcEquals(convert("π σ κ σ", "greek", "greek"), "π ς κ ς");
+  assertNfcEquals(convert("τσ δσ θσ", "greek", "greek"), "τς δς θς");
   assertNfcEquals(
     encode(
-      [grapheme("pi"), grapheme("sigma", false, ["acute"])],
+      [grapheme("beta"), grapheme("sigma", false, ["acute"])],
       "greek",
     ),
-    "πς́",
+    "βς́",
   );
 });

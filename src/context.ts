@@ -39,6 +39,15 @@ const ELIDED_ASPIRATES = new Map<Letter, Letter>([
   ["kappa", "chi"],
 ]);
 
+const SIGMA_CONTRACTIONS = new Map<Letter, Letter>([
+  ["pi", "psi"],
+  ["beta", "psi"],
+  ["phi", "psi"],
+  ["kappa", "xi"],
+  ["gamma", "xi"],
+  ["chi", "xi"],
+]);
+
 export function isWordInitial(document: Document, index: number): boolean {
   let previous = index - 1;
   while (previous >= 0 && isBoundaryTransparent(document[previous])) previous--;
@@ -215,17 +224,16 @@ function isBoundaryTransparent(token: Token | undefined): boolean {
     (/^\p{M}$/u.test(token.value) || WORD_JOIN_CONTROLS.has(token.value));
 }
 
-export function contractedPsiUppercase(
+export function contractedSigma(
   document: Document,
   index: number,
-): boolean | undefined {
-  const pi = document[index];
+): { letter: Letter; uppercase: boolean } | undefined {
+  const mute = document[index];
   const sigma = document[index + 1];
 
   if (
-    pi.kind !== "grapheme" ||
-    pi.letter !== "pi" ||
-    pi.diacritics.size > 0 ||
+    mute.kind !== "grapheme" ||
+    mute.diacritics.size > 0 ||
     sigma?.kind !== "grapheme" ||
     sigma.letter !== "sigma" ||
     sigma.diacritics.size > 0
@@ -233,6 +241,8 @@ export function contractedPsiUppercase(
     return undefined;
   }
 
-  if (pi.uppercase) return true;
-  return sigma.uppercase ? undefined : false;
+  const letter = SIGMA_CONTRACTIONS.get(mute.letter);
+  if (!letter || sigma.uppercase && !mute.uppercase) return undefined;
+
+  return { letter, uppercase: mute.uppercase };
 }
