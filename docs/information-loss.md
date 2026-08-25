@@ -58,9 +58,12 @@ Default transliteration has these intrinsic ambiguities:
 - with the default `nasalGamma: "nasal"`, Greek gamma and nu before a velar can
   both be read as nasal gamma after transliteration.
 
-The `coronis: "apostrophe"` and `coronis: "greek"` policies make the mark
-visible for readers, but the transliteration parser treats those spacing marks
-as punctuation. They are display policies, not a lossless interchange syntax.
+The `coronis: "apostrophe"` policy makes the mark visible for readers, but
+U+2019 remains punctuation and does not retain semantic provenance. By
+contrast, `coronis: "greek"` emits U+1FBD immediately after the affected vowel;
+the transliteration parser recognizes that scalar as a coronis in precisely
+that position. This provides a lossless interchange spelling for implemented
+coronis contexts without guessing from ordinary apostrophes.
 
 ### Canonical Greek orthography
 
@@ -94,6 +97,8 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `dentalSigma: "assimilate"` | Deletes `τ`, `δ`, or `θ` before sigma in Greek output | No |
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
 | `coronis: "omit"` (default) | Omits coronis from transliteration | No |
+| `coronis: "apostrophe"` | Emits U+2019 as display punctuation | No |
+| `coronis: "greek"` | Emits semantic U+1FBD after the affected vowel | Yes for implemented coronis contexts |
 | `accentuation: "monotonic"` | Keeps diaeresis, maps every accent to acute, and removes other polytonic marks | No |
 | `modernDigraphs: "phonetic"` | Maps word-initial `μπ/ντ` to `b/d` in transliteration | No; `b/d` are also canonical spellings of beta/delta |
 | `modernDigraphs: "ala-lc"` | Maps initial `μπ/ντ` to `b/d̲` and contextual `γκ` to `gk/nk` | Yes with the coordinated ALA-LC letter options; `d̲` remains distinct from delta |
@@ -112,7 +117,8 @@ removable diacritics.
 
 ## Stability guarantee
 
-For canonical output and a fixed option set, every format is idempotent:
+For canonical output and one fixed, resolved option set, every format is
+idempotent:
 
 ```ts
 const once = convert(input, from, to, options);
@@ -121,10 +127,13 @@ const twice = convert(once, to, to, options);
 once === twice;
 ```
 
-This is a stability guarantee, not a claim that the original source can be
-reconstructed. The differential corpus and explicit loss cases live in
-`tests/fixtures.ts`; pairwise stability is exercised by
-`tests/stability_test.ts`.
+The first conversion may canonicalize aliases, mark order, punctuation, case,
+spacing, or a deliberately lossy option. Reapplying the same options to that
+canonical target does not change it again. This fixed-point guarantee is not a
+reverse-round-trip guarantee and does not imply that the original source can
+be reconstructed. The differential corpus and explicit loss cases live in
+`tests/fixtures.ts`; pairwise stability and isolated non-default option values
+are exercised by `tests/stability_test.ts`.
 
 For an actual input, `convertDetailed()` returns the output, a `lossy` status,
 and token-indexed diagnostics. Its comparison treats canonical Unicode and

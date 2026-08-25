@@ -227,7 +227,7 @@ encode a breathing, they are rendered without an inferred one. The shared smooth
 mark is classified contextually as a breathing on an initial vowel group and as
 a coronis on an internal vowel. Greek and Beta Code preserve the coronis and the
 contracted crasis. Transliteration omits the coronis by default and therefore
-cannot reconstruct it.
+cannot reconstruct it unless `orthography.coronis` is set to `"greek"`.
 
 Final sigma recognizes Unicode spaces, line and paragraph separators, quotes,
 dashes, apostrophes, Greek punctuation, and zero-width space as word boundaries.
@@ -367,5 +367,11 @@ greekToTransliteration("κἀγώ", {
 });
 // ka᾽gṓ
 ```
+
+The U+1FBD spelling is also the semantic interchange form: when it immediately
+follows a transliterated vowel, the parser restores the coronis on that vowel.
+U+2019 remains ordinary punctuation, so `coronis: "apostrophe"` is intentionally
+display-only and lossy. An isolated U+1FBD is likewise treated as punctuation;
+the parser does not infer crasis from lexical or morphological knowledge.
 
 Run `deno task check` and `deno task test`.
