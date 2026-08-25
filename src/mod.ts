@@ -32,10 +32,13 @@ export type {
   ConversionResult,
 } from "./losses.ts";
 export type {
+  BetaTransliteration,
+  ChiTransliteration,
   ConversionOptions,
   CoronisOrthography,
   DentalSigmaOrthography,
   DoubleRhoOrthography,
+  EtaTransliteration,
   GreekAccentuation,
   GreekAcuteForm,
   GreekAnoTeleiaForm,
@@ -46,10 +49,12 @@ export type {
   NasalGammaOrthography,
   NumeralOrthography,
   OrthographyOptions,
+  PhiTransliteration,
   SigmaOrthography,
   UnicodeComposition,
   UpsilonOrthography,
   WhitespaceOrthography,
+  XiTransliteration,
 } from "./options.ts";
 export { applyGreekOrthography, applyOrthography } from "./orthography.ts";
 export {

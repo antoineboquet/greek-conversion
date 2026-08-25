@@ -18,7 +18,7 @@ import type { ConversionOptions } from "../options.ts";
 import { parsePunctuation } from "../punctuation.ts";
 import { Trie } from "../trie.ts";
 
-const TRIE = new Trie<Letter>([
+const CANONICAL_ENTRIES = [
   ...Object.entries(ALPHABET)
     .filter(([letter]) =>
       letter !== "eta" &&
@@ -34,7 +34,9 @@ const TRIE = new Trie<Letter>([
       ] as const
     ),
   ["y", "upsilon"] as const,
-]);
+] as const;
+
+const TRIE = new Trie<Letter>(CANONICAL_ENTRIES);
 
 export function parseTransliteration(
   input: string,
@@ -42,18 +44,21 @@ export function parseTransliteration(
 ): Document {
   const chars = Array.from(input.normalize("NFD"));
   const out: Token[] = [];
+  const trie = transliterationTrie(options);
 
   for (let i = 0; i < chars.length;) {
     let rough = false;
     let roughUppercase = false;
 
-    if (chars[i].toLowerCase() === "h" && startsVowel(chars, i + 1)) {
+    if (
+      chars[i].toLowerCase() === "h" && startsVowel(chars, i + 1, trie)
+    ) {
       rough = true;
       roughUppercase = chars[i] !== chars[i].toLowerCase();
       i++;
     }
 
-    const match = markedArchaicLetter(chars, i) ?? TRIE.longest(chars, i);
+    const match = markedArchaicLetter(chars, i) ?? trie.longest(chars, i);
 
     if (!match) {
       if (rough) out.push(literal(roughUppercase ? "H" : "h"));
@@ -121,6 +126,21 @@ export function parseTransliteration(
   return out;
 }
 
+function transliterationTrie(options: ConversionOptions): Trie<Letter> {
+  const variants: Array<readonly [string, Letter]> = [];
+  const orthography = options.orthography;
+
+  if (orthography?.beta === "v") variants.push(["v", "beta"]);
+  if (orthography?.eta === "ī") variants.push(["i\u0304", "eta"]);
+  if (orthography?.xi === "ks") variants.push(["ks", "xi"]);
+  if (orthography?.phi === "f") variants.push(["f", "phi"]);
+  if (orthography?.chi === "kh") variants.push(["kh", "chi"]);
+
+  return variants.length === 0
+    ? TRIE
+    : new Trie<Letter>([...CANONICAL_ENTRIES, ...variants]);
+}
+
 function markedArchaicLetter(
   chars: readonly string[],
   start: number,
@@ -170,8 +190,12 @@ function inferNasalGammas(tokens: Token[]) {
   }
 }
 
-function startsVowel(chars: readonly string[], start: number) {
-  const match = TRIE.longest(chars, start);
+function startsVowel(
+  chars: readonly string[],
+  start: number,
+  trie: Trie<Letter>,
+) {
+  const match = trie.longest(chars, start);
   return !!match && isVowel(match.value);
 }
 
@@ -232,4 +256,3 @@ function inferInitialBreathings(tokens: Token[]) {
     }
   }
 }
-

@@ -177,6 +177,17 @@ function transliterationBase(
   letter: Grapheme["letter"],
   options: ConversionOptions,
 ): string {
+  switch (letter) {
+    case "beta":
+      return options.orthography?.beta ?? "b";
+    case "xi":
+      return options.orthography?.xi ?? "x";
+    case "phi":
+      return options.orthography?.phi ?? "ph";
+    case "chi":
+      return options.orthography?.chi ?? "ch";
+  }
+
   if (letter === "upsilon") {
     switch (options.orthography?.upsilon) {
       case "y":
@@ -194,7 +205,7 @@ function transliterationBase(
   let base: string;
   switch (letter) {
     case "eta":
-      base = "e";
+      base = options.orthography?.eta === "ī" ? "i" : "e";
       break;
     case "omega":
       base = "o";

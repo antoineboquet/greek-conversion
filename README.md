@@ -117,8 +117,27 @@ convert("υ αυ ευ ου υι αϋ", "greek", "transliteration", {
 
 The contextual policy shares the canonical diphthong analysis used for
 breathings, so a diaeresis or iota subscript prevents grouping. Both `u` and
-`y` are accepted as input spellings for upsilon. Contextual nasal gamma is
-transliterated as `n` before gamma, kappa, xi, and chi by default. Before sigma, canonical Greek output contracts adjacent unmarked
+`y` are accepted as input spellings for upsilon. Other letter spellings can be
+selected independently with `beta: "v"`, `eta: "ī"`, `xi: "ks"`, `phi: "f"`,
+and `chi: "kh"`:
+
+```ts
+convert("βηξφχυ", "greek", "transliteration", {
+  orthography: {
+    beta: "v",
+    eta: "ī",
+    xi: "ks",
+    phi: "f",
+    chi: "kh",
+    upsilon: "y",
+  },
+}); // vīksfkhy
+```
+
+The selected spellings are also recognized on transliteration input. Selecting
+`eta: "ī"` necessarily interprets `ī` as eta rather than quantity-marked iota.
+Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi
+by default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental
 assimilation is opt-in because it deletes `τ`, `δ`, or `θ` before `σ`:
 

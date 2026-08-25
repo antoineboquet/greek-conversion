@@ -16,6 +16,11 @@ export type GreekAcuteForm = "system" | "tonos" | "oxia";
 export type GreekQuestionMarkForm = "canonical" | "semicolon" | "greek";
 export type GreekAnoTeleiaForm = "canonical" | "middle-dot" | "greek";
 export type WhitespaceOrthography = "preserve" | "collapse";
+export type BetaTransliteration = "b" | "v";
+export type EtaTransliteration = "ē" | "ī";
+export type XiTransliteration = "x" | "ks";
+export type PhiTransliteration = "ph" | "f";
+export type ChiTransliteration = "ch" | "kh";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -29,6 +34,11 @@ export interface OrthographyOptions {
   longVowels?: LongVowelOrthography;
   accentuation?: GreekAccentuation;
   whitespace?: WhitespaceOrthography;
+  beta?: BetaTransliteration;
+  eta?: EtaTransliteration;
+  xi?: XiTransliteration;
+  phi?: PhiTransliteration;
+  chi?: ChiTransliteration;
 }
 
 export interface GreekUnicodeOptions {

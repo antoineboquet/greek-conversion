@@ -98,6 +98,36 @@ Deno.test("applies the requested upsilon transliteration", () => {
   );
 });
 
+Deno.test("applies individual transliteration variants", () => {
+  const variants = {
+    orthography: {
+      beta: "v",
+      eta: "ī",
+      xi: "ks",
+      phi: "f",
+      chi: "kh",
+      upsilon: "y",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert("βήξφυχή", "greek", "transliteration", variants),
+    "vī́ksfykhī́",
+  );
+  assertNfcEquals(
+    convert("vī́ksfykhī́", "transliteration", "greek", variants),
+    "βήξφυχή",
+  );
+  assertNfcEquals(
+    convert("ΒΗΞΦΧΥ", "greek", "transliteration", variants),
+    "VĪKsFKhY",
+  );
+  assertNfcEquals(
+    convert("βηξφχυ", "greek", "transliteration"),
+    "bēxphchu",
+  );
+});
+
 Deno.test("applies the requested coronis transliteration", () => {
   assertNfcEquals(convert("κἀγώ", "greek", "transliteration"), "kagṓ");
   assertNfcEquals(
