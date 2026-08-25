@@ -75,12 +75,15 @@ Deno.test("GreekText detailed output shares the functional loss contract", () =>
   const text = new GreekText("ἄνθρωπος", "greek", options);
   const detailed = text.toDetailed("transliteration");
 
-  assertEquals(detailed, convertDetailed(
-    "ἄνθρωπος",
-    "greek",
-    "transliteration",
-    options,
-  ));
+  assertEquals(
+    detailed,
+    convertDetailed(
+      "ἄνθρωπος",
+      "greek",
+      "transliteration",
+      options,
+    ),
+  );
   assertEquals(detailed.output, "anthrōpos");
   assertEquals(detailed.lossy, true);
   assertEquals(

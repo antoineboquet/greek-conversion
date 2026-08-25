@@ -1,21 +1,31 @@
 import type { Diacritic, Document, Token } from "./model.ts";
 
+/** Machine-readable categories of information loss. */
 export type ConversionLossCode =
   | "changed-case"
   | "removed-diacritic"
   | "unrepresented-grapheme"
   | "unrepresented-literal";
 
+/** One source token distinction not retained by the rendered target. */
 export interface ConversionLoss {
+  /** Stable category suitable for programmatic handling. */
   code: ConversionLossCode;
+  /** Zero-based token index in the canonical source document. */
   index: number;
+  /** Human-readable English explanation. */
   message: string;
+  /** Removed semantic mark when {@link code} is `"removed-diacritic"`. */
   diacritic?: Diacritic;
 }
 
+/** Output and information-loss diagnostics returned by detailed conversion. */
 export interface ConversionResult {
+  /** Rendered target text. */
   output: string;
+  /** Whether at least one source distinction was lost. */
   lossy: boolean;
+  /** Structured losses in source-token order. */
   losses: readonly ConversionLoss[];
 }
 
@@ -89,7 +99,11 @@ function nextAlignment(
   let best: { source: number; target: number; distance: number } | undefined;
 
   for (let sourceIndex = sourceStart; sourceIndex < sourceEnd; sourceIndex++) {
-    for (let targetIndex = targetStart; targetIndex < targetEnd; targetIndex++) {
+    for (
+      let targetIndex = targetStart;
+      targetIndex < targetEnd;
+      targetIndex++
+    ) {
       if (sourceIndex === sourceStart && targetIndex === targetStart) continue;
       if (!preservesToken(source[sourceIndex], target[targetIndex])) continue;
 

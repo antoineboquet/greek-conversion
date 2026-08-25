@@ -5,15 +5,19 @@ import {
 } from "./encode.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
-import {
-  applyNumeralOrthography,
-  applyOrthography,
-} from "./orthography.ts";
+import { applyNumeralOrthography, applyOrthography } from "./orthography.ts";
 import { parseBetaCode } from "./parsers/beta_code.ts";
 import { parseGreek } from "./parsers/greek.ts";
 import { parseTransliteration } from "./parsers/transliteration.ts";
 import { resolveConversionOptions } from "./presets.ts";
 
+/**
+ * Parses one supported representation into the canonical document model.
+ *
+ * Unknown input is retained as literal tokens. Presets and custom options are
+ * resolved before parsing because some transliteration spellings are
+ * option-dependent.
+ */
 export function parse(
   input: string,
   format: Format,
@@ -30,6 +34,13 @@ export function parse(
   }
 }
 
+/**
+ * Encodes a canonical document in one supported representation.
+ *
+ * This function does not validate manually constructed documents. Call
+ * `validateDocument()` first when the document did not originate from
+ * {@link parse}.
+ */
 export function encode(
   document: Document,
   format: Format,

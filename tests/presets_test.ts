@@ -3,10 +3,10 @@ import {
   convert,
   convertDetailed,
   getPresetOptions,
-  parse,
   PRESETS,
   resolveConversionOptions,
 } from "../src/mod.ts";
+import { parse } from "../src/document.ts";
 import { assertNfcEquals } from "./assertions.ts";
 
 Deno.test("exposes the complete stable preset identifiers", () => {

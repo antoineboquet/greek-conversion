@@ -1,4 +1,5 @@
-import { convert, encode } from "../src/mod.ts";
+import { convert } from "../src/mod.ts";
+import { encode } from "../src/document.ts";
 import { grapheme } from "../src/model.ts";
 import { assertNfcEquals } from "./assertions.ts";
 

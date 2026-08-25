@@ -25,9 +25,7 @@ Deno.test("canonical equivalences are reported as lossless", () => {
 Deno.test("every documented lossy conversion is detected", async (t) => {
   for (const conversion of LOSSY_CONVERSIONS) {
     await t.step(conversion.name, () => {
-      const options = "options" in conversion
-        ? conversion.options
-        : undefined;
+      const options = "options" in conversion ? conversion.options : undefined;
       const result = convertDetailed(
         conversion.source,
         conversion.sourceFormat,

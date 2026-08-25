@@ -1,14 +1,6 @@
 import { assertEquals } from "@std/assert";
-import {
-  type ConversionOptions,
-  convert,
-  type Format,
-} from "../src/mod.ts";
-import {
-  EQUIVALENCES,
-  FORMATS,
-  valueFor,
-} from "./fixtures.ts";
+import { type ConversionOptions, convert, type Format } from "../src/mod.ts";
+import { EQUIVALENCES, FORMATS, valueFor } from "./fixtures.ts";
 
 interface OptionProfile {
   name: string;

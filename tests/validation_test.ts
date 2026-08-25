@@ -1,12 +1,13 @@
 import { assertEquals } from "@std/assert";
 import {
   type Diacritic,
+  grapheme,
   type Letter,
+  literal,
   parse,
   validateDocument,
   type ValidationCode,
-} from "../src/mod.ts";
-import { grapheme, literal } from "../src/model.ts";
+} from "../src/document.ts";
 import { EQUIVALENCES, FORMATS, valueFor } from "./fixtures.ts";
 
 interface InvalidCase {
@@ -121,4 +122,3 @@ Deno.test("validation is pure", () => {
 
   assertEquals(document[0].diacritics, before);
 });
-

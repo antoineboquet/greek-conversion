@@ -1,5 +1,7 @@
+/** Text representations understood by the conversion engine. */
 export type Format = "greek" | "beta-code" | "transliteration";
 
+/** Semantic Greek letters represented by a canonical grapheme. */
 export type Letter =
   | "alpha"
   | "beta"
@@ -32,6 +34,7 @@ export type Letter =
   | "archaic-koppa"
   | "sampi";
 
+/** Semantic diacritics represented independently from Unicode spelling. */
 export type Diacritic =
   | "smooth"
   | "coronis"
@@ -44,22 +47,33 @@ export type Diacritic =
   | "macron"
   | "breve";
 
+/** One canonical Greek letter with case and semantic diacritics. */
 export interface Grapheme {
+  /** Discriminant distinguishing Greek graphemes from literal tokens. */
   kind: "grapheme";
+  /** Semantic Greek letter. */
   letter: Letter;
+  /** Whether the letter is uppercase. */
   uppercase: boolean;
+  /** Semantic marks; validate manually modified sets before encoding. */
   diacritics: Set<Diacritic>;
 }
 
+/** Uninterpreted text preserved verbatim between recognized graphemes. */
 export interface Literal {
+  /** Discriminant distinguishing literal text from Greek graphemes. */
   kind: "literal";
+  /** Preserved literal value. */
   value: string;
 }
 
+/** A semantic Greek grapheme or preserved literal text. */
 export type Token = Grapheme | Literal;
 
+/** Ordered canonical representation shared by every parser and encoder. */
 export type Document = readonly Token[];
 
+/** Creates a canonical Greek grapheme. */
 export const grapheme = (
   letter: Letter,
   uppercase = false,
@@ -71,5 +85,5 @@ export const grapheme = (
   diacritics: new Set(diacritics),
 });
 
+/** Creates a literal token whose value is preserved by conversion. */
 export const literal = (value: string): Literal => ({ kind: "literal", value });
-

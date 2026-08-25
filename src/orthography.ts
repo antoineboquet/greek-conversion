@@ -1,8 +1,4 @@
-import {
-  ARISTERI_KERAIA,
-  DEXIA_KERAIA,
-  isWordInitial,
-} from "./context.ts";
+import { ARISTERI_KERAIA, DEXIA_KERAIA, isWordInitial } from "./context.ts";
 import { literal } from "./model.ts";
 import type { Diacritic, Document, Grapheme, Letter, Token } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
@@ -59,6 +55,14 @@ export function applyOrthography(
   });
 }
 
+/**
+ * Applies Greek-output orthography to a canonical document without mutation.
+ *
+ * The monotonic policy is mechanical and lossy: it preserves diaeresis,
+ * collapses acute/grave/circumflex to one acute, and removes breathings,
+ * coronis, iota subscript, and explicit quantity. It does not use lexical or
+ * morphological knowledge.
+ */
 export function applyGreekOrthography(
   document: Document,
   options: ConversionOptions = {},

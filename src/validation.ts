@@ -1,6 +1,7 @@
 import type { Diacritic, Document, Grapheme, Letter } from "./model.ts";
 import { initialBreathingStart } from "./context.ts";
 
+/** Machine-readable categories emitted by canonical-document validation. */
 export type ValidationCode =
   | "conflicting-accents"
   | "conflicting-breathings"
@@ -15,9 +16,13 @@ export type ValidationCode =
   | "invalid-iota-subscript"
   | "invalid-quantity";
 
+/** One structural problem found in a canonical document. */
 export interface ValidationDiagnostic {
+  /** Stable category suitable for programmatic handling. */
   code: ValidationCode;
+  /** Zero-based token index in the validated document. */
   index: number;
+  /** Human-readable English explanation. */
   message: string;
 }
 
@@ -44,6 +49,12 @@ const ACCENTS = ["acute", "grave", "circumflex"] as const;
 const BREATHINGS = ["smooth", "rough"] as const;
 const QUANTITIES = ["macron", "breve"] as const;
 
+/**
+ * Reports structurally invalid combinations without modifying the document.
+ *
+ * Parsed documents are normally valid. This helper is primarily intended for
+ * documents constructed or modified through the advanced `./document` API.
+ */
 export function validateDocument(
   document: Document,
 ): readonly ValidationDiagnostic[] {
@@ -187,4 +198,3 @@ function add(
 ): void {
   diagnostics.push({ code, index, message });
 }
-

@@ -1,9 +1,6 @@
-import type {
-  ConversionOptions,
-  DiacriticOptions,
-  Preset,
-} from "./options.ts";
+import type { ConversionOptions, DiacriticOptions, Preset } from "./options.ts";
 
+/** Resolved conversion options without a recursive preset marker. */
 export type PresetOptions = Omit<ConversionOptions, "preset">;
 
 const OMIT_NON_ROUGH_DIACRITICS = {
@@ -66,16 +63,28 @@ const PRESET_OPTIONS = {
   "bnf-core": {},
 } as const satisfies Record<Preset, PresetOptions>;
 
-export const PRESETS = Object.freeze(
+/** Stable list of bundled preset identifiers. */
+export const PRESETS: readonly Preset[] = Object.freeze(
   Object.keys(PRESET_OPTIONS) as Preset[],
 );
 
-/** Returns a detached copy so callers cannot mutate the preset registry. */
+/**
+ * Returns a detached copy of one bundled preset configuration.
+ *
+ * @throws {RangeError} If the identifier is not registered at runtime.
+ */
 export function getPresetOptions(preset: Preset): PresetOptions {
   return mergeConversionOptions({}, registeredPreset(preset));
 }
 
-/** Resolves defaults < preset < custom options and removes the preset marker. */
+/**
+ * Merges one preset with custom options and removes the preset marker.
+ *
+ * Custom fields override corresponding preset fields while unrelated preset
+ * fields remain active. The returned object is detached from the registry.
+ *
+ * @throws {RangeError} If `options.preset` is not registered at runtime.
+ */
 export function resolveConversionOptions(
   options: ConversionOptions = {},
 ): PresetOptions {
@@ -125,10 +134,8 @@ function mergeGroup<T extends object>(
 ): T | undefined {
   if (base === undefined && overrides === undefined) return undefined;
 
-  const definedOverrides = overrides === undefined
-    ? {}
-    : Object.fromEntries(
-      Object.entries(overrides).filter(([, value]) => value !== undefined),
-    );
+  const definedOverrides = overrides === undefined ? {} : Object.fromEntries(
+    Object.entries(overrides).filter(([, value]) => value !== undefined),
+  );
   return { ...base, ...definedOverrides } as T;
 }

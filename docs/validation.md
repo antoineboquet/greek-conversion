@@ -26,7 +26,11 @@ Applications that require valid canonical Greek should make the stages
 explicit:
 
 ```ts
-import { encode, parse, validateDocument } from "./src/mod.ts";
+import {
+  encode,
+  parse,
+  validateDocument,
+} from "@humanities/greek-conversion/document";
 
 const document = parse(input, sourceFormat, options);
 const diagnostics = validateDocument(document);

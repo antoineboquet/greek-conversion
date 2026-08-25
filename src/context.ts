@@ -274,4 +274,3 @@ export function contractedSigma(
 
   return { letter, uppercase: mute.uppercase };
 }
-

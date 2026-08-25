@@ -2,13 +2,12 @@ import { assertEquals } from "@std/assert";
 import {
   betaCodeToGreek,
   betaCodeToTransliteration,
-  encode,
   greekToBetaCode,
   greekToTransliteration,
-  parse,
   transliterationToBetaCode,
   transliterationToGreek,
 } from "../src/mod.ts";
+import { encode, parse } from "../src/document.ts";
 import { assertNfcEquals } from "./assertions.ts";
 import { EQUIVALENCES, FORMATS, valueFor } from "./fixtures.ts";
 

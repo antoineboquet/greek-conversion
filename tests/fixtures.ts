@@ -70,8 +70,7 @@ export const EQUIVALENCES = [
     greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
     betaCode:
       "E)n a)rxh=| h)=n o( lo/gos, kai\\ o( lo/gos h)=n pro\\s to\\n qeo/n.",
-    transliteration:
-      "En archȩ̄̃ ē̃n ho lógos, kaì ho lógos ē̃n pròs tòn theón.",
+    transliteration: "En archȩ̄̃ ē̃n ho lógos, kaì ho lógos ē̃n pròs tòn theón.",
   },
   // Sappho, fragment 31.1.
   {

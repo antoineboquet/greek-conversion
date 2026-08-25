@@ -1,11 +1,10 @@
 import { assertEquals } from "@std/assert";
 import {
-  applyGreekOrthography,
   convert,
   formatGreekUnicode,
-  parse,
   toUnicodeCodePoints,
 } from "../src/mod.ts";
+import { applyGreekOrthography, parse } from "../src/document.ts";
 
 const POLYTONIC = { orthography: { accentuation: "polytonic" } } as const;
 const MONOTONIC = { orthography: { accentuation: "monotonic" } } as const;

@@ -28,8 +28,9 @@ export function applyGreekUnicode(
   let output = input.normalize(composition === "decomposed" ? "NFD" : "NFC");
 
   if (composition === "composed" && acuteForm(options) === "oxia") {
-    output = Array.from(output, (character) =>
-      TONOS_TO_OXIA.get(character) ?? character
+    output = Array.from(
+      output,
+      (character) => TONOS_TO_OXIA.get(character) ?? character,
     ).join("");
   }
 
@@ -43,6 +44,13 @@ export function applyGreekUnicode(
   return output;
 }
 
+/**
+ * Returns one uppercase `U+...` label for each Unicode scalar value in input.
+ *
+ * Supplementary characters are reported as one code point rather than two
+ * UTF-16 code units. The input is inspected exactly as supplied and is not
+ * normalized.
+ */
 export function toUnicodeCodePoints(input: string): readonly string[] {
   return Array.from(input, (character) => {
     const value = character.codePointAt(0);

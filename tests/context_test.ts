@@ -1,4 +1,5 @@
-import { convert, encode, greekToBetaCode } from "../src/mod.ts";
+import { convert, greekToBetaCode } from "../src/mod.ts";
+import { encode } from "../src/document.ts";
 import { grapheme } from "../src/model.ts";
 import { assertNfcEquals } from "./assertions.ts";
 

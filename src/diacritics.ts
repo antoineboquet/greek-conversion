@@ -68,16 +68,14 @@ export function prepareDiacriticsForRendering(
   if (!removesAnyMark) return document;
 
   const rendered: Token[] = document.map((token) =>
-    token.kind === "literal"
-      ? token
-      : {
-        ...token,
-        diacritics: new Set(
-          [...token.diacritics].filter((mark) =>
-            preservesDiacritic(mark, options)
-          ),
+    token.kind === "literal" ? token : {
+      ...token,
+      diacritics: new Set(
+        [...token.diacritics].filter((mark) =>
+          preservesDiacritic(mark, options)
         ),
-      }
+      ),
+    }
   );
 
   normalizeInitialDiphthongBreathings(rendered);

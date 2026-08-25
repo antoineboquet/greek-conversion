@@ -50,4 +50,3 @@ export class Trie<T> {
     return result;
   }
 }
-

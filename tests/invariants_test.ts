@@ -1,14 +1,16 @@
 import { assertEquals } from "@std/assert";
 import { ALPHABET } from "../src/alphabet.ts";
+import type { Format } from "../src/mod.ts";
 import {
-  applyOrthography,
+  type Document,
   encode,
-  type Format,
   type Grapheme,
+  grapheme,
   type Letter,
+  literal,
   parse,
-} from "../src/mod.ts";
-import { type Document, grapheme, literal } from "../src/model.ts";
+} from "../src/document.ts";
+import { applyOrthography } from "../src/orthography.ts";
 
 const FORMATS = ["greek", "beta-code", "transliteration"] as const;
 const CASES = [false, true] as const;
