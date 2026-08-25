@@ -2,5 +2,8 @@
   "tasks": {
     "check": "deno lint && deno check src/mod.ts tests/conversion_test.ts",
     "test": "deno test"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.19"
   }
 }

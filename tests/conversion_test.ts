@@ -1,6 +1,33 @@
-import{betaCodeToGreek,betaCodeToTransliteration,greekToBetaCode,greekToTransliteration,transliterationToBetaCode,transliterationToGreek}from'../src/mod.ts';
-const eq=(actual:unknown,expected:unknown)=>{if(actual!==expected)throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)};
-Deno.test('Greek and Beta Code',()=>{eq(greekToBetaCode('ἄνθρωπος'),'a)/nqrwpos');eq(betaCodeToGreek('a)/nqrwpos'),'ἄνθρωπος');eq(greekToBetaCode('Ἄϊδα'),'A)/i+da')});
-Deno.test('Greek and transliteration',()=>{eq(greekToTransliteration('ἄνθρωπος'),'ánthrōpos'.normalize('NFC'));eq(transliterationToGreek('ánthrōpos'.normalize('NFC')),'ἄνθρωπος');eq(greekToTransliteration('Ῥόδος'),'Rhódos')});
-Deno.test('Beta Code and transliteration',()=>{eq(betaCodeToTransliteration('a)/nqrwpos'),'ánthrōpos'.normalize('NFC'));eq(transliterationToBetaCode('ánthrōpos'.normalize('NFC')),'a)/nqrwpos')});
-Deno.test('preserves literals',()=>eq(transliterationToGreek('logos 🙂 123'),'λογος 🙂 123'));
+import { assertEquals } from "@std/assert";
+import {
+  betaCodeToGreek,
+  betaCodeToTransliteration,
+  greekToBetaCode,
+  greekToTransliteration,
+  transliterationToBetaCode,
+  transliterationToGreek,
+} from "../src/mod.ts";
+
+Deno.test("Greek and Beta Code", () => {
+  assertEquals(greekToBetaCode("ἄνθρωπος"), "a)/nqrwpos");
+  assertEquals(betaCodeToGreek("a)/nqrwpos"), "ἄνθρωπος");
+
+  assertEquals(greekToBetaCode("Ἄϊδα"), "A)/i+da");
+  assertEquals(betaCodeToGreek("A)/i+da"), "Ἄϊδα");
+});
+
+Deno.test("Greek and transliteration", () => {
+  assertEquals(greekToTransliteration("ἄνθρωπος"), "ánthrōpos".normalize("NFC"));
+  assertEquals(transliterationToGreek("ánthrōpos"), "ἄνθρωπος");
+
+  assertEquals(greekToTransliteration("Ῥόδος"), "Rhódos".normalize("NFC"));
+  assertEquals(transliterationToGreek("Rhódos"), "Ῥόδος");
+});
+
+Deno.test("Beta Code and transliteration", () => {
+  assertEquals(betaCodeToTransliteration("a)/nqrwpos"), "ánthrōpos".normalize("NFC"));
+  assertEquals(transliterationToBetaCode("ánthrōpos"), "a)/nqrwpos");
+});
+
+Deno.test("preserves literals", () =>
+  assertEquals(transliterationToGreek("logos 🙂 123"), "λογος 🙂 123"));
