@@ -42,26 +42,31 @@ const EQUIVALENCES = [
   },
 ] as const satisfies readonly Equivalence[];
 
+function assertNfcEquals(actual: string, expected: string): void {
+  assertEquals(actual, actual.normalize("NFC"), "Output must be NFC");
+  assertEquals(actual, expected.normalize("NFC"));
+}
+
 Deno.test("Greek and Beta Code", () => {
   for (const { greek, betaCode } of EQUIVALENCES) {
-    assertEquals(greekToBetaCode(greek), betaCode);
-    assertEquals(betaCodeToGreek(betaCode), greek);
+    assertNfcEquals(greekToBetaCode(greek), betaCode);
+    assertNfcEquals(betaCodeToGreek(betaCode), greek);
   }
 });
 
 Deno.test("Greek and transliteration", () => {
   for (const { greek, transliteration } of EQUIVALENCES) {
-    assertEquals(greekToTransliteration(greek), transliteration);
-    assertEquals(transliterationToGreek(transliteration), greek);
+    assertNfcEquals(greekToTransliteration(greek), transliteration);
+    assertNfcEquals(transliterationToGreek(transliteration), greek);
   }
 });
 
 Deno.test("Beta Code and transliteration", () => {
   for (const { betaCode, transliteration } of EQUIVALENCES) {
-    assertEquals(betaCodeToTransliteration(betaCode), transliteration);
-    assertEquals(transliterationToBetaCode(transliteration), betaCode);
+    assertNfcEquals(betaCodeToTransliteration(betaCode), transliteration);
+    assertNfcEquals(transliterationToBetaCode(transliteration), betaCode);
   }
 });
 
 Deno.test("preserves literals", () =>
-  assertEquals(transliterationToGreek("logos 🙂 123"), "λογος 🙂 123"));
+  assertNfcEquals(transliterationToGreek("logos 🙂 123"), "λογος 🙂 123"));
