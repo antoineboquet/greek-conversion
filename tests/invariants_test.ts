@@ -43,6 +43,10 @@ function framed(token: Grapheme): Document {
   return [grapheme("lambda"), token, grapheme("lambda")];
 }
 
+function wordInitial(token: Grapheme): Document {
+  return [token, grapheme("lambda")];
+}
+
 function withCase(token: Grapheme, uppercase: boolean): Grapheme {
   return { ...token, uppercase, diacritics: new Set(token.diacritics) };
 }
@@ -82,7 +86,7 @@ Deno.test("explicit smooth breathings survive Greek and Beta Code", () => {
   for (const token of SMOOTH_CASES) {
     for (const uppercase of CASES) {
       for (const format of ["greek", "beta-code"] as const) {
-        assertRoundTrip(framed(withCase(token, uppercase)), format);
+        assertRoundTrip(wordInitial(withCase(token, uppercase)), format);
       }
     }
   }

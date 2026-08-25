@@ -101,7 +101,10 @@ Deno.test("invalid graphemes produce structured diagnostics", async (t) => {
       ]);
 
       assertEquals(diagnostics.map(({ code }) => code), [...invalid.codes]);
-      assertEquals(diagnostics.map(({ index }) => index), [1]);
+      assertEquals(
+        diagnostics.map(({ index }) => index),
+        invalid.codes.map(() => 1),
+      );
       assertEquals(
         diagnostics.every(({ message }) => message.length > 0),
         true,
