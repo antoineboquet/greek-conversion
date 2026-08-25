@@ -1,0 +1,101 @@
+# Greek accentuation and Unicode output
+
+Greek accentuation and Unicode representation are independent stages. The
+accentuation system changes the canonical document; Unicode options select how
+the resulting Greek text is encoded.
+
+## Accentuation systems
+
+Greek output is polytonic by default. Request the mechanical monotonic profile
+with `orthography.accentuation`:
+
+```ts
+convert("Ἄνθρωπὸς ᾆ ῑ", "greek", "greek", {
+  orthography: { accentuation: "monotonic" },
+}); // Άνθρωπός ά ι
+```
+
+The monotonic transform:
+
+- preserves diaeresis;
+- maps acute, grave, and circumflex to acute;
+- removes smooth and rough breathings, coronis, iota subscript, macron, and
+  breve;
+- does not apply lexical rules such as suppressing stress on particular
+  monosyllables.
+
+It is applied only when the target format is Greek. Beta Code and
+transliteration retain the source document's polytonic distinctions. The
+transform is intentionally lossy and cannot reconstruct the source
+accentuation.
+
+## Composed and decomposed output
+
+Greek output is composed by default. Set `unicode.composition` to
+`"decomposed"` to emit canonical base letters and combining marks:
+
+```ts
+convert("ἄ", "greek", "greek", {
+  unicode: { composition: "decomposed" },
+}); // U+03B1 U+0313 U+0301
+```
+
+`"composed"` describes the intended structure, not a guarantee that the final
+string is NFC. Oxia and explicitly requested Greek punctuation have canonical
+singleton decompositions and are therefore not stable under NFC.
+
+## Tonos and oxia
+
+`unicode.acute` accepts `"system"`, `"tonos"`, and `"oxia"`. The default
+`"system"` policy selects oxia for polytonic output and tonos for monotonic
+output:
+
+```ts
+convert("ά", "greek", "greek");
+// ά — U+1F71 GREEK SMALL LETTER ALPHA WITH OXIA
+
+convert("ά", "greek", "greek", {
+  orthography: { accentuation: "monotonic" },
+});
+// ά — U+03AC GREEK SMALL LETTER ALPHA WITH TONOS
+```
+
+An explicit value overrides the system preference. It applies only where
+Unicode provides alternative composed scalars. Polytonic combinations such as
+`ἄ` have no corresponding precomposed “with tonos” character and remain
+unchanged. In decomposed output both preferences converge to U+0301 COMBINING
+ACUTE ACCENT.
+
+## Greek punctuation scalars
+
+Unicode normalization maps U+037E GREEK QUESTION MARK to U+003B SEMICOLON and
+U+0387 GREEK ANO TELEIA to U+00B7 MIDDLE DOT. The canonical forms remain the
+default. Exact Greek scalars can be requested after composition:
+
+```ts
+formatGreekUnicode("ά;·", {
+  acute: "oxia",
+  questionMark: "greek",
+  anoTeleia: "greek",
+}); // ά;·
+```
+
+The alternatives are `"semicolon"` and `"middle-dot"`; `"canonical"` is the
+default for both punctuation policies.
+
+`formatGreekUnicode()` parses its input as Greek and delegates to the same
+encoder as `convert()`. It therefore applies semantic Greek punctuation rules
+instead of blind character replacement.
+
+## Code-point inspection
+
+`toUnicodeCodePoints()` reports Unicode scalar values without modifying or
+normalizing its input:
+
+```ts
+toUnicodeCodePoints("ά;😀");
+// ["U+1F71", "U+037E", "U+1F600"]
+```
+
+Supplementary characters are returned as one code point, not as two UTF-16
+code units.

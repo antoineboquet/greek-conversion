@@ -22,7 +22,7 @@ the row format to the column format and parsing the result again.
 
 | From \ To | Greek | Beta Code | Transliteration |
 | --- | --- | --- | --- |
-| **Greek** | Canonical glyphs, punctuation, mark order, and NFC; unmarked labial/velar + sigma pairs contract | Canonical spelling and mark order only for canonical documents | Coronis; explicitly marked double rho; smooth breathing on an initial quantity-marked vowel; `ν` before a velar under nasal-gamma inference |
+| **Greek** | Selected glyph, accent, punctuation, and composition policies; unmarked labial/velar + sigma pairs contract | Canonical spelling and mark order only for canonical documents | Coronis; explicitly marked double rho; smooth breathing on an initial quantity-marked vowel; `ν` before a velar under nasal-gamma inference |
 | **Beta Code** | Canonical Greek glyphs; unmarked labial/velar + sigma pairs contract | Canonical case, mark order, aliases, and punctuation | Same transliteration losses as Greek, including coronis and marked double rho |
 | **Transliteration** | Initial smooth breathing is inferred where quantity is not explicit; labial/velar + sigma pairs contract; an elided mute may be aspirated before rough breathing | Initial smooth breathing is inferred where quantity is not explicit; accepted aliases converge to canonical Beta Code | Accepted aliases, punctuation, combining-mark order, NFC, and orthographic spelling converge |
 
@@ -33,8 +33,9 @@ the row format to the column format and parsing the result again.
 
 ### Canonical spelling and Unicode
 
-All recognized output has one canonical spelling. Greek and transliteration
-output are NFC. Accepted aliases therefore do not round-trip byte for byte:
+All recognized output has a selected spelling. Transliteration is NFC. Greek is
+composed by default, but the system polytonic acute prefers oxia and is therefore
+not necessarily NFC. Accepted aliases do not round-trip byte for byte:
 
 - Greek lunate sigma and medial beta aliases become the selected output glyphs;
 - Unicode punctuation aliases become the canonical punctuation for the target;
@@ -91,6 +92,10 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `dentalSigma: "assimilate"` | Deletes `τ`, `δ`, or `θ` before sigma in Greek output | No |
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
 | `coronis: "omit"` (default) | Omits coronis from transliteration | No |
+| `accentuation: "monotonic"` | Keeps diaeresis, maps every accent to acute, and removes other polytonic marks | No |
+| `composition: "decomposed"` | Emits Greek letters and marks as canonical decomposed sequences | Yes, unless combined with another lossy policy |
+| `acute: "tonos"` or `"oxia"` | Selects an eligible composed acute scalar | The accent is recoverable; its scalar preference is not |
+| Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
 | `doubleRho`, `medialBeta`, `sigma`, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but the source spelling/policy does not |
 
 `removeDiacritics` is applied during encoding, after contextual analysis. It

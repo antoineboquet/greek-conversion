@@ -4,13 +4,35 @@ A deterministic conversion engine for polytonic Greek, Beta Code and scientific
 transliteration.
 
 The engine separates parsers, a canonical grapheme model, and encoders. It
-supports every direction between the three formats, uses one canonical spelling
-per output format, normalizes output to NFC, and preserves unknown characters.
+supports every direction between the three formats, uses one selected spelling
+per output format, and preserves unknown characters. Beta Code and
+transliteration have canonical output spellings. Greek output has explicit
+[accentuation and Unicode policies](docs/greek-unicode.md), including
+polytonic/monotonic conversion, tonos/oxia, composition, and Greek punctuation
+scalars.
 
 The formal [information-loss contract](docs/information-loss.md) distinguishes
 canonicalization, representation loss, and option-induced loss for every format
 pair. [Validation](docs/validation.md) deliberately remains a separate,
 diagnostic step over the canonical document rather than a mode of `convert()`.
+
+Greek output is polytonic and composed by default. Its system acute policy uses
+oxia; monotonic output uses tonos:
+
+```ts
+convert("Ἄνθρωπὸς ᾆ", "greek", "greek", {
+  orthography: { accentuation: "monotonic" },
+}); // Άνθρωπός ά
+
+formatGreekUnicode("ά;·", {
+  acute: "oxia",
+  questionMark: "greek",
+  anoTeleia: "greek",
+}); // ά;·
+
+toUnicodeCodePoints("ά;😀");
+// ["U+1F71", "U+037E", "U+1F600"]
+```
 
 Set `removeDiacritics` to `true` to remove the canonical diacritics before
 encoding any output format:
@@ -151,7 +173,9 @@ intentionally lossy and is not expanded back into Greek alphabetic notation.
 import {
   betaCodeToGreek,
   convert,
+  formatGreekUnicode,
   greekToTransliteration,
+  toUnicodeCodePoints,
   transliterationToGreek,
 } from "./src/mod.ts";
 
