@@ -31,6 +31,9 @@ await build({
   declarationMap: true,
   typeCheck: "single",
   test: false,
+  compilerOptions: {
+    target: "ES2022",
+  },
   shims: {},
   package: {
     name: "greek-conversion",
