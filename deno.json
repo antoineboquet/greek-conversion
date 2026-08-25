@@ -1,8 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch src/main.ts"
-  },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "check": "deno lint && deno check src/mod.ts tests/conversion_test.ts",
+    "test": "deno test"
   }
 }
