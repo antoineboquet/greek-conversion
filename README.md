@@ -7,6 +7,29 @@ The engine separates parsers, a canonical grapheme model, and encoders. It
 supports every direction between the three formats, uses one canonical spelling
 per output format, normalizes output to NFC, and preserves unknown characters.
 
+Set `removeDiacritics` to `true` to remove the canonical diacritics before
+encoding any output format:
+
+```ts
+convert("ἄνθρωπος ᾆ ῑ", "greek", "transliteration", {
+  removeDiacritics: true,
+}); // anthrōpos a i
+```
+
+The public helper applies the same operation separately:
+
+```ts
+removeDiacritics("a)/nqrwpos a)=| i&", "beta-code");
+// anqrwpos a i
+```
+
+Accents, breathings, coronides, diaereses, explicit quantities, and iota
+subscripts are removed. Structural marks required to identify a letter are
+retained: `ē/ō`, `c̄/s̄`, and `ḳ` therefore remain distinct from
+`e/o`, `c/s`, and `k`. The helper accepts the same optional orthography
+settings as conversion functions and otherwise returns the canonical spelling
+of the selected format.
+
 Structural long vowels in transliteration use macrons by default (`η → ē`,
 `ω → ō`). The output policy can instead distinguish the raw Greek letter with a
 circumflex, optionally retaining a macron as an explicit philological quantity

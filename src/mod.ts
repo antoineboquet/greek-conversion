@@ -3,6 +3,7 @@ import {
   encodeGreek,
   encodeTransliteration,
 } from "./encode.ts";
+import { stripDiacritics } from "./diacritics.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import { applyNumeralOrthography, applyOrthography } from "./orthography.ts";
@@ -63,9 +64,12 @@ export function encode(
   format: Format,
   options: ConversionOptions = {},
 ): string {
-  const prepared = format === "transliteration"
+  const orthographic = format === "transliteration"
     ? applyNumeralOrthography(document, options)
     : applyOrthography(document, options);
+  const prepared = options.removeDiacritics
+    ? stripDiacritics(orthographic)
+    : orthographic;
 
   switch (format) {
     case "greek":
@@ -75,6 +79,17 @@ export function encode(
     case "transliteration":
       return encodeTransliteration(prepared, options);
   }
+}
+
+export function removeDiacritics(
+  input: string,
+  format: Format,
+  options: ConversionOptions = {},
+): string {
+  return encode(parse(input, format, options), format, {
+    ...options,
+    removeDiacritics: true,
+  });
 }
 
 export const convert = (

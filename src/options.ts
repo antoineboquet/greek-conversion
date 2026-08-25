@@ -25,4 +25,5 @@ export interface OrthographyOptions {
 
 export interface ConversionOptions {
   orthography?: OrthographyOptions;
+  removeDiacritics?: boolean;
 }
