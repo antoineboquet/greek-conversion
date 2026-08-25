@@ -81,3 +81,30 @@ Deno.test("applies the requested coronis transliteration", () => {
     "ánthrōpos",
   );
 });
+
+Deno.test("applies lunate sigma orthography on demand", () => {
+  const lunate = { orthography: { sigma: "lunate" } } as const;
+
+  assertNfcEquals(convert("σος ΣΟΣ", "greek", "greek"), "σος ΣΟΣ");
+  assertNfcEquals(
+    convert("σος ΣΟΣ", "greek", "greek", lunate),
+    "ϲοϲ ϹΟϹ",
+  );
+  assertNfcEquals(
+    convert("σος ΣΟΣ", "greek", "beta-code", lunate),
+    "S3oS3 *S3O*S3",
+  );
+  assertNfcEquals(
+    convert("S3oS3 *S3O*S3", "beta-code", "greek"),
+    "σος ΣΟΣ",
+  );
+  assertNfcEquals(
+    convert("S3oS3 *S3O*S3", "beta-code", "greek", lunate),
+    "ϲοϲ ϹΟϹ",
+  );
+  assertNfcEquals(
+    convert("sos", "transliteration", "greek", lunate),
+    "ϲοϲ",
+  );
+  assertNfcEquals(convert("ϲοϲ", "greek", "transliteration"), "sos");
+});

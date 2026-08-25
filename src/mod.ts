@@ -26,6 +26,7 @@ export type {
   MedialBetaOrthography,
   NasalGammaOrthography,
   OrthographyOptions,
+  SigmaOrthography,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
 export type { ValidationCode, ValidationDiagnostic } from "./validation.ts";
@@ -59,7 +60,7 @@ export function encode(
     case "greek":
       return encodeGreek(prepared, options);
     case "beta-code":
-      return encodeBetaCode(prepared);
+      return encodeBetaCode(prepared, options);
     case "transliteration":
       return encodeTransliteration(prepared, options);
   }

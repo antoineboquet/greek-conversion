@@ -54,6 +54,8 @@ export const EQUIVALENCES = [
 
 export const ACCEPTED_ALIASES = [
   { format: "greek", input: "βάρϐαρος", transliteration: "bárbaros" },
+  { format: "greek", input: "ϲοϲ", transliteration: "sos" },
+  { format: "beta-code", input: "S3oS3", transliteration: "sos" },
   { format: "greek", input: "πολύῤῥιζος", transliteration: "polúrrhizos" },
   {
     format: "beta-code",

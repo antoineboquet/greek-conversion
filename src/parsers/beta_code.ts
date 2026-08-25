@@ -25,6 +25,12 @@ export function parseBetaCode(input: string): Document {
       i++;
     }
 
+    if (chars[i]?.toLowerCase() === "s" && chars[i + 1] === "3") {
+      out.push(grapheme("sigma", upper));
+      i += 2;
+      continue;
+    }
+
     const additional = additionalCharacter(chars, i);
     if (additional) {
       out.push(grapheme(additional.letter, upper));

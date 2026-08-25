@@ -49,6 +49,7 @@ export const BY_GREEK = reverse("greek");
 export const BY_BETA = reverse("beta");
 
 BY_GREEK.set("ϐ", "beta");
+BY_GREEK.set("ϲ", "sigma");
 
 export const GREEK_MARKS = new Map<string, Diacritic>([
   ["\u0313", "smooth"],

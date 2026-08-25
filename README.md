@@ -29,6 +29,16 @@ Combining marks and the explicit join controls ZWNJ, ZWJ, and WORD JOINER are
 transparent, so they do not incorrectly turn a medial sigma into `ς`. The same
 boundary logic is shared with medial beta and other contextual rules.
 
+Lunate sigma is accepted as a Greek (`ϲ/Ϲ`) and TLG Beta Code (`S3/*S3`) input
+alias. Standard `σ/ς` output remains the default; request lunate output in Greek
+and Beta Code explicitly:
+
+```ts
+convert("σος", "greek", "greek", {
+  orthography: { sigma: "lunate" },
+}); // ϲοϲ
+```
+
 The archaic letters digamma (`ϝ`), stigma (`ϛ`), koppa (`ϟ`), archaic koppa
 (`ϙ`), and sampi (`ϡ`) are represented explicitly. Beta Code follows the TLG
 codes `v`, `#2`, `#1`, `#3`, and `#5`; transliteration uses `w`, `c̄`, `q`, `q`,
