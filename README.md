@@ -33,6 +33,25 @@ Loss is evaluated on canonical documents, so Unicode composition and glyph
 preferences are not destructive. See the formal
 [conversion-analysis contract](docs/conversion-analysis.md).
 
+Named conversion presets are available for ISO 843 Type 1, ancient and modern
+ALA-LC, academic and general SBL policies, `tlg-core`, and `bnf-core`:
+
+```ts
+convert("Βίος Μπάλα", "greek", "transliteration", {
+  preset: "ala-lc-modern",
+}); // Vios Bala
+
+convert("Βίος Μπάλα", "greek", "transliteration", {
+  preset: "ala-lc-modern",
+  orthography: { beta: "b" },
+}); // Bios Bala
+```
+
+Custom fields override the corresponding preset fields; unrelated preset fields
+remain active. Presets use the same parser, encoder, loss analysis, and
+idempotence contract as individual options. See the complete
+[preset contract and configuration table](docs/presets.md).
+
 Greek output is polytonic and composed by default. Its system acute policy uses
 oxia; monotonic output uses tonos:
 
