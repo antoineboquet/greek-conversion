@@ -125,11 +125,10 @@ function mergeGroup<T extends object>(
 ): T | undefined {
   if (base === undefined && overrides === undefined) return undefined;
 
-  const merged = { ...base } as T & Record<string, unknown>;
-  if (overrides !== undefined) {
-    for (const [key, value] of Object.entries(overrides)) {
-      if (value !== undefined) merged[key] = value;
-    }
-  }
-  return merged;
+  const definedOverrides = overrides === undefined
+    ? {}
+    : Object.fromEntries(
+      Object.entries(overrides).filter(([, value]) => value !== undefined),
+    );
+  return { ...base, ...definedOverrides } as T;
 }
