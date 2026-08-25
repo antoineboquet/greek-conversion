@@ -16,6 +16,23 @@ canonicalization, representation loss, and option-induced loss for every format
 pair. [Validation](docs/validation.md) deliberately remains a separate,
 diagnostic step over the canonical document rather than a mode of `convert()`.
 
+Use `convertDetailed()` when an application must know whether the actual input
+lost information:
+
+```ts
+const result = convertDetailed("ἄνθρωπος", "greek", "greek", {
+  orthography: { accentuation: "monotonic" },
+});
+
+result.output; // Άνθρωπος
+result.lossy; // true
+result.losses[0].code; // removed-diacritic
+```
+
+Loss is evaluated on canonical documents, so Unicode composition and glyph
+preferences are not destructive. See the formal
+[conversion-analysis contract](docs/conversion-analysis.md).
+
 Greek output is polytonic and composed by default. Its system acute policy uses
 oxia; monotonic output uses tonos:
 
@@ -173,6 +190,7 @@ intentionally lossy and is not expanded back into Greek alphabetic notation.
 import {
   betaCodeToGreek,
   convert,
+  convertDetailed,
   formatGreekUnicode,
   greekToTransliteration,
   toUnicodeCodePoints,

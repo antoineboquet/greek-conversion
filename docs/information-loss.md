@@ -118,3 +118,8 @@ This is a stability guarantee, not a claim that the original source can be
 reconstructed. The differential corpus and explicit loss cases live in
 `tests/fixtures.ts`; pairwise stability is exercised by
 `tests/stability_test.ts`.
+
+For an actual input, `convertDetailed()` returns the output, a `lossy` status,
+and token-indexed diagnostics. Its comparison treats canonical Unicode and
+deterministic additions as information-preserving. See the
+[conversion-analysis contract](conversion-analysis.md).
