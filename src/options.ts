@@ -15,6 +15,7 @@ export type UnicodeComposition = "composed" | "decomposed";
 export type GreekAcuteForm = "system" | "tonos" | "oxia";
 export type GreekQuestionMarkForm = "canonical" | "semicolon" | "greek";
 export type GreekAnoTeleiaForm = "canonical" | "middle-dot" | "greek";
+export type WhitespaceOrthography = "preserve" | "collapse";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -27,6 +28,7 @@ export interface OrthographyOptions {
   upsilon?: UpsilonOrthography;
   longVowels?: LongVowelOrthography;
   accentuation?: GreekAccentuation;
+  whitespace?: WhitespaceOrthography;
 }
 
 export interface GreekUnicodeOptions {

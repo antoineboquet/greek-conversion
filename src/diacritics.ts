@@ -12,3 +12,4 @@ export function stripDiacritics(document: Document): Document {
 
   return changed ? stripped : document;
 }
+

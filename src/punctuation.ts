@@ -82,3 +82,4 @@ export function encodePunctuation(
 ): string | undefined {
   return OUTPUT[format].get(punctuation);
 }
+

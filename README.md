@@ -67,6 +67,16 @@ removeDiacritics("a)/nqrwpos a)=| i&", "beta-code");
 // anqrwpos a i
 ```
 
+Whitespace is preserved by default. Set `whitespace` to `"collapse"` to trim
+the output and replace every Unicode whitespace run with one ASCII space in any
+output format:
+
+```ts
+convert("  ἄνθρωπος\n\tλόγος  ", "greek", "greek", {
+  orthography: { whitespace: "collapse" },
+}); // ἄνθρωπος λόγος
+```
+
 Accents, breathings, coronides, diaereses, explicit quantities, and iota
 subscripts are removed. Structural marks required to identify a letter are
 retained: `ē/ō`, `c̄/s̄`, and `ḳ` therefore remain distinct from

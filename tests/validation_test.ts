@@ -121,3 +121,4 @@ Deno.test("validation is pure", () => {
 
   assertEquals(document[0].diacritics, before);
 });
+

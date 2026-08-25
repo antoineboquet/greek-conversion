@@ -115,3 +115,4 @@ function additionalCharacter(
       return undefined;
   }
 }
+

@@ -187,3 +187,4 @@ function add(
 ): void {
   diagnostics.push({ code, index, message });
 }
+

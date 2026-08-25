@@ -90,13 +90,14 @@ export function applyNumeralOrthography(
   document: Document,
   options: ConversionOptions = {},
 ): Document {
-  if (options.orthography?.numerals !== "decimal") return document;
+  const spaced = applyWhitespaceOrthography(document, options);
+  if (options.orthography?.numerals !== "decimal") return spaced;
 
   const output: Token[] = [];
-  for (let index = 0; index < document.length;) {
-    const numeral = readNumeral(document, index);
+  for (let index = 0; index < spaced.length;) {
+    const numeral = readNumeral(spaced, index);
     if (numeral === undefined) {
-      output.push(document[index]);
+      output.push(spaced[index]);
       index++;
       continue;
     }
@@ -104,6 +105,29 @@ export function applyNumeralOrthography(
     output.push(literal(String(numeral.value)));
     index = numeral.end;
   }
+  return output;
+}
+
+function applyWhitespaceOrthography(
+  document: Document,
+  options: ConversionOptions,
+): Document {
+  if (options.orthography?.whitespace !== "collapse") return document;
+
+  const output: Token[] = [];
+  let pendingSpace = false;
+
+  for (const token of document) {
+    if (isWhitespace(token)) {
+      pendingSpace = output.length > 0;
+      continue;
+    }
+
+    if (pendingSpace) output.push(literal(" "));
+    output.push(token);
+    pendingSpace = false;
+  }
+
   return output;
 }
 
@@ -152,6 +176,10 @@ function numericValue(token: Token | undefined): number | undefined {
 
 function isLiteral(token: Token | undefined, value: string): boolean {
   return token?.kind === "literal" && token.value === value;
+}
+
+function isWhitespace(token: Token): boolean {
+  return token.kind === "literal" && /^\p{White_Space}$/u.test(token.value);
 }
 
 function isRho(token: Token | undefined): token is Grapheme {

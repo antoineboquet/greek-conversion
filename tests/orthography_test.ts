@@ -6,6 +6,25 @@ import {
 import { assertNfcEquals } from "./assertions.ts";
 import { MEDIAL_BETA_SYMBOL, SMOOTH_ROUGH_DOUBLE_RHO } from "./fixtures.ts";
 
+Deno.test("collapses Unicode whitespace on demand", () => {
+  const collapse = { orthography: { whitespace: "collapse" } } as const;
+  const input = "\u2003\tἄνθρωπος\n\u00A0  λόγος\u2029";
+
+  assertNfcEquals(
+    convert(input, "greek", "greek", collapse),
+    "ἄνθρωπος λόγος",
+  );
+  assertNfcEquals(
+    convert(input, "greek", "beta-code", collapse),
+    "a)/nqrwpos lo/gos",
+  );
+  assertNfcEquals(
+    convert(input, "greek", "transliteration", collapse),
+    "ánthrōpos lógos",
+  );
+  assertNfcEquals(convert(input, "greek", "greek"), input);
+});
+
 Deno.test("applies double-rho orthography on demand", () => {
   assertNfcEquals(
     transliterationToGreek("polúrrhizos", SMOOTH_ROUGH_DOUBLE_RHO),

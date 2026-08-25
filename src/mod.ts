@@ -49,6 +49,7 @@ export type {
   SigmaOrthography,
   UnicodeComposition,
   UpsilonOrthography,
+  WhitespaceOrthography,
 } from "./options.ts";
 export { applyGreekOrthography, applyOrthography } from "./orthography.ts";
 export {
