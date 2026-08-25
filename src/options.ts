@@ -22,6 +22,7 @@ export type XiTransliteration = "x" | "ks";
 export type PhiTransliteration = "ph" | "f";
 export type ChiTransliteration = "ch" | "kh";
 export type ModernDigraphOrthography = "preserve" | "phonetic";
+export type RhoTransliteration = "contextual" | "systematic";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -41,6 +42,7 @@ export interface OrthographyOptions {
   phi?: PhiTransliteration;
   chi?: ChiTransliteration;
   modernDigraphs?: ModernDigraphOrthography;
+  rho?: RhoTransliteration;
 }
 
 export interface GreekUnicodeOptions {

@@ -45,6 +45,28 @@ Deno.test("applies double-rho orthography on demand", () => {
   );
 });
 
+Deno.test("transliterates every rho with one final h per group", () => {
+  const systematic = { orthography: { rho: "systematic" } } as const;
+
+  assertNfcEquals(
+    convert(
+      "ρ αρ ρρ ρρρ ῥ ῤῥ Ρ ΡΡ",
+      "greek",
+      "transliteration",
+      systematic,
+    ),
+    "rh arh rrh rrrh rh rrh Rh RRh",
+  );
+  assertNfcEquals(
+    convert("rh rrh rrrh Rh RRh", "transliteration", "greek", systematic),
+    "ρ ρρ ρρρ Ρ ΡΡ",
+  );
+  assertNfcEquals(
+    convert("ρ αρ ρρ", "greek", "transliteration"),
+    "r ar rrh",
+  );
+});
+
 Deno.test("applies the beta symbol only to medial lowercase beta", () => {
   assertNfcEquals(transliterationToGreek("bárbaros"), "βάρβαρος");
   assertNfcEquals(

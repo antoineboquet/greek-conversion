@@ -87,7 +87,10 @@ export function parseTransliteration(
     if (match.value === "rho" && chars[i]?.toLowerCase() === "h") {
       const previous = out.at(-1);
 
-      if (previous?.kind !== "grapheme" || previous.letter !== "rho") {
+      if (
+        options.orthography?.rho !== "systematic" &&
+        (previous?.kind !== "grapheme" || previous.letter !== "rho")
+      ) {
         rough = true;
       }
 

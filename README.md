@@ -253,6 +253,20 @@ transliterationToGreek("polúrrhizos", {
 }); // πολύῤῥιζος
 ```
 
+Rho can independently be transliterated systematically with `rh`. A contiguous
+group receives a single final `h`, so two successive rhos become `rrh`:
+
+```ts
+convert("ρ αρ ρρ", "greek", "transliteration", {
+  orthography: { rho: "systematic" },
+}); // rh arh rrh
+```
+
+With the default `"contextual"` policy, `h` is limited to an explicitly rough
+rho and to the conventional second rho of a double rho. Under the systematic
+policy, input `rh/rrh` is read as unmarked `ρ/ρρ`; an explicit breathing is no
+longer distinguishable.
+
 The medial beta symbol can likewise be requested for lowercase beta inside a
 Greek word. Initial and uppercase beta remain `β` and `Β`:
 

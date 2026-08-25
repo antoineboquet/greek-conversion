@@ -127,6 +127,7 @@ export function encodeTransliteration(
     if (modernDigraphAt(doc, index - 1, options) !== undefined) return "";
 
     const previous = doc[index - 1];
+    const next = doc[index + 1];
     const breathingStart = initialBreathingStart(doc, index);
     const breathingIndex = breathingStart === undefined
       ? undefined
@@ -150,6 +151,11 @@ export function encodeTransliteration(
     }
     if (initialRough && index === breathingStart) {
       base = (groupUppercase ? "H" : "h") + base.toLowerCase();
+    } else if (
+      token.letter === "rho" &&
+      options.orthography?.rho === "systematic"
+    ) {
+      if (next?.kind !== "grapheme" || next.letter !== "rho") base += "h";
     } else if (
       !options.removeDiacritics &&
       token.diacritics.has("rough") && index !== breathingIndex

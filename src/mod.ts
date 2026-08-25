@@ -51,6 +51,7 @@ export type {
   NumeralOrthography,
   OrthographyOptions,
   PhiTransliteration,
+  RhoTransliteration,
   SigmaOrthography,
   UnicodeComposition,
   UpsilonOrthography,
