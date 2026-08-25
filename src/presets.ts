@@ -72,7 +72,7 @@ export const PRESETS = Object.freeze(
 
 /** Returns a detached copy so callers cannot mutate the preset registry. */
 export function getPresetOptions(preset: Preset): PresetOptions {
-  return mergeConversionOptions({}, PRESET_OPTIONS[preset]);
+  return mergeConversionOptions({}, registeredPreset(preset));
 }
 
 /** Resolves defaults < preset < custom options and removes the preset marker. */
@@ -80,8 +80,15 @@ export function resolveConversionOptions(
   options: ConversionOptions = {},
 ): PresetOptions {
   const { preset, ...custom } = options;
-  const base = preset === undefined ? {} : PRESET_OPTIONS[preset];
+  const base = preset === undefined ? {} : registeredPreset(preset);
   return mergeConversionOptions(base, custom);
+}
+
+function registeredPreset(preset: Preset): PresetOptions {
+  if (!Object.hasOwn(PRESET_OPTIONS, preset)) {
+    throw new RangeError(`Unknown conversion preset: ${preset}`);
+  }
+  return PRESET_OPTIONS[preset];
 }
 
 function mergeConversionOptions(

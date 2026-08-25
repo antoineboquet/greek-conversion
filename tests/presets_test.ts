@@ -57,6 +57,18 @@ Deno.test("returns detached preset option objects", () => {
   assertEquals(second.orthography!.beta, "v");
 });
 
+Deno.test("rejects unknown preset names at runtime", () => {
+  let error: unknown;
+  try {
+    resolveConversionOptions({ preset: "unknown" as never });
+  } catch (caught) {
+    error = caught;
+  }
+
+  assertEquals(error instanceof RangeError, true);
+  assertEquals((error as Error).message, "Unknown conversion preset: unknown");
+});
+
 Deno.test("applies ISO 843 Type 1 spellings", () => {
   assertNfcEquals(
     convert("βήτα ἄγγελος φύσις κἀγώ", "greek", "transliteration", {
