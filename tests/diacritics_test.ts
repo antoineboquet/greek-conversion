@@ -34,7 +34,7 @@ Deno.test("exposes format-aware diacritic removal as a public helper", () => {
   );
   assertNfcEquals(
     removeDiacritics("hánthrōpos aĩ ī ḳ c̄ s̄", "transliteration"),
-    "anthrōpos a i ḳ c̄ s̄",
+    "anthrōpos ai i ḳ c̄ s̄",
   );
 });
 

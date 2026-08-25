@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "check": "deno lint && deno check src/mod.ts tests/aliases_test.ts tests/context_test.ts tests/diacritics_test.ts tests/equivalences_test.ts tests/invariants_test.ts tests/long_vowels_test.ts tests/lossy_conversions_test.ts tests/orthography_test.ts tests/punctuation_test.ts tests/validation_test.ts",
+    "check": "deno lint && deno check src/mod.ts tests/aliases_test.ts tests/context_test.ts tests/diacritics_test.ts tests/equivalences_test.ts tests/invariants_test.ts tests/long_vowels_test.ts tests/lossy_conversions_test.ts tests/orthography_test.ts tests/punctuation_test.ts tests/unicode_test.ts tests/validation_test.ts",
     "test": "deno test"
   },
   "imports": {

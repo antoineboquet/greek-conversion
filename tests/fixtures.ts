@@ -50,6 +50,35 @@ export const EQUIVALENCES = [
     betaCode: "w(s de\\ ei)pei=n kai\\ e)pi\\ plei=ston a)nqrw/pwn.",
     transliteration: "hōs dè eipeĩn kaì epì pleĩston anthrṓpōn.",
   },
+  // Homer, Iliad 1.1.
+  {
+    greek: "Μῆνιν ἄειδε, θεά, Πηληϊάδεω Ἀχιλῆος",
+    betaCode: "Mh=nin a)/eide, qea/, Phlhi+a/dew A)xilh=os",
+    transliteration: "Mē̃nin áeide, theá, Pēlēïádeō Achilē̃os",
+  },
+  // Plato, Apology 17a.
+  {
+    greek:
+      "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα·",
+    betaCode:
+      "O(/ti me\\n u(mei=s, w)= a)/ndres A)qhnai=oi, pepo/nqate u(po\\ tw=n e)mw=n kathgo/rwn, ou)k oi)=da:",
+    transliteration:
+      "Hóti mèn humeĩs, ō̃ ándres Athēnaĩoi, pepónthate hupò tō̃n emō̃n katēgórōn, ouk oĩda;",
+  },
+  // John 1:1.
+  {
+    greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
+    betaCode:
+      "E)n a)rxh=| h)=n o( lo/gos, kai\\ o( lo/gos h)=n pro\\s to\\n qeo/n.",
+    transliteration:
+      "En archȩ̄̃ ē̃n ho lógos, kaì ho lógos ē̃n pròs tòn theón.",
+  },
+  // Sappho, fragment 31.1.
+  {
+    greek: "Φαίνεταί μοι κῆνος ἴσος θέοισιν",
+    betaCode: "Fai/netai/ moi kh=nos i)/sos qe/oisin",
+    transliteration: "Phaínetaí moi kē̃nos ísos théoisin",
+  },
 ] as const satisfies readonly Equivalence[];
 
 export const ACCEPTED_ALIASES = [
