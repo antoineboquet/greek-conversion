@@ -1,4 +1,4 @@
-import type { Document, Grapheme, Letter } from "./model.ts";
+import type { Document, Grapheme, Letter, Token } from "./model.ts";
 
 const NASAL_GAMMA_FOLLOWERS = new Set<Letter>([
   "gamma",
@@ -89,6 +89,23 @@ export function initialBreathingStart(
   }
 
   return undefined;
+}
+
+/** Classifies the shared smooth mark as a coronis on an internal vowel. */
+export function classifyCoronides(tokens: Token[]): void {
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+
+    if (
+      token.kind === "grapheme" &&
+      isVowel(token.letter) &&
+      token.diacritics.has("smooth") &&
+      initialBreathingStart(tokens, i) === undefined
+    ) {
+      token.diacritics.delete("smooth");
+      token.diacritics.add("coronis");
+    }
+  }
 }
 
 export function isNasalGamma(document: Document, index: number): boolean {

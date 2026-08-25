@@ -13,6 +13,10 @@ before the whole vowel group in transliteration; a diaeresis prevents this rule.
 Initial transliterated vowels normally receive the canonical smooth breathing.
 Quantity signs (`ā`, `ĭ`, `ī`, `ŭ`, `ū`) are the exception: because they do not
 encode a breathing, they are rendered without an inferred one.
+The shared smooth mark is classified contextually as a breathing on an initial
+vowel group and as a coronis on an internal vowel. Greek and Beta Code preserve
+the coronis and the contracted crasis; transliteration omits the coronis and
+therefore cannot reconstruct it.
 
 ```ts
 import { betaCodeToGreek, convert } from "./src/mod.ts";

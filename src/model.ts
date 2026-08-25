@@ -28,6 +28,7 @@ export type Letter =
 
 export type Diacritic =
   | "smooth"
+  | "coronis"
   | "rough"
   | "acute"
   | "grave"

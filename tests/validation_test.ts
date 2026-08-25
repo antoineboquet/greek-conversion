@@ -28,6 +28,16 @@ const INVALID_CASES = [
   },
   {
     letter: "alpha",
+    diacritics: ["coronis"],
+    codes: ["invalid-coronis"],
+  },
+  {
+    letter: "alpha",
+    diacritics: ["coronis", "rough"],
+    codes: ["conflicting-coronis-breathing", "invalid-coronis"],
+  },
+  {
+    letter: "alpha",
     diacritics: ["macron", "breve"],
     codes: ["conflicting-quantities"],
   },
@@ -77,6 +87,9 @@ Deno.test("canonical fixtures produce no validation diagnostics", () => {
       );
     }
   }
+
+  assertEquals(validateDocument(parse("κἀγώ", "greek")), []);
+  assertEquals(validateDocument(parse("ka)gw/", "beta-code")), []);
 });
 
 Deno.test("invalid graphemes produce structured diagnostics", async (t) => {

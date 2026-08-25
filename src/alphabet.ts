@@ -60,6 +60,7 @@ export const GREEK_MARKS = new Map<string, Diacritic>([
 
 export const GREEK_FOR: Record<Diacritic, string> = {
   smooth: "\u0313",
+  coronis: "\u0313",
   rough: "\u0314",
   acute: "\u0301",
   grave: "\u0300",
@@ -72,6 +73,7 @@ export const GREEK_FOR: Record<Diacritic, string> = {
 
 export const BETA_FOR: Record<Diacritic, string> = {
   smooth: ")",
+  coronis: ")",
   rough: "(",
   acute: "/",
   grave: "\\",
@@ -86,8 +88,11 @@ export const BETA_MARKS = new Map(
   Object.entries(BETA_FOR).map(([name, mark]) => [mark, name as Diacritic]),
 );
 
+BETA_MARKS.set(")", "smooth");
+
 export const ORDER: readonly Diacritic[] = [
   "smooth",
+  "coronis",
   "rough",
   "diaeresis",
   "acute",

@@ -62,6 +62,25 @@ Deno.test("quantity marks do not infer an initial smooth breathing", () => {
   );
 });
 
+Deno.test(
+  "distinguishes internal coronis from initial smooth breathing",
+  () => {
+    assertNfcEquals(convert("κἀγώ", "greek", "beta-code"), "ka)gw/");
+    assertNfcEquals(convert("ka)gw/", "beta-code", "greek"), "κἀγώ");
+    assertNfcEquals(
+      convert("a)nqrwpos", "beta-code", "greek"),
+      "ἀνθρωπος",
+    );
+  },
+);
+
+Deno.test("preserves crasis while transliteration remains lossy", () => {
+  assertNfcEquals(convert("τοὔνομα", "greek", "beta-code"), "tou)/noma");
+  assertNfcEquals(convert("tou)/noma", "beta-code", "greek"), "τοὔνομα");
+  assertNfcEquals(convert("τοὔνομα", "greek", "transliteration"), "toúnoma");
+  assertNfcEquals(convert("toúnoma", "transliteration", "greek"), "τούνομα");
+});
+
 Deno.test("contracts pi-sigma in canonical Greek output", () => {
   assertNfcEquals(convert("πσ ΠΣ Πσ πΣ", "greek", "greek"), "ψ Ψ Ψ πΣ");
   assertNfcEquals(convert("ps PS Ps", "beta-code", "greek"), "ψ Ψ Ψ");

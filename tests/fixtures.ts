@@ -101,6 +101,15 @@ export const LOSSY_CONVERSIONS = [
     canonicalRoundTrip: "καγώ",
   },
   {
+    name:
+      "crasis is preserved but its coronis is not represented in transliteration",
+    sourceFormat: "greek",
+    intermediateFormat: "transliteration",
+    source: "τοὔνομα",
+    intermediate: "toúnoma",
+    canonicalRoundTrip: "τούνομα",
+  },
+  {
     name: "a smooth breathing on a quantity-marked vowel is not represented in transliteration",
     sourceFormat: "greek",
     intermediateFormat: "transliteration",

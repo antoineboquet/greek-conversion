@@ -1,12 +1,15 @@
 import type { Diacritic, Document, Grapheme, Letter } from "./model.ts";
+import { initialBreathingStart } from "./context.ts";
 
 export type ValidationCode =
   | "conflicting-accents"
   | "conflicting-breathings"
+  | "conflicting-coronis-breathing"
   | "conflicting-quantities"
   | "incompatible-diaeresis-breathing"
   | "invalid-accent"
   | "invalid-breathing"
+  | "invalid-coronis"
   | "invalid-circumflex"
   | "invalid-diaeresis"
   | "invalid-iota-subscript"
@@ -48,13 +51,14 @@ export function validateDocument(
 
   document.forEach((token, index) => {
     if (token.kind === "literal") return;
-    validateGrapheme(token, index, diagnostics);
+    validateGrapheme(document, token, index, diagnostics);
   });
 
   return diagnostics;
 }
 
 function validateGrapheme(
+  document: Document,
   token: Grapheme,
   index: number,
   diagnostics: ValidationDiagnostic[],
@@ -78,6 +82,14 @@ function validateGrapheme(
       "conflicting-breathings",
       index,
       "A grapheme cannot carry both breathings.",
+    );
+  }
+  if (diacritics.has("coronis") && breathingCount > 0) {
+    add(
+      diagnostics,
+      "conflicting-coronis-breathing",
+      index,
+      "A coronis cannot be combined with a breathing.",
     );
   }
   if (quantityCount > 1) {
@@ -110,6 +122,20 @@ function validateGrapheme(
       "invalid-breathing",
       index,
       "Breathings can only be applied to vowels or rho.",
+    );
+  }
+  if (
+    diacritics.has("coronis") &&
+    (
+      !VOWELS.has(letter) ||
+      initialBreathingStart(document, index) !== undefined
+    )
+  ) {
+    add(
+      diagnostics,
+      "invalid-coronis",
+      index,
+      "A coronis requires a non-initial vowel.",
     );
   }
   if (diacritics.has("diaeresis") && !DIAERESIS_LETTERS.has(letter)) {
