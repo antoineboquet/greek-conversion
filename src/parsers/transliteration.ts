@@ -123,14 +123,21 @@ export function parseTransliteration(
 function markedArchaicLetter(
   chars: readonly string[],
   start: number,
-): { value: "stigma" | "sampi"; length: 2 } | undefined {
-  if (chars[start + 1] !== "\u0304") return undefined;
+): { value: "stigma" | "sampi"; length: number } | undefined {
+  const firstMark = chars[start + 1];
+  if (firstMark !== "\u0304" && firstMark !== "\u0302") return undefined;
+
+  const secondMark = chars[start + 2];
+  const length = secondMark !== firstMark &&
+      (secondMark === "\u0304" || secondMark === "\u0302")
+    ? 3
+    : 2;
 
   switch (chars[start].toLowerCase()) {
     case "c":
-      return { value: "stigma", length: 2 };
+      return { value: "stigma", length };
     case "s":
-      return { value: "sampi", length: 2 };
+      return { value: "sampi", length };
     default:
       return undefined;
   }

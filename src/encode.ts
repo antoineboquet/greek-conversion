@@ -166,9 +166,24 @@ function transliterationBase(
   letter: Grapheme["letter"],
   options: ConversionOptions,
 ): string {
-  if (letter !== "eta" && letter !== "omega") return ALPHABET[letter].tr;
+  let base: string;
+  switch (letter) {
+    case "eta":
+      base = "e";
+      break;
+    case "omega":
+      base = "o";
+      break;
+    case "stigma":
+      base = "c";
+      break;
+    case "sampi":
+      base = "s";
+      break;
+    default:
+      return ALPHABET[letter].tr;
+  }
 
-  const base = letter === "eta" ? "e" : "o";
   switch (options.orthography?.longVowels) {
     case "circumflex":
       return `${base}\u0302`;

@@ -38,6 +38,30 @@ Deno.test("accepts every structural long-vowel spelling on input", () => {
   );
 });
 
+Deno.test("applies the structural marker policy to stigma and sampi", () => {
+  const greek = "ϛ ϡ ϛʹ ϡʹ";
+
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration"),
+    "c̄ s̄ c̄ʹ s̄ʹ",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", CIRCUMFLEX),
+    "ĉ ŝ ĉʹ ŝʹ",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", CIRCUMFLEX_MACRON),
+    "ĉ̄ ŝ̄ ĉ̄ʹ ŝ̄ʹ",
+  );
+
+  for (const transliteration of ["c̄ s̄", "ĉ ŝ", "ĉ̄ ŝ̄", "c̄̂ s̄̂"]) {
+    assertNfcEquals(
+      convert(transliteration, "transliteration", "greek"),
+      "ϛ ϡ",
+    );
+  }
+});
+
 Deno.test("keeps structural length distinct from Greek circumflex accent", () => {
   const greek = "βῆ βῶ βᾶ βᾱ";
 
