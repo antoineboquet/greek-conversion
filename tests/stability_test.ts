@@ -19,6 +19,34 @@ const PROFILES = [
   { name: "defaults", options: {} },
   { name: "without diacritics", options: { removeDiacritics: true } },
   {
+    name: "without accents",
+    options: { diacritics: { accents: "remove" } },
+  },
+  {
+    name: "without smooth breathing",
+    options: { diacritics: { smoothBreathing: "remove" } },
+  },
+  {
+    name: "without rough breathing",
+    options: { diacritics: { roughBreathing: "remove" } },
+  },
+  {
+    name: "without coronis",
+    options: { diacritics: { coronis: "remove" } },
+  },
+  {
+    name: "without diaeresis",
+    options: { diacritics: { diaeresis: "remove" } },
+  },
+  {
+    name: "without iota subscript",
+    options: { diacritics: { iotaSubscript: "remove" } },
+  },
+  {
+    name: "without quantity",
+    options: { diacritics: { quantity: "remove" } },
+  },
+  {
     name: "selective diacritics",
     options: {
       diacritics: {
@@ -29,6 +57,10 @@ const PROFILES = [
         quantity: "remove",
       },
     },
+  },
+  {
+    name: "lowercase output",
+    options: { orthography: { letterCase: "lowercase" } },
   },
   {
     name: "uppercase output",
@@ -75,6 +107,10 @@ const PROFILES = [
         upsilon: "y",
       },
     },
+  },
+  {
+    name: "semantic Greek coronis transliteration",
+    options: { orthography: { coronis: "greek" } },
   },
   {
     name: "lossy output policies",
@@ -179,5 +215,41 @@ Deno.test("pathological Unicode remains stable under self-conversion", () => {
     for (const profile of PROFILES) {
       assertStable(source, format, format, profile);
     }
+  }
+});
+
+Deno.test("context-changing diacritic policies are stable for every target", () => {
+  const cases = [
+    {
+      source: "ἄϋλος",
+      options: { diacritics: { diaeresis: "remove" } },
+    },
+    {
+      source: "ᾄυ",
+      options: { diacritics: { iotaSubscript: "remove" } },
+    },
+  ] as const satisfies readonly {
+    source: string;
+    options: ConversionOptions;
+  }[];
+
+  for (const testCase of cases) {
+    for (const to of FORMATS) {
+      assertStable(testCase.source, "greek", to, {
+        name: `${to} after selective removal`,
+        options: testCase.options,
+      });
+    }
+  }
+});
+
+Deno.test("Greek coronis provenance is stable for every target", () => {
+  const profile = {
+    name: "semantic Greek coronis transliteration",
+    options: { orthography: { coronis: "greek" } },
+  } as const satisfies OptionProfile;
+
+  for (const to of FORMATS) {
+    assertStable("κἀγώ", "greek", to, profile);
   }
 });
