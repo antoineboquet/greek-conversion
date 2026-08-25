@@ -6,7 +6,6 @@ import {
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import {
-  applyGreekOrthography,
   applyNumeralOrthography,
   applyOrthography,
 } from "./orthography.ts";
