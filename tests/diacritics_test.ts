@@ -121,6 +121,61 @@ Deno.test("removes coronis regardless of its output policy", () => {
   );
 });
 
+Deno.test("selective removal exposes diphthongs canonically on first render", () => {
+  const cases = [
+    {
+      source: "ἄϋλος",
+      options: { diacritics: { diaeresis: "remove" } },
+      greek: "άὐλος",
+      beta: "a/u)los",
+    },
+    {
+      source: "ᾄυ",
+      options: { diacritics: { iotaSubscript: "remove" } },
+      greek: "άὐ",
+      beta: "a/u)",
+    },
+  ] as const;
+
+  for (const testCase of cases) {
+    const greek = convert(
+      testCase.source,
+      "greek",
+      "greek",
+      testCase.options,
+    );
+    const beta = convert(
+      testCase.source,
+      "greek",
+      "beta-code",
+      testCase.options,
+    );
+
+    assertNfcEquals(greek, testCase.greek);
+    assertNfcEquals(beta, testCase.beta);
+    assertNfcEquals(
+      convert(greek, "greek", "greek", testCase.options),
+      greek,
+    );
+    assertNfcEquals(
+      convert(beta, "beta-code", "beta-code", testCase.options),
+      beta,
+    );
+  }
+});
+
+Deno.test("render-only diacritic removal preserves semantic diphthong choices", () => {
+  const options = {
+    diacritics: { diaeresis: "remove" },
+    orthography: { upsilon: "y-with-diphthong-u" },
+  } as const;
+
+  assertNfcEquals(
+    convert("αϋ αυ", "greek", "transliteration", options),
+    "ay au",
+  );
+});
+
 Deno.test("diacritic removal is immutable", () => {
   const source = [
     literal("["),

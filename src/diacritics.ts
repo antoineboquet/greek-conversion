@@ -1,4 +1,5 @@
-import type { Diacritic, Document } from "./model.ts";
+import { normalizeInitialDiphthongBreathings } from "./context.ts";
+import type { Diacritic, Document, Token } from "./model.ts";
 import type { ConversionOptions, DiacriticDisposition } from "./options.ts";
 
 export function diacriticDisposition(
@@ -47,4 +48,38 @@ export function stripDiacritics(document: Document): Document {
   });
 
   return changed ? stripped : document;
+}
+
+/**
+ * Builds the diacritic view used for rendering without changing the semantic
+ * document used by contextual orthography. Removing diaeresis or iota
+ * subscript can expose a diphthong, so initial breathings are normalized again
+ * on the detached view to make the first rendering canonical and idempotent.
+ */
+export function prepareDiacriticsForRendering(
+  document: Document,
+  options: ConversionOptions,
+): Document {
+  const removesAnyMark = document.some((token) =>
+    token.kind === "grapheme" &&
+    [...token.diacritics].some((mark) => !preservesDiacritic(mark, options))
+  );
+
+  if (!removesAnyMark) return document;
+
+  const rendered: Token[] = document.map((token) =>
+    token.kind === "literal"
+      ? token
+      : {
+        ...token,
+        diacritics: new Set(
+          [...token.diacritics].filter((mark) =>
+            preservesDiacritic(mark, options)
+          ),
+        ),
+      }
+  );
+
+  normalizeInitialDiphthongBreathings(rendered);
+  return rendered;
 }

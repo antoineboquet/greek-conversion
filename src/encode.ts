@@ -12,7 +12,10 @@ import {
   isWordFinal,
   isWordInitial,
 } from "./context.ts";
-import { preservesDiacritic } from "./diacritics.ts";
+import {
+  prepareDiacriticsForRendering,
+  preservesDiacritic,
+} from "./diacritics.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import { applyGreekOrthography } from "./orthography.ts";
@@ -26,7 +29,10 @@ const marks = (token: Grapheme, options: ConversionOptions) =>
 
 export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
   let out = "";
-  const rendered = applyGreekOrthography(doc, options);
+  const rendered = prepareDiacriticsForRendering(
+    applyGreekOrthography(doc, options),
+    options,
+  );
 
   for (let i = 0; i < doc.length; i++) {
     const token = rendered[i];
@@ -91,7 +97,9 @@ export function encodeBetaCode(
   doc: Document,
   options: ConversionOptions = {},
 ) {
-  return doc.map((token, index) => {
+  const rendered = prepareDiacriticsForRendering(doc, options);
+
+  return rendered.map((token, index) => {
     if (token.kind === "literal") {
       if (token.value === DEXIA_KERAIA) return "#";
       if (token.value === ARISTERI_KERAIA) return "#22";
@@ -117,8 +125,9 @@ export function encodeTransliteration(
   options: ConversionOptions = {},
 ) {
   const uppercaseOutput = options.orthography?.letterCase === "uppercase";
+  const rendered = prepareDiacriticsForRendering(doc, options);
 
-  return doc.map((token, index) => {
+  return rendered.map((token, index) => {
     if (token.kind === "literal") {
       return encodePunctuation(token.value, "transliteration") ?? token.value;
     }
@@ -132,19 +141,19 @@ export function encodeTransliteration(
 
     const previous = doc[index - 1];
     const next = doc[index + 1];
-    const breathingStart = initialBreathingStart(doc, index);
+    const breathingStart = initialBreathingStart(rendered, index);
     const breathingIndex = breathingStart === undefined
       ? undefined
-      : breathingTarget(doc, breathingStart);
+      : breathingTarget(rendered, breathingStart);
     const breathingToken = breathingIndex === undefined
       ? undefined
-      : doc[breathingIndex];
+      : rendered[breathingIndex];
     const initialRough = preservesDiacritic("rough", options) &&
       breathingToken?.kind === "grapheme" &&
       breathingToken.diacritics.has("rough");
     const groupUppercase = initialRough && breathingStart !== undefined &&
-      (doc[breathingStart].kind === "grapheme" &&
-          doc[breathingStart].uppercase ||
+      (rendered[breathingStart].kind === "grapheme" &&
+          rendered[breathingStart].uppercase ||
         breathingToken.uppercase);
     let base = options.orthography?.nasalGamma !== "literal" &&
         isNasalGamma(doc, index)
