@@ -22,6 +22,7 @@ export type {
 export type {
   ConversionOptions,
   CoronisOrthography,
+  DentalSigmaOrthography,
   DoubleRhoOrthography,
   MedialBetaOrthography,
   NasalGammaOrthography,

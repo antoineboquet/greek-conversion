@@ -9,6 +9,7 @@ Deno.test("lossy conversions return their documented canonical form", async (t) 
         conversion.source,
         conversion.sourceFormat,
         conversion.intermediateFormat,
+        "options" in conversion ? conversion.options : undefined,
       );
 
       assertNfcEquals(intermediate, conversion.intermediate);

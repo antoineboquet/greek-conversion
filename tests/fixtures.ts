@@ -75,7 +75,12 @@ export interface LossyConversion {
   source: string;
   intermediate: string;
   canonicalRoundTrip: string;
+  options?: ConversionOptions;
 }
+
+const DENTAL_SIGMA_ASSIMILATION = {
+  orthography: { dentalSigma: "assimilate" },
+} as const satisfies ConversionOptions;
 
 export const LOSSY_CONVERSIONS = [
   {
@@ -159,6 +164,7 @@ export const LOSSY_CONVERSIONS = [
     source: "ats a",
     intermediate: "ας α",
     canonicalRoundTrip: "as a",
+    options: DENTAL_SIGMA_ASSIMILATION,
   },
   {
     name: "delta-sigma loses the dental through canonical Greek",
@@ -167,6 +173,7 @@ export const LOSSY_CONVERSIONS = [
     source: "ads a",
     intermediate: "ας α",
     canonicalRoundTrip: "as a",
+    options: DENTAL_SIGMA_ASSIMILATION,
   },
   {
     name: "theta-sigma loses the dental through canonical Greek",
@@ -175,6 +182,7 @@ export const LOSSY_CONVERSIONS = [
     source: "aqs a",
     intermediate: "ας α",
     canonicalRoundTrip: "as a",
+    options: DENTAL_SIGMA_ASSIMILATION,
   },
   {
     name: "an elided smooth mute is aspirated before a rough breathing",

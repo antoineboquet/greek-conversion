@@ -4,6 +4,7 @@ export type CoronisOrthography = "omit" | "apostrophe" | "greek";
 export type NasalGammaOrthography = "nasal" | "literal";
 export type SigmaOrthography = "standard" | "lunate";
 export type NumeralOrthography = "alphabetic" | "decimal";
+export type DentalSigmaOrthography = "preserve" | "assimilate";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -12,6 +13,7 @@ export interface OrthographyOptions {
   nasalGamma?: NasalGammaOrthography;
   sigma?: SigmaOrthography;
   numerals?: NumeralOrthography;
+  dentalSigma?: DentalSigmaOrthography;
 }
 
 export interface ConversionOptions {

@@ -28,7 +28,11 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       continue;
     }
 
-    const contraction = contractedSigma(doc, i);
+    const contraction = contractedSigma(
+      doc,
+      i,
+      options.orthography?.dentalSigma === "assimilate",
+    );
 
     if (contraction !== undefined) {
       let base = ALPHABET[contraction.letter].greek;

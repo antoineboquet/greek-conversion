@@ -9,21 +9,30 @@ per output format, normalizes output to NFC, and preserves unknown characters.
 Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi
 by default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental
-assimilation deletes `τ`, `δ`, or `θ` before `σ`; Beta Code and transliteration
-retain the source pair, so a round-trip through canonical Greek is lossy. Marked
-alphabetic numerals are excluded from these contractions. Initial breathings are
-placed on the second vowel of a diphthong and rendered before the whole vowel
-group in transliteration; a diaeresis prevents this rule. The rare `ωυ` follows
-the same behavior, while an iota subscript prevents grouping with a following
-vowel. A misplaced initial breathing on the first half of a diphthong is
-normalized onto the second in Greek and Beta Code. Internal vowel groups never
-receive an implicit breathing. Initial transliterated vowels normally receive
-the canonical smooth breathing. Quantity signs (`ā`, `ĭ`, `ī`, `ŭ`, `ū`) are the
-exception: because they do not encode a breathing, they are rendered without an
-inferred one. The shared smooth mark is classified contextually as a breathing
-on an initial vowel group and as a coronis on an internal vowel. Greek and Beta
-Code preserve the coronis and the contracted crasis. Transliteration omits the
-coronis by default and therefore cannot reconstruct it.
+assimilation is opt-in because it deletes `τ`, `δ`, or `θ` before `σ`:
+
+```ts
+convert("ατσα", "greek", "greek", {
+  orthography: { dentalSigma: "assimilate" },
+}); // ασα
+```
+
+The default `"preserve"` policy retains the dental. Beta Code and
+transliteration also retain the source pair, so a round-trip through Greek with
+assimilation enabled is lossy. Marked alphabetic numerals are excluded from
+these contractions. Initial breathings are placed on the second vowel of a
+diphthong and rendered before the whole vowel group in transliteration; a
+diaeresis prevents this rule. The rare `ωυ` follows the same behavior, while an
+iota subscript prevents grouping with a following vowel. A misplaced initial
+breathing on the first half of a diphthong is normalized onto the second in
+Greek and Beta Code. Internal vowel groups never receive an implicit breathing.
+Initial transliterated vowels normally receive the canonical smooth breathing.
+Quantity signs (`ā`, `ĭ`, `ī`, `ŭ`, `ū`) are the exception: because they do not
+encode a breathing, they are rendered without an inferred one. The shared smooth
+mark is classified contextually as a breathing on an initial vowel group and as
+a coronis on an internal vowel. Greek and Beta Code preserve the coronis and the
+contracted crasis. Transliteration omits the coronis by default and therefore
+cannot reconstruct it.
 
 Final sigma recognizes Unicode spaces, line and paragraph separators, quotes,
 dashes, apostrophes, Greek punctuation, and zero-width space as word boundaries.

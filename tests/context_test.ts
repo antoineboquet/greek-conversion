@@ -271,7 +271,7 @@ Deno.test("preserves crasis while transliteration remains lossy", () => {
   assertNfcEquals(convert("toúnoma", "transliteration", "greek"), "τούνομα");
 });
 
-Deno.test("contracts mutes before sigma in Greek output", () => {
+Deno.test("contracts labials and velars before sigma in Greek output", () => {
   assertNfcEquals(
     convert("πσ βσ φσ κσ γσ χσ", "greek", "greek"),
     "ψ ψ ψ ξ ξ ξ",
@@ -286,24 +286,38 @@ Deno.test("contracts mutes before sigma in Greek output", () => {
     "ψ ψ ψ ξ ξ ξ",
   );
   assertNfcEquals(greekToBetaCode("πσ"), "ps");
+});
+
+Deno.test("assimilates dentals before sigma only on demand", () => {
+  const assimilate = {
+    orthography: { dentalSigma: "assimilate" },
+  } as const;
+
+  assertNfcEquals(convert("τσ δσ θσ", "greek", "greek"), "τς δς θς");
   assertNfcEquals(
-    convert("ατσα αδσα αθσα", "greek", "greek"),
+    convert("ατσα αδσα αθσα", "greek", "greek", assimilate),
     "ασα ασα ασα",
   );
-  assertNfcEquals(convert("τσ δσ θσ", "greek", "greek"), "ς ς ς");
-  assertNfcEquals(convert("ΤΣ ΔΣ ΘΣ", "greek", "greek"), "Σ Σ Σ");
+  assertNfcEquals(
+    convert("τσ δσ θσ", "greek", "greek", assimilate),
+    "ς ς ς",
+  );
+  assertNfcEquals(
+    convert("ΤΣ ΔΣ ΘΣ", "greek", "greek", assimilate),
+    "Σ Σ Σ",
+  );
   assertNfcEquals(
     convert("ατσα αδσα αθσα", "greek", "greek", {
-      orthography: { sigma: "lunate" },
+      orthography: { dentalSigma: "assimilate", sigma: "lunate" },
     }),
     "αϲα αϲα αϲα",
   );
   assertNfcEquals(
-    convert("atsa adsa aqsa", "beta-code", "greek"),
+    convert("atsa adsa aqsa", "beta-code", "greek", assimilate),
     "ασα ασα ασα",
   );
   assertNfcEquals(
-    convert("atsa adsa athsa", "transliteration", "greek"),
+    convert("atsa adsa athsa", "transliteration", "greek", assimilate),
     "ἀσα ἀσα ἀσα",
   );
   assertNfcEquals(convert("τσ δσ θσ", "greek", "beta-code"), "ts ds qs");
@@ -314,8 +328,11 @@ Deno.test("contracts mutes before sigma in Greek output", () => {
 });
 
 Deno.test("does not contract separated, marked, or numeric pairs", () => {
+  const assimilate = {
+    orthography: { dentalSigma: "assimilate" },
+  } as const;
   assertNfcEquals(convert("π σ κ σ", "greek", "greek"), "π ς κ ς");
-  assertNfcEquals(convert("τσʹ", "greek", "greek"), "τσʹ");
+  assertNfcEquals(convert("τσʹ", "greek", "greek", assimilate), "τσʹ");
   assertNfcEquals(
     convert("τσʹ", "greek", "greek", {
       orthography: { numerals: "decimal" },

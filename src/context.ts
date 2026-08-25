@@ -49,10 +49,9 @@ const SIGMA_CONTRACTIONS = new Map<Letter, Letter>([
   ["kappa", "xi"],
   ["gamma", "xi"],
   ["chi", "xi"],
-  ["tau", "sigma"],
-  ["delta", "sigma"],
-  ["theta", "sigma"],
 ]);
+
+const DENTALS = new Set<Letter>(["tau", "delta", "theta"]);
 
 export function isWordInitial(document: Document, index: number): boolean {
   let previous = index - 1;
@@ -253,6 +252,7 @@ function isBoundaryTransparent(token: Token | undefined): boolean {
 export function contractedSigma(
   document: Document,
   index: number,
+  assimilateDentals = false,
 ): { letter: Letter; uppercase: boolean } | undefined {
   const mute = document[index];
   const sigma = document[index + 1];
@@ -269,7 +269,8 @@ export function contractedSigma(
 
   if (isGreekNumeralContext(document, index)) return undefined;
 
-  const letter = SIGMA_CONTRACTIONS.get(mute.letter);
+  const letter = SIGMA_CONTRACTIONS.get(mute.letter) ??
+    (assimilateDentals && DENTALS.has(mute.letter) ? "sigma" : undefined);
   if (!letter || sigma.uppercase && !mute.uppercase) return undefined;
 
   return { letter, uppercase: mute.uppercase };
