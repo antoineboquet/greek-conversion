@@ -82,7 +82,10 @@ export function encodeTransliteration(
       (doc[breathingStart].kind === "grapheme" &&
           doc[breathingStart].uppercase ||
         breathingToken.uppercase);
-    let base = isNasalGamma(doc, index) ? "n" : ALPHABET[token.letter].tr;
+    let base = options.orthography?.nasalGamma !== "literal" &&
+        isNasalGamma(doc, index)
+      ? "n"
+      : ALPHABET[token.letter].tr;
     if (token.uppercase && !groupUppercase) {
       base = base[0].toUpperCase() + base.slice(1);
     }

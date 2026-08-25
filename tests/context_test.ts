@@ -13,6 +13,27 @@ Deno.test("preserves case when transliterating nasal gamma", () => {
   );
 });
 
+Deno.test("makes nasal-gamma transliteration optional", () => {
+  const literal = { orthography: { nasalGamma: "literal" } } as const;
+
+  assertNfcEquals(
+    convert("γγ γκ γξ γχ", "greek", "transliteration", literal),
+    "gg gk gx gch",
+  );
+  assertNfcEquals(
+    convert("ΓΓ ΓΚ ΓΞ ΓΧ", "greek", "transliteration", literal),
+    "GG GK GX GCh",
+  );
+  assertNfcEquals(
+    convert("gg gk gx gch", "transliteration", "greek", literal),
+    "γγ γκ γξ γχ",
+  );
+  assertNfcEquals(
+    convert("ng nk nx nch", "transliteration", "greek", literal),
+    "νγ νκ νξ νχ",
+  );
+});
+
 Deno.test("places initial breathings on the diphthong target", () => {
   assertNfcEquals(
     convert("haíresis", "transliteration", "greek"),

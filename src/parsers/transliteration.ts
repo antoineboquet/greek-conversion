@@ -13,6 +13,7 @@ import {
   literal,
   type Token,
 } from "../model.ts";
+import type { ConversionOptions } from "../options.ts";
 import { Trie } from "../trie.ts";
 
 const TRIE = new Trie<Letter>(
@@ -26,7 +27,10 @@ const TRIE = new Trie<Letter>(
     ),
 );
 
-export function parseTransliteration(input: string): Document {
+export function parseTransliteration(
+  input: string,
+  options: ConversionOptions = {},
+): Document {
   const chars = Array.from(input.normalize("NFD"));
   const out: Token[] = [];
 
@@ -85,7 +89,9 @@ export function parseTransliteration(input: string): Document {
     );
   }
 
-  inferNasalGammas(out);
+  if (options.orthography?.nasalGamma !== "literal") {
+    inferNasalGammas(out);
+  }
   inferInitialBreathings(out);
 
   return out;

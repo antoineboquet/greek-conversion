@@ -20,24 +20,29 @@ export type {
   Token,
 } from "./model.ts";
 export type {
-  CoronisOrthography,
   ConversionOptions,
+  CoronisOrthography,
   DoubleRhoOrthography,
   MedialBetaOrthography,
+  NasalGammaOrthography,
   OrthographyOptions,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
 export type { ValidationCode, ValidationDiagnostic } from "./validation.ts";
 export { validateDocument } from "./validation.ts";
 
-export function parse(input: string, format: Format): Document {
+export function parse(
+  input: string,
+  format: Format,
+  options: ConversionOptions = {},
+): Document {
   switch (format) {
     case "greek":
       return parseGreek(input);
     case "beta-code":
       return parseBetaCode(input);
     case "transliteration":
-      return parseTransliteration(input);
+      return parseTransliteration(input, options);
   }
 }
 
@@ -65,7 +70,7 @@ export const convert = (
   from: Format,
   to: Format,
   options: ConversionOptions = {},
-) => encode(parse(input, from), to, options);
+) => encode(parse(input, from, options), to, options);
 
 export const greekToBetaCode = (
   input: string,
