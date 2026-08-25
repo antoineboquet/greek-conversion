@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "check": "deno lint && deno check src/mod.ts tests/conversion_test.ts",
+    "check": "deno lint && deno check src/mod.ts tests/conversion_test.ts tests/invariants_test.ts",
     "test": "deno test"
   },
   "imports": {
