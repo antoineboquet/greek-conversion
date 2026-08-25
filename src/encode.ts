@@ -6,6 +6,7 @@ import {
   DEXIA_KERAIA,
   elidedAspirate,
   initialBreathingStart,
+  isDiphthongAt,
   isGreekNumeralContext,
   isNasalGamma,
   isWordFinal,
@@ -130,7 +131,7 @@ export function encodeTransliteration(
     let base = options.orthography?.nasalGamma !== "literal" &&
         isNasalGamma(doc, index)
       ? "n"
-      : transliterationBase(token.letter, options);
+      : transliterationBase(doc, index, token.letter, options);
     if (token.uppercase && !groupUppercase) {
       base = base[0].toUpperCase() + base.slice(1);
     }
@@ -163,9 +164,25 @@ export function encodeTransliteration(
 }
 
 function transliterationBase(
+  document: Document,
+  index: number,
   letter: Grapheme["letter"],
   options: ConversionOptions,
 ): string {
+  if (letter === "upsilon") {
+    switch (options.orthography?.upsilon) {
+      case "y":
+        return "y";
+      case "y-with-diphthong-u":
+        return isDiphthongAt(document, index - 1) ||
+            isDiphthongAt(document, index)
+          ? "u"
+          : "y";
+      default:
+        return "u";
+    }
+  }
+
   let base: string;
   switch (letter) {
     case "eta":

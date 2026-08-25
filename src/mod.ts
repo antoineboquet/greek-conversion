@@ -30,6 +30,7 @@ export type {
   NumeralOrthography,
   OrthographyOptions,
   SigmaOrthography,
+  UpsilonOrthography,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
 export {

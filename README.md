@@ -26,9 +26,22 @@ The values are `"macron"` (default), `"circumflex"`, and `"circumflex-macron"`.
 Explicit long `α`, `ι`, and `υ` always retain their macron because Greek does
 not encode their quantity with a distinct letter. A tilde continues to represent
 the Greek circumflex accent, so `ῆ` becomes `ễ` under the circumflex policy. All
-three structural spellings (`ē`, `ê`, `ê̄`) are accepted on input. Contextual
-nasal gamma is transliterated as `n` before gamma, kappa, xi, and chi by
-default. Before sigma, canonical Greek output contracts adjacent unmarked
+three structural spellings (`ē`, `ê`, `ê̄`) are accepted on input.
+
+Upsilon uses `u` throughout by default. Set `upsilon` to `"y"` to use `y`
+throughout, or to `"y-with-diphthong-u"` to use `y` generally and `u` when
+upsilon belongs to a diphthong:
+
+```ts
+convert("υ αυ ευ ου υι αϋ", "greek", "transliteration", {
+  orthography: { upsilon: "y-with-diphthong-u" },
+}); // y au eu ou ui aÿ
+```
+
+The contextual policy shares the canonical diphthong analysis used for
+breathings, so a diaeresis or iota subscript prevents grouping. Both `u` and
+`y` are accepted as input spellings for upsilon. Contextual nasal gamma is
+transliterated as `n` before gamma, kappa, xi, and chi by default. Before sigma, canonical Greek output contracts adjacent unmarked
 labials (`π`, `β`, `φ`) to `ψ` and velars (`κ`, `γ`, `χ`) to `ξ`. Dental
 assimilation is opt-in because it deletes `τ`, `δ`, or `θ` before `σ`:
 

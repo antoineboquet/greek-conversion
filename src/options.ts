@@ -5,6 +5,7 @@ export type NasalGammaOrthography = "nasal" | "literal";
 export type SigmaOrthography = "standard" | "lunate";
 export type NumeralOrthography = "alphabetic" | "decimal";
 export type DentalSigmaOrthography = "preserve" | "assimilate";
+export type UpsilonOrthography = "u" | "y" | "y-with-diphthong-u";
 export type LongVowelOrthography =
   | "macron"
   | "circumflex"
@@ -18,6 +19,7 @@ export interface OrthographyOptions {
   sigma?: SigmaOrthography;
   numerals?: NumeralOrthography;
   dentalSigma?: DentalSigmaOrthography;
+  upsilon?: UpsilonOrthography;
   longVowels?: LongVowelOrthography;
 }
 

@@ -42,6 +42,43 @@ Deno.test("applies the beta symbol only to medial lowercase beta", () => {
   );
 });
 
+Deno.test("applies the requested upsilon transliteration", () => {
+  const greek = "υ αυ ευ ηυ ου υι ωυ αϋ";
+
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration"),
+    "u au eu ēu ou ui ōu aü",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", {
+      orthography: { upsilon: "u" },
+    }),
+    "u au eu ēu ou ui ōu aü",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", {
+      orthography: { upsilon: "y" },
+    }),
+    "y ay ey ēy oy yi ōy aÿ",
+  );
+  assertNfcEquals(
+    convert(greek, "greek", "transliteration", {
+      orthography: { upsilon: "y-with-diphthong-u" },
+    }),
+    "y au eu ēu ou ui ōu aÿ",
+  );
+  assertNfcEquals(
+    convert("Υ ΑΥ ΑΫ", "greek", "transliteration", {
+      orthography: { upsilon: "y-with-diphthong-u" },
+    }),
+    "Y AU AŸ",
+  );
+  assertNfcEquals(
+    convert("bu by", "transliteration", "greek"),
+    "βυ βυ",
+  );
+});
+
 Deno.test("applies the requested coronis transliteration", () => {
   assertNfcEquals(convert("κἀγώ", "greek", "transliteration"), "kagṓ");
   assertNfcEquals(

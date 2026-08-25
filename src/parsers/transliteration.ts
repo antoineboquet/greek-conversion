@@ -18,8 +18,8 @@ import type { ConversionOptions } from "../options.ts";
 import { parsePunctuation } from "../punctuation.ts";
 import { Trie } from "../trie.ts";
 
-const TRIE = new Trie<Letter>(
-  Object.entries(ALPHABET)
+const TRIE = new Trie<Letter>([
+  ...Object.entries(ALPHABET)
     .filter(([letter]) =>
       letter !== "eta" &&
       letter !== "omega" &&
@@ -33,7 +33,8 @@ const TRIE = new Trie<Letter>(
         letter as Letter,
       ] as const
     ),
-);
+  ["y", "upsilon"] as const,
+]);
 
 export function parseTransliteration(
   input: string,

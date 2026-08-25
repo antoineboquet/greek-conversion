@@ -102,21 +102,19 @@ export function isGreekNumeralContext(
   return false;
 }
 
-export function breathingTarget(document: Document, start: number): number {
+export function isDiphthongAt(document: Document, start: number): boolean {
   const first = document[start];
   const second = document[start + 1];
 
-  if (
-    first?.kind === "grapheme" &&
+  return first?.kind === "grapheme" &&
     second?.kind === "grapheme" &&
     DIPHTHONGS.has(`${first.letter}-${second.letter}`) &&
     !first.diacritics.has("iota-subscript") &&
-    !second.diacritics.has("diaeresis")
-  ) {
-    return start + 1;
-  }
+    !second.diacritics.has("diaeresis");
+}
 
-  return start;
+export function breathingTarget(document: Document, start: number): number {
+  return isDiphthongAt(document, start) ? start + 1 : start;
 }
 
 /** Moves an initial breathing supplied on the first half of a diphthong. */
