@@ -148,6 +148,20 @@ Deno.test("applies individual transliteration variants", () => {
     convert("βηξφχυ", "greek", "transliteration"),
     "bēxphchu",
   );
+  assertNfcEquals(
+    convert("βῇ", "greek", "transliteration", variants),
+    "vī̧̃",
+  );
+  assertNfcEquals(
+    convert("vī̧̃", "transliteration", "greek", variants),
+    "βῇ",
+  );
+  assertNfcEquals(
+    convert("ηω", "greek", "transliteration", {
+      orthography: { eta: "ī", longVowels: "circumflex" },
+    }),
+    "īô",
+  );
 });
 
 Deno.test("transliterates initial modern Greek digraphs phonetically", () => {

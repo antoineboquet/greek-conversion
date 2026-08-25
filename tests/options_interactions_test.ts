@@ -47,6 +47,33 @@ Deno.test("combines transliteration policies deterministically", () => {
   );
 });
 
+Deno.test("combines modern transliteration and whitespace policies", () => {
+  const options = {
+    removeDiacritics: true,
+    orthography: {
+      beta: "v",
+      chi: "kh",
+      eta: "ī",
+      modernDigraphs: "phonetic",
+      phi: "f",
+      rho: "systematic",
+      upsilon: "y",
+      whitespace: "collapse",
+      xi: "ks",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert(
+      " \tμπήρα  βηξφχυ  ρρ\nντομάτα ",
+      "greek",
+      "transliteration",
+      options,
+    ),
+    "bīrha vīksfkhy rrh domata",
+  );
+});
+
 Deno.test("numerals override interacting Greek glyph policies", () => {
   const options = {
     removeDiacritics: true,

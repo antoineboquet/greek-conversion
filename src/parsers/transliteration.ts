@@ -42,7 +42,10 @@ export function parseTransliteration(
   input: string,
   options: ConversionOptions = {},
 ): Document {
-  const chars = Array.from(input.normalize("NFD"));
+  const chars = prioritizeEtaMacron(
+    Array.from(input.normalize("NFD")),
+    options,
+  );
   const out: Token[] = [];
   const trie = transliterationTrie(options);
 
@@ -138,6 +141,29 @@ export function parseTransliteration(
   inferInitialBreathings(out);
 
   return out;
+}
+
+function prioritizeEtaMacron(
+  input: string[],
+  options: ConversionOptions,
+): string[] {
+  if (options.orthography?.eta !== "ī") return input;
+
+  const chars = [...input];
+  for (let start = 0; start < chars.length; start++) {
+    if (chars[start].toLowerCase() !== "i") continue;
+
+    let end = start + 1;
+    while (end < chars.length && /^\p{M}$/u.test(chars[end])) end++;
+
+    const macron = chars.indexOf("\u0304", start + 1);
+    if (macron >= end || macron === -1) continue;
+    chars.splice(macron, 1);
+    chars.splice(start + 1, 0, "\u0304");
+    start = end - 1;
+  }
+
+  return chars;
 }
 
 function transliterationTrie(options: ConversionOptions): Trie<Letter> {

@@ -135,7 +135,8 @@ convert("βηξφχυ", "greek", "transliteration", {
 ```
 
 The selected spellings are also recognized on transliteration input. Selecting
-`eta: "ī"` necessarily interprets `ī` as eta rather than quantity-marked iota.
+`eta: "ī"` necessarily interprets `ī` as eta rather than quantity-marked iota
+and takes precedence over `longVowels` for eta; the latter still controls omega.
 Set `modernDigraphs` to `"phonetic"` to transliterate word-initial `μπ` as `b`
 and word-initial `ντ` as `d`; internal pairs remain `mp` and `nt`:
 

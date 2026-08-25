@@ -102,6 +102,52 @@ Deno.test("deterministic added marks are not information loss", () => {
   assertEquals(result.losses, []);
 });
 
+Deno.test("selected transliteration variants retain recoverable letters", () => {
+  const result = convertDetailed(
+    "βηξφχυ ρρ μπ",
+    "greek",
+    "transliteration",
+    {
+      orthography: {
+        beta: "v",
+        chi: "kh",
+        eta: "ī",
+        modernDigraphs: "phonetic",
+        phi: "f",
+        rho: "systematic",
+        upsilon: "y",
+        xi: "ks",
+      },
+    },
+  );
+
+  assertEquals(result.output, "vīksfkhy rrh b");
+  assertEquals(result.lossy, false);
+  assertEquals(result.losses, []);
+});
+
+Deno.test("reports destructive orthography policies from their actual input", () => {
+  const whitespace = convertDetailed("  α\tβ  ", "greek", "greek", {
+    orthography: { whitespace: "collapse" },
+  });
+  const modernNt = convertDetailed("ντο", "greek", "transliteration", {
+    orthography: { modernDigraphs: "phonetic" },
+  });
+  const systematicRoughRho = convertDetailed(
+    "ῥ",
+    "greek",
+    "transliteration",
+    { orthography: { rho: "systematic" } },
+  );
+
+  assertEquals(whitespace.output, "α β");
+  assertEquals(whitespace.lossy, true);
+  assertEquals(modernNt.output, "do");
+  assertEquals(modernNt.lossy, true);
+  assertEquals(systematicRoughRho.output, "rh");
+  assertEquals(systematicRoughRho.lossy, true);
+});
+
 Deno.test("preserved unknown literals remain lossless", () => {
   const result = convertDetailed("😀 𝄞 𐀀", "greek", "transliteration");
 

@@ -73,6 +73,22 @@ const PROFILES = [
     },
   },
   {
+    name: "modern transliteration variants",
+    options: {
+      orthography: {
+        beta: "v",
+        chi: "kh",
+        eta: "ī",
+        modernDigraphs: "phonetic",
+        phi: "f",
+        rho: "systematic",
+        upsilon: "y",
+        whitespace: "collapse",
+        xi: "ks",
+      },
+    },
+  },
+  {
     name: "decomposed Greek with forced punctuation",
     options: {
       unicode: {

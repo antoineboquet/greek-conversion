@@ -244,7 +244,8 @@ function transliterationBase(
   let base: string;
   switch (letter) {
     case "eta":
-      base = options.orthography?.eta === "ī" ? "i" : "e";
+      if (options.orthography?.eta === "ī") return "i\u0304";
+      base = "e";
       break;
     case "omega":
       base = "o";
