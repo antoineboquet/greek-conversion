@@ -16,8 +16,10 @@ import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 import { encodePunctuation } from "./punctuation.ts";
 
-const marks = (token: Grapheme) =>
-  ORDER.filter((mark) => token.diacritics.has(mark));
+const marks = (token: Grapheme, options: ConversionOptions) =>
+  options.removeDiacritics
+    ? []
+    : ORDER.filter((mark) => token.diacritics.has(mark));
 
 export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
   let out = "";
@@ -74,7 +76,8 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     }
     if (token.uppercase) base = base.toLocaleUpperCase("el");
 
-    out += base + marks(token).map((mark) => GREEK_FOR[mark]).join("");
+    out += base +
+      marks(token, options).map((mark) => GREEK_FOR[mark]).join("");
   }
 
   return out.normalize("NFC");
@@ -101,7 +104,7 @@ export function encodeBetaCode(
     if (token.uppercase) {
       base = base.startsWith("#") ? `*${base}` : base.toUpperCase();
     }
-    return base + marks(token).map((mark) => BETA_FOR[mark]).join("");
+    return base + marks(token, options).map((mark) => BETA_FOR[mark]).join("");
   }).join("");
 }
 
@@ -122,7 +125,8 @@ export function encodeTransliteration(
     const breathingToken = breathingIndex === undefined
       ? undefined
       : doc[breathingIndex];
-    const initialRough = breathingToken?.kind === "grapheme" &&
+    const initialRough = !options.removeDiacritics &&
+      breathingToken?.kind === "grapheme" &&
       breathingToken.diacritics.has("rough");
     const groupUppercase = initialRough && breathingStart !== undefined &&
       (doc[breathingStart].kind === "grapheme" &&
@@ -138,6 +142,7 @@ export function encodeTransliteration(
     if (initialRough && index === breathingStart) {
       base = (groupUppercase ? "H" : "h") + base.toLowerCase();
     } else if (
+      !options.removeDiacritics &&
       token.diacritics.has("rough") && index !== breathingIndex
     ) {
       if (token.letter === "rho") base = base + "h";
@@ -150,7 +155,7 @@ export function encodeTransliteration(
     ) {
       base += "h";
     }
-    const tokenMarks = marks(token);
+    const tokenMarks = marks(token, options);
     const transliteratedMarks = tokenMarks
       .filter((mark) => mark !== "coronis")
       .map((mark) => trMark(mark, options))
