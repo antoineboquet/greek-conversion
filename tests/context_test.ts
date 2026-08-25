@@ -202,12 +202,12 @@ Deno.test("converts additional Greek letters in every format", () => {
     "V J *#2 *#1 *#3 *#5",
   );
   assertNfcEquals(
-    convert("w j c̄ q s̄", "transliteration", "greek"),
-    "ϝ ϳ ϛ ϟ ϡ",
+    convert("w j c̄ q ḳ s̄", "transliteration", "greek"),
+    "ϝ ϳ ϛ ϟ ϙ ϡ",
   );
   assertNfcEquals(
-    convert("ϝ ϳ ϛ ϟ ϡ", "greek", "transliteration"),
-    "w j c̄ q s̄",
+    convert("ϝ ϳ ϛ ϟ ϙ ϡ", "greek", "transliteration"),
+    "w j c̄ q ḳ s̄",
   );
 });
 

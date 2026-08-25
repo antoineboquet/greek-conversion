@@ -123,7 +123,17 @@ export function parseTransliteration(
 function markedArchaicLetter(
   chars: readonly string[],
   start: number,
-): { value: "stigma" | "sampi"; length: number } | undefined {
+):
+  | { value: "archaic-koppa"; length: 2 }
+  | { value: "stigma" | "sampi"; length: number }
+  | undefined {
+  if (
+    chars[start]?.toLowerCase() === "k" &&
+    chars[start + 1] === "\u0323"
+  ) {
+    return { value: "archaic-koppa", length: 2 };
+  }
+
   const firstMark = chars[start + 1];
   if (firstMark !== "\u0304" && firstMark !== "\u0302") return undefined;
 

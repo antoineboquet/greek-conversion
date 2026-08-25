@@ -66,9 +66,6 @@ Deno.test("every letter and case survives every format", () => {
   for (const letter of LETTERS) {
     for (const uppercase of CASES) {
       for (const format of FORMATS) {
-        if (letter === "archaic-koppa" && format === "transliteration") {
-          continue;
-        }
         assertRoundTrip(framed(grapheme(letter, uppercase)), format);
       }
     }
