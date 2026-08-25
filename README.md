@@ -1,15 +1,22 @@
-# gc-next
+# greek-conversion
 
 Convert polytonic or monotonic Greek, Beta Code, and scientific transliteration
 in every direction.
 
-`gc-next` provides predictable output, named standards-oriented presets, and
-diagnostics when a conversion loses information. Unknown characters are
-preserved instead of being silently discarded.
+`greek-conversion` provides predictable output, named standards-oriented
+presets, and diagnostics when a conversion loses information. Unknown
+characters are preserved instead of being silently discarded.
 
-## Quick start
+## Installation
 
-Import the public module in Deno or TypeScript:
+The `1.0.0-beta.1` prerelease is ESM-only and targets JSR and npm:
+
+```sh
+deno add jsr:@humanities/greek-conversion@1.0.0-beta.1
+npm install greek-conversion@beta
+```
+
+Import the public module from JSR:
 
 ```ts
 import {
@@ -17,8 +24,13 @@ import {
   convert,
   convertDetailed,
   GreekText,
-} from "./src/mod.ts";
+} from "@humanities/greek-conversion";
 ```
+
+The same named exports are available from `"greek-conversion"` in npm-based
+projects.
+
+## Quick start
 
 Use `convert()` for any pair of supported formats:
 
@@ -178,7 +190,7 @@ the same options are supplied.
 import {
   formatGreekUnicode,
   toUnicodeCodePoints,
-} from "./src/mod.ts";
+} from "@humanities/greek-conversion";
 
 formatGreekUnicode("ά;·", {
   acute: "oxia",
@@ -259,10 +271,14 @@ by the engine today.
 
 ## Advanced API
 
-Applications can work directly with the canonical representation:
+Applications can work directly with the experimental canonical representation:
 
 ```ts
-import { encode, parse, validateDocument } from "./src/mod.ts";
+import {
+  encode,
+  parse,
+  validateDocument,
+} from "@humanities/greek-conversion/document";
 
 const document = parse("a)/nqrwpos", "beta-code");
 const diagnostics = validateDocument(document);
@@ -270,7 +286,8 @@ const output = encode(document, "greek");
 ```
 
 Validation deliberately remains a separate diagnostic step instead of changing
-the contract of `convert()`. See [validation](docs/validation.md).
+the contract of `convert()`. The `./document` entry point may still evolve
+during the `1.0.0` prerelease series. See [validation](docs/validation.md).
 
 ## Documentation
 
@@ -289,3 +306,10 @@ the contract of `convert()`. See [validation](docs/validation.md).
 deno task check
 deno task test
 ```
+
+## License
+
+Copyright © 2021–2026 Antoine Boquet and contributors.
+
+`greek-conversion` is licensed under the
+[GNU Affero General Public License v3.0 or later](LICENSE).

@@ -1,9 +1,41 @@
 {
+  "name": "@humanities/greek-conversion",
+  "version": "1.0.0-beta.1",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./document": "./src/document.ts"
+  },
+  "publish": {
+    "include": [
+      "README.md",
+      "LICENSE",
+      "CHANGELOG.md",
+      "MIGRATION.md",
+      "RELEASING.md",
+      "docs/**/*.md",
+      "src/**/*.ts"
+    ]
+  },
+  "fmt": {
+    "include": [
+      "src/**/*.ts",
+      "tests/**/*.ts",
+      "scripts/**/*.ts",
+      "scripts/**/*.mjs",
+      ".github/**/*.yml",
+      "*.json"
+    ]
+  },
   "tasks": {
-    "check": "deno lint && deno check src/mod.ts tests/aliases_test.ts tests/context_test.ts tests/detailed_conversion_test.ts tests/diacritics_test.ts tests/equivalences_test.ts tests/greek_text_test.ts tests/greek_unicode_test.ts tests/invariants_test.ts tests/long_vowels_test.ts tests/lossy_conversions_test.ts tests/options_interactions_test.ts tests/orthography_test.ts tests/presets_test.ts tests/punctuation_test.ts tests/stability_test.ts tests/unicode_test.ts tests/validation_test.ts",
-    "test": "deno test"
+    "check": "deno fmt --check && deno lint && deno check src/mod.ts src/document.ts tests/aliases_test.ts tests/context_test.ts tests/detailed_conversion_test.ts tests/diacritics_test.ts tests/equivalences_test.ts tests/greek_text_test.ts tests/greek_unicode_test.ts tests/invariants_test.ts tests/long_vowels_test.ts tests/lossy_conversions_test.ts tests/options_interactions_test.ts tests/orthography_test.ts tests/presets_test.ts tests/public_api_test.ts tests/punctuation_test.ts tests/stability_test.ts tests/unicode_test.ts tests/validation_test.ts && deno task doc",
+    "doc": "deno doc --lint src/mod.ts src/document.ts",
+    "test": "deno test",
+    "publish:check": "deno publish --dry-run --check=all",
+    "npm:build": "deno run -A scripts/build_npm.ts",
+    "npm:check": "deno task npm:build && node scripts/npm_smoke_test.mjs && cd npm && npm pack --dry-run"
   },
   "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@0.43.2",
     "@std/assert": "jsr:@std/assert@^1.0.19"
   }
 }
