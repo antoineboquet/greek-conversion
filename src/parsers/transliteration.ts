@@ -1,4 +1,5 @@
 import { ALPHABET, GREEK_MARKS } from "../alphabet.ts";
+import { followsNasalGamma } from "../context.ts";
 import {
   type Diacritic,
   type Document,
@@ -100,9 +101,26 @@ export function parseTransliteration(input: string): Document {
     );
   }
 
+  inferNasalGammas(out);
   inferSmooth(out);
 
   return out;
+}
+
+function inferNasalGammas(tokens: Token[]) {
+  for (let i = 0; i < tokens.length - 1; i++) {
+    const token = tokens[i];
+    const next = tokens[i + 1];
+
+    if (
+      token.kind === "grapheme" &&
+      token.letter === "nu" &&
+      next.kind === "grapheme" &&
+      followsNasalGamma(next.letter)
+    ) {
+      token.letter = "gamma";
+    }
+  }
 }
 
 function startsVowel(chars: readonly string[], start: number) {

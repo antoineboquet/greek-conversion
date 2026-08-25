@@ -1,5 +1,5 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
-import { isWordFinal, isWordInitial } from "./context.ts";
+import { isNasalGamma, isWordFinal, isWordInitial } from "./context.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
 
@@ -50,7 +50,7 @@ export function encodeTransliteration(doc: Document) {
     if (token.kind === "literal") return token.value;
 
     const previous = doc[index - 1];
-    let base = ALPHABET[token.letter].tr;
+    let base = isNasalGamma(doc, index) ? "n" : ALPHABET[token.letter].tr;
     if (token.uppercase) base = base[0].toUpperCase() + base.slice(1);
     if (token.diacritics.has("rough")) {
       if (token.letter === "rho") base = base + "h";

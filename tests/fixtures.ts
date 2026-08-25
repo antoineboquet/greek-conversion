@@ -19,6 +19,10 @@ export const EQUIVALENCES = [
     transliteration: "polúrrhizos",
   },
   { greek: "ῥήτωρ", betaCode: "r(h/twr", transliteration: "rhḗtōr" },
+  { greek: "ἄγγελος", betaCode: "a)/ggelos", transliteration: "ángelos" },
+  { greek: "ἀγκών", betaCode: "a)gkw/n", transliteration: "ankṓn" },
+  { greek: "σάλπιγξ", betaCode: "sa/lpigc", transliteration: "sálpinx" },
+  { greek: "ἔλεγχος", betaCode: "e)/legxos", transliteration: "élenchos" },
   { greek: "ποιῇ", betaCode: "poih=|", transliteration: "poiȩ̄̃" },
   { greek: "ΠΟΙῌ͂", betaCode: "POIH=|", transliteration: "POIȨ̄̃" },
   { greek: "Αἶα", betaCode: "Ai)=a", transliteration: "Aĩa" },
@@ -100,6 +104,14 @@ export const LOSSY_CONVERSIONS = [
     source: "ᾱ",
     intermediate: "ā",
     canonicalRoundTrip: "ἀ̄",
+  },
+  {
+    name: "nu before a velar converges to canonical nasal gamma",
+    sourceFormat: "greek",
+    intermediateFormat: "transliteration",
+    source: "νγ",
+    intermediate: "ng",
+    canonicalRoundTrip: "γγ",
   },
 ] as const satisfies readonly LossyConversion[];
 
