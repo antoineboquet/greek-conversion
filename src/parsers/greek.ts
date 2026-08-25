@@ -1,2 +1,40 @@
-import{BY_GREEK,GREEK_MARKS}from'../alphabet.ts';import{grapheme,literal,type Diacritic,type Document,type Token}from'../model.ts';
-export function parseGreek(input:string):Document{const chars=Array.from(input.normalize('NFD'));const out:Token[]=[];for(let i=0;i<chars.length;){const source=chars[i];const lower=source.toLocaleLowerCase('el');const letter=BY_GREEK.get(lower==='ς'?'σ':lower);if(!letter){out.push(literal(source));i++;continue}const marks=new Set<Diacritic>();i++;while(i<chars.length){const mark=GREEK_MARKS.get(chars[i]);if(!mark)break;marks.add(mark);i++}out.push(grapheme(letter,source!==lower,marks))}return out}
+import { BY_GREEK, GREEK_MARKS } from "../alphabet.ts";
+import {
+  type Diacritic,
+  type Document,
+  grapheme,
+  literal,
+  type Token,
+} from "../model.ts";
+
+export function parseGreek(input: string): Document {
+  const chars = Array.from(input.normalize("NFD"));
+  const out: Token[] = [];
+
+  for (let i = 0; i < chars.length;) {
+    const source = chars[i];
+    const lower = source.toLocaleLowerCase("el");
+    const letter = BY_GREEK.get(lower === "ς" ? "σ" : lower);
+
+    if (!letter) {
+      out.push(literal(source));
+      i++;
+      continue;
+    }
+
+    const marks = new Set<Diacritic>();
+
+    i++;
+
+    while (i < chars.length) {
+      const mark = GREEK_MARKS.get(chars[i]);
+      if (!mark) break;
+      marks.add(mark);
+      i++;
+    }
+
+    out.push(grapheme(letter, source !== lower, marks));
+  }
+
+  return out;
+}
