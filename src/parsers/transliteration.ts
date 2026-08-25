@@ -1,5 +1,5 @@
 import { ALPHABET, GREEK_MARKS } from "../alphabet.ts";
-import { followsNasalGamma } from "../context.ts";
+import { breathingTarget, followsNasalGamma, isVowel } from "../context.ts";
 import {
   type Diacritic,
   type Document,
@@ -20,27 +20,6 @@ const TRIE = new Trie<Letter>(
       ] as const
     ),
 );
-
-const VOWELS = new Set<Letter>([
-  "alpha",
-  "epsilon",
-  "eta",
-  "iota",
-  "omicron",
-  "upsilon",
-  "omega",
-]);
-
-const DIPHTHONGS = new Set([
-  "alpha-iota",
-  "alpha-upsilon",
-  "epsilon-iota",
-  "epsilon-upsilon",
-  "eta-upsilon",
-  "omicron-iota",
-  "omicron-upsilon",
-  "upsilon-iota",
-]);
 
 export function parseTransliteration(input: string): Document {
   const chars = Array.from(input.normalize("NFD"));
@@ -102,7 +81,7 @@ export function parseTransliteration(input: string): Document {
   }
 
   inferNasalGammas(out);
-  inferSmooth(out);
+  inferInitialBreathings(out);
 
   return out;
 }
@@ -125,7 +104,7 @@ function inferNasalGammas(tokens: Token[]) {
 
 function startsVowel(chars: readonly string[], start: number) {
   const match = TRIE.longest(chars, start);
-  return !!match && VOWELS.has(match.value);
+  return !!match && isVowel(match.value);
 }
 
 function trMark(char: string): Diacritic | undefined {
@@ -150,7 +129,7 @@ function resolveLongVowel(letter: Letter, marks: Set<Diacritic>): Letter {
   return letter;
 }
 
-function inferSmooth(tokens: Token[]) {
+function inferInitialBreathings(tokens: Token[]) {
   let wordStart = true;
 
   for (let i = 0; i < tokens.length; i++) {
@@ -164,15 +143,16 @@ function inferSmooth(tokens: Token[]) {
     if (!wordStart) continue;
     wordStart = false;
 
-    if (!VOWELS.has(token.letter) || token.diacritics.has("rough")) continue;
+    if (!isVowel(token.letter)) continue;
 
-    const next = tokens[i + 1];
-    const target = next?.kind === "grapheme" &&
-        DIPHTHONGS.has(`${token.letter}-${next.letter}`) &&
-        !next.diacritics.has("diaeresis")
-      ? next
-      : token;
+    const target = tokens[breathingTarget(tokens, i)];
+    if (target.kind !== "grapheme") continue;
 
-    target.diacritics.add("smooth");
+    if (token.diacritics.has("rough") && target !== token) {
+      token.diacritics.delete("rough");
+      target.diacritics.add("rough");
+    } else if (!target.diacritics.has("rough")) {
+      target.diacritics.add("smooth");
+    }
   }
 }

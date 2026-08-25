@@ -13,6 +13,36 @@ Deno.test("preserves case when transliterating nasal gamma", () => {
   );
 });
 
+Deno.test("places initial breathings on the diphthong target", () => {
+  assertNfcEquals(
+    convert("haíresis", "transliteration", "greek"),
+    "αἵρεσις",
+  );
+  assertNfcEquals(
+    convert("αἵρεσις", "greek", "transliteration"),
+    "haíresis",
+  );
+  assertNfcEquals(
+    convert("Haíresis", "transliteration", "greek"),
+    "Αἵρεσις",
+  );
+  assertNfcEquals(
+    convert("Αἵρεσις", "greek", "transliteration"),
+    "Haíresis",
+  );
+});
+
+Deno.test("diaeresis prevents an initial diphthong", () => {
+  assertNfcEquals(
+    convert("huḯdion", "transliteration", "greek"),
+    "ὑΐδιον",
+  );
+  assertNfcEquals(
+    convert("ὑΐδιον", "greek", "transliteration"),
+    "huḯdion",
+  );
+});
+
 Deno.test("contracts pi-sigma in canonical Greek output", () => {
   assertNfcEquals(convert("πσ ΠΣ Πσ πΣ", "greek", "greek"), "ψ Ψ Ψ πΣ");
   assertNfcEquals(convert("ps PS Ps", "beta-code", "greek"), "ψ Ψ Ψ");

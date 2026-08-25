@@ -8,6 +8,8 @@ supports every direction between the three formats, uses one canonical spelling
 per output format, normalizes output to NFC, and preserves unknown characters.
 Contextual nasal gamma is transliterated as `n` before gamma, kappa, xi, and
 chi. Canonical Greek output contracts an adjacent unmarked `πσ` sequence to `ψ`.
+Initial breathings are placed on the second vowel of a diphthong and rendered
+before the whole vowel group in transliteration; a diaeresis prevents this rule.
 
 ```ts
 import { betaCodeToGreek, convert } from "./src/mod.ts";

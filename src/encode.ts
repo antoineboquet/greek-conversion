@@ -1,6 +1,8 @@
 import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
 import {
+  breathingTarget,
   contractedPsiUppercase,
+  initialBreathingStart,
   isNasalGamma,
   isWordFinal,
   isWordInitial,
@@ -64,9 +66,28 @@ export function encodeTransliteration(doc: Document) {
     if (token.kind === "literal") return token.value;
 
     const previous = doc[index - 1];
+    const breathingStart = initialBreathingStart(doc, index);
+    const breathingIndex = breathingStart === undefined
+      ? undefined
+      : breathingTarget(doc, breathingStart);
+    const breathingToken = breathingIndex === undefined
+      ? undefined
+      : doc[breathingIndex];
+    const initialRough = breathingToken?.kind === "grapheme" &&
+      breathingToken.diacritics.has("rough");
+    const groupUppercase = initialRough && breathingStart !== undefined &&
+      (doc[breathingStart].kind === "grapheme" &&
+          doc[breathingStart].uppercase ||
+        breathingToken.uppercase);
     let base = isNasalGamma(doc, index) ? "n" : ALPHABET[token.letter].tr;
-    if (token.uppercase) base = base[0].toUpperCase() + base.slice(1);
-    if (token.diacritics.has("rough")) {
+    if (token.uppercase && !groupUppercase) {
+      base = base[0].toUpperCase() + base.slice(1);
+    }
+    if (initialRough && index === breathingStart) {
+      base = (groupUppercase ? "H" : "h") + base.toLowerCase();
+    } else if (
+      token.diacritics.has("rough") && index !== breathingIndex
+    ) {
       if (token.letter === "rho") base = base + "h";
       else if (token.uppercase) base = "H" + base.toLowerCase();
       else base = "h" + base;
