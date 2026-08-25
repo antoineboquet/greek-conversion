@@ -15,6 +15,7 @@ import {
   type Token,
 } from "../model.ts";
 import type { ConversionOptions } from "../options.ts";
+import { parsePunctuation } from "../punctuation.ts";
 import { Trie } from "../trie.ts";
 
 const TRIE = new Trie<Letter>(
@@ -55,7 +56,9 @@ export function parseTransliteration(
 
     if (!match) {
       if (rough) out.push(literal(roughUppercase ? "H" : "h"));
-      out.push(literal(chars[i]));
+      out.push(
+        literal(parsePunctuation(chars[i], "transliteration") ?? chars[i]),
+      );
       i++;
       continue;
     }

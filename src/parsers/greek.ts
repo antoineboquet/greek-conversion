@@ -10,6 +10,7 @@ import {
   literal,
   type Token,
 } from "../model.ts";
+import { parsePunctuation } from "../punctuation.ts";
 
 export function parseGreek(input: string): Document {
   const chars = Array.from(input.normalize("NFD"));
@@ -21,7 +22,7 @@ export function parseGreek(input: string): Document {
     const letter = BY_GREEK.get(lower === "ς" ? "σ" : lower);
 
     if (!letter) {
-      out.push(literal(source));
+      out.push(literal(parsePunctuation(source, "greek") ?? source));
       i++;
       continue;
     }

@@ -12,6 +12,9 @@ import {
   literal,
   type Token,
 } from "../model.ts";
+import { parsePunctuation } from "../punctuation.ts";
+
+const QUANTITY_LETTERS = new Set(["alpha", "iota", "upsilon"]);
 
 export function parseBetaCode(input: string): Document {
   const chars = Array.from(input);
@@ -28,6 +31,15 @@ export function parseBetaCode(input: string): Document {
     if (chars[i]?.toLowerCase() === "s" && chars[i + 1] === "3") {
       out.push(grapheme("sigma", upper));
       i += 2;
+      continue;
+    }
+
+    const punctuation = !upper
+      ? parsePunctuation(chars[i], "beta-code")
+      : undefined;
+    if (punctuation) {
+      out.push(literal(punctuation));
+      i++;
       continue;
     }
 
@@ -65,6 +77,7 @@ export function parseBetaCode(input: string): Document {
     const marks = new Set<Diacritic>();
 
     while (i < chars.length) {
+      if (chars[i] === "'" && !QUANTITY_LETTERS.has(letter)) break;
       const mark = BETA_MARKS.get(chars[i]);
       if (!mark) break;
       marks.add(mark);

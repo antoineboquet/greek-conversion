@@ -1,4 +1,5 @@
 import type { Document, Grapheme, Letter, Token } from "./model.ts";
+import { APOSTROPHE } from "./punctuation.ts";
 
 const NASAL_GAMMA_FOLLOWERS = new Set<Letter>([
   "gamma",
@@ -29,7 +30,7 @@ const DIPHTHONGS = new Set([
   "omega-upsilon",
 ]);
 
-const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", "\u2019"]);
+const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", APOSTROPHE]);
 
 const WORD_JOIN_CONTROLS = new Set(["\u200C", "\u200D", "\u2060", "\uFEFF"]);
 

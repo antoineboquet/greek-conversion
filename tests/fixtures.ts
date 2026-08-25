@@ -32,7 +32,7 @@ export const EQUIVALENCES = [
   { greek: "Ἠώς", betaCode: "H)w/s", transliteration: "Ēṓs" },
   {
     greek: "ἀφ’, ἀλλ’.",
-    betaCode: "a)f’, a)ll’.",
+    betaCode: "a)f', a)ll'.",
     transliteration: "aph’, all’.",
   },
   {

@@ -53,7 +53,7 @@ Deno.test("recognizes common Unicode elision marks", () => {
   for (const mark of ["'", "\u02BC", "\u1FBD", "\u2019"]) {
     assertNfcEquals(
       convert(`ap${mark} hēmō̃n`, "transliteration", "greek"),
-      `ἀφ${mark} ἡμῶν`,
+      "ἀφ’ ἡμῶν",
     );
   }
 });
@@ -69,7 +69,7 @@ Deno.test("does not aspirate outside the elision context", () => {
   );
   assertNfcEquals(
     convert("ap’ hēmō̃n", "transliteration", "beta-code"),
-    "a)p’ h(mw=n",
+    "a)p' h(mw=n",
   );
 });
 
@@ -158,9 +158,10 @@ Deno.test("uses final sigma before Unicode separators and punctuation", () => {
   ];
 
   for (const boundary of boundaries) {
+    const canonicalBoundary = boundary === "'" ? "’" : boundary;
     assertNfcEquals(
       convert(`ασ${boundary}α`, "greek", "greek"),
-      `ας${boundary}α`,
+      `ας${canonicalBoundary}α`,
     );
   }
 });

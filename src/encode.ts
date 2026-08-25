@@ -13,6 +13,7 @@ import {
 } from "./context.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
+import { encodePunctuation } from "./punctuation.ts";
 
 const marks = (token: Grapheme) =>
   ORDER.filter((mark) => token.diacritics.has(mark));
@@ -24,7 +25,7 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     const token = doc[i];
 
     if (token.kind === "literal") {
-      out += token.value;
+      out += encodePunctuation(token.value, "greek") ?? token.value;
       continue;
     }
 
@@ -86,7 +87,7 @@ export function encodeBetaCode(
     if (token.kind === "literal") {
       if (token.value === DEXIA_KERAIA) return "#";
       if (token.value === ARISTERI_KERAIA) return "#22";
-      return token.value;
+      return encodePunctuation(token.value, "beta-code") ?? token.value;
     }
     if (
       token.letter === "sigma" &&
@@ -108,7 +109,9 @@ export function encodeTransliteration(
   options: ConversionOptions = {},
 ) {
   return doc.map((token, index) => {
-    if (token.kind === "literal") return token.value;
+    if (token.kind === "literal") {
+      return encodePunctuation(token.value, "transliteration") ?? token.value;
+    }
 
     const previous = doc[index - 1];
     const breathingStart = initialBreathingStart(doc, index);

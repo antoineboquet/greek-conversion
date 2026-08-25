@@ -40,6 +40,14 @@ Combining marks and the explicit join controls ZWNJ, ZWJ, and WORD JOINER are
 transparent, so they do not incorrectly turn a medial sigma into `ς`. The same
 boundary logic is shared with medial beta and other contextual rules.
 
+Greek punctuation is normalized by meaning rather than preserved as an opaque
+literal. Greek output uses `;` for erotimatiko, `·` for ano teleia, `‐` (U+2010)
+for hyphen, and `’` (U+2019) for apostrophe. Beta Code uses `;`, `:`, `-`, and
+`'`; transliteration uses `?`, `;`, `‐`, and `’`. Unicode aliases such as
+U+037E, U+0387, U+02BC, and U+1FBD converge to those canonical forms. The Greek
+enotikon `‿` (U+203F) is preserved semantically in every format, and the
+combining form U+035C is accepted as an input alias.
+
 Lunate sigma is accepted as a Greek (`ϲ/Ϲ`) and TLG Beta Code (`S3/*S3`) input
 alias. Standard `σ/ς` output remains the default; request lunate output in Greek
 and Beta Code explicitly:

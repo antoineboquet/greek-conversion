@@ -31,6 +31,13 @@ export type {
   SigmaOrthography,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
+export {
+  ANO_TELEIA,
+  APOSTROPHE,
+  ENOTIKON,
+  EROTIMATIKO,
+  HYPHEN,
+} from "./punctuation.ts";
 export type { ValidationCode, ValidationDiagnostic } from "./validation.ts";
 export { validateDocument } from "./validation.ts";
 
