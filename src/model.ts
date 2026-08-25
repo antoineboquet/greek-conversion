@@ -26,6 +26,7 @@ export type Letter =
   | "psi"
   | "omega"
   | "digamma"
+  | "yot"
   | "stigma"
   | "koppa"
   | "archaic-koppa"

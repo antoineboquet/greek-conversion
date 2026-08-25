@@ -80,9 +80,10 @@ convert("σος", "greek", "greek", {
 ```
 
 The archaic letters digamma (`ϝ`), stigma (`ϛ`), koppa (`ϟ`), archaic koppa
-(`ϙ`), and sampi (`ϡ`) are represented explicitly. Beta Code follows the TLG
-codes `v`, `#2`, `#1`, `#3`, and `#5`; transliteration uses `w`, `c̄`, `q`, `q`,
-and `s̄`. The long-vowel marker policy also applies to the structural macrons of
+(`ϙ`), and sampi (`ϡ`) are represented explicitly, as is yot (`ϳ`, uppercase
+`Ϳ`). Beta Code follows the codes `v`, `j`, `#2`, `#1`, `#3`, and `#5`;
+transliteration uses `w`, `j`, `c̄`, `q`, `q`, and `s̄`, with `j` for yot
+following BnF practice. The long-vowel marker policy also applies to the structural macrons of
 stigma and sampi: `c̄/s̄`, `ĉ/ŝ`, or `ĉ̄/ŝ̄`. The two koppas are therefore distinct
 in Greek and Beta Code but converge to numeric koppa after transliteration.
 Greek numeral signs are preserved in transliteration and encoded as `#` (dexia

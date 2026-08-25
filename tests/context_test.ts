@@ -188,26 +188,26 @@ Deno.test("shares transparent boundaries with medial beta", () => {
   );
 });
 
-Deno.test("converts archaic Greek letters in every format", () => {
+Deno.test("converts additional Greek letters in every format", () => {
   assertNfcEquals(
-    convert("ϝ ϛ ϟ ϙ ϡ", "greek", "beta-code"),
-    "v #2 #1 #3 #5",
+    convert("ϝ ϳ ϛ ϟ ϙ ϡ", "greek", "beta-code"),
+    "v j #2 #1 #3 #5",
   );
   assertNfcEquals(
-    convert("v #2 #1 #3 #5", "beta-code", "greek"),
-    "ϝ ϛ ϟ ϙ ϡ",
+    convert("v j #2 #1 #3 #5", "beta-code", "greek"),
+    "ϝ ϳ ϛ ϟ ϙ ϡ",
   );
   assertNfcEquals(
-    convert("Ϝ Ϛ Ϟ Ϙ Ϡ", "greek", "beta-code"),
-    "V *#2 *#1 *#3 *#5",
+    convert("Ϝ Ϳ Ϛ Ϟ Ϙ Ϡ", "greek", "beta-code"),
+    "V J *#2 *#1 *#3 *#5",
   );
   assertNfcEquals(
-    convert("w c̄ q s̄", "transliteration", "greek"),
-    "ϝ ϛ ϟ ϡ",
+    convert("w j c̄ q s̄", "transliteration", "greek"),
+    "ϝ ϳ ϛ ϟ ϡ",
   );
   assertNfcEquals(
-    convert("ϝ ϛ ϟ ϡ", "greek", "transliteration"),
-    "w c̄ q s̄",
+    convert("ϝ ϳ ϛ ϟ ϡ", "greek", "transliteration"),
+    "w j c̄ q s̄",
   );
 });
 

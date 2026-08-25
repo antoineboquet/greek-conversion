@@ -32,6 +32,7 @@ export const ALPHABET: Record<Letter, Forms> = {
   psi: { greek: "ψ", beta: "y", tr: "ps" },
   omega: { greek: "ω", beta: "w", tr: "ō" },
   digamma: { greek: "ϝ", beta: "v", tr: "w" },
+  yot: { greek: "\u03F3", beta: "j", tr: "j" },
   stigma: { greek: "ϛ", beta: "#2", tr: "c\u0304" },
   koppa: { greek: "ϟ", beta: "#1", tr: "q" },
   "archaic-koppa": { greek: "ϙ", beta: "#3", tr: "q" },
