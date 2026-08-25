@@ -69,7 +69,12 @@ export function parseTransliteration(input: string): Document {
     i += match.length;
 
     if (match.value === "rho" && chars[i]?.toLowerCase() === "h") {
-      rough = true;
+      const previous = out.at(-1);
+
+      if (previous?.kind !== "grapheme" || previous.letter !== "rho") {
+        rough = true;
+      }
+
       i++;
     }
 
@@ -96,27 +101,8 @@ export function parseTransliteration(input: string): Document {
   }
 
   inferSmooth(out);
-  inferDoubleRhoBreathings(out);
 
   return out;
-}
-
-function inferDoubleRhoBreathings(tokens: Token[]) {
-  for (let i = 0; i < tokens.length - 1; i++) {
-    const first = tokens[i];
-    const second = tokens[i + 1];
-
-    if (
-      first.kind === "grapheme" &&
-      second.kind === "grapheme" &&
-      first.letter === "rho" &&
-      second.letter === "rho" &&
-      second.diacritics.has("rough") &&
-      !first.diacritics.has("rough")
-    ) {
-      first.diacritics.add("smooth");
-    }
-  }
 }
 
 function startsVowel(chars: readonly string[], start: number) {

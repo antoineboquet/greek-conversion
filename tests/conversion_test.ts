@@ -2,6 +2,7 @@ import { assertEquals } from "@std/assert";
 import {
   betaCodeToGreek,
   betaCodeToTransliteration,
+  convert,
   encode,
   type Format,
   greekToBetaCode,
@@ -49,8 +50,8 @@ const EQUIVALENCES = [
     transliteration: "huḯdion",
   },
   {
-    greek: "πολύῤῥιζος",
-    betaCode: "polu/r)r(izos",
+    greek: "πολύρριζος",
+    betaCode: "polu/rrizos",
     transliteration: "polúrrhizos",
   },
   {
@@ -100,6 +101,23 @@ const EQUIVALENCES = [
   },
 ] as const satisfies readonly Equivalence[];
 
+const ACCEPTED_ALIASES = [
+  {
+    format: "greek",
+    input: "πολύῤῥιζος",
+    transliteration: "polúrrhizos",
+  },
+  {
+    format: "beta-code",
+    input: "polu/r)r(izos",
+    transliteration: "polúrrhizos",
+  },
+] as const satisfies readonly {
+  format: Format;
+  input: string;
+  transliteration: string;
+}[];
+
 const FORMATS = ["greek", "beta-code", "transliteration"] as const;
 
 function valueFor(equivalence: Equivalence, format: Format): string {
@@ -147,6 +165,15 @@ Deno.test("canonical documents survive encode-parse round trips", () => {
 
       assertEquals(reparsed, document);
     }
+  }
+});
+
+Deno.test("accepts non-canonical aliases", () => {
+  for (const { format, input, transliteration } of ACCEPTED_ALIASES) {
+    assertNfcEquals(
+      convert(input, format, "transliteration"),
+      transliteration,
+    );
   }
 });
 

@@ -39,7 +39,7 @@ export function encodeBetaCode(doc: Document) {
 }
 
 export function encodeTransliteration(doc: Document) {
-  return doc.map((token) => {
+  return doc.map((token, index) => {
     if (token.kind === "literal") return token.value;
     let base = ALPHABET[token.letter].tr;
     if (token.uppercase) base = base[0].toUpperCase() + base.slice(1);
@@ -47,6 +47,12 @@ export function encodeTransliteration(doc: Document) {
       if (token.letter === "rho") base = base + "h";
       else if (token.uppercase) base = "H" + base.toLowerCase();
       else base = "h" + base;
+    } else if (
+      token.letter === "rho" &&
+      doc[index - 1]?.kind === "grapheme" &&
+      doc[index - 1].letter === "rho"
+    ) {
+      base += "h";
     }
     return base + marks(token).map(trMark).join("");
   }).join("").normalize("NFC");
