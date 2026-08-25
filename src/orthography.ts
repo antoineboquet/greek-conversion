@@ -1,4 +1,8 @@
-import { ARISTERI_KERAIA, DEXIA_KERAIA } from "./context.ts";
+import {
+  ARISTERI_KERAIA,
+  DEXIA_KERAIA,
+  isWordInitial,
+} from "./context.ts";
 import { literal } from "./model.ts";
 import type { Diacritic, Document, Grapheme, Letter, Token } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
@@ -91,13 +95,14 @@ export function applyNumeralOrthography(
   options: ConversionOptions = {},
 ): Document {
   const spaced = applyWhitespaceOrthography(document, options);
-  if (options.orthography?.numerals !== "decimal") return spaced;
+  const cased = applyLetterCaseOrthography(spaced, options);
+  if (options.orthography?.numerals !== "decimal") return cased;
 
   const output: Token[] = [];
-  for (let index = 0; index < spaced.length;) {
-    const numeral = readNumeral(spaced, index);
+  for (let index = 0; index < cased.length;) {
+    const numeral = readNumeral(cased, index);
     if (numeral === undefined) {
-      output.push(spaced[index]);
+      output.push(cased[index]);
       index++;
       continue;
     }
@@ -106,6 +111,28 @@ export function applyNumeralOrthography(
     index = numeral.end;
   }
   return output;
+}
+
+function applyLetterCaseOrthography(
+  document: Document,
+  options: ConversionOptions,
+): Document {
+  const policy = options.orthography?.letterCase ?? "preserve";
+  if (policy === "preserve") return document;
+
+  let changed = false;
+  const cased = document.map((token, index) => {
+    if (token.kind === "literal") return token;
+
+    const uppercase = policy === "uppercase" ||
+      policy === "title" && isWordInitial(document, index);
+    if (token.uppercase === uppercase) return token;
+
+    changed = true;
+    return { ...token, uppercase };
+  });
+
+  return changed ? cased : document;
 }
 
 function applyWhitespaceOrthography(

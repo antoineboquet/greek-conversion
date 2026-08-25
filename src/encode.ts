@@ -116,6 +116,8 @@ export function encodeTransliteration(
   doc: Document,
   options: ConversionOptions = {},
 ) {
+  const uppercaseOutput = options.orthography?.letterCase === "uppercase";
+
   return doc.map((token, index) => {
     if (token.kind === "literal") {
       return encodePunctuation(token.value, "transliteration") ?? token.value;
@@ -148,29 +150,38 @@ export function encodeTransliteration(
         isNasalGamma(doc, index)
       ? "n"
       : transliterationBase(doc, index, token.letter, options);
-    if (token.uppercase && !groupUppercase) {
-      base = base[0].toUpperCase() + base.slice(1);
+    if (token.uppercase && (!groupUppercase || uppercaseOutput)) {
+      base = uppercaseOutput
+        ? base.toUpperCase()
+        : base[0].toUpperCase() + base.slice(1);
     }
     if (initialRough && index === breathingStart) {
-      base = (groupUppercase ? "H" : "h") + base.toLowerCase();
+      base = (groupUppercase ? "H" : "h") +
+        (groupUppercase && uppercaseOutput
+          ? base.toUpperCase()
+          : base.toLowerCase());
     } else if (
       token.letter === "rho" &&
       options.orthography?.rho === "systematic"
     ) {
-      if (next?.kind !== "grapheme" || next.letter !== "rho") base += "h";
+      if (next?.kind !== "grapheme" || next.letter !== "rho") {
+        base += uppercaseOutput ? "H" : "h";
+      }
     } else if (
       preservesDiacritic("rough", options) &&
       token.diacritics.has("rough") && index !== breathingIndex
     ) {
-      if (token.letter === "rho") base = base + "h";
-      else if (token.uppercase) base = "H" + base.toLowerCase();
-      else base = "h" + base;
+      if (token.letter === "rho") base += uppercaseOutput ? "H" : "h";
+      else if (token.uppercase) {
+        base = "H" +
+          (uppercaseOutput ? base.toUpperCase() : base.toLowerCase());
+      } else base = "h" + base;
     } else if (
       token.letter === "rho" &&
       previous?.kind === "grapheme" &&
       previous.letter === "rho"
     ) {
-      base += "h";
+      base += uppercaseOutput ? "H" : "h";
     }
     const tokenMarks = marks(token, options);
     const transliteratedMarks = tokenMarks

@@ -51,6 +51,7 @@ a UTF-16 offset or a code-point index in the input string.
 
 | Code | Meaning |
 | --- | --- |
+| `changed-case` | A source letter is retained but its uppercase/lowercase distinction is not |
 | `removed-diacritic` | A source diacritic is absent from the reparsed target; `diacritic` identifies it |
 | `unrepresented-grapheme` | A source letter or its position cannot be recovered from the target document |
 | `unrepresented-literal` | A source literal token cannot be recovered from the target document |

@@ -1,6 +1,7 @@
 import type { Diacritic, Document, Token } from "./model.ts";
 
 export type ConversionLossCode =
+  | "changed-case"
   | "removed-diacritic"
   | "unrepresented-grapheme"
   | "unrepresented-literal";
@@ -33,6 +34,21 @@ export function findConversionLosses(
       targetIndex < target.length &&
       preservesToken(source[sourceIndex], target[targetIndex])
     ) {
+      sourceIndex++;
+      targetIndex++;
+      continue;
+    }
+
+    if (
+      targetIndex < target.length &&
+      sameTokenIdentity(source[sourceIndex], target[targetIndex])
+    ) {
+      addTokenLoss(
+        losses,
+        source[sourceIndex],
+        target[targetIndex],
+        sourceIndex,
+      );
       sourceIndex++;
       targetIndex++;
       continue;
@@ -114,13 +130,23 @@ function addTokenLoss(
   if (
     source.kind === "grapheme" &&
     target?.kind === "grapheme" &&
-    source.letter === target.letter &&
-    source.uppercase === target.uppercase
+    source.letter === target.letter
   ) {
+    let changed = false;
+    if (source.uppercase !== target.uppercase) {
+      changed = true;
+      losses.push({
+        code: "changed-case",
+        index,
+        message: "The target representation does not retain letter case.",
+      });
+    }
+
     const removed = [...source.diacritics].filter((mark) =>
       !target.diacritics.has(mark)
     );
     if (removed.length > 0) {
+      changed = true;
       for (const diacritic of removed) {
         losses.push({
           code: "removed-diacritic",
@@ -129,8 +155,8 @@ function addTokenLoss(
           message: `The target representation does not retain ${diacritic}.`,
         });
       }
-      return;
     }
+    if (changed) return;
   }
 
   if (source.kind === "grapheme") {
@@ -147,6 +173,16 @@ function addTokenLoss(
     index,
     message: "The target representation does not retain this literal token.",
   });
+}
+
+function sameTokenIdentity(source: Token, target: Token): boolean {
+  if (source.kind !== target.kind) return false;
+  if (source.kind === "literal" && target.kind === "literal") {
+    return source.value.normalize("NFD") === target.value.normalize("NFD");
+  }
+  return source.kind === "grapheme" &&
+    target.kind === "grapheme" &&
+    source.letter === target.letter;
 }
 
 function preservesToken(source: Token, target: Token): boolean {

@@ -96,6 +96,26 @@ Selective removal is a rendering policy. Context such as diphthongs,
 diaeresis-blocked vowel groups, contractions, and crasis is analyzed from the
 source document before any mark is hidden.
 
+Letter case is also an explicit rendering policy:
+
+```ts
+convert("ΦΙΛΗΒΟΣ Η ΠΕΡΙ ΗΔΟΝΗΣ", "greek", "transliteration", {
+  orthography: { letterCase: "lowercase" },
+}); // philēbos ē peri ēdonēs
+
+convert("φιληβος η περι ηδονης", "greek", "transliteration", {
+  orthography: { letterCase: "title" },
+}); // Philēbos Ē Peri Ēdonēs
+```
+
+The values are `"preserve"` (default), `"lowercase"`, `"uppercase"`, and
+`"title"`. Title case capitalizes the first Greek grapheme after each word
+boundary and lowercases the rest. Uppercase transliteration uppercases complete
+multiletter spellings (`φ → PH`, `χ → CH`), whereas title case uses `Ph` and
+`Ch`. Unknown literal text is never case-folded. This mechanical policy does
+not infer which words are proper names or which words cataloguing rules leave
+uncapitalized.
+
 Whitespace is preserved by default. Set `whitespace` to `"collapse"` to trim
 the output and replace every Unicode whitespace run with one ASCII space in any
 output format:

@@ -31,6 +31,14 @@ const PROFILES = [
     },
   },
   {
+    name: "uppercase output",
+    options: { orthography: { letterCase: "uppercase" } },
+  },
+  {
+    name: "title-case output",
+    options: { orthography: { letterCase: "title" } },
+  },
+  {
     name: "circumflex long vowels and contextual upsilon",
     options: {
       orthography: {

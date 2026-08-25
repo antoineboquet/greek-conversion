@@ -25,6 +25,62 @@ Deno.test("collapses Unicode whitespace on demand", () => {
   assertNfcEquals(convert(input, "greek", "greek"), input);
 });
 
+Deno.test("applies deterministic letter-case policies", () => {
+  const source = "ΦΙΛΗΒΟΣ Η ΠΕΡΙ ΗΔΟΝΗΣ";
+
+  assertNfcEquals(
+    convert(source, "greek", "transliteration", {
+      orthography: { letterCase: "lowercase" },
+    }),
+    "philēbos ē peri ēdonēs",
+  );
+  assertNfcEquals(
+    convert(source, "greek", "transliteration", {
+      orthography: { letterCase: "uppercase" },
+    }),
+    "PHILĒBOS Ē PERI ĒDONĒS",
+  );
+  assertNfcEquals(
+    convert(source, "greek", "transliteration", {
+      orthography: { letterCase: "title" },
+    }),
+    "Philēbos Ē Peri Ēdonēs",
+  );
+});
+
+Deno.test("applies letter case to every output format", () => {
+  const title = { orthography: { letterCase: "title" } } as const;
+  const uppercase = { orthography: { letterCase: "uppercase" } } as const;
+
+  assertNfcEquals(
+    convert("φιληβος-η περι", "greek", "greek", title),
+    "Φιληβος‐Η Περι",
+  );
+  assertNfcEquals(
+    convert("φιληβος-η περι", "greek", "beta-code", title),
+    "Filhbos-H Peri",
+  );
+  assertNfcEquals(
+    convert("φ χ θ ψ ἁ αἱ ρρ", "greek", "transliteration", uppercase),
+    "PH CH TH PS HA HAI RRH",
+  );
+});
+
+Deno.test("combines uppercase output with ALA-LC digraphs", () => {
+  const options = {
+    orthography: {
+      beta: "v",
+      letterCase: "uppercase",
+      modernDigraphs: "ala-lc",
+    },
+  } as const;
+
+  assertNfcEquals(
+    convert("μπ ντ γκ αγκά αγκ", "greek", "transliteration", options),
+    "B D̲ GK ANKÁ AGK",
+  );
+});
+
 Deno.test("applies double-rho orthography on demand", () => {
   assertNfcEquals(
     transliterationToGreek("polúrrhizos", SMOOTH_ROUGH_DOUBLE_RHO),

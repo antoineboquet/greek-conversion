@@ -46,6 +46,7 @@ export type {
   GreekAnoTeleiaForm,
   GreekQuestionMarkForm,
   GreekUnicodeOptions,
+  LetterCaseOrthography,
   LongVowelOrthography,
   MedialBetaOrthography,
   ModernDigraphOrthography,

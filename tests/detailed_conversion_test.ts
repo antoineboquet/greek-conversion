@@ -93,6 +93,29 @@ Deno.test("reports only selectively removed diacritics", () => {
   );
 });
 
+Deno.test("reports case changes separately from removed diacritics", () => {
+  const result = convertDetailed("Ἄβ", "greek", "greek", {
+    diacritics: { accents: "remove" },
+    orthography: { letterCase: "lowercase" },
+  });
+
+  assertEquals(result.output, "ἀβ");
+  assertEquals(result.lossy, true);
+  assertEquals(result.losses, [
+    {
+      code: "changed-case",
+      index: 0,
+      message: "The target representation does not retain letter case.",
+    },
+    {
+      code: "removed-diacritic",
+      index: 0,
+      diacritic: "acute",
+      message: "The target representation does not retain acute.",
+    },
+  ]);
+});
+
 Deno.test("canonical Unicode variants are not information loss", () => {
   const oxia = convertDetailed("ά;·", "greek", "greek", {
     unicode: {

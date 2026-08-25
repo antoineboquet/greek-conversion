@@ -23,6 +23,11 @@ export type PhiTransliteration = "ph" | "f";
 export type ChiTransliteration = "ch" | "kh";
 export type ModernDigraphOrthography = "preserve" | "phonetic" | "ala-lc";
 export type RhoTransliteration = "contextual" | "systematic";
+export type LetterCaseOrthography =
+  | "preserve"
+  | "lowercase"
+  | "uppercase"
+  | "title";
 export type DiacriticDisposition = "preserve" | "remove";
 
 export interface DiacriticOptions {
@@ -54,6 +59,7 @@ export interface OrthographyOptions {
   chi?: ChiTransliteration;
   modernDigraphs?: ModernDigraphOrthography;
   rho?: RhoTransliteration;
+  letterCase?: LetterCaseOrthography;
 }
 
 export interface GreekUnicodeOptions {
