@@ -39,7 +39,7 @@ await build({
     name: "greek-conversion",
     version: denoConfig.version,
     description:
-      "Bidirectional conversion between polytonic or monotonic Greek, Beta Code, and scientific transliteration.",
+      "A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.",
     author: "Antoine Boquet",
     license: "AGPL-3.0-or-later",
     homepage: "https://github.com/antoineboquet/greek-conversion#readme",
