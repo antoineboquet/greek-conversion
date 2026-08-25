@@ -1,4 +1,4 @@
-import type { Document } from "./model.ts";
+import type { Diacritic, Document } from "./model.ts";
 
 /** Removes canonical diacritics without mutating the source document. */
 export function stripDiacritics(document: Document): Document {
@@ -7,7 +7,7 @@ export function stripDiacritics(document: Document): Document {
     if (token.kind === "literal" || token.diacritics.size === 0) return token;
 
     changed = true;
-    return { ...token, diacritics: new Set() };
+    return { ...token, diacritics: new Set<Diacritic>() };
   });
 
   return changed ? stripped : document;
