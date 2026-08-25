@@ -3,7 +3,7 @@
 All notable changes to `greek-conversion` are documented in this file. The
 project follows [Semantic Versioning](https://semver.org/).
 
-## [1.0.0-beta.1] - Unreleased
+## [1.0.0-beta.1] - 2026-08-25
 
 This prerelease is a complete rewrite of the `0.14.x` conversion engine.
 
