@@ -34,9 +34,54 @@ const EQUIVALENCES = [
     transliteration: "Rhódos",
   },
   {
+    greek: "αἴσθησις",
+    betaCode: "ai)/sqhsis",
+    transliteration: "aísthēsis",
+  },
+  {
+    greek: "ἄϋλος",
+    betaCode: "a)/u+los",
+    transliteration: "áülos",
+  },
+  {
+    greek: "ὑΐδιον",
+    betaCode: "u(i+/dion",
+    transliteration: "huḯdion",
+  },
+  {
+    greek: "πολύῤῥιζος",
+    betaCode: "polu/r)r(izos",
+    transliteration: "polúrrhizos",
+  },
+  {
+    greek: "ῥήτωρ",
+    betaCode: "r(h/twr",
+    transliteration: "rhḗtōr",
+  },
+  {
     greek: "ποιῇ",
     betaCode: "poih=|",
     transliteration: "poiȩ̄̃",
+  },
+  {
+    greek: "ΠΟΙῌ͂",
+    betaCode: "POIH=|",
+    transliteration: "POIȨ̄̃",
+  },
+  {
+    greek: "Αἶα",
+    betaCode: "Ai)=a",
+    transliteration: "Aĩa",
+  },
+  {
+    greek: "Ἠώς",
+    betaCode: "H)w/s",
+    transliteration: "Ēṓs",
+  },
+  {
+    greek: "ἀφ’, ἀλλ’.",
+    betaCode: "a)f’, a)ll’.",
+    transliteration: "aph’, all’.",
   },
   {
     greek: "Φίληβος ἢ Περὶ ἡδονῆς",
