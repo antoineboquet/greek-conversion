@@ -25,6 +25,8 @@ export type {
   OrthographyOptions,
 } from "./options.ts";
 export { applyOrthography } from "./orthography.ts";
+export type { ValidationCode, ValidationDiagnostic } from "./validation.ts";
+export { validateDocument } from "./validation.ts";
 
 export function parse(input: string, format: Format): Document {
   switch (format) {
