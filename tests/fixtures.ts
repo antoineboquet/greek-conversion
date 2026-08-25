@@ -119,6 +119,10 @@ const VISIBLE_CORONIS = {
   orthography: { coronis: "apostrophe" },
 } as const satisfies ConversionOptions;
 
+const MONOTONIC_GREEK = {
+  orthography: { accentuation: "monotonic" },
+} as const satisfies ConversionOptions;
+
 export const LOSSY_CONVERSIONS = [
   {
     name: "marked Greek double rho becomes canonical unmarked Greek",
@@ -255,6 +259,15 @@ export const LOSSY_CONVERSIONS = [
     intermediate: "2023",
     canonicalRoundTrip: "2023",
     options: DECIMAL_NUMERALS,
+  },
+  {
+    name: "monotonic Greek cannot reconstruct polytonic marks",
+    sourceFormat: "greek",
+    intermediateFormat: "greek",
+    source: "ἄ ὰ ᾶ ᾳ ῑ ϊ",
+    intermediate: "ά ά ά α ι ϊ",
+    canonicalRoundTrip: "ά ά ά α ι ϊ",
+    options: MONOTONIC_GREEK,
   },
 ] as const satisfies readonly LossyConversion[];
 

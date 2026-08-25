@@ -10,6 +10,11 @@ export type LongVowelOrthography =
   | "macron"
   | "circumflex"
   | "circumflex-macron";
+export type GreekAccentuation = "polytonic" | "monotonic";
+export type UnicodeComposition = "composed" | "decomposed";
+export type GreekAcuteForm = "system" | "tonos" | "oxia";
+export type GreekQuestionMarkForm = "canonical" | "semicolon" | "greek";
+export type GreekAnoTeleiaForm = "canonical" | "middle-dot" | "greek";
 
 export interface OrthographyOptions {
   doubleRho?: DoubleRhoOrthography;
@@ -21,9 +26,18 @@ export interface OrthographyOptions {
   dentalSigma?: DentalSigmaOrthography;
   upsilon?: UpsilonOrthography;
   longVowels?: LongVowelOrthography;
+  accentuation?: GreekAccentuation;
+}
+
+export interface GreekUnicodeOptions {
+  composition?: UnicodeComposition;
+  acute?: GreekAcuteForm;
+  questionMark?: GreekQuestionMarkForm;
+  anoTeleia?: GreekAnoTeleiaForm;
 }
 
 export interface ConversionOptions {
   orthography?: OrthographyOptions;
+  unicode?: GreekUnicodeOptions;
   removeDiacritics?: boolean;
 }

@@ -5,7 +5,11 @@ import {
 } from "./encode.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
-import { applyNumeralOrthography, applyOrthography } from "./orthography.ts";
+import {
+  applyGreekOrthography,
+  applyNumeralOrthography,
+  applyOrthography,
+} from "./orthography.ts";
 import { parseBetaCode } from "./parsers/beta_code.ts";
 import { parseGreek } from "./parsers/greek.ts";
 import { parseTransliteration } from "./parsers/transliteration.ts";
@@ -24,15 +28,21 @@ export type {
   CoronisOrthography,
   DentalSigmaOrthography,
   DoubleRhoOrthography,
+  GreekAccentuation,
+  GreekAcuteForm,
+  GreekAnoTeleiaForm,
+  GreekQuestionMarkForm,
+  GreekUnicodeOptions,
   LongVowelOrthography,
   MedialBetaOrthography,
   NasalGammaOrthography,
   NumeralOrthography,
   OrthographyOptions,
   SigmaOrthography,
+  UnicodeComposition,
   UpsilonOrthography,
 } from "./options.ts";
-export { applyOrthography } from "./orthography.ts";
+export { applyGreekOrthography, applyOrthography } from "./orthography.ts";
 export {
   ANO_TELEIA,
   APOSTROPHE,
@@ -42,6 +52,7 @@ export {
 } from "./punctuation.ts";
 export type { ValidationCode, ValidationDiagnostic } from "./validation.ts";
 export { validateDocument } from "./validation.ts";
+export { toUnicodeCodePoints } from "./unicode.ts";
 
 export function parse(
   input: string,
@@ -86,6 +97,13 @@ export function removeDiacritics(
     ...options,
     removeDiacritics: true,
   });
+}
+
+export function formatGreekUnicode(
+  input: string,
+  options: GreekUnicodeOptions = {},
+): string {
+  return encode(parse(input, "greek"), "greek", { unicode: options });
 }
 
 export const convert = (

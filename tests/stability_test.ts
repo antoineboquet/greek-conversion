@@ -66,6 +66,23 @@ const PROFILES = [
       },
     },
   },
+  {
+    name: "monotonic Greek with system acute",
+    options: {
+      orthography: { accentuation: "monotonic" },
+    },
+  },
+  {
+    name: "decomposed Greek with forced punctuation",
+    options: {
+      unicode: {
+        composition: "decomposed",
+        acute: "oxia",
+        questionMark: "greek",
+        anoTeleia: "greek",
+      },
+    },
+  },
 ] as const satisfies readonly OptionProfile[];
 
 function assertStable(

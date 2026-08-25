@@ -61,15 +61,25 @@ Deno.test("handles transparent controls at final-sigma boundaries", () => {
   }
 });
 
-Deno.test("every canonical output is stable under its Unicode normalization", () => {
+Deno.test("every output respects its Unicode composition policy", () => {
   const source = "Ἄϊδα—κἀγώ· ϳ ϙ ϡʹ 😀";
 
   for (const format of FORMATS as readonly Format[]) {
     const output = convert(source, "greek", format);
-    assertEquals(output, output.normalize("NFC"));
+    if (format !== "greek") assertEquals(output, output.normalize("NFC"));
     assertEquals(
       convert(output.normalize("NFD"), format, format),
       output,
     );
   }
+
+  const tonos = convert(source, "greek", "greek", {
+    unicode: { acute: "tonos" },
+  });
+  assertEquals(tonos, tonos.normalize("NFC"));
+
+  const decomposed = convert(source, "greek", "greek", {
+    unicode: { composition: "decomposed" },
+  });
+  assertEquals(decomposed, decomposed.normalize("NFD"));
 });

@@ -55,6 +55,37 @@ export function applyOrthography(
   });
 }
 
+export function applyGreekOrthography(
+  document: Document,
+  options: ConversionOptions = {},
+): Document {
+  const orthographic = applyOrthography(document, options);
+  if (options.orthography?.accentuation !== "monotonic") {
+    return orthographic;
+  }
+
+  let changed = false;
+  const monotonic = orthographic.map((token) => {
+    if (token.kind === "literal" || token.diacritics.size === 0) return token;
+
+    const diacritics = new Set<Diacritic>();
+    if (token.diacritics.has("diaeresis")) diacritics.add("diaeresis");
+    if (
+      token.diacritics.has("acute") ||
+      token.diacritics.has("grave") ||
+      token.diacritics.has("circumflex")
+    ) {
+      diacritics.add("acute");
+    }
+
+    if (sameDiacritics(token.diacritics, diacritics)) return token;
+    changed = true;
+    return { ...token, diacritics };
+  });
+
+  return changed ? monotonic : orthographic;
+}
+
 export function applyNumeralOrthography(
   document: Document,
   options: ConversionOptions = {},
@@ -132,4 +163,11 @@ function withDiacritic(token: Grapheme, diacritic: Diacritic): Grapheme {
     ...token,
     diacritics: new Set([...token.diacritics, diacritic]),
   };
+}
+
+function sameDiacritics(
+  left: ReadonlySet<Diacritic>,
+  right: ReadonlySet<Diacritic>,
+): boolean {
+  return left.size === right.size && [...left].every((mark) => right.has(mark));
 }

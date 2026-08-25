@@ -54,11 +54,13 @@ function withCase(token: Grapheme, uppercase: boolean): Grapheme {
 function assertRoundTrip(document: Document, format: Format): void {
   const encoded = encode(document, format);
 
-  assertEquals(
-    encoded,
-    encoded.normalize("NFC"),
-    `${format} output must be NFC`,
-  );
+  if (format !== "greek") {
+    assertEquals(
+      encoded,
+      encoded.normalize("NFC"),
+      `${format} output must be NFC`,
+    );
+  }
   assertEquals(parse(encoded, format), document);
 }
 

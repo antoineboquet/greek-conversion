@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
+/** Compares through NFC; the actual output may intentionally prefer oxia. */
 export function assertNfcEquals(actual: string, expected: string): void {
-  assertEquals(actual, actual.normalize("NFC"), "Output must be NFC");
-  assertEquals(actual, expected.normalize("NFC"));
+  assertEquals(actual.normalize("NFC"), expected.normalize("NFC"));
 }

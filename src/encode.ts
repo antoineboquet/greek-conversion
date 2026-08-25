@@ -14,7 +14,9 @@ import {
 } from "./context.ts";
 import type { Diacritic, Document, Grapheme } from "./model.ts";
 import type { ConversionOptions } from "./options.ts";
+import { applyGreekOrthography } from "./orthography.ts";
 import { encodePunctuation } from "./punctuation.ts";
+import { applyGreekUnicode } from "./unicode.ts";
 
 const marks = (token: Grapheme, options: ConversionOptions) =>
   options.removeDiacritics
@@ -23,9 +25,10 @@ const marks = (token: Grapheme, options: ConversionOptions) =>
 
 export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
   let out = "";
+  const rendered = applyGreekOrthography(doc, options);
 
   for (let i = 0; i < doc.length; i++) {
-    const token = doc[i];
+    const token = rendered[i];
 
     if (token.kind === "literal") {
       out += encodePunctuation(token.value, "greek") ?? token.value;
@@ -80,7 +83,7 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       marks(token, options).map((mark) => GREEK_FOR[mark]).join("");
   }
 
-  return out.normalize("NFC");
+  return applyGreekUnicode(out, options);
 }
 
 export function encodeBetaCode(
