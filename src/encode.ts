@@ -2,6 +2,7 @@ import { ALPHABET, BETA_FOR, GREEK_FOR, ORDER } from "./alphabet.ts";
 import {
   breathingTarget,
   contractedPsiUppercase,
+  elidedAspirate,
   initialBreathingStart,
   isNasalGamma,
   isWordFinal,
@@ -33,7 +34,8 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       continue;
     }
 
-    let base = ALPHABET[token.letter].greek;
+    const outputLetter = elidedAspirate(doc, i) ?? token.letter;
+    let base = ALPHABET[outputLetter].greek;
 
     if (token.letter === "sigma" && isWordFinal(doc, i)) base = "ς";
     if (

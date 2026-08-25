@@ -110,7 +110,8 @@ export const LOSSY_CONVERSIONS = [
     canonicalRoundTrip: "τούνομα",
   },
   {
-    name: "a smooth breathing on a quantity-marked vowel is not represented in transliteration",
+    name:
+      "a smooth breathing on a quantity-marked vowel is not represented in transliteration",
     sourceFormat: "greek",
     intermediateFormat: "transliteration",
     source: "ἀ̄",
@@ -132,6 +133,14 @@ export const LOSSY_CONVERSIONS = [
     source: "ps",
     intermediate: "ψ",
     canonicalRoundTrip: "y",
+  },
+  {
+    name: "an elided smooth mute is aspirated before a rough breathing",
+    sourceFormat: "transliteration",
+    intermediateFormat: "greek",
+    source: "ap’ hēmō̃n",
+    intermediate: "ἀφ’ ἡμῶν",
+    canonicalRoundTrip: "aph’ hēmō̃n",
   },
 ] as const satisfies readonly LossyConversion[];
 

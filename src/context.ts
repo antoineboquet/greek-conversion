@@ -28,6 +28,14 @@ const DIPHTHONGS = new Set([
   "upsilon-iota",
 ]);
 
+const ELISION_MARKS = new Set(["'", "\u02BC", "\u1FBD", "\u2019"]);
+
+const ELIDED_ASPIRATES = new Map<Letter, Letter>([
+  ["pi", "phi"],
+  ["tau", "theta"],
+  ["kappa", "chi"],
+]);
+
 export function isWordInitial(document: Document, index: number): boolean {
   return index === 0 || document[index - 1].kind === "literal";
 }
@@ -120,6 +128,45 @@ export function isNasalGamma(document: Document, index: number): boolean {
 
 export function followsNasalGamma(letter: Letter): boolean {
   return NASAL_GAMMA_FOLLOWERS.has(letter);
+}
+
+/**
+ * Returns the aspirated spelling of an elided final mute before a word with a
+ * rough breathing. The apostrophe itself and any intervening whitespace remain
+ * literal tokens, so the transformation is confined to Greek output.
+ */
+export function elidedAspirate(
+  document: Document,
+  index: number,
+): Letter | undefined {
+  const token = document[index];
+  if (token.kind !== "grapheme") return undefined;
+
+  const aspirate = ELIDED_ASPIRATES.get(token.letter);
+  if (!aspirate || !isElisionMark(document[index + 1])) return undefined;
+
+  let nextIndex = index + 2;
+  while (isWhitespace(document[nextIndex])) nextIndex++;
+
+  const next = document[nextIndex];
+  if (next?.kind !== "grapheme") return undefined;
+
+  const targetIndex = isVowel(next.letter)
+    ? breathingTarget(document, nextIndex)
+    : nextIndex;
+  const target = document[targetIndex];
+
+  return target?.kind === "grapheme" && target.diacritics.has("rough")
+    ? aspirate
+    : undefined;
+}
+
+function isElisionMark(token: Token | undefined): boolean {
+  return token?.kind === "literal" && ELISION_MARKS.has(token.value);
+}
+
+function isWhitespace(token: Token | undefined): boolean {
+  return token?.kind === "literal" && /^\p{White_Space}$/u.test(token.value);
 }
 
 export function contractedPsiUppercase(

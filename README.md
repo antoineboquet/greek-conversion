@@ -58,6 +58,18 @@ greekToTransliteration("ἄγγελος", {
 }); // ággelos
 ```
 
+Greek output also applies the regular aspiration caused by elision before a
+rough breathing: final `π`, `τ`, and `κ` become `φ`, `θ`, and `χ`. The engine
+recognizes ASCII apostrophe, MODIFIER LETTER APOSTROPHE (`U+02BC`), GREEK
+KORONIS (`U+1FBD`), and RIGHT SINGLE QUOTATION MARK (`U+2019`), with optional
+whitespace before the following word. It preserves the supplied apostrophe and
+does not attempt to reconstruct or remove an elided vowel:
+
+```ts
+transliterationToGreek("ap’ hēmō̃n"); // ἀφ’ ἡμῶν
+transliterationToGreek("ap’ emoũ"); // ἀπ’ ἐμοῦ
+```
+
 The coronis has three transliteration policies. It can be omitted (the default),
 rendered as RIGHT SINGLE QUOTATION MARK (`U+2019`) following ISO 843, or
 preserved as GREEK KORONIS (`U+1FBD`) following BnF practice:

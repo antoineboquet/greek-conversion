@@ -34,6 +34,45 @@ Deno.test("makes nasal-gamma transliteration optional", () => {
   );
 });
 
+Deno.test("aspirates an elided final mute before a rough breathing", () => {
+  assertNfcEquals(
+    convert("ap’ hēmō̃n", "transliteration", "greek"),
+    "ἀφ’ ἡμῶν",
+  );
+  assertNfcEquals(
+    convert("t’ hḗde", "transliteration", "greek"),
+    "θ’ ἥδε",
+  );
+  assertNfcEquals(
+    convert("dek’ hén", "transliteration", "greek"),
+    "δεχ’ ἕν",
+  );
+});
+
+Deno.test("recognizes common Unicode elision marks", () => {
+  for (const mark of ["'", "\u02BC", "\u1FBD", "\u2019"]) {
+    assertNfcEquals(
+      convert(`ap${mark} hēmō̃n`, "transliteration", "greek"),
+      `ἀφ${mark} ἡμῶν`,
+    );
+  }
+});
+
+Deno.test("does not aspirate outside the elision context", () => {
+  assertNfcEquals(
+    convert("ap’ emoũ", "transliteration", "greek"),
+    "ἀπ’ ἐμοῦ",
+  );
+  assertNfcEquals(
+    convert("ap hēmō̃n", "transliteration", "greek"),
+    "ἀπ ἡμῶν",
+  );
+  assertNfcEquals(
+    convert("ap’ hēmō̃n", "transliteration", "beta-code"),
+    "a)p’ h(mw=n",
+  );
+});
+
 Deno.test("places initial breathings on the diphthong target", () => {
   assertNfcEquals(
     convert("haíresis", "transliteration", "greek"),
