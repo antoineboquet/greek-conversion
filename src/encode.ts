@@ -31,7 +31,11 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     const contraction = contractedSigma(doc, i);
 
     if (contraction !== undefined) {
-      const base = ALPHABET[contraction.letter].greek;
+      let base = ALPHABET[contraction.letter].greek;
+      if (contraction.letter === "sigma") {
+        if (options.orthography?.sigma === "lunate") base = "ϲ";
+        else if (isWordFinal(doc, i + 1)) base = "ς";
+      }
       out += contraction.uppercase ? base.toLocaleUpperCase("el") : base;
       i++;
       continue;

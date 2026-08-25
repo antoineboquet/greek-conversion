@@ -49,6 +49,9 @@ const SIGMA_CONTRACTIONS = new Map<Letter, Letter>([
   ["kappa", "xi"],
   ["gamma", "xi"],
   ["chi", "xi"],
+  ["tau", "sigma"],
+  ["delta", "sigma"],
+  ["theta", "sigma"],
 ]);
 
 export function isWordInitial(document: Document, index: number): boolean {
@@ -263,6 +266,8 @@ export function contractedSigma(
   ) {
     return undefined;
   }
+
+  if (isGreekNumeralContext(document, index)) return undefined;
 
   const letter = SIGMA_CONTRACTIONS.get(mute.letter);
   if (!letter || sigma.uppercase && !mute.uppercase) return undefined;
