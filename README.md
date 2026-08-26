@@ -102,7 +102,7 @@ convert("Βίος Μπάλα", "greek", "transliteration", {
 ```
 
 The priority is: library defaults, then preset options, then custom options.
-See the complete [preset configuration table](docs/presets.md), including the
+See the complete [preset configuration table](https://github.com/antoineboquet/greek-conversion/blob/main/docs/presets.md), including the
 precise scope and known limitations of each preset.
 
 ## Common recipes
@@ -205,7 +205,7 @@ toUnicodeCodePoints("ά;😀");
 
 Greek output supports composed or decomposed text, tonos or oxia, and explicit
 Greek punctuation scalars. These are representation choices, not linguistic
-transformations. See [Greek accentuation and Unicode output](docs/greek-unicode.md).
+transformations. See [Greek accentuation and Unicode output](https://github.com/antoineboquet/greek-conversion/blob/main/docs/greek-unicode.md).
 
 ## Detect information loss
 
@@ -228,8 +228,8 @@ and alternate glyphs are therefore not reported as destructive. Examples of
 actual loss include removing diacritics, decimalizing alphabetic numerals, and
 using context-dependent spellings that merge distinct source sequences.
 
-See the [conversion-analysis contract](docs/conversion-analysis.md) and the
-[information-loss matrix](docs/information-loss.md).
+See the [conversion-analysis contract](https://github.com/antoineboquet/greek-conversion/blob/main/docs/conversion-analysis.md) and the
+[information-loss matrix](https://github.com/antoineboquet/greek-conversion/blob/main/docs/information-loss.md).
 
 ## Reuse one parsed text
 
@@ -248,7 +248,7 @@ text.toDetailed("transliteration");
 ```
 
 Instances are immutable, and exposed documents and resolved options are
-detached copies. See the complete [`GreekText` contract](docs/greek-text.md).
+detached copies. See the complete [`GreekText` contract](https://github.com/antoineboquet/greek-conversion/blob/main/docs/greek-text.md).
 
 ## Guarantees and scope
 
@@ -287,18 +287,18 @@ const output = encode(document, "greek");
 
 Validation deliberately remains a separate diagnostic step instead of changing
 the contract of `convert()`. The `./document` entry point may still evolve
-during the `1.0.0` prerelease series. See [validation](docs/validation.md).
+during the `1.0.0` prerelease series. See [validation](https://github.com/antoineboquet/greek-conversion/blob/main/docs/validation.md).
 
 ## Documentation
 
 | Topic | Document |
 | --- | --- |
-| Presets and exact option values | [Presets](docs/presets.md) |
-| Greek orthography and Unicode | [Greek Unicode](docs/greek-unicode.md) |
-| Detailed conversion results | [Conversion analysis](docs/conversion-analysis.md) |
-| Loss by format pair | [Information loss](docs/information-loss.md) |
-| Reusable immutable text objects | [`GreekText`](docs/greek-text.md) |
-| Canonical document validation | [Validation](docs/validation.md) |
+| Presets and exact option values | [Presets](https://github.com/antoineboquet/greek-conversion/blob/main/docs/presets.md) |
+| Greek orthography and Unicode | [Greek Unicode](https://github.com/antoineboquet/greek-conversion/blob/main/docs/greek-unicode.md) |
+| Detailed conversion results | [Conversion analysis](https://github.com/antoineboquet/greek-conversion/blob/main/docs/conversion-analysis.md) |
+| Loss by format pair | [Information loss](https://github.com/antoineboquet/greek-conversion/blob/main/docs/information-loss.md) |
+| Reusable immutable text objects | [`GreekText`](https://github.com/antoineboquet/greek-conversion/blob/main/docs/greek-text.md) |
+| Canonical document validation | [Validation](https://github.com/antoineboquet/greek-conversion/blob/main/docs/validation.md) |
 
 ## Development
 
@@ -312,4 +312,4 @@ deno task test
 Copyright © 2021–2026 Antoine Boquet and contributors.
 
 `greek-conversion` is licensed under the
-[GNU Affero General Public License v3.0 or later](LICENSE).
+[GNU Affero General Public License v3.0 or later](https://github.com/antoineboquet/greek-conversion/blob/main/LICENSE).
