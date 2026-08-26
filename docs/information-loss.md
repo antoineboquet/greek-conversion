@@ -93,6 +93,7 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `removeDiacritics: true` | Removes accents, breathings, coronis, diaeresis, explicit quantity, and iota subscript | No |
 | `diacritics.<class>: "remove"` | Removes only the selected semantic class during rendering | No when that class occurs; unselected classes remain recoverable |
 | `letterCase: "lowercase"`, `"uppercase"`, or `"title"` | Applies deterministic case to recognized Greek graphemes | No when source case changes; unknown literals are untouched |
+| `finalSigma: "medial"` | Uses `σ` instead of contextual `ς` in lowercase Greek output | Yes; both are the same canonical sigma letter |
 | `numerals: "decimal"` | Replaces a valid marked alphabetic numeral group with decimal digits | No |
 | `dentalSigma: "assimilate"` | Deletes `τ`, `δ`, or `θ` before sigma in Greek output | No |
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
@@ -106,7 +107,7 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `composition: "decomposed"` | Emits Greek letters and marks as canonical decomposed sequences | Yes, unless combined with another lossy policy |
 | `acute: "tonos"` or `"oxia"` | Selects an eligible composed acute scalar | The accent is recoverable; its scalar preference is not |
 | Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
-| `doubleRho`, `medialBeta`, `sigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
+| `doubleRho`, `medialBeta`, `sigma`, `finalSigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
 
 `removeDiacritics` and the granular `diacritics` policy are applied during
 encoding, after contextual analysis. They therefore cannot manufacture a

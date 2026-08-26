@@ -147,6 +147,31 @@ convert("ἄνθρωπος ἅγιος κἀγώ", "greek", "transliteration", {
 `removeDiacritics()` exposes the same operation as a standalone helper.
 Structural distinctions such as `η → ē` and `ω → ō` are retained.
 
+### Fold Greek letter variants
+
+Use `foldGreekVariants()` to obtain a uniform Greek spelling for comparison:
+
+```ts
+import { foldGreekVariants } from "@humanities/greek-conversion";
+
+foldGreekVariants("ϐίος λόγος ϲῶμα");
+// βίοσ λόγοσ σῶμα
+```
+
+The helper maps medial beta `ϐ` to `β`, lunate sigma `ϲ` to `σ`, and final
+sigma `ς` to medial `σ`. It parses and re-encodes Greek rather than relying on
+`NFKC`, so the same semantic rules and numeral exceptions apply as during a
+conversion. Diacritics and case are preserved unless their independent options
+are supplied:
+
+```ts
+foldGreekVariants("ϐΊΟΣ", {
+  orthography: { letterCase: "lowercase" },
+  removeDiacritics: true,
+});
+// βιοσ
+```
+
 ### Normalize case and whitespace
 
 ```ts
@@ -180,9 +205,9 @@ convert("βηξφχυ", "greek", "transliteration", {
 ```
 
 Other policies cover long-vowel spelling, nasal gamma, modern digraphs,
-systematic `rh`, double rho, medial beta, sigma style, coronis, and alphabetic
-numerals. The selected spellings are recognized on transliteration input when
-the same options are supplied.
+systematic `rh`, double rho, medial beta, sigma style, contextual or uniform
+final sigma, coronis, and alphabetic numerals. The selected spellings are
+recognized on transliteration input when the same options are supplied.
 
 ### Control Greek Unicode output
 
