@@ -44,7 +44,14 @@ const LONG_VOWELS = new Set<Letter>([
 ]);
 const DIAERESIS_LETTERS = new Set<Letter>(["iota", "upsilon"]);
 const IOTA_SUBSCRIPT_LETTERS = new Set<Letter>(["alpha", "eta", "omega"]);
-const QUANTITY_LETTERS = new Set<Letter>(["alpha", "iota", "upsilon"]);
+const MACRON_LETTERS = new Set<Letter>([
+  "alpha",
+  "eta",
+  "iota",
+  "upsilon",
+  "omega",
+]);
+const BREVE_LETTERS = new Set<Letter>(["alpha", "iota", "upsilon"]);
 const ACCENTS = ["acute", "grave", "circumflex"] as const;
 const BREATHINGS = ["smooth", "rough"] as const;
 const QUANTITIES = ["macron", "breve"] as const;
@@ -173,12 +180,15 @@ function validateGrapheme(
       "An iota subscript requires alpha, eta, or omega.",
     );
   }
-  if (quantityCount > 0 && !QUANTITY_LETTERS.has(letter)) {
+  if (
+    diacritics.has("macron") && !MACRON_LETTERS.has(letter) ||
+    diacritics.has("breve") && !BREVE_LETTERS.has(letter)
+  ) {
     add(
       diagnostics,
       "invalid-quantity",
       index,
-      "Explicit quantity marks require alpha, iota, or upsilon.",
+      "This explicit quantity mark is not valid on the selected letter.",
     );
   }
 }

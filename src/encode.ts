@@ -311,8 +311,6 @@ function transliterationBase(
   switch (options.orthography?.longVowels) {
     case "circumflex":
       return `${base}\u0302`;
-    case "circumflex-macron":
-      return `${base}\u0302\u0304`;
     default:
       return `${base}\u0304`;
   }

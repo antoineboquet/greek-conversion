@@ -25,11 +25,14 @@ export type DentalSigmaOrthography = "preserve" | "assimilate";
 /** Selects the transliterated spelling of upsilon. */
 export type UpsilonOrthography = "u" | "y" | "y-with-diphthong-u";
 
-/** Selects how structural eta and omega length is shown in transliteration. */
+/**
+ * Selects whether structural eta and omega length is shown by macron or
+ * circumflex in transliteration. Explicit philological macrons remain
+ * independent semantic marks.
+ */
 export type LongVowelOrthography =
   | "macron"
-  | "circumflex"
-  | "circumflex-macron";
+  | "circumflex";
 
 /** Selects polytonic output or a mechanical, lossy monotonic transformation. */
 export type GreekAccentuation = "polytonic" | "monotonic";
@@ -128,7 +131,7 @@ export interface OrthographyOptions {
   dentalSigma?: DentalSigmaOrthography;
   /** Upsilon transliteration. Defaults to `"u"`. */
   upsilon?: UpsilonOrthography;
-  /** Structural long-vowel spelling. Defaults to `"macron"`. */
+  /** Structural long-vowel marker: `"macron"` or `"circumflex"`. */
   longVowels?: LongVowelOrthography;
   /** Greek accentuation system. Defaults to `"polytonic"`. */
   accentuation?: GreekAccentuation;

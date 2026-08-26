@@ -209,6 +209,12 @@ systematic `rh`, double rho, medial beta, sigma style, contextual or uniform
 final sigma, coronis, and alphabetic numerals. The selected spellings are
 recognized on transliteration input when the same options are supplied.
 
+`longVowels` accepts `"macron"` (the default) or `"circumflex"`. It controls
+only the structural representation of inherently long eta and omega. An
+explicit macron alongside a circumflex, such as in `ê̄`, is treated separately
+as a philological mark and is reproduced without changing the identified
+letter.
+
 ### Control Greek Unicode output
 
 ```ts

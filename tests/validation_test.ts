@@ -74,7 +74,7 @@ const INVALID_CASES = [
   },
   {
     letter: "eta",
-    diacritics: ["macron"],
+    diacritics: ["breve"],
     codes: ["invalid-quantity"],
   },
 ] as const satisfies readonly InvalidCase[];
@@ -90,6 +90,7 @@ Deno.test("canonical fixtures produce no validation diagnostics", () => {
   }
 
   assertEquals(validateDocument(parse("κἀγώ", "greek")), []);
+  assertEquals(validateDocument(parse("η̄ ω̄", "greek")), []);
   assertEquals(validateDocument(parse("ka)gw/", "beta-code")), []);
 });
 

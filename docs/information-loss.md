@@ -109,6 +109,11 @@ nu; this changes the accepted spelling contract for transliteration input.
 | Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
 | `doubleRho`, `medialBeta`, `sigma`, `finalSigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
 
+`longVowels` chooses either a macron or a circumflex for structural eta and
+omega length. A separately encoded macron remains a philological diacritic: it
+is retained beside a structural circumflex and follows the ordinary quantity
+diacritic policy.
+
 `removeDiacritics` and the granular `diacritics` policy are applied during
 encoding, after contextual analysis. They therefore cannot manufacture a
 diphthong or enable a consonant contraction by first deleting a blocking mark.

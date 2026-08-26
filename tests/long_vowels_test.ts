@@ -7,10 +7,6 @@ const CIRCUMFLEX = {
   orthography: { longVowels: "circumflex" },
 } as const;
 
-const CIRCUMFLEX_MACRON = {
-  orthography: { longVowels: "circumflex-macron" },
-} as const;
-
 Deno.test("selects the transliterated spelling of structural long vowels", () => {
   const greek = "βη βω βᾱ βῑ βῡ";
 
@@ -22,10 +18,6 @@ Deno.test("selects the transliterated spelling of structural long vowels", () =>
     convert(greek, "greek", "transliteration", CIRCUMFLEX),
     "bê bô bā bī bū",
   );
-  assertNfcEquals(
-    convert(greek, "greek", "transliteration", CIRCUMFLEX_MACRON),
-    "bê̄ bô̄ bā bī bū",
-  );
 });
 
 Deno.test("accepts every structural long-vowel spelling on input", () => {
@@ -35,7 +27,19 @@ Deno.test("accepts every structural long-vowel spelling on input", () => {
       "transliteration",
       "greek",
     ),
-    "βε βη βη βη βο βω βω βω",
+    "βε βη βη βη̄ βο βω βω βω̄",
+  );
+  assertNfcEquals(
+    convert("bê̄ bô̄", "transliteration", "greek"),
+    "βη̄ βω̄",
+  );
+  assertNfcEquals(
+    convert("bê̄ bô̄", "transliteration", "transliteration", CIRCUMFLEX),
+    "bê̄ bô̄",
+  );
+  assertNfcEquals(
+    convert("η̄ ω̄", "greek", "transliteration", CIRCUMFLEX),
+    "ê̄ ô̄",
   );
 });
 
@@ -50,11 +54,6 @@ Deno.test("applies the structural marker policy to stigma and sampi", () => {
     convert(greek, "greek", "transliteration", CIRCUMFLEX),
     "ĉ ŝ ĉʹ ŝʹ",
   );
-  assertNfcEquals(
-    convert(greek, "greek", "transliteration", CIRCUMFLEX_MACRON),
-    "ĉ̄ ŝ̄ ĉ̄ʹ ŝ̄ʹ",
-  );
-
   for (const transliteration of ["c̄ s̄", "ĉ ŝ", "ĉ̄ ŝ̄", "c̄̂ s̄̂"]) {
     assertNfcEquals(
       convert(transliteration, "transliteration", "greek"),
@@ -75,16 +74,20 @@ Deno.test("keeps structural length distinct from Greek circumflex accent", () =>
     "bễ bỗ bã bā",
   );
   assertNfcEquals(
-    convert(greek, "greek", "transliteration", CIRCUMFLEX_MACRON),
-    "bê̄̃ bô̄̃ bã bā",
+    encode(
+      [grapheme("alpha", false, ["macron", "circumflex"])],
+      "transliteration",
+      CIRCUMFLEX,
+    ),
+    "ã̄",
   );
 
   assertNfcEquals(
     encode(
-      [grapheme("alpha", false, ["macron", "circumflex"])],
+      [grapheme("eta", false, ["macron", "circumflex"])],
       "transliteration",
-      CIRCUMFLEX_MACRON,
+      CIRCUMFLEX,
     ),
-    "ã̄",
+    "ễ̄",
   );
 });

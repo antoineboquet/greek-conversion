@@ -99,9 +99,9 @@ Deno.test("retains structural marks required to identify letters", () => {
   assertNfcEquals(
     convert("ῆ ῶ ϛ ϡ ϙ", "greek", "transliteration", {
       removeDiacritics: true,
-      orthography: { longVowels: "circumflex-macron" },
+      orthography: { longVowels: "circumflex" },
     }),
-    "ê̄ ô̄ ĉ̄ ŝ̄ ḳ",
+    "ê ô ĉ ŝ ḳ",
   );
   assertNfcEquals(
     removeDiacritics("ý", "transliteration", {

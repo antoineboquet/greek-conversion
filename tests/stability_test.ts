@@ -72,10 +72,10 @@ const PROFILES = [
     },
   },
   {
-    name: "annotated long vowels and universal y",
+    name: "circumflex long vowels and universal y",
     options: {
       orthography: {
-        longVowels: "circumflex-macron",
+        longVowels: "circumflex",
         upsilon: "y",
       },
     },

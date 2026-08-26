@@ -308,12 +308,12 @@ function resolveLongVowel(
   if (!marks.has("macron") && !structuralCircumflex) return letter;
 
   if (letter === "epsilon") {
-    marks.delete("macron");
+    if (!structuralCircumflex) marks.delete("macron");
     return "eta";
   }
 
   if (letter === "omicron") {
-    marks.delete("macron");
+    if (!structuralCircumflex) marks.delete("macron");
     return "omega";
   }
 

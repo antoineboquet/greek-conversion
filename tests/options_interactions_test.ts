@@ -54,7 +54,7 @@ Deno.test("combines transliteration policies deterministically", () => {
     removeDiacritics: true,
     orthography: {
       coronis: "apostrophe",
-      longVowels: "circumflex-macron",
+      longVowels: "circumflex",
       nasalGamma: "literal",
       upsilon: "y-with-diphthong-u",
     },
@@ -67,7 +67,7 @@ Deno.test("combines transliteration policies deterministically", () => {
       "transliteration",
       options,
     ),
-    "kagô̄ aggelos y au ay ê̄",
+    "kagô aggelos y au ay ê",
   );
 });
 
