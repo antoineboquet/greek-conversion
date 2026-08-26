@@ -51,7 +51,7 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
     if (contraction !== undefined) {
       let base = ALPHABET[contraction.letter].greek;
       if (contraction.letter === "sigma") {
-        if (options.orthography?.sigma === "lunate") base = "ϲ";
+        if (rendersLunateSigma(contraction, options)) base = "ϲ";
         else if (
           options.orthography?.finalSigma !== "medial" &&
           isWordFinal(doc, i + 1)
@@ -67,7 +67,7 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
 
     if (
       token.letter === "sigma" &&
-      options.orthography?.sigma === "lunate" &&
+      rendersLunateSigma(token, options) &&
       !isGreekNumeralContext(doc, i)
     ) {
       base = "ϲ";
@@ -111,7 +111,7 @@ export function encodeBetaCode(
     }
     if (
       token.letter === "sigma" &&
-      options.orthography?.sigma === "lunate" &&
+      rendersLunateSigma(token, options) &&
       !isGreekNumeralContext(doc, index)
     ) {
       return token.uppercase ? "*S3" : "S3";
@@ -142,6 +142,14 @@ export function encodeTransliteration(
       return caseDigraph(modernDigraph, token, second);
     }
     if (modernDigraphAt(doc, index - 1, options) !== undefined) return "";
+
+    if (
+      token.letter === "sigma" &&
+      token.glyphVariant === "lunate-sigma" &&
+      options.orthography?.lunateSigma === "c"
+    ) {
+      return token.uppercase ? "C" : "c";
+    }
 
     const previous = doc[index - 1];
     const next = doc[index + 1];
@@ -207,6 +215,15 @@ export function encodeTransliteration(
 
     return base + transliteratedMarks + coronis;
   }).join("").normalize("NFC");
+}
+
+function rendersLunateSigma(
+  token: Pick<Grapheme, "glyphVariant">,
+  options: ConversionOptions,
+): boolean {
+  return options.orthography?.sigma === "lunate" ||
+    options.orthography?.sigma === "preserve" &&
+      token.glyphVariant === "lunate-sigma";
 }
 
 function modernDigraphAt(

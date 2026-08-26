@@ -3,6 +3,7 @@ import type { Diacritic, Document, Token } from "./model.ts";
 /** Machine-readable categories of information loss. */
 export type ConversionLossCode =
   | "changed-case"
+  | "removed-glyph-variant"
   | "removed-diacritic"
   | "unrepresented-grapheme"
   | "unrepresented-literal";
@@ -170,6 +171,18 @@ function addTokenLoss(
         });
       }
     }
+    if (
+      source.glyphVariant !== undefined &&
+      source.glyphVariant !== target.glyphVariant
+    ) {
+      changed = true;
+      losses.push({
+        code: "removed-glyph-variant",
+        index,
+        message:
+          "The target representation does not retain the source glyph variant.",
+      });
+    }
     if (changed) return;
   }
 
@@ -207,5 +220,7 @@ function preservesToken(source: Token, target: Token): boolean {
   if (source.kind !== "grapheme" || target.kind !== "grapheme") return false;
   return source.letter === target.letter &&
     source.uppercase === target.uppercase &&
+    (source.glyphVariant === undefined ||
+      source.glyphVariant === target.glyphVariant) &&
     [...source.diacritics].every((mark) => target.diacritics.has(mark));
 }

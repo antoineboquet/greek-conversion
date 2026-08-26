@@ -408,6 +408,58 @@ Deno.test("applies lunate sigma orthography on demand", () => {
   assertNfcEquals(convert("ϲοϲ", "greek", "transliteration"), "sos");
 });
 
+Deno.test("preserves known lunate sigma glyphs across formats", () => {
+  const preserve = { orthography: { sigma: "preserve" } } as const;
+
+  assertNfcEquals(
+    convert("σϲς ϹΣ", "greek", "greek", preserve),
+    "σϲς ϹΣ",
+  );
+  assertNfcEquals(
+    convert("sS3s *S3S", "beta-code", "greek", preserve),
+    "σϲς ϹΣ",
+  );
+  assertNfcEquals(
+    convert("σϲς ϹΣ", "greek", "beta-code", preserve),
+    "sS3s *S3S",
+  );
+});
+
+Deno.test("transliterates only provenanced lunate sigma as c", () => {
+  const options = {
+    orthography: { lunateSigma: "c", sigma: "preserve" },
+  } as const;
+
+  assertNfcEquals(
+    convert("σϲς ϹΣ", "greek", "transliteration", options),
+    "scs CS",
+  );
+  assertNfcEquals(
+    convert("scs CS", "transliteration", "greek", options),
+    "σϲς ϹΣ",
+  );
+  assertNfcEquals(
+    convert("sos", "transliteration", "greek", {
+      orthography: { lunateSigma: "c", sigma: "lunate" },
+    }),
+    "ϲοϲ",
+  );
+  assertNfcEquals(convert("c", "transliteration", "greek"), "c");
+});
+
+Deno.test("lunate c does not shadow marked stigma or sampi", () => {
+  const options = {
+    orthography: {
+      longVowels: "circumflex",
+      lunateSigma: "c",
+      sigma: "preserve",
+    },
+  } as const;
+
+  assertNfcEquals(convert("ĉŝ c", "transliteration", "greek", options), "ϛϡ ϲ");
+  assertNfcEquals(convert("ϛϡ ϲ", "greek", "transliteration", options), "ĉŝ c");
+});
+
 Deno.test("selects contextual or uniform medial final sigma", () => {
   const medial = { orthography: { finalSigma: "medial" } } as const;
 

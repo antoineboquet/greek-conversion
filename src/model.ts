@@ -47,6 +47,9 @@ export type Diacritic =
   | "macron"
   | "breve";
 
+/** Source glyph distinctions retained independently from the Greek letter. */
+export type GlyphVariant = "lunate-sigma";
+
 /** One canonical Greek letter with case and semantic diacritics. */
 export interface Grapheme {
   /** Discriminant distinguishing Greek graphemes from literal tokens. */
@@ -57,6 +60,8 @@ export interface Grapheme {
   uppercase: boolean;
   /** Semantic marks; validate manually modified sets before encoding. */
   diacritics: Set<Diacritic>;
+  /** Optional source glyph provenance used by preserving output policies. */
+  glyphVariant?: GlyphVariant;
 }
 
 /** Uninterpreted text preserved verbatim between recognized graphemes. */
@@ -78,11 +83,13 @@ export const grapheme = (
   letter: Letter,
   uppercase = false,
   diacritics: Iterable<Diacritic> = [],
+  glyphVariant?: GlyphVariant,
 ): Grapheme => ({
   kind: "grapheme",
   letter,
   uppercase,
   diacritics: new Set(diacritics),
+  ...(glyphVariant === undefined ? {} : { glyphVariant }),
 });
 
 /** Creates a literal token whose value is preserved by conversion. */

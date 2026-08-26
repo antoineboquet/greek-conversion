@@ -29,7 +29,7 @@ export function parseBetaCode(input: string): Document {
     }
 
     if (chars[i]?.toLowerCase() === "s" && chars[i + 1] === "3") {
-      out.push(grapheme("sigma", upper));
+      out.push(grapheme("sigma", upper, [], "lunate-sigma"));
       i += 2;
       continue;
     }

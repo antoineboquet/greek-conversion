@@ -10,8 +10,11 @@ export type CoronisOrthography = "omit" | "apostrophe" | "greek";
 /** Selects contextual nasal gamma (`n`) or literal gamma (`g`). */
 export type NasalGammaOrthography = "nasal" | "literal";
 
-/** Selects standard or lunate sigma in Greek and Beta Code output. */
-export type SigmaOrthography = "standard" | "lunate";
+/** Selects standard, lunate, or source-preserving sigma glyphs. */
+export type SigmaOrthography = "standard" | "lunate" | "preserve";
+
+/** Selects `s` or `c` for a provenanced lunate sigma in transliteration. */
+export type LunateSigmaTransliteration = "s" | "c";
 
 /** Selects contextual final sigma or a uniform medial sigma in Greek output. */
 export type FinalSigmaOrthography = "contextual" | "medial";
@@ -123,6 +126,8 @@ export interface OrthographyOptions {
   nasalGamma?: NasalGammaOrthography;
   /** Sigma glyph policy. Defaults to `"standard"`. */
   sigma?: SigmaOrthography;
+  /** Provenanced lunate sigma transliteration. Defaults to `"s"`. */
+  lunateSigma?: LunateSigmaTransliteration;
   /** Lowercase final sigma policy in Greek output. Defaults to `"contextual"`. */
   finalSigma?: FinalSigmaOrthography;
   /** Alphabetic or decimal numeral output. Defaults to `"alphabetic"`. */
@@ -205,6 +210,7 @@ export interface DefaultConversionOptions {
     readonly coronis: "omit";
     readonly nasalGamma: "nasal";
     readonly sigma: "standard";
+    readonly lunateSigma: "s";
     readonly finalSigma: "contextual";
     readonly numerals: "alphabetic";
     readonly dentalSigma: "preserve";
@@ -256,6 +262,7 @@ export const DEFAULT_CONVERSION_OPTIONS: DefaultConversionOptions = Object
         coronis: "omit",
         nasalGamma: "nasal",
         sigma: "standard",
+        lunateSigma: "s",
         finalSigma: "contextual",
         numerals: "alphabetic",
         dentalSigma: "preserve",

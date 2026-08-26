@@ -86,7 +86,14 @@ export function parseTransliteration(
       i++;
     }
 
-    const match = markedArchaicLetter(chars, i) ?? trie.longest(chars, i);
+    const archaic = markedArchaicLetter(chars, i);
+    const lunateSigma = !archaic &&
+      options.orthography?.lunateSigma === "c" &&
+      chars[i]?.toLowerCase() === "c";
+    const match = archaic ??
+      (lunateSigma
+        ? { value: "sigma" as const, length: 1 }
+        : trie.longest(chars, i));
 
     if (!match) {
       if (chars[i] === "\u1FBD") {
@@ -181,13 +188,12 @@ export function parseTransliteration(
       contextualY.add(out.length);
     }
 
-    out.push(
-      grapheme(
-        letter,
-        roughUppercase || source !== source.toLowerCase(),
-        marks,
-      ),
-    );
+    out.push(grapheme(
+      letter,
+      roughUppercase || source !== source.toLowerCase(),
+      marks,
+      lunateSigma ? "lunate-sigma" : undefined,
+    ));
   }
 
   if (options.orthography?.nasalGamma !== "literal") {

@@ -17,6 +17,7 @@ export {
   type Diacritic,
   type Document,
   type Format,
+  type GlyphVariant,
   type Grapheme,
   grapheme,
   type Letter,

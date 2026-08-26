@@ -252,7 +252,7 @@ export function contractedSigma(
   document: Document,
   index: number,
   assimilateDentals = false,
-): { letter: Letter; uppercase: boolean } | undefined {
+): Pick<Grapheme, "letter" | "uppercase" | "glyphVariant"> | undefined {
   const mute = document[index];
   const sigma = document[index + 1];
 
@@ -272,5 +272,11 @@ export function contractedSigma(
     (assimilateDentals && DENTALS.has(mute.letter) ? "sigma" : undefined);
   if (!letter || sigma.uppercase && !mute.uppercase) return undefined;
 
-  return { letter, uppercase: mute.uppercase };
+  return {
+    letter,
+    uppercase: mute.uppercase,
+    ...(letter === "sigma" && sigma.glyphVariant !== undefined
+      ? { glyphVariant: sigma.glyphVariant }
+      : {}),
+  };
 }

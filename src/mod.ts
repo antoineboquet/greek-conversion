@@ -20,6 +20,7 @@ export type {
   Diacritic,
   Document,
   Format,
+  GlyphVariant,
   Grapheme,
   Letter,
   Literal,
@@ -49,6 +50,7 @@ export type {
   GreekUnicodeOptions,
   LetterCaseOrthography,
   LongVowelOrthography,
+  LunateSigmaTransliteration,
   MedialBetaOrthography,
   ModernDigraphOrthography,
   NasalGammaOrthography,
@@ -186,9 +188,10 @@ export function reencode(
  * Converts text and reports information that the target representation cannot
  * retain.
  *
- * Unicode composition, tonos/oxia, and alternate glyphs are representational
- * differences and are not reported as loss. The conversion itself is executed
- * once; only the rendered target is parsed again for comparison.
+ * Unicode composition and tonos/oxia are representational differences and are
+ * not reported as loss. Known lunate-sigma provenance is reported when an
+ * output policy removes it. The conversion itself is executed once; only the
+ * rendered target is parsed again for comparison.
  */
 export function convertDetailed(
   input: string,

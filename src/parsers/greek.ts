@@ -38,7 +38,12 @@ export function parseGreek(input: string): Document {
       i++;
     }
 
-    out.push(grapheme(letter, source !== lower, marks));
+    out.push(grapheme(
+      letter,
+      source !== lower,
+      marks,
+      lower === "ϲ" ? "lunate-sigma" : undefined,
+    ));
   }
 
   normalizeInitialDiphthongBreathings(out);

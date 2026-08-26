@@ -130,7 +130,7 @@ Deno.test("canonical Unicode variants are not information loss", () => {
   assertEquals(decomposed.lossy, false);
 });
 
-Deno.test("Greek letter variants are independent from lossy case folding", () => {
+Deno.test("removed lunate provenance is independent from lossy case folding", () => {
   const variants = convertDetailed("ϐίος ϲῶμα", "greek", "greek", {
     orthography: {
       finalSigma: "medial",
@@ -142,8 +142,14 @@ Deno.test("Greek letter variants are independent from lossy case folding", () =>
     orthography: { finalSigma: "medial", letterCase: "lowercase" },
   });
 
-  assertEquals(variants.lossy, false);
-  assertEquals(variants.losses, []);
+  assertEquals(variants.output, "βίοσ σῶμα");
+  assertEquals(variants.lossy, true);
+  assertEquals(variants.losses, [{
+    code: "removed-glyph-variant",
+    index: 5,
+    message:
+      "The target representation does not retain the source glyph variant.",
+  }]);
   assertEquals(lowercase.output, "βίοσ");
   assertEquals(lowercase.lossy, true);
   assertEquals(lowercase.losses.map(({ code }) => code), [
@@ -152,6 +158,42 @@ Deno.test("Greek letter variants are independent from lossy case folding", () =>
     "changed-case",
     "changed-case",
   ]);
+});
+
+Deno.test("preserves lunate provenance and ignores deterministic styling", () => {
+  const preserved = convertDetailed("σϲ ϹΣ", "greek", "transliteration", {
+    orthography: { lunateSigma: "c" },
+  });
+  const styled = convertDetailed("σος", "greek", "greek", {
+    orthography: { sigma: "lunate" },
+  });
+
+  assertEquals(preserved.output, "sc CS");
+  assertEquals(preserved.lossy, false);
+  assertEquals(preserved.losses, []);
+  assertEquals(styled.output, "ϲοϲ");
+  assertEquals(styled.lossy, false);
+  assertEquals(styled.losses, []);
+});
+
+Deno.test("tracks lunate provenance through all three formats", () => {
+  const greek = convertDetailed("ϲ", "greek", "greek", {
+    orthography: { sigma: "preserve" },
+  });
+  const beta = convertDetailed("S3", "beta-code", "beta-code");
+  const transliteration = convertDetailed(
+    "c",
+    "transliteration",
+    "transliteration",
+    { orthography: { lunateSigma: "c" } },
+  );
+
+  assertEquals(greek, { output: "ϲ", lossy: false, losses: [] });
+  assertEquals(beta.output, "s");
+  assertEquals(beta.losses.map(({ code }) => code), [
+    "removed-glyph-variant",
+  ]);
+  assertEquals(transliteration, { output: "c", lossy: false, losses: [] });
 });
 
 Deno.test("Greek coronis scalar retains semantic provenance", () => {
