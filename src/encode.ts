@@ -109,18 +109,34 @@ export function encodeBetaCode(
       if (token.value === ARISTERI_KERAIA) return "#22";
       return encodePunctuation(token.value, "beta-code") ?? token.value;
     }
+    let base: string;
     if (
       token.letter === "sigma" &&
       rendersLunateSigma(token, options) &&
       !isGreekNumeralContext(doc, index)
     ) {
-      return token.uppercase ? "*S3" : "S3";
+      base = "s3";
+    } else {
+      base = ALPHABET[token.letter].beta;
     }
-    let base = ALPHABET[token.letter].beta;
-    if (token.uppercase) {
-      base = base.startsWith("#") ? `*${base}` : base.toUpperCase();
+
+    if (options.orthography?.betaCodeCase === "uppercase") {
+      base = base.toUpperCase();
+    } else {
+      base = base.toLowerCase();
     }
-    return base + marks(token, options).map((mark) => BETA_FOR[mark]).join("");
+
+    const renderedMarks = marks(token, options);
+    if (!token.uppercase) {
+      return base + renderedMarks.map((mark) => BETA_FOR[mark]).join("");
+    }
+
+    const beforeLetter = renderedMarks
+      .filter((mark) => mark !== "iota-subscript")
+      .map((mark) => BETA_FOR[mark])
+      .join("");
+    const afterLetter = renderedMarks.includes("iota-subscript") ? "|" : "";
+    return `*${beforeLetter}${base}${afterLetter}`;
   }).join("");
 }
 

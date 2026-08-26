@@ -28,8 +28,11 @@ export function parseBetaCode(input: string): Document {
       i++;
     }
 
+    const marks = new Set<Diacritic>();
+    if (upper) i = consumeMarks(chars, i, marks, true);
+
     if (chars[i]?.toLowerCase() === "s" && chars[i + 1] === "3") {
-      out.push(grapheme("sigma", upper, [], "lunate-sigma"));
+      out.push(grapheme("sigma", upper, marks, "lunate-sigma"));
       i += 2;
       continue;
     }
@@ -71,18 +74,8 @@ export function parseBetaCode(input: string): Document {
       continue;
     }
 
-    upper ||= source === source.toUpperCase();
     i++;
-
-    const marks = new Set<Diacritic>();
-
-    while (i < chars.length) {
-      if (chars[i] === "'" && !QUANTITY_LETTERS.has(letter)) break;
-      const mark = BETA_MARKS.get(chars[i]);
-      if (!mark) break;
-      marks.add(mark);
-      i++;
-    }
+    i = consumeMarks(chars, i, marks, QUANTITY_LETTERS.has(letter));
 
     out.push(grapheme(letter, upper, marks));
   }
@@ -91,6 +84,23 @@ export function parseBetaCode(input: string): Document {
   classifyCoronides(out);
 
   return out;
+}
+
+function consumeMarks(
+  chars: readonly string[],
+  start: number,
+  marks: Set<Diacritic>,
+  acceptsBreve: boolean,
+): number {
+  let index = start;
+  while (index < chars.length) {
+    if (chars[index] === "'" && !acceptsBreve) break;
+    const mark = BETA_MARKS.get(chars[index]);
+    if (!mark) break;
+    marks.add(mark);
+    index++;
+  }
+  return index;
 }
 
 function additionalCharacter(

@@ -212,13 +212,12 @@ const PRESET_DEFINITIONS = {
       ],
       limitations: [
         "The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.",
-        "The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.",
         "Additional characters accepted by the engine are not thereby part of the Perseus subset.",
       ],
     },
     options: {
       orthography: {
-        letterCase: "lowercase",
+        betaCodeCase: "lowercase",
       },
     },
   },
@@ -299,7 +298,7 @@ const PRESET_DEFINITIONS = {
     },
     options: {
       orthography: {
-        letterCase: "uppercase",
+        betaCodeCase: "uppercase",
       },
     },
   },

@@ -75,6 +75,23 @@ betaCodeToGreek("a)/nqrwpos"); // ἄνθρωπος
 The supported format names are `"greek"`, `"beta-code"`, and
 `"transliteration"`.
 
+### Beta Code spelling
+
+ASCII letter case has no semantic value in Beta Code input. Only `*` marks a
+Greek capital, so `A)/NQRWPOS` and `a)/nqrwpos` both convert to `ἄνθρωπος`,
+whereas `*)/ANQRWPOS` converts to `Ἄνθρωπος`. Marking every letter, as in
+`*)/A*N*Q*R*W*P*O*S`, produces `ἌΝΘΡΩΠΟΣ`.
+
+Canonical output follows the
+[TLG placement and order rules](https://stephanus.tlg.uci.edu/encoding.php):
+
+- lowercase: letter, breathing, accent, iota subscript — `w(=|`;
+- uppercase: asterisk, breathing, accent, letter, iota subscript — `*(=w|`.
+
+`orthography.betaCodeCase` selects `"lowercase"` or `"uppercase"` ASCII output
+without changing the represented Greek letter case. The default and Perseus
+preset use lowercase ASCII; `tlg-core` uses uppercase ASCII.
+
 ## Choose the right API
 
 | Need | API |
@@ -118,8 +135,9 @@ Available presets:
 | `ala-lc-modern` | ALA-LC conventions and contextual rules for Modern Greek |
 | `sbl-academic` | SBL academic transliteration |
 | `sbl-general` | SBL general-purpose transliteration |
+| `perseus` | The lowercase-ASCII Perseus subset of Beta Code |
 | `tlg-core` | The currently supported core of common TLG Beta Code |
-| `bnf-core` | A conservative extension point for the supported BnF rules |
+| `bnf-core` | The mechanically supported core of the BnF rules |
 
 Custom options override only the corresponding fields of a preset:
 

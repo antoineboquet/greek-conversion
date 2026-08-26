@@ -59,7 +59,7 @@ Deno.test("applies letter case to every output format", () => {
   );
   assertNfcEquals(
     convert("φιληβος-η περι", "greek", "beta-code", title),
-    "Filhbos-H Peri",
+    "*filhbos-*h *peri",
   );
   assertNfcEquals(
     convert("φ χ θ ψ ἁ αἱ ρρ", "greek", "transliteration", uppercase),
@@ -391,14 +391,14 @@ Deno.test("applies lunate sigma orthography on demand", () => {
   );
   assertNfcEquals(
     convert("σος ΣΟΣ", "greek", "beta-code", lunate),
-    "S3oS3 *S3O*S3",
+    "s3os3 *s3*o*s3",
   );
   assertNfcEquals(
-    convert("S3oS3 *S3O*S3", "beta-code", "greek"),
+    convert("s3os3 *s3*o*s3", "beta-code", "greek"),
     "σος ΣΟΣ",
   );
   assertNfcEquals(
-    convert("S3oS3 *S3O*S3", "beta-code", "greek", lunate),
+    convert("s3os3 *s3*o*s3", "beta-code", "greek", lunate),
     "ϲοϲ ϹΟϹ",
   );
   assertNfcEquals(
@@ -416,12 +416,12 @@ Deno.test("preserves known lunate sigma glyphs across formats", () => {
     "σϲς ϹΣ",
   );
   assertNfcEquals(
-    convert("sS3s *S3S", "beta-code", "greek", preserve),
+    convert("ss3s *s3*s", "beta-code", "greek", preserve),
     "σϲς ϹΣ",
   );
   assertNfcEquals(
     convert("σϲς ϹΣ", "greek", "beta-code", preserve),
-    "sS3s *S3S",
+    "ss3s *s3*s",
   );
 });
 

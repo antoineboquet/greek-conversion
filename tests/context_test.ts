@@ -200,7 +200,7 @@ Deno.test("converts additional Greek letters in every format", () => {
   );
   assertNfcEquals(
     convert("Ϝ Ϳ Ϛ Ϟ Ϙ Ϡ", "greek", "beta-code"),
-    "V J *#2 *#1 *#3 *#5",
+    "*v *j *#2 *#1 *#3 *#5",
   );
   assertNfcEquals(
     convert("w j c̄ q ḳ s̄", "transliteration", "greek"),

@@ -233,7 +233,7 @@ Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library proj
 ```json
 {
   "orthography": {
-    "letterCase": "lowercase"
+    "betaCodeCase": "lowercase"
   }
 }
 ```
@@ -241,7 +241,6 @@ Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library proj
 **Known limitations:**
 
 - The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.
-- The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.
 - Additional characters accepted by the engine are not thereby part of the Perseus subset.
 
 ### `sbl-academic` — SBL — Academic style
@@ -325,7 +324,7 @@ Canonical Beta Code together with the TLG characters implemented by the engine.
 ```json
 {
   "orthography": {
-    "letterCase": "uppercase"
+    "betaCodeCase": "uppercase"
   }
 }
 ```

@@ -3,6 +3,22 @@
 All notable changes to `greek-conversion` are documented in this file. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `betaCodeCase` separates lowercase/uppercase ASCII presentation from the
+  semantic letter case represented by `*`.
+
+### Fixed
+
+- Beta Code ASCII letter case is ignored on input; only a preceding asterisk
+  produces an uppercase Greek grapheme.
+- Canonical Beta Code places ordered diacritics after lowercase letters and
+  before uppercase letters, except for the trailing iota subscript.
+- The Perseus and TLG presets select lowercase and uppercase ASCII output
+  respectively without changing the represented Greek letter case.
+
 ## [1.0.0-beta.2] - 2026-08-26
 
 ### Added

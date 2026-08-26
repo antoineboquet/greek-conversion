@@ -8,8 +8,8 @@ export interface Equivalence {
 
 export const EQUIVALENCES = [
   { greek: "ἄνθρωπος", betaCode: "a)/nqrwpos", transliteration: "ánthrōpos" },
-  { greek: "Ἄϊδα", betaCode: "A)/i+da", transliteration: "Áïda" },
-  { greek: "Ῥόδος", betaCode: "R(o/dos", transliteration: "Rhódos" },
+  { greek: "Ἄϊδα", betaCode: "*)/ai+da", transliteration: "Áïda" },
+  { greek: "Ῥόδος", betaCode: "*(ro/dos", transliteration: "Rhódos" },
   { greek: "αἴσθησις", betaCode: "ai)/sqhsis", transliteration: "aísthēsis" },
   { greek: "αἵρεσις", betaCode: "ai(/resis", transliteration: "haíresis" },
   { greek: "εὕρηκα", betaCode: "eu(/rhka", transliteration: "heúrēka" },
@@ -27,9 +27,9 @@ export const EQUIVALENCES = [
   { greek: "σάλπιγξ", betaCode: "sa/lpigc", transliteration: "sálpinx" },
   { greek: "ἔλεγχος", betaCode: "e)/legxos", transliteration: "élenchos" },
   { greek: "ποιῇ", betaCode: "poih=|", transliteration: "poiȩ̄̃" },
-  { greek: "ΠΟΙῌ͂", betaCode: "POIH=|", transliteration: "POIȨ̄̃" },
-  { greek: "Αἶα", betaCode: "Ai)=a", transliteration: "Aĩa" },
-  { greek: "Ἠώς", betaCode: "H)w/s", transliteration: "Ēṓs" },
+  { greek: "ΠΟΙῌ͂", betaCode: "*p*o*i*=h|", transliteration: "POIȨ̄̃" },
+  { greek: "Αἶα", betaCode: "*ai)=a", transliteration: "Aĩa" },
+  { greek: "Ἠώς", betaCode: "*)hw/s", transliteration: "Ēṓs" },
   {
     greek: "ἀφ’, ἀλλ’.",
     betaCode: "a)f', a)ll'.",
@@ -37,12 +37,12 @@ export const EQUIVALENCES = [
   },
   {
     greek: "Φίληβος ἢ Περὶ ἡδονῆς",
-    betaCode: "Fi/lhbos h)\\ Peri\\ h(donh=s",
+    betaCode: "*fi/lhbos h)\\ *peri\\ h(donh=s",
     transliteration: "Phílēbos ḕ Perì hēdonē̃s",
   },
   {
     greek: "Ἕλλησιν ἐγένετο καὶ μέρει τινὶ τῶν βαρβάρων,",
-    betaCode: "E(/llhsin e)ge/neto kai\\ me/rei tini\\ tw=n barba/rwn,",
+    betaCode: "*(/ellhsin e)ge/neto kai\\ me/rei tini\\ tw=n barba/rwn,",
     transliteration: "Héllēsin egéneto kaì mérei tinì tō̃n barbárōn,",
   },
   {
@@ -53,7 +53,7 @@ export const EQUIVALENCES = [
   // Homer, Iliad 1.1.
   {
     greek: "Μῆνιν ἄειδε, θεά, Πηληϊάδεω Ἀχιλῆος",
-    betaCode: "Mh=nin a)/eide, qea/, Phlhi+a/dew A)xilh=os",
+    betaCode: "*mh=nin a)/eide, qea/, *phlhi+a/dew *)axilh=os",
     transliteration: "Mē̃nin áeide, theá, Pēlēïádeō Achilē̃os",
   },
   // Plato, Apology 17a.
@@ -61,7 +61,7 @@ export const EQUIVALENCES = [
     greek:
       "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα·",
     betaCode:
-      "O(/ti me\\n u(mei=s, w)= a)/ndres A)qhnai=oi, pepo/nqate u(po\\ tw=n e)mw=n kathgo/rwn, ou)k oi)=da:",
+      "*(/oti me\\n u(mei=s, w)= a)/ndres *)aqhnai=oi, pepo/nqate u(po\\ tw=n e)mw=n kathgo/rwn, ou)k oi)=da:",
     transliteration:
       "Hóti mèn humeĩs, ō̃ ándres Athēnaĩoi, pepónthate hupò tō̃n emō̃n katēgórōn, ouk oĩda;",
   },
@@ -69,13 +69,13 @@ export const EQUIVALENCES = [
   {
     greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
     betaCode:
-      "E)n a)rxh=| h)=n o( lo/gos, kai\\ o( lo/gos h)=n pro\\s to\\n qeo/n.",
+      "*)en a)rxh=| h)=n o( lo/gos, kai\\ o( lo/gos h)=n pro\\s to\\n qeo/n.",
     transliteration: "En archȩ̄̃ ē̃n ho lógos, kaì ho lógos ē̃n pròs tòn theón.",
   },
   // Sappho, fragment 31.1.
   {
     greek: "Φαίνεταί μοι κῆνος ἴσος θέοισιν",
-    betaCode: "Fai/netai/ moi kh=nos i)/sos qe/oisin",
+    betaCode: "*fai/netai/ moi kh=nos i)/sos qe/oisin",
     transliteration: "Phaínetaí moi kē̃nos ísos théoisin",
   },
 ] as const satisfies readonly Equivalence[];

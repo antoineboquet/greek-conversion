@@ -32,6 +32,7 @@ export type {
   ConversionResult,
 } from "./losses.ts";
 export type {
+  BetaCodeCase,
   BetaTransliteration,
   ChiTransliteration,
   ConversionOptions,

@@ -83,6 +83,9 @@ export type LetterCaseOrthography =
   | "uppercase"
   | "title";
 
+/** Selects the insignificant ASCII letter case used in Beta Code output. */
+export type BetaCodeCase = "lowercase" | "uppercase";
+
 /** Preserves or removes one semantic class of diacritics. */
 export type DiacriticDisposition = "preserve" | "remove";
 
@@ -165,8 +168,10 @@ export interface OrthographyOptions {
   modernDigraphs?: ModernDigraphOrthography;
   /** Rho transliteration. Defaults to `"contextual"`. */
   rho?: RhoTransliteration;
-  /** Mechanical output case. Defaults to `"preserve"`. */
+  /** Semantic letter case applied to recognized graphemes. Defaults to `"preserve"`. */
   letterCase?: LetterCaseOrthography;
+  /** Insignificant ASCII letter case used only in Beta Code output. Defaults to `"lowercase"`. */
+  betaCodeCase?: BetaCodeCase;
 }
 
 /** Unicode representation preferences for Greek output. */
@@ -235,6 +240,7 @@ export interface DefaultConversionOptions {
     readonly modernDigraphs: "preserve";
     readonly rho: "contextual";
     readonly letterCase: "preserve";
+    readonly betaCodeCase: "lowercase";
   };
   /** Literal default values for Greek Unicode representation. */
   readonly unicode: {
@@ -287,6 +293,7 @@ export const DEFAULT_CONVERSION_OPTIONS: DefaultConversionOptions = Object
         modernDigraphs: "preserve",
         rho: "contextual",
         letterCase: "preserve",
+        betaCodeCase: "lowercase",
       }),
       unicode: Object.freeze({
         composition: "composed",

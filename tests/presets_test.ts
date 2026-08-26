@@ -69,7 +69,6 @@ Deno.test("exposes descriptive metadata for every preset", () => {
     ],
     limitations: [
       "The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.",
-      "The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.",
       "Additional characters accepted by the engine are not thereby part of the Perseus subset.",
     ],
   });
@@ -241,7 +240,7 @@ Deno.test("core presets remain conservative and mixable", () => {
 Deno.test("Perseus emits lowercase Beta Code", () => {
   assertNfcEquals(
     convert("Ἄνθρωπος", "greek", "beta-code", { preset: "perseus" }),
-    "a)/nqrwpos",
+    "*)/anqrwpos",
   );
 });
 

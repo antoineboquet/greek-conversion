@@ -23,7 +23,7 @@ the row format to the column format and parsing the result again.
 | From \ To | Greek | Beta Code | Transliteration |
 | --- | --- | --- | --- |
 | **Greek** | Selected glyph, accent, punctuation, and composition policies; lunate provenance unless preserved; unmarked labial/velar + sigma pairs contract | Canonical spelling and mark order; lunate provenance unless preserved | Lunate provenance by default; coronis; explicitly marked double rho; smooth breathing on an initial quantity-marked vowel; `ν` before a velar under nasal-gamma inference |
-| **Beta Code** | Canonical Greek glyphs; lunate provenance unless preserved; unmarked labial/velar + sigma pairs contract | Canonical case, mark order, aliases, and punctuation; lunate provenance unless preserved | Same transliteration losses as Greek, including lunate provenance, coronis, and marked double rho |
+| **Beta Code** | Canonical Greek glyphs; lunate provenance unless preserved; unmarked labial/velar + sigma pairs contract | Canonical ASCII case, asterisk placement, mark order, aliases, and punctuation; lunate provenance unless preserved | Same transliteration losses as Greek, including lunate provenance, coronis, and marked double rho |
 | **Transliteration** | Initial smooth breathing is inferred where quantity is not explicit; labial/velar + sigma pairs contract; an elided mute may be aspirated before rough breathing | Initial smooth breathing is inferred where quantity is not explicit; accepted aliases converge to canonical Beta Code | Accepted aliases, punctuation, combining-mark order, NFC, and orthographic spelling converge |
 
 “Canonical documents” excludes invalid or ambiguous combinations. Use
@@ -43,6 +43,11 @@ not necessarily NFC. Accepted aliases do not round-trip byte for byte:
 - Unicode punctuation aliases become the canonical punctuation for the target;
 - equivalent combining-mark order and duplicate recognized marks converge;
 - Beta Code aliases, case placement, and mark order converge.
+
+ASCII letter case in Beta Code is presentation only and does not enter the
+canonical document. An asterisk is the sole uppercase marker. Consequently,
+`A` and `a` both represent lowercase alpha, while `*A` and `*a` both represent
+uppercase alpha.
 
 Unrecognized characters, including unrecognized combining marks, remain
 literals and are preserved.
@@ -95,6 +100,7 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `removeDiacritics: true` | Removes accents, breathings, coronis, diaeresis, explicit quantity, and iota subscript | No |
 | `diacritics.<class>: "remove"` | Removes only the selected semantic class during rendering | No when that class occurs; unselected classes remain recoverable |
 | `letterCase: "lowercase"`, `"uppercase"`, or `"title"` | Applies deterministic case to recognized Greek graphemes | No when source case changes; unknown literals are untouched |
+| `betaCodeCase: "lowercase"` or `"uppercase"` | Selects the insignificant ASCII case of Beta Code letters without changing `*` markers | Yes; the canonical graphemes are unchanged |
 | `finalSigma: "medial"` | Uses `σ` instead of contextual `ς` in lowercase Greek output | Yes; both are the same canonical sigma letter |
 | `sigma: "standard"` (default) | Replaces a provenanced lunate sigma with the standard Greek or Beta Code glyph | No; `convertDetailed()` reports `removed-glyph-variant` |
 | `sigma: "lunate"` | Uses lunate glyphs for all non-numeral sigma in Greek or Beta Code output | Source letters remain recoverable; stylistically added lunate provenance is not a loss |
