@@ -1,5 +1,6 @@
 import {
   convert,
+  foldGreekVariants,
   transliterationToBetaCode,
   transliterationToGreek,
 } from "../src/mod.ts";
@@ -405,6 +406,43 @@ Deno.test("applies lunate sigma orthography on demand", () => {
     "ϲοϲ",
   );
   assertNfcEquals(convert("ϲοϲ", "greek", "transliteration"), "sos");
+});
+
+Deno.test("selects contextual or uniform medial final sigma", () => {
+  const medial = { orthography: { finalSigma: "medial" } } as const;
+
+  assertNfcEquals(convert("σος ΣΟΣ", "greek", "greek"), "σος ΣΟΣ");
+  assertNfcEquals(
+    convert("σος ΣΟΣ", "greek", "greek", medial),
+    "σοσ ΣΟΣ",
+  );
+  assertNfcEquals(
+    convert("ψ βς κς", "greek", "greek", medial),
+    "ψ ψ ξ",
+  );
+  assertNfcEquals(
+    convert("σος σʹ", "greek", "greek", {
+      orthography: { finalSigma: "medial", sigma: "lunate" },
+    }),
+    "ϲοϲ σʹ",
+  );
+});
+
+Deno.test("folds Greek variants while keeping letter case independent", () => {
+  assertNfcEquals(
+    foldGreekVariants("ϐίος ΛΌΓΟΣ ϲῶμα βʹ σʹ"),
+    "βίοσ ΛΌΓΟΣ σῶμα βʹ σʹ",
+  );
+  assertNfcEquals(
+    foldGreekVariants("ϐΊΟΣ ϹῶΜΑ", {
+      orthography: { letterCase: "lowercase" },
+    }),
+    "βίοσ σῶμα",
+  );
+  assertNfcEquals(
+    foldGreekVariants("ϐίος", { removeDiacritics: true }),
+    "βιοσ",
+  );
 });
 
 Deno.test("converts marked alphabetic numerals to decimal on demand", () => {

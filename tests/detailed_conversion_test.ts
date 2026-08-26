@@ -130,6 +130,30 @@ Deno.test("canonical Unicode variants are not information loss", () => {
   assertEquals(decomposed.lossy, false);
 });
 
+Deno.test("Greek letter variants are independent from lossy case folding", () => {
+  const variants = convertDetailed("ϐίος ϲῶμα", "greek", "greek", {
+    orthography: {
+      finalSigma: "medial",
+      medialBeta: "standard",
+      sigma: "standard",
+    },
+  });
+  const lowercase = convertDetailed("ΒΊΟΣ", "greek", "greek", {
+    orthography: { finalSigma: "medial", letterCase: "lowercase" },
+  });
+
+  assertEquals(variants.lossy, false);
+  assertEquals(variants.losses, []);
+  assertEquals(lowercase.output, "βίοσ");
+  assertEquals(lowercase.lossy, true);
+  assertEquals(lowercase.losses.map(({ code }) => code), [
+    "changed-case",
+    "changed-case",
+    "changed-case",
+    "changed-case",
+  ]);
+});
+
 Deno.test("Greek coronis scalar retains semantic provenance", () => {
   const result = convertDetailed(
     "κἀγώ",

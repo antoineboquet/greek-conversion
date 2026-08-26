@@ -52,7 +52,10 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       let base = ALPHABET[contraction.letter].greek;
       if (contraction.letter === "sigma") {
         if (options.orthography?.sigma === "lunate") base = "ϲ";
-        else if (isWordFinal(doc, i + 1)) base = "ς";
+        else if (
+          options.orthography?.finalSigma !== "medial" &&
+          isWordFinal(doc, i + 1)
+        ) base = "ς";
       }
       out += contraction.uppercase ? base.toLocaleUpperCase("el") : base;
       i++;
@@ -70,6 +73,7 @@ export function encodeGreek(doc: Document, options: ConversionOptions = {}) {
       base = "ϲ";
     } else if (
       token.letter === "sigma" &&
+      options.orthography?.finalSigma !== "medial" &&
       isWordFinal(doc, i) &&
       !isGreekNumeralContext(doc, i)
     ) {

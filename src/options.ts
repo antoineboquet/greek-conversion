@@ -13,6 +13,9 @@ export type NasalGammaOrthography = "nasal" | "literal";
 /** Selects standard or lunate sigma in Greek and Beta Code output. */
 export type SigmaOrthography = "standard" | "lunate";
 
+/** Selects contextual final sigma or a uniform medial sigma in Greek output. */
+export type FinalSigmaOrthography = "contextual" | "medial";
+
 /** Preserves marked alphabetic numerals or renders valid groups as decimals. */
 export type NumeralOrthography = "alphabetic" | "decimal";
 
@@ -117,6 +120,8 @@ export interface OrthographyOptions {
   nasalGamma?: NasalGammaOrthography;
   /** Sigma glyph policy. Defaults to `"standard"`. */
   sigma?: SigmaOrthography;
+  /** Lowercase final sigma policy in Greek output. Defaults to `"contextual"`. */
+  finalSigma?: FinalSigmaOrthography;
   /** Alphabetic or decimal numeral output. Defaults to `"alphabetic"`. */
   numerals?: NumeralOrthography;
   /** Dental assimilation before sigma. Defaults to `"preserve"`. */

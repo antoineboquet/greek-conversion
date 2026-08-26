@@ -40,6 +40,7 @@ export type {
   DiacriticOptions,
   DoubleRhoOrthography,
   EtaTransliteration,
+  FinalSigmaOrthography,
   GreekAccentuation,
   GreekAcuteForm,
   GreekAnoTeleiaForm,
@@ -91,6 +92,38 @@ export function removeDiacritics(
   return encode(parse(input, format, resolved), format, {
     ...resolved,
     removeDiacritics: true,
+  });
+}
+
+/**
+ * Folds Greek letter-shape variants to a uniform comparison spelling.
+ *
+ * Medial beta `ϐ` becomes `β`, lunate sigma `ϲ` becomes `σ`, and every
+ * lowercase final sigma `ς` becomes medial `σ`. Case and semantic diacritics
+ * are preserved by default. They remain independently controllable through
+ * the ordinary conversion options.
+ *
+ * @example
+ * ```ts
+ * foldGreekVariants("ϐίος λόγος ϲῶμα"); // "βίοσ λόγοσ σῶμα"
+ * foldGreekVariants("ϐΊΟΣ", {
+ *   orthography: { letterCase: "lowercase" },
+ * }); // "βίοσ"
+ * ```
+ */
+export function foldGreekVariants(
+  input: string,
+  options: ConversionOptions = {},
+): string {
+  const resolved = resolveConversionOptions(options);
+  return encode(parse(input, "greek", resolved), "greek", {
+    ...resolved,
+    orthography: {
+      ...resolved.orthography,
+      medialBeta: "standard",
+      sigma: "standard",
+      finalSigma: "medial",
+    },
   });
 }
 

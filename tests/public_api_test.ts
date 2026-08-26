@@ -10,6 +10,7 @@ Deno.test("the main runtime API stays deliberately small", () => {
     "betaCodeToTransliteration",
     "convert",
     "convertDetailed",
+    "foldGreekVariants",
     "formatGreekUnicode",
     "getPresetOptions",
     "greekToBetaCode",

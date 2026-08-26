@@ -91,6 +91,10 @@ const PROFILES = [
     },
   },
   {
+    name: "uniform medial final sigma",
+    options: { orthography: { finalSigma: "medial" } },
+  },
+  {
     name: "literal transliteration policies",
     options: {
       orthography: {
