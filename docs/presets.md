@@ -60,7 +60,7 @@ metadata or options.
 | `ala-lc-modern` | Romanization profile for Modern Greek after 1453. | Modern Greek after 1453 | partial | engine-default | [ALA-LC Romanization Tables: Greek (Modern)](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf) |
 | `bnf-core` | Core mechanically expressible profile for the BnF adaptation of ISO 843 for Ancient Greek. | Ancient Greek; French library cataloguing | partial | engine-default | [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec) |
 | `iso-843-type-1` | Type 1 transliteration of Greek characters into Latin characters. | Ancient Greek; Modern Greek | partial | engine-default | [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf) |
-| `perseus` | Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus. | Polytonic Greek; Perseus and Morpheus interchange | complete | engine-default | [The Care and Feeding of Morpheus](https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html); [Perseids Tools Beta Code JSON mappings](https://github.com/perseids-tools/beta-code-json); [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
+| `perseus` | Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library project. | Polytonic Greek; Perseus and Morpheus interchange | complete | engine-default | [The Care and Feeding of Morpheus](https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html); [Perseids Tools Beta Code JSON mappings](https://github.com/perseids-tools/beta-code-json); [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
 | `sbl-academic` | Academic transliteration retaining the engine's scientific diacritics. | Ancient Greek; Biblical studies | adapted | engine-default | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
 | `sbl-general` | Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis. | Ancient Greek; Biblical studies; General readers | adapted | engine-default | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
 | `tlg-core` | Canonical Beta Code together with the TLG characters implemented by the engine. | Polytonic Greek; Beta Code interchange | partial | engine-default | [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
@@ -220,7 +220,7 @@ Type 1 transliteration of Greek characters into Latin characters.
 - **Coverage:** `complete`
 - **Out-of-scope behavior:** `engine-default`
 
-Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus.
+Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library project.
 
 **References:**
 

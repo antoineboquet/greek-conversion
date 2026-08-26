@@ -1,14 +1,14 @@
 # Migrating from 0.14.x
 
-Version `1.0.0-beta.1` is a rewrite. It does not provide compatibility aliases
-for the `0.14.x` API.
+The `1.0.0` prerelease series is a rewrite. It does not provide compatibility
+aliases for the `0.14.x` API.
 
 ## Installation
 
 The prerelease will be available from JSR and npm after publication:
 
 ```sh
-deno add jsr:@humanities/greek-conversion@1.0.0-beta.1
+deno add jsr:@humanities/greek-conversion@1.0.0-beta.2
 npm install @humanities/greek-conversion@beta
 ```
 
