@@ -1,10 +1,10 @@
 # greek-conversion
 
-> A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
-
-`greek-conversion` provides predictable output, named standards-oriented
-presets, and diagnostics when a conversion loses information. Unknown
-characters are preserved instead of being silently discarded.
+This library supports bidirectional conversion between Greek, Beta Code,
+and scientific transliteration. It provides predictable output, named
+standards-oriented presets, and diagnostics when a conversion loses
+information. Unknown characters are preserved instead of being silently
+discarded.
 
 ## Summary
 
