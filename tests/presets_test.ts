@@ -13,13 +13,14 @@ import { assertNfcEquals } from "./assertions.ts";
 
 Deno.test("exposes descriptive metadata for every preset", () => {
   assertEquals(listPresetMetadata().map(({ id }) => id), [
-    "iso-843-type-1",
     "ala-lc-ancient",
     "ala-lc-modern",
+    "bnf-core",
+    "iso-843-type-1",
+    "perseus",
     "sbl-academic",
     "sbl-general",
     "tlg-core",
-    "bnf-core",
   ]);
 
   assertEquals(getPresetMetadata("ala-lc-ancient"), {
@@ -30,6 +31,7 @@ Deno.test("exposes descriptive metadata for every preset", () => {
       "Romanization profile for Ancient and Medieval Greek before 1454.",
     scope: ["Ancient Greek", "Medieval Greek before 1454"],
     coverage: "partial",
+    outOfScopeBehavior: "engine-default",
     references: [{
       title: "ALA-LC Romanization Tables: Greek (Ancient and Medieval)",
       url: "https://www.loc.gov/catdir/cpso/romanization/greek.pdf",
@@ -38,6 +40,37 @@ Deno.test("exposes descriptive metadata for every preset", () => {
       "Missing rough breathings are not inferred from lexical knowledge or capitalization.",
       "Iota adscript cannot be distinguished mechanically from an ordinary iota.",
       "Omitted diaeresis is recoverable only in the deterministic contextual y/u cases implemented by the parser.",
+    ],
+  });
+
+  assertEquals(getPresetMetadata("perseus"), {
+    id: "perseus",
+    name: "Perseus Beta Code — Core subset",
+    authority: "Perseus Digital Library",
+    description:
+      "Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus.",
+    scope: ["Polytonic Greek", "Perseus and Morpheus interchange"],
+    coverage: "complete",
+    outOfScopeBehavior: "engine-default",
+    references: [
+      {
+        title: "The Care and Feeding of Morpheus",
+        url:
+          "https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html",
+      },
+      {
+        title: "Perseids Tools Beta Code JSON mappings",
+        url: "https://github.com/perseids-tools/beta-code-json",
+      },
+      {
+        title: "TLG Beta Code Quick Reference Guide",
+        url: "https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf",
+      },
+    ],
+    limitations: [
+      "The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.",
+      "The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.",
+      "Additional characters accepted by the engine are not thereby part of the Perseus subset.",
     ],
   });
 });
@@ -194,7 +227,7 @@ Deno.test("distinguishes academic and general SBL diacritics", () => {
 Deno.test("core presets remain conservative and mixable", () => {
   assertNfcEquals(
     convert("ϲοϲ", "greek", "beta-code", { preset: "tlg-core" }),
-    "sos",
+    "SOS",
   );
   assertNfcEquals(
     convert("κἀγώ", "greek", "transliteration", {
@@ -202,6 +235,13 @@ Deno.test("core presets remain conservative and mixable", () => {
       orthography: { coronis: "greek" },
     }),
     "ka᾽gṓ",
+  );
+});
+
+Deno.test("Perseus emits lowercase Beta Code", () => {
+  assertNfcEquals(
+    convert("Ἄνθρωπος", "greek", "beta-code", { preset: "perseus" }),
+    "a)/nqrwpos",
   );
 });
 

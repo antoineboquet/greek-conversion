@@ -74,6 +74,7 @@ export {
   resolveConversionOptions,
 } from "./presets.ts";
 export type {
+  OutOfScopeBehavior,
   PresetCoverage,
   PresetMetadata,
   PresetOptions,

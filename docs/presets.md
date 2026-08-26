@@ -32,10 +32,18 @@ policy can affect every output. This direction-dependent behavior is identical
 to activating the same options manually.
 
 Coverage labels describe the relationship between the implementation and its
-references: `partial` implements a documented subset, `adapted` intentionally
-defines a library profile from the reference, and `extension-point` reserves a
-stable identifier whose final option choices are not configured yet. None of
-these labels is an independent certification of conformity.
+references: `complete` implements every in-scope rule expressible by the
+engine, `partial` implements a documented subset, `adapted` intentionally
+defines a library profile from the reference, and `planned` identifies a
+profile whose implementation is not complete. None of these labels is an
+independent certification of conformity. In particular, accepting characters
+beyond a reference's repertoire does not make an otherwise complete preset
+partial.
+
+`outOfScopeBehavior` states what happens to recognized content beyond the
+cited repertoire. `engine-default` applies the ordinary conversion rules and
+therefore does not enforce the reference as a strict validator; `preserve` and
+`reject` describe profiles that respectively retain or refuse such content.
 
 ## Available presets
 
@@ -46,52 +54,23 @@ metadata or options.
 <!-- BEGIN GENERATED PRESET REFERENCE -->
 <!-- This section is generated. Do not edit it directly. -->
 
-| Preset | Description | Scope | Coverage | Reference |
-| --- | --- | --- | --- | --- |
-| `iso-843-type-1` | Type 1 transliteration of Greek characters into Latin characters. | Ancient Greek; Modern Greek | partial | [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf) |
-| `ala-lc-ancient` | Romanization profile for Ancient and Medieval Greek before 1454. | Ancient Greek; Medieval Greek before 1454 | partial | [ALA-LC Romanization Tables: Greek (Ancient and Medieval)](https://www.loc.gov/catdir/cpso/romanization/greek.pdf) |
-| `ala-lc-modern` | Romanization profile for Modern Greek after 1453. | Modern Greek after 1453 | partial | [ALA-LC Romanization Tables: Greek (Modern)](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf) |
-| `sbl-academic` | Academic transliteration retaining the engine's scientific diacritics. | Ancient Greek; Biblical studies | adapted | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
-| `sbl-general` | Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis. | Ancient Greek; Biblical studies; General readers | adapted | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
-| `tlg-core` | Canonical Beta Code together with the TLG characters implemented by the engine. | Polytonic Greek; Beta Code interchange | partial | [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
-| `bnf-core` | Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases. | Ancient Greek; French library cataloguing | extension-point | [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec) |
-
-### `iso-843-type-1` — ISO 843:1997 — Type 1
-
-- **Authority:** International Organization for Standardization
-- **Scope:** Ancient Greek; Modern Greek
-- **Coverage:** `partial`
-
-Type 1 transliteration of Greek characters into Latin characters.
-
-**References:**
-
-- [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf)
-
-**Contributed options:**
-
-```json
-{
-  "orthography": {
-    "beta": "v",
-    "coronis": "apostrophe",
-    "eta": "ī",
-    "nasalGamma": "literal",
-    "phi": "f",
-    "upsilon": "y"
-  }
-}
-```
-
-**Known limitations:**
-
-- The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.
+| Preset | Description | Scope | Coverage | Out of scope | Reference |
+| --- | --- | --- | --- | --- | --- |
+| `ala-lc-ancient` | Romanization profile for Ancient and Medieval Greek before 1454. | Ancient Greek; Medieval Greek before 1454 | partial | engine-default | [ALA-LC Romanization Tables: Greek (Ancient and Medieval)](https://www.loc.gov/catdir/cpso/romanization/greek.pdf) |
+| `ala-lc-modern` | Romanization profile for Modern Greek after 1453. | Modern Greek after 1453 | partial | engine-default | [ALA-LC Romanization Tables: Greek (Modern)](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf) |
+| `bnf-core` | Core mechanically expressible profile for the BnF adaptation of ISO 843 for Ancient Greek. | Ancient Greek; French library cataloguing | partial | engine-default | [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec) |
+| `iso-843-type-1` | Type 1 transliteration of Greek characters into Latin characters. | Ancient Greek; Modern Greek | partial | engine-default | [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf) |
+| `perseus` | Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus. | Polytonic Greek; Perseus and Morpheus interchange | complete | engine-default | [The Care and Feeding of Morpheus](https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html); [Perseids Tools Beta Code JSON mappings](https://github.com/perseids-tools/beta-code-json); [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
+| `sbl-academic` | Academic transliteration retaining the engine's scientific diacritics. | Ancient Greek; Biblical studies | adapted | engine-default | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
+| `sbl-general` | Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis. | Ancient Greek; Biblical studies; General readers | adapted | engine-default | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
+| `tlg-core` | Canonical Beta Code together with the TLG characters implemented by the engine. | Polytonic Greek; Beta Code interchange | partial | engine-default | [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
 
 ### `ala-lc-ancient` — ALA-LC — Ancient and Medieval Greek
 
 - **Authority:** American Library Association and Library of Congress
 - **Scope:** Ancient Greek; Medieval Greek before 1454
 - **Coverage:** `partial`
+- **Out-of-scope behavior:** `engine-default`
 
 Romanization profile for Ancient and Medieval Greek before 1454.
 
@@ -130,6 +109,7 @@ Romanization profile for Ancient and Medieval Greek before 1454.
 - **Authority:** American Library Association and Library of Congress
 - **Scope:** Modern Greek after 1453
 - **Coverage:** `partial`
+- **Out-of-scope behavior:** `engine-default`
 
 Romanization profile for Modern Greek after 1453.
 
@@ -165,11 +145,111 @@ Romanization profile for Modern Greek after 1453.
 - Iota adscript cannot be distinguished mechanically from an ordinary iota.
 - Only the documented contextual mu-pi, nu-tau, and gamma-kappa rules are implemented.
 
+### `bnf-core` — BnF — Ancient Greek core
+
+- **Authority:** Bibliothèque nationale de France
+- **Scope:** Ancient Greek; French library cataloguing
+- **Coverage:** `partial`
+- **Out-of-scope behavior:** `engine-default`
+
+Core mechanically expressible profile for the BnF adaptation of ISO 843 for Ancient Greek.
+
+**References:**
+
+- [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "coronis": "greek",
+    "lunateSigma": "c",
+    "upsilon": "y"
+  },
+  "unicode": {
+    "questionMark": "greek"
+  }
+}
+```
+
+**Known limitations:**
+
+- Context-dependent access-point variants such as kappa → c and chi → kh are not selected automatically.
+- The BnF au, eu, and ou exceptions cannot be expressed exactly by the engine's uniform upsilon policies.
+- BnF-specific keraia transliteration, Cypriot syndyazomeno, and the Iliad/Odyssey numeral exception are not implemented.
+- Iota adscript cannot be distinguished mechanically from an ordinary iota.
+- The BnF circumflex scalar and omission of explicit macron and breve marks are not independently selectable.
+
+### `iso-843-type-1` — ISO 843:1997 — Type 1
+
+- **Authority:** International Organization for Standardization
+- **Scope:** Ancient Greek; Modern Greek
+- **Coverage:** `partial`
+- **Out-of-scope behavior:** `engine-default`
+
+Type 1 transliteration of Greek characters into Latin characters.
+
+**References:**
+
+- [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "beta": "v",
+    "coronis": "apostrophe",
+    "eta": "ī",
+    "nasalGamma": "literal",
+    "phi": "f",
+    "upsilon": "y"
+  }
+}
+```
+
+**Known limitations:**
+
+- The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.
+
+### `perseus` — Perseus Beta Code — Core subset
+
+- **Authority:** Perseus Digital Library
+- **Scope:** Polytonic Greek; Perseus and Morpheus interchange
+- **Coverage:** `complete`
+- **Out-of-scope behavior:** `engine-default`
+
+Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus.
+
+**References:**
+
+- [The Care and Feeding of Morpheus](https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html)
+- [Perseids Tools Beta Code JSON mappings](https://github.com/perseids-tools/beta-code-json)
+- [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "letterCase": "lowercase"
+  }
+}
+```
+
+**Known limitations:**
+
+- The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.
+- The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.
+- Additional characters accepted by the engine are not thereby part of the Perseus subset.
+
 ### `sbl-academic` — SBL — Academic style
 
 - **Authority:** Society of Biblical Literature
 - **Scope:** Ancient Greek; Biblical studies
 - **Coverage:** `adapted`
+- **Out-of-scope behavior:** `engine-default`
 
 Academic transliteration retaining the engine's scientific diacritics.
 
@@ -196,6 +276,7 @@ Academic transliteration retaining the engine's scientific diacritics.
 - **Authority:** Society of Biblical Literature
 - **Scope:** Ancient Greek; Biblical studies; General readers
 - **Coverage:** `adapted`
+- **Out-of-scope behavior:** `engine-default`
 
 Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis.
 
@@ -231,6 +312,7 @@ Readable transliteration omitting most scholarly diacritics while retaining roug
 - **Authority:** Thesaurus Linguae Graecae
 - **Scope:** Polytonic Greek; Beta Code interchange
 - **Coverage:** `partial`
+- **Out-of-scope behavior:** `engine-default`
 
 Canonical Beta Code together with the TLG characters implemented by the engine.
 
@@ -241,34 +323,16 @@ Canonical Beta Code together with the TLG characters implemented by the engine.
 **Contributed options:**
 
 ```json
-{}
+{
+  "orthography": {
+    "letterCase": "uppercase"
+  }
+}
 ```
 
 **Known limitations:**
 
 - The TLG character inventory contains more than one thousand assignments; only the Greek alphabet and the documented additional characters and punctuation are implemented.
-
-### `bnf-core` — BnF — Ancient Greek core
-
-- **Authority:** Bibliothèque nationale de France
-- **Scope:** Ancient Greek; French library cataloguing
-- **Coverage:** `extension-point`
-
-Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.
-
-**References:**
-
-- [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec)
-
-**Contributed options:**
-
-```json
-{}
-```
-
-**Known limitations:**
-
-- The preset currently contributes no options and deliberately does not anticipate the final BnF policy choices.
 
 <!-- END GENERATED PRESET REFERENCE -->
 

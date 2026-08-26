@@ -12,6 +12,12 @@ export type PresetOptions = Omit<ConversionOptions, "preset">;
 /** Implementation status of a preset relative to its cited references. */
 export type PresetCoverage = "complete" | "partial" | "adapted" | "planned";
 
+/** Treatment of recognized content outside a preset's cited scope. */
+export type OutOfScopeBehavior =
+  | "engine-default"
+  | "preserve"
+  | "reject";
+
 /** One normative or explanatory source associated with a preset. */
 export interface PresetReference {
   /** Human-readable source title. */
@@ -34,6 +40,8 @@ export interface PresetMetadata {
   scope: readonly string[];
   /** Relationship between this implementation and the cited reference. */
   coverage: PresetCoverage;
+  /** Treatment of recognized content outside the cited reference's scope. */
+  outOfScopeBehavior: OutOfScopeBehavior;
   /** Normative or explanatory sources used to define the preset. */
   references: readonly PresetReference[];
   /** Known deviations, unsupported rules, and interpretation cautions. */
@@ -65,6 +73,7 @@ const PRESET_DEFINITIONS = {
         "Romanization profile for Ancient and Medieval Greek before 1454.",
       scope: ["Ancient Greek", "Medieval Greek before 1454"],
       coverage: "partial",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "ALA-LC Romanization Tables: Greek (Ancient and Medieval)",
         url: "https://www.loc.gov/catdir/cpso/romanization/greek.pdf",
@@ -91,6 +100,7 @@ const PRESET_DEFINITIONS = {
       description: "Romanization profile for Modern Greek after 1453.",
       scope: ["Modern Greek after 1453"],
       coverage: "partial",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "ALA-LC Romanization Tables: Greek (Modern)",
         url: "https://www.loc.gov/catdir/cpso/romanization/greekm.pdf",
@@ -117,15 +127,22 @@ const PRESET_DEFINITIONS = {
       name: "BnF — Ancient Greek core",
       authority: "Bibliothèque nationale de France",
       description:
-        "Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.",
+        "Core mechanically expressible profile for the BnF adaptation of ISO 843 for Ancient Greek.",
       scope: ["Ancient Greek", "French library cataloguing"],
       coverage: "partial",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "Translittération du grec — Kitcat BnF",
         url:
           "https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec",
       }],
-      limitations: [],
+      limitations: [
+        "Context-dependent access-point variants such as kappa → c and chi → kh are not selected automatically.",
+        "The BnF au, eu, and ou exceptions cannot be expressed exactly by the engine's uniform upsilon policies.",
+        "BnF-specific keraia transliteration, Cypriot syndyazomeno, and the Iliad/Odyssey numeral exception are not implemented.",
+        "Iota adscript cannot be distinguished mechanically from an ordinary iota.",
+        "The BnF circumflex scalar and omission of explicit macron and breve marks are not independently selectable.",
+      ],
     },
     options: {
       orthography: {
@@ -147,6 +164,7 @@ const PRESET_DEFINITIONS = {
         "Type 1 transliteration of Greek characters into Latin characters.",
       scope: ["Ancient Greek", "Modern Greek"],
       coverage: "partial",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "ISO 843:1997",
         url:
@@ -170,22 +188,38 @@ const PRESET_DEFINITIONS = {
   "perseus": {
     metadata: {
       id: "perseus",
-      name: "",
-      authority: "",
+      name: "Perseus Beta Code — Core subset",
+      authority: "Perseus Digital Library",
       description:
-        "",
-      scope: [],
+        "Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus.",
+      scope: ["Polytonic Greek", "Perseus and Morpheus interchange"],
       coverage: "complete",
-      references: [{
-        title: "",
-        url: "",
-      }],
-      limitations: [],
+      outOfScopeBehavior: "engine-default",
+      references: [
+        {
+          title: "The Care and Feeding of Morpheus",
+          url:
+            "https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html",
+        },
+        {
+          title: "Perseids Tools Beta Code JSON mappings",
+          url: "https://github.com/perseids-tools/beta-code-json",
+        },
+        {
+          title: "TLG Beta Code Quick Reference Guide",
+          url: "https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf",
+        },
+      ],
+      limitations: [
+        "The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.",
+        "The lowercase policy does not retain Greek letter case; convertDetailed() reports the resulting case changes.",
+        "Additional characters accepted by the engine are not thereby part of the Perseus subset.",
+      ],
     },
     options: {
       orthography: {
         letterCase: "lowercase",
-      }
+      },
     },
   },
   "sbl-academic": {
@@ -197,6 +231,7 @@ const PRESET_DEFINITIONS = {
         "Academic transliteration retaining the engine's scientific diacritics.",
       scope: ["Ancient Greek", "Biblical studies"],
       coverage: "adapted",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "The SBL Handbook of Style, second edition",
         url: "https://archive.org/details/sblhandbookofsty0000unse_g7i4/",
@@ -220,6 +255,7 @@ const PRESET_DEFINITIONS = {
         "Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis.",
       scope: ["Ancient Greek", "Biblical studies", "General readers"],
       coverage: "adapted",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "The SBL Handbook of Style, second edition",
         url: "https://archive.org/details/sblhandbookofsty0000unse_g7i4/",
@@ -252,6 +288,7 @@ const PRESET_DEFINITIONS = {
         "Canonical Beta Code together with the TLG characters implemented by the engine.",
       scope: ["Polytonic Greek", "Beta Code interchange"],
       coverage: "partial",
+      outOfScopeBehavior: "engine-default",
       references: [{
         title: "TLG Beta Code Quick Reference Guide",
         url: "https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf",
@@ -263,7 +300,7 @@ const PRESET_DEFINITIONS = {
     options: {
       orthography: {
         letterCase: "uppercase",
-      }
+      },
     },
   },
 } as const satisfies Record<Preset, PresetDefinition>;
