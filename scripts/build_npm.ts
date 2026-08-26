@@ -42,13 +42,13 @@ await build({
       "A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.",
     author: "Antoine Boquet",
     license: "AGPL-3.0-or-later",
-    homepage: "https://github.com/antoineboquet/greek-conversion#readme",
+    homepage: "https://github.com/defense-humanites/greek-conversion#readme",
     repository: {
       type: "git",
-      url: "git+https://github.com/antoineboquet/greek-conversion.git",
+      url: "git+https://github.com/defense-humanites/greek-conversion.git",
     },
     bugs: {
-      url: "https://github.com/antoineboquet/greek-conversion/issues",
+      url: "https://github.com/defense-humanites/greek-conversion/issues",
     },
     keywords: [
       "greek",

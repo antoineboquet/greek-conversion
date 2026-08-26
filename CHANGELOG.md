@@ -34,4 +34,4 @@ This prerelease is a complete rewrite of the `0.14.x` conversion engine.
   legacy API.
 - Parcel, Jest, and the legacy prebuilt distribution pipeline.
 
-[1.0.0-beta.1]: https://github.com/antoineboquet/greek-conversion/releases/tag/v1.0.0-beta.1
+[1.0.0-beta.1]: https://github.com/defense-humanites/greek-conversion/releases/tag/v1.0.0-beta.1

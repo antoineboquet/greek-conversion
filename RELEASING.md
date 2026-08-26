@@ -1,17 +1,17 @@
 # Releasing greek-conversion
 
-Publication is deliberately disabled while the `1.0.0-beta.1` prerelease is
-being prepared. Creating a GitHub release cannot publish anything until the
-repository variable described below is explicitly enabled.
+Publication is deliberately disabled between prereleases. Creating a GitHub
+release cannot publish anything until the repository variable described below
+is explicitly enabled.
 
 ## One-time registry and repository setup
 
-After `antoineboquet/greek-conversion` becomes the canonical repository:
+For the canonical `defense-humanites/greek-conversion` repository:
 
 1. Create `@humanities/greek-conversion` on JSR and link it to the canonical
    GitHub repository and `.github/workflows/publish.yml`.
 2. Configure npm trusted publishing for the existing `greek-conversion`
-   package with repository `antoineboquet/greek-conversion`, workflow
+   package with repository `defense-humanites/greek-conversion`, workflow
    `publish.yml`, and environment `release`.
 3. Create the protected GitHub environment `release`, restrict deployment to
    the intended tags, and add required reviewers.
