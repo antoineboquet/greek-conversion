@@ -1,11 +1,32 @@
 # greek-conversion
 
-Convert polytonic or monotonic Greek, Beta Code, and scientific transliteration
-in every direction.
+> A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.
 
 `greek-conversion` provides predictable output, named standards-oriented
 presets, and diagnostics when a conversion loses information. Unknown
 characters are preserved instead of being silently discarded.
+
+## Summary
+
+1. [Installation](#installation)
+2. [Quick start](#quick-start)
+3. [Choose the right API](#choose-the-right-api)
+4. [Use a preset](#use-a-preset)
+   1. [Inspect effective defaults](#inspect-effective-defaults)
+5. [Common recipes](#common-recipes)
+   1. [Produce monotonic Greek](#produce-monotonic-greek)
+   2. [Remove all or selected diacritics](#remove-all-or-selected-diacritics)
+   3. [Fold Greek letter variants](#fold-greek-letter-variants)
+   4. [Normalize case and whitespace](#normalize-case-and-whitespace)
+   5. [Select transliteration spellings](#select-transliteration-spellings)
+   6. [Control Greek Unicode output](#control-greek-unicode-output)
+6. [Detect information loss](#detect-information-loss)
+7. [Reuse one parsed text](#reuse-one-parsed-text)
+8. [Guarantees and scope](#guarantees-and-scope)
+9. [Advanced API](#advanced-api)
+10. [Documentation](#documentation)
+11. [Development](#development)
+12. [License](#license)
 
 ## Installation
 
@@ -390,7 +411,7 @@ deno task test
 
 ## License
 
-Copyright © 2021–2026 Antoine Boquet and contributors.
+Copyright (C) 2021-2026  Antoine Boquet
 
 `greek-conversion` is licensed under the
 [GNU Affero General Public License v3.0 or later](https://github.com/defense-humanites/greek-conversion/blob/main/LICENSE).
