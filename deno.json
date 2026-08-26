@@ -1,6 +1,6 @@
 {
   "name": "@humanities/greek-conversion",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "lock": false,
   "exports": {
     ".": "./src/mod.ts",

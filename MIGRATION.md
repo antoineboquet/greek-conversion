@@ -8,11 +8,23 @@ aliases for the `0.14.x` API.
 The prerelease will be available from JSR and npm after publication:
 
 ```sh
-deno add jsr:@humanities/greek-conversion@1.0.0-beta.2
+deno add jsr:@humanities/greek-conversion@1.0.0-beta.3
 npm install @humanities/greek-conversion@beta
 ```
 
 The package is ESM-only.
+
+## Updating from `1.0.0-beta.2`
+
+Beta Code ASCII letter case no longer represents Greek letter case. Only a
+preceding `*` marks an uppercase Greek grapheme, so uppercase ASCII input such
+as `A)/NQRWPOS` now converts to lowercase `ἄνθρωπος`. Canonical output uses
+lowercase ASCII by default and places uppercase diacritics between `*` and the
+letter, following TLG ordering.
+
+Use `orthography.betaCodeCase: "uppercase"` when an integration requires
+uppercase ASCII without changing the represented Greek case. The `tlg-core`
+and `perseus` presets select uppercase and lowercase ASCII respectively.
 
 ## Formats and conversion functions
 

@@ -30,10 +30,10 @@ discarded.
 
 ## Installation
 
-The `1.0.0-beta.2` prerelease is ESM-only and targets JSR and npm:
+The `1.0.0-beta.3` prerelease is ESM-only and targets JSR and npm:
 
 ```sh
-deno add jsr:@humanities/greek-conversion@1.0.0-beta.2
+deno add jsr:@humanities/greek-conversion@1.0.0-beta.3
 npm install @humanities/greek-conversion@beta
 ```
 

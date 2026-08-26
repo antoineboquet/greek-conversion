@@ -3,12 +3,19 @@
 All notable changes to `greek-conversion` are documented in this file. The
 project follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.0.0-beta.3] - 2026-08-26
 
 ### Added
 
 - `betaCodeCase` separates lowercase/uppercase ASCII presentation from the
   semantic letter case represented by `*`.
+
+### Changed
+
+- The README now identifies the target format and intended use of every
+  bundled preset.
+- The README introduction and Beta Code guidance now describe the current
+  conversion engine and canonical spelling rules directly.
 
 ### Fixed
 
@@ -93,5 +100,6 @@ This prerelease is a complete rewrite of the `0.14.x` conversion engine.
   legacy API.
 - Parcel, Jest, and the legacy prebuilt distribution pipeline.
 
+[1.0.0-beta.3]: https://github.com/defense-humanites/greek-conversion/compare/v1.0.0-beta.2...v1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/defense-humanites/greek-conversion/compare/v1.0.0-beta.1...v1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/defense-humanites/greek-conversion/releases/tag/v1.0.0-beta.1
