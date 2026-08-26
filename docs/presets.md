@@ -55,12 +55,14 @@ Handbook publishes two separate Greek tables.
 
 ## Inspection
 
-The stable identifiers and resolved option objects are public:
+The stable identifiers, sparse preset definitions, immutable defaults, and
+fully resolved option objects are public:
 
 ```ts
 PRESETS;
 // ["iso-843-type-1", ..., "bnf-core"]
 
+DEFAULT_CONVERSION_OPTIONS;
 getPresetOptions("ala-lc-modern");
 resolveConversionOptions({
   preset: "ala-lc-modern",
@@ -68,7 +70,10 @@ resolveConversionOptions({
 });
 ```
 
-Both helpers return detached objects. Mutating a returned object cannot modify
+`getPresetOptions()` returns only fields contributed by the selected preset.
+`resolveConversionOptions()` returns a complete `ResolvedConversionOptions`,
+after applying engine defaults, the preset, and custom overrides. Both helpers
+return detached objects; mutating one cannot modify the immutable defaults or
 the preset registry.
 
 ## Scope limits

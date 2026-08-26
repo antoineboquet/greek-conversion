@@ -1,6 +1,12 @@
-import type { ConversionOptions, DiacriticOptions, Preset } from "./options.ts";
+import {
+  type ConversionOptions,
+  DEFAULT_CONVERSION_OPTIONS,
+  type DiacriticOptions,
+  type Preset,
+  type ResolvedConversionOptions,
+} from "./options.ts";
 
-/** Resolved conversion options without a recursive preset marker. */
+/** Partial option fields contributed by one registered preset. */
 export type PresetOptions = Omit<ConversionOptions, "preset">;
 
 const OMIT_NON_ROUGH_DIACRITICS = {
@@ -87,10 +93,27 @@ export function getPresetOptions(preset: Preset): PresetOptions {
  */
 export function resolveConversionOptions(
   options: ConversionOptions = {},
-): PresetOptions {
+): ResolvedConversionOptions {
   const { preset, ...custom } = options;
   const base = preset === undefined ? {} : registeredPreset(preset);
-  return mergeConversionOptions(base, custom);
+  const merged = mergeConversionOptions(base, custom);
+
+  return {
+    orthography: {
+      ...DEFAULT_CONVERSION_OPTIONS.orthography,
+      ...merged.orthography,
+    },
+    unicode: {
+      ...DEFAULT_CONVERSION_OPTIONS.unicode,
+      ...merged.unicode,
+    },
+    diacritics: {
+      ...DEFAULT_CONVERSION_OPTIONS.diacritics,
+      ...merged.diacritics,
+    },
+    removeDiacritics: merged.removeDiacritics ??
+      DEFAULT_CONVERSION_OPTIONS.removeDiacritics,
+  };
 }
 
 function registeredPreset(preset: Preset): PresetOptions {

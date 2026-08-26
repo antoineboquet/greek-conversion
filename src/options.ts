@@ -183,3 +183,106 @@ export interface ConversionOptions {
    */
   removeDiacritics?: boolean;
 }
+
+/** Fully populated conversion options used internally after resolution. */
+export interface ResolvedConversionOptions {
+  /** Effective orthographic and transliteration policies. */
+  orthography: Required<OrthographyOptions>;
+  /** Effective Greek Unicode representation preferences. */
+  unicode: Required<GreekUnicodeOptions>;
+  /** Effective disposition of every semantic diacritic class. */
+  diacritics: Required<DiacriticOptions>;
+  /** Whether every removable diacritic is suppressed. */
+  removeDiacritics: boolean;
+}
+
+/** Read-only view exposed by {@link DEFAULT_CONVERSION_OPTIONS}. */
+export interface DefaultConversionOptions {
+  readonly orthography: {
+    readonly doubleRho: "unmarked";
+    readonly medialBeta: "standard";
+    readonly coronis: "omit";
+    readonly nasalGamma: "nasal";
+    readonly sigma: "standard";
+    readonly finalSigma: "contextual";
+    readonly numerals: "alphabetic";
+    readonly dentalSigma: "preserve";
+    readonly upsilon: "u";
+    readonly longVowels: "macron";
+    readonly accentuation: "polytonic";
+    readonly whitespace: "preserve";
+    readonly beta: "b";
+    readonly eta: "ē";
+    readonly xi: "x";
+    readonly phi: "ph";
+    readonly chi: "ch";
+    readonly modernDigraphs: "preserve";
+    readonly rho: "contextual";
+    readonly letterCase: "preserve";
+  };
+  readonly unicode: {
+    readonly composition: "composed";
+    readonly acute: "system";
+    readonly questionMark: "canonical";
+    readonly anoTeleia: "canonical";
+  };
+  readonly diacritics: {
+    readonly accents: "preserve";
+    readonly smoothBreathing: "preserve";
+    readonly roughBreathing: "preserve";
+    readonly coronis: "preserve";
+    readonly diaeresis: "preserve";
+    readonly iotaSubscript: "preserve";
+    readonly quantity: "preserve";
+  };
+  readonly removeDiacritics: false;
+}
+
+/**
+ * Complete, immutable defaults used when no preset or custom option overrides
+ * them. Inspect this value in an IDE to discover the engine's effective
+ * baseline configuration.
+ */
+export const DEFAULT_CONVERSION_OPTIONS: DefaultConversionOptions = Object
+  .freeze(
+    {
+      orthography: Object.freeze({
+        doubleRho: "unmarked",
+        medialBeta: "standard",
+        coronis: "omit",
+        nasalGamma: "nasal",
+        sigma: "standard",
+        finalSigma: "contextual",
+        numerals: "alphabetic",
+        dentalSigma: "preserve",
+        upsilon: "u",
+        longVowels: "macron",
+        accentuation: "polytonic",
+        whitespace: "preserve",
+        beta: "b",
+        eta: "ē",
+        xi: "x",
+        phi: "ph",
+        chi: "ch",
+        modernDigraphs: "preserve",
+        rho: "contextual",
+        letterCase: "preserve",
+      }),
+      unicode: Object.freeze({
+        composition: "composed",
+        acute: "system",
+        questionMark: "canonical",
+        anoTeleia: "canonical",
+      }),
+      diacritics: Object.freeze({
+        accents: "preserve",
+        smoothBreathing: "preserve",
+        roughBreathing: "preserve",
+        coronis: "preserve",
+        diaeresis: "preserve",
+        iotaSubscript: "preserve",
+        quantity: "preserve",
+      }),
+      removeDiacritics: false,
+    } as const satisfies ResolvedConversionOptions,
+  );

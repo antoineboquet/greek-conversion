@@ -4,6 +4,7 @@ import * as mainApi from "../src/mod.ts";
 
 Deno.test("the main runtime API stays deliberately small", () => {
   assertEquals(Object.keys(mainApi).sort(), [
+    "DEFAULT_CONVERSION_OPTIONS",
     "GreekText",
     "PRESETS",
     "betaCodeToGreek",
@@ -15,6 +16,7 @@ Deno.test("the main runtime API stays deliberately small", () => {
     "getPresetOptions",
     "greekToBetaCode",
     "greekToTransliteration",
+    "reencode",
     "removeDiacritics",
     "resolveConversionOptions",
     "toUnicodeCodePoints",

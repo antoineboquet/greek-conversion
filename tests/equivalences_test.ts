@@ -2,8 +2,10 @@ import { assertEquals } from "@std/assert";
 import {
   betaCodeToGreek,
   betaCodeToTransliteration,
+  convert,
   greekToBetaCode,
   greekToTransliteration,
+  reencode,
   transliterationToBetaCode,
   transliterationToGreek,
 } from "../src/mod.ts";
@@ -39,6 +41,22 @@ Deno.test("canonical documents survive encode-parse round trips", () => {
       assertEquals(parse(encode(document, format), format), document);
     }
   }
+});
+
+Deno.test("reencode is the same-format conversion facade", () => {
+  for (const equivalence of EQUIVALENCES) {
+    for (const format of FORMATS) {
+      const input = valueFor(equivalence, format);
+      assertEquals(reencode(input, format), convert(input, format, format));
+    }
+  }
+
+  assertNfcEquals(
+    reencode("ϐΊΟΣ", "greek", {
+      orthography: { finalSigma: "medial", letterCase: "lowercase" },
+    }),
+    "βίοσ",
+  );
 });
 
 Deno.test("preserves literals", () =>

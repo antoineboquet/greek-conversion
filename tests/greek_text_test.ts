@@ -1,5 +1,9 @@
 import { assertEquals } from "@std/assert";
-import { convertDetailed, GreekText } from "../src/mod.ts";
+import {
+  convertDetailed,
+  DEFAULT_CONVERSION_OPTIONS,
+  GreekText,
+} from "../src/mod.ts";
 import { assertNfcEquals } from "./assertions.ts";
 
 Deno.test("GreekText exposes every representation from one canonical document", () => {
@@ -31,7 +35,9 @@ Deno.test("GreekText resolves presets and custom overrides once", () => {
 
   assertEquals(text.transliteration, "BIOS BALA");
   assertEquals(text.options, {
+    ...DEFAULT_CONVERSION_OPTIONS,
     diacritics: {
+      ...DEFAULT_CONVERSION_OPTIONS.diacritics,
       accents: "remove",
       smoothBreathing: "remove",
       roughBreathing: "preserve",
@@ -41,6 +47,7 @@ Deno.test("GreekText resolves presets and custom overrides once", () => {
       quantity: "remove",
     },
     orthography: {
+      ...DEFAULT_CONVERSION_OPTIONS.orthography,
       beta: "b",
       modernDigraphs: "ala-lc",
       numerals: "decimal",

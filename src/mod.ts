@@ -35,6 +35,7 @@ export type {
   ChiTransliteration,
   ConversionOptions,
   CoronisOrthography,
+  DefaultConversionOptions,
   DentalSigmaOrthography,
   DiacriticDisposition,
   DiacriticOptions,
@@ -55,6 +56,7 @@ export type {
   OrthographyOptions,
   PhiTransliteration,
   Preset,
+  ResolvedConversionOptions,
   RhoTransliteration,
   SigmaOrthography,
   UnicodeComposition,
@@ -62,6 +64,7 @@ export type {
   WhitespaceOrthography,
   XiTransliteration,
 } from "./options.ts";
+export { DEFAULT_CONVERSION_OPTIONS } from "./options.ts";
 export {
   getPresetOptions,
   PRESETS,
@@ -155,6 +158,28 @@ export function convert(
   options: ConversionOptions = {},
 ): string {
   return runConversion(input, from, to, options).output;
+}
+
+/**
+ * Parses and re-encodes text in the same format.
+ *
+ * This is the expressive shorthand for `convert(input, format, format,
+ * options)`. It canonicalizes accepted aliases and applies the selected
+ * orthographic policies.
+ *
+ * @example
+ * ```ts
+ * reencode("λόγος", "greek", {
+ *   orthography: { finalSigma: "medial" },
+ * }); // "λόγοσ"
+ * ```
+ */
+export function reencode(
+  input: string,
+  format: Format,
+  options: ConversionOptions = {},
+): string {
+  return convert(input, format, format, options);
 }
 
 /**

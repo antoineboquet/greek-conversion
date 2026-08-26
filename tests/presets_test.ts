@@ -2,6 +2,7 @@ import { assertEquals } from "@std/assert";
 import {
   convert,
   convertDetailed,
+  DEFAULT_CONVERSION_OPTIONS,
   getPresetOptions,
   PRESETS,
   resolveConversionOptions,
@@ -22,31 +23,44 @@ Deno.test("exposes the complete stable preset identifiers", () => {
 });
 
 Deno.test("resolves custom options after nested preset options", () => {
-  assertEquals(
-    resolveConversionOptions({
-      preset: "ala-lc-modern",
-      diacritics: { accents: "preserve" },
-      orthography: { beta: "b", letterCase: "uppercase" },
-    }),
-    {
-      diacritics: {
-        accents: "preserve",
-        smoothBreathing: "remove",
-        roughBreathing: "preserve",
-        coronis: "remove",
-        diaeresis: "remove",
-        iotaSubscript: "remove",
-        quantity: "remove",
-      },
-      orthography: {
-        beta: "b",
-        modernDigraphs: "ala-lc",
-        numerals: "decimal",
-        upsilon: "y-with-diphthong-u",
-        letterCase: "uppercase",
-      },
+  const resolved = resolveConversionOptions({
+    preset: "ala-lc-modern",
+    diacritics: { accents: "preserve" },
+    orthography: { beta: "b", letterCase: "uppercase" },
+  });
+
+  assertEquals(resolved, {
+    ...DEFAULT_CONVERSION_OPTIONS,
+    diacritics: {
+      ...DEFAULT_CONVERSION_OPTIONS.diacritics,
+      smoothBreathing: "remove",
+      roughBreathing: "preserve",
+      coronis: "remove",
+      diaeresis: "remove",
+      iotaSubscript: "remove",
+      quantity: "remove",
     },
-  );
+    orthography: {
+      ...DEFAULT_CONVERSION_OPTIONS.orthography,
+      beta: "b",
+      modernDigraphs: "ala-lc",
+      numerals: "decimal",
+      upsilon: "y-with-diphthong-u",
+      letterCase: "uppercase",
+    },
+  });
+});
+
+Deno.test("publishes immutable effective defaults", () => {
+  const longVowels: "macron" =
+    DEFAULT_CONVERSION_OPTIONS.orthography.longVowels;
+
+  assertEquals(resolveConversionOptions(), DEFAULT_CONVERSION_OPTIONS);
+  assertEquals(longVowels, "macron");
+  assertEquals(Object.isFrozen(DEFAULT_CONVERSION_OPTIONS), true);
+  assertEquals(Object.isFrozen(DEFAULT_CONVERSION_OPTIONS.orthography), true);
+  assertEquals(Object.isFrozen(DEFAULT_CONVERSION_OPTIONS.unicode), true);
+  assertEquals(Object.isFrozen(DEFAULT_CONVERSION_OPTIONS.diacritics), true);
 });
 
 Deno.test("returns detached preset option objects", () => {

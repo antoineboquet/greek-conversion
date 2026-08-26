@@ -1,8 +1,11 @@
 import { encode, parse } from "./conversion.ts";
 import { type ConversionResult, findConversionLosses } from "./losses.ts";
 import type { Document, Format } from "./model.ts";
-import type { ConversionOptions } from "./options.ts";
-import { type PresetOptions, resolveConversionOptions } from "./presets.ts";
+import type {
+  ConversionOptions,
+  ResolvedConversionOptions,
+} from "./options.ts";
+import { resolveConversionOptions } from "./presets.ts";
 
 /**
  * Immutable, reusable views of one semantically parsed Greek text.
@@ -24,7 +27,7 @@ export class GreekText {
   readonly sourceFormat: Format;
 
   readonly #document: Document;
-  readonly #options: PresetOptions;
+  readonly #options: ResolvedConversionOptions;
   readonly #outputs = new Map<Format, string>();
 
   /**
@@ -50,7 +53,7 @@ export class GreekText {
   }
 
   /** Returns a detached copy of the resolved options. */
-  get options(): PresetOptions {
+  get options(): ResolvedConversionOptions {
     return resolveConversionOptions(this.#options);
   }
 
