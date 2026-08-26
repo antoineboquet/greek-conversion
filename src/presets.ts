@@ -10,7 +10,7 @@ import {
 export type PresetOptions = Omit<ConversionOptions, "preset">;
 
 /** Implementation status of a preset relative to its cited references. */
-export type PresetCoverage = "partial" | "adapted" | "extension-point";
+export type PresetCoverage = "complete" | "partial" | "adapted" | "planned";
 
 /** One normative or explanatory source associated with a preset. */
 export interface PresetReference {
@@ -175,7 +175,7 @@ const PRESET_DEFINITIONS = {
       description:
         "",
       scope: [],
-      coverage: "",
+      coverage: "complete",
       references: [{
         title: "",
         url: "",
