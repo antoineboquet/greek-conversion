@@ -68,11 +68,17 @@ export type {
 } from "./options.ts";
 export { DEFAULT_CONVERSION_OPTIONS } from "./options.ts";
 export {
+  getPresetMetadata,
   getPresetOptions,
-  PRESETS,
+  listPresetMetadata,
   resolveConversionOptions,
 } from "./presets.ts";
-export type { PresetOptions } from "./presets.ts";
+export type {
+  PresetCoverage,
+  PresetMetadata,
+  PresetOptions,
+  PresetReference,
+} from "./presets.ts";
 export { GreekText } from "./greek_text.ts";
 export { toUnicodeCodePoints } from "./unicode.ts";
 

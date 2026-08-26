@@ -3,15 +3,16 @@ import {
   convert,
   convertDetailed,
   DEFAULT_CONVERSION_OPTIONS,
+  getPresetMetadata,
   getPresetOptions,
-  PRESETS,
+  listPresetMetadata,
   resolveConversionOptions,
 } from "../src/mod.ts";
 import { parse } from "../src/document.ts";
 import { assertNfcEquals } from "./assertions.ts";
 
-Deno.test("exposes the complete stable preset identifiers", () => {
-  assertEquals(PRESETS, [
+Deno.test("exposes descriptive metadata for every preset", () => {
+  assertEquals(listPresetMetadata().map(({ id }) => id), [
     "iso-843-type-1",
     "ala-lc-ancient",
     "ala-lc-modern",
@@ -20,6 +21,41 @@ Deno.test("exposes the complete stable preset identifiers", () => {
     "tlg-core",
     "bnf-core",
   ]);
+
+  assertEquals(getPresetMetadata("ala-lc-ancient"), {
+    id: "ala-lc-ancient",
+    name: "ALA-LC — Ancient and Medieval Greek",
+    authority: "American Library Association and Library of Congress",
+    description:
+      "Romanization profile for Ancient and Medieval Greek before 1454.",
+    scope: ["Ancient Greek", "Medieval Greek before 1454"],
+    coverage: "partial",
+    references: [{
+      title: "ALA-LC Romanization Tables: Greek (Ancient and Medieval)",
+      url: "https://www.loc.gov/catdir/cpso/romanization/greek.pdf",
+    }],
+    limitations: [
+      "Missing rough breathings are not inferred from lexical knowledge or capitalization.",
+      "Iota adscript cannot be distinguished mechanically from an ordinary iota.",
+      "Omitted diaeresis is recoverable only in the deterministic contextual y/u cases implemented by the parser.",
+    ],
+  });
+});
+
+Deno.test("returns detached preset metadata", () => {
+  const first = getPresetMetadata("tlg-core");
+  const second = getPresetMetadata("tlg-core");
+
+  (first.scope as string[]).push("Changed scope");
+  first.references[0].title = "Changed title";
+  (first.limitations as string[]).length = 0;
+
+  assertEquals(second.scope.includes("Changed scope"), false);
+  assertEquals(
+    second.references[0].title,
+    "TLG Beta Code Quick Reference Guide",
+  );
+  assertEquals(second.limitations.length, 1);
 });
 
 Deno.test("resolves custom options after nested preset options", () => {
@@ -81,6 +117,14 @@ Deno.test("rejects unknown preset names at runtime", () => {
 
   assertEquals(error instanceof RangeError, true);
   assertEquals((error as Error).message, "Unknown conversion preset: unknown");
+
+  error = undefined;
+  try {
+    getPresetMetadata("unknown" as never);
+  } catch (caught) {
+    error = caught;
+  }
+  assertEquals(error instanceof RangeError, true);
 });
 
 Deno.test("applies ISO 843 Type 1 spellings", () => {

@@ -86,7 +86,15 @@ export type LetterCaseOrthography =
 /** Preserves or removes one semantic class of diacritics. */
 export type DiacriticDisposition = "preserve" | "remove";
 
-/** Identifies a bundled, standards-oriented conversion configuration. */
+/**
+ * Identifies a bundled, standards-oriented conversion configuration.
+ *
+ * Presets are ordinary partial options applied between engine defaults and
+ * caller overrides. They implement only the mechanically expressible subset
+ * described by their metadata; an identifier is not a claim of exhaustive
+ * conformity. Use `getPresetMetadata()` for scope, references, coverage, and
+ * limitations, and `getPresetOptions()` for contributed option fields.
+ */
 export type Preset =
   | "iso-843-type-1"
   | "ala-lc-ancient"

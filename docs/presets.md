@@ -31,36 +31,255 @@ For example, ALA-LC letter spellings affect transliteration, while its numeral
 policy can affect every output. This direction-dependent behavior is identical
 to activating the same options manually.
 
+Coverage labels describe the relationship between the implementation and its
+references: `partial` implements a documented subset, `adapted` intentionally
+defines a library profile from the reference, and `extension-point` reserves a
+stable identifier whose final option choices are not configured yet. None of
+these labels is an independent certification of conformity.
+
 ## Available presets
 
-| Preset | Implemented policy |
-| --- | --- |
-| `iso-843-type-1` | `β → v`, `η → ī`, `φ → f`, `υ → y`, literal gamma, and visible U+2019 coronis |
-| `ala-lc-ancient` | Omits non-rough diacritics, uses contextual `y/u`, and renders marked numerals as decimal |
-| `ala-lc-modern` | Ancient shared policy plus `β → v` and the implemented contextual `μπ`, `ντ`, and `γκ` rules |
-| `sbl-academic` | Scientific diacritics remain represented and upsilon uses contextual `y/u` |
-| `sbl-general` | Omits accents, smooth breathing, coronis, iota subscript, and quantities; preserves rough breathing and diaeresis |
-| `tlg-core` | Current canonical Beta Code and the TLG characters already implemented by the engine |
-| `bnf-core` | Conservative extension point with no forced overrides yet |
+The following reference is generated from the same typed registry as the
+runtime configurations. Run `deno task docs:presets` after changing preset
+metadata or options.
 
-`bnf-core` deliberately does not anticipate the final BnF option choices.
-`tlg-core` deliberately names the implemented subset rather than claiming the
-full TLG Beta Code specification. Both names can grow without presenting the
-current coverage as exhaustive.
+<!-- BEGIN GENERATED PRESET REFERENCE -->
+<!-- This section is generated. Do not edit it directly. -->
 
-The SBL identifiers distinguish the two library policies requested by the API.
-`sbl-academic` retains the engine's scientific marks; `sbl-general` applies the
-documented omission policy. They should not be read as a claim that the SBL
-Handbook publishes two separate Greek tables.
+| Preset | Description | Scope | Coverage | Reference |
+| --- | --- | --- | --- | --- |
+| `iso-843-type-1` | Type 1 transliteration of Greek characters into Latin characters. | Ancient Greek; Modern Greek | partial | [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf) |
+| `ala-lc-ancient` | Romanization profile for Ancient and Medieval Greek before 1454. | Ancient Greek; Medieval Greek before 1454 | partial | [ALA-LC Romanization Tables: Greek (Ancient and Medieval)](https://www.loc.gov/catdir/cpso/romanization/greek.pdf) |
+| `ala-lc-modern` | Romanization profile for Modern Greek after 1453. | Modern Greek after 1453 | partial | [ALA-LC Romanization Tables: Greek (Modern)](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf) |
+| `sbl-academic` | Academic transliteration retaining the engine's scientific diacritics. | Ancient Greek; Biblical studies | adapted | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
+| `sbl-general` | Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis. | Ancient Greek; Biblical studies; General readers | adapted | [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/) |
+| `tlg-core` | Canonical Beta Code together with the TLG characters implemented by the engine. | Polytonic Greek; Beta Code interchange | partial | [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf) |
+| `bnf-core` | Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases. | Ancient Greek; French library cataloguing | extension-point | [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec) |
+
+### `iso-843-type-1` — ISO 843:1997 — Type 1
+
+- **Authority:** International Organization for Standardization
+- **Scope:** Ancient Greek; Modern Greek
+- **Coverage:** `partial`
+
+Type 1 transliteration of Greek characters into Latin characters.
+
+**References:**
+
+- [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "beta": "v",
+    "coronis": "apostrophe",
+    "eta": "ī",
+    "nasalGamma": "literal",
+    "phi": "f",
+    "upsilon": "y"
+  }
+}
+```
+
+**Known limitations:**
+
+- The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.
+
+### `ala-lc-ancient` — ALA-LC — Ancient and Medieval Greek
+
+- **Authority:** American Library Association and Library of Congress
+- **Scope:** Ancient Greek; Medieval Greek before 1454
+- **Coverage:** `partial`
+
+Romanization profile for Ancient and Medieval Greek before 1454.
+
+**References:**
+
+- [ALA-LC Romanization Tables: Greek (Ancient and Medieval)](https://www.loc.gov/catdir/cpso/romanization/greek.pdf)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "numerals": "decimal",
+    "upsilon": "y-with-diphthong-u"
+  },
+  "diacritics": {
+    "accents": "remove",
+    "smoothBreathing": "remove",
+    "roughBreathing": "preserve",
+    "coronis": "remove",
+    "diaeresis": "remove",
+    "iotaSubscript": "remove",
+    "quantity": "remove"
+  }
+}
+```
+
+**Known limitations:**
+
+- Missing rough breathings are not inferred from lexical knowledge or capitalization.
+- Iota adscript cannot be distinguished mechanically from an ordinary iota.
+- Omitted diaeresis is recoverable only in the deterministic contextual y/u cases implemented by the parser.
+
+### `ala-lc-modern` — ALA-LC — Modern Greek
+
+- **Authority:** American Library Association and Library of Congress
+- **Scope:** Modern Greek after 1453
+- **Coverage:** `partial`
+
+Romanization profile for Modern Greek after 1453.
+
+**References:**
+
+- [ALA-LC Romanization Tables: Greek (Modern)](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "beta": "v",
+    "modernDigraphs": "ala-lc",
+    "numerals": "decimal",
+    "upsilon": "y-with-diphthong-u"
+  },
+  "diacritics": {
+    "accents": "remove",
+    "smoothBreathing": "remove",
+    "roughBreathing": "preserve",
+    "coronis": "remove",
+    "diaeresis": "remove",
+    "iotaSubscript": "remove",
+    "quantity": "remove"
+  }
+}
+```
+
+**Known limitations:**
+
+- Missing rough breathings are not inferred from lexical knowledge or capitalization.
+- Iota adscript cannot be distinguished mechanically from an ordinary iota.
+- Only the documented contextual mu-pi, nu-tau, and gamma-kappa rules are implemented.
+
+### `sbl-academic` — SBL — Academic style
+
+- **Authority:** Society of Biblical Literature
+- **Scope:** Ancient Greek; Biblical studies
+- **Coverage:** `adapted`
+
+Academic transliteration retaining the engine's scientific diacritics.
+
+**References:**
+
+- [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "upsilon": "y-with-diphthong-u"
+  }
+}
+```
+
+**Known limitations:**
+
+- The academic/general identifiers describe library profiles and should not be read as names of two separate official SBL tables.
+
+### `sbl-general` — SBL — General-purpose style
+
+- **Authority:** Society of Biblical Literature
+- **Scope:** Ancient Greek; Biblical studies; General readers
+- **Coverage:** `adapted`
+
+Readable transliteration omitting most scholarly diacritics while retaining rough breathing and diaeresis.
+
+**References:**
+
+- [The SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/)
+
+**Contributed options:**
+
+```json
+{
+  "orthography": {
+    "upsilon": "y-with-diphthong-u"
+  },
+  "diacritics": {
+    "accents": "remove",
+    "smoothBreathing": "remove",
+    "roughBreathing": "preserve",
+    "coronis": "remove",
+    "diaeresis": "preserve",
+    "iotaSubscript": "remove",
+    "quantity": "remove"
+  }
+}
+```
+
+**Known limitations:**
+
+- The academic/general identifiers describe library profiles and should not be read as names of two separate official SBL tables.
+
+### `tlg-core` — TLG Beta Code — Core subset
+
+- **Authority:** Thesaurus Linguae Graecae
+- **Scope:** Polytonic Greek; Beta Code interchange
+- **Coverage:** `partial`
+
+Canonical Beta Code together with the TLG characters implemented by the engine.
+
+**References:**
+
+- [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf)
+
+**Contributed options:**
+
+```json
+{}
+```
+
+**Known limitations:**
+
+- The TLG character inventory contains more than one thousand assignments; only the Greek alphabet and the documented additional characters and punctuation are implemented.
+
+### `bnf-core` — BnF — Ancient Greek core
+
+- **Authority:** Bibliothèque nationale de France
+- **Scope:** Ancient Greek; French library cataloguing
+- **Coverage:** `extension-point`
+
+Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.
+
+**References:**
+
+- [Translittération du grec — Kitcat BnF](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec)
+
+**Contributed options:**
+
+```json
+{}
+```
+
+**Known limitations:**
+
+- The preset currently contributes no options and deliberately does not anticipate the final BnF policy choices.
+
+<!-- END GENERATED PRESET REFERENCE -->
 
 ## Inspection
 
-The stable identifiers, sparse preset definitions, immutable defaults, and
-fully resolved option objects are public:
+Descriptive metadata, sparse preset definitions, immutable defaults, and fully
+resolved option objects are public:
 
 ```ts
-PRESETS;
-// ["iso-843-type-1", ..., "bnf-core"]
+listPresetMetadata();
+getPresetMetadata("ala-lc-modern");
 
 DEFAULT_CONVERSION_OPTIONS;
 getPresetOptions("ala-lc-modern");
@@ -70,11 +289,13 @@ resolveConversionOptions({
 });
 ```
 
-`getPresetOptions()` returns only fields contributed by the selected preset.
-`resolveConversionOptions()` returns a complete `ResolvedConversionOptions`,
-after applying engine defaults, the preset, and custom overrides. Both helpers
-return detached objects; mutating one cannot modify the immutable defaults or
-the preset registry.
+`getPresetMetadata()` returns one preset's scope, references, coverage, and
+known limitations. `listPresetMetadata()` returns the complete registry in
+stable order. `getPresetOptions()` returns only fields contributed by the
+selected preset. `resolveConversionOptions()` returns a complete
+`ResolvedConversionOptions`, after applying engine defaults, the preset, and
+custom overrides. Metadata and option helpers return detached objects; mutating
+one cannot modify the immutable defaults or the preset registry.
 
 ## Scope limits
 
