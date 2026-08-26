@@ -198,6 +198,7 @@ export interface ResolvedConversionOptions {
 
 /** Read-only view exposed by {@link DEFAULT_CONVERSION_OPTIONS}. */
 export interface DefaultConversionOptions {
+  /** Literal default values for orthographic and transliteration policies. */
   readonly orthography: {
     readonly doubleRho: "unmarked";
     readonly medialBeta: "standard";
@@ -220,12 +221,14 @@ export interface DefaultConversionOptions {
     readonly rho: "contextual";
     readonly letterCase: "preserve";
   };
+  /** Literal default values for Greek Unicode representation. */
   readonly unicode: {
     readonly composition: "composed";
     readonly acute: "system";
     readonly questionMark: "canonical";
     readonly anoTeleia: "canonical";
   };
+  /** Literal default disposition of every semantic diacritic class. */
   readonly diacritics: {
     readonly accents: "preserve";
     readonly smoothBreathing: "preserve";
@@ -235,6 +238,7 @@ export interface DefaultConversionOptions {
     readonly iotaSubscript: "preserve";
     readonly quantity: "preserve";
   };
+  /** The default global diacritic-removal shortcut. */
   readonly removeDiacritics: false;
 }
 
