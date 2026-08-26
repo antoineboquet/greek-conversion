@@ -29,13 +29,15 @@ not encode the conversion a second time.
 
 A conversion is lossy when the canonical target document does not retain all
 information present in the canonical source document. The comparison is about
-letters, case, diacritics, punctuation meaning, and literal tokens—not byte or
-code-point identity.
+letters, case, diacritics, known glyph variants, punctuation meaning, and
+literal tokens—not byte or code-point identity.
 
 Consequently:
 
 - NFC/NFD and tonos/oxia changes are not losses;
-- selected sigma, beta, and Greek punctuation glyphs are not losses;
+- selected beta and Greek punctuation glyphs are not losses;
+- removing known lunate-sigma provenance is a loss, while adding a
+  deterministic lunate style is not;
 - deterministic marks added by an output policy are not losses;
 - removed diacritics, monotonic simplification, numeral conversion,
   contractions, consonant changes, and unrepresented source tokens are losses
@@ -52,6 +54,7 @@ a UTF-16 offset or a code-point index in the input string.
 | Code | Meaning |
 | --- | --- |
 | `changed-case` | A source letter is retained but its uppercase/lowercase distinction is not |
+| `removed-glyph-variant` | A known source glyph variant, currently lunate sigma, is absent from the reparsed target |
 | `removed-diacritic` | A source diacritic is absent from the reparsed target; `diacritic` identifies it |
 | `unrepresented-grapheme` | A source letter or its position cannot be recovered from the target document |
 | `unrepresented-literal` | A source literal token cannot be recovered from the target document |

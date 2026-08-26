@@ -2,14 +2,14 @@
 
 Conversion is defined as parsing a source string into the canonical `Document`
 model, applying target orthography, and encoding one canonical spelling. The
-engine preserves unknown characters, but it does not preserve the spelling or
-Unicode provenance of recognized characters.
+engine preserves unknown characters and the known lunate-sigma glyph variant,
+but it does not otherwise preserve spelling or Unicode provenance.
 
 This document distinguishes three effects:
 
 - **canonicalization** changes spelling without changing the represented
-  document (for example NFD to NFC, `ϲ` to `σ/ς`, or punctuation aliases to one
-  canonical glyph);
+  document (for example NFD to NFC or punctuation aliases to one canonical
+  glyph);
 - **representation loss** occurs when a target format cannot express a
   distinction in the canonical document;
 - **policy loss** is requested by an option such as decimal numerals or
@@ -22,8 +22,8 @@ the row format to the column format and parsing the result again.
 
 | From \ To | Greek | Beta Code | Transliteration |
 | --- | --- | --- | --- |
-| **Greek** | Selected glyph, accent, punctuation, and composition policies; unmarked labial/velar + sigma pairs contract | Canonical spelling and mark order only for canonical documents | Coronis; explicitly marked double rho; smooth breathing on an initial quantity-marked vowel; `ν` before a velar under nasal-gamma inference |
-| **Beta Code** | Canonical Greek glyphs; unmarked labial/velar + sigma pairs contract | Canonical case, mark order, aliases, and punctuation | Same transliteration losses as Greek, including coronis and marked double rho |
+| **Greek** | Selected glyph, accent, punctuation, and composition policies; lunate provenance unless preserved; unmarked labial/velar + sigma pairs contract | Canonical spelling and mark order; lunate provenance unless preserved | Lunate provenance by default; coronis; explicitly marked double rho; smooth breathing on an initial quantity-marked vowel; `ν` before a velar under nasal-gamma inference |
+| **Beta Code** | Canonical Greek glyphs; lunate provenance unless preserved; unmarked labial/velar + sigma pairs contract | Canonical case, mark order, aliases, and punctuation; lunate provenance unless preserved | Same transliteration losses as Greek, including lunate provenance, coronis, and marked double rho |
 | **Transliteration** | Initial smooth breathing is inferred where quantity is not explicit; labial/velar + sigma pairs contract; an elided mute may be aspirated before rough breathing | Initial smooth breathing is inferred where quantity is not explicit; accepted aliases converge to canonical Beta Code | Accepted aliases, punctuation, combining-mark order, NFC, and orthographic spelling converge |
 
 “Canonical documents” excludes invalid or ambiguous combinations. Use
@@ -37,7 +37,9 @@ All recognized output has a selected spelling. Transliteration is NFC. Greek is
 composed by default, but the system polytonic acute prefers oxia and is therefore
 not necessarily NFC. Accepted aliases do not round-trip byte for byte:
 
-- Greek lunate sigma and medial beta aliases become the selected output glyphs;
+- Greek medial beta aliases become the selected output glyph;
+- lunate sigma provenance becomes the selected output glyph unless
+  `sigma: "preserve"` or `lunateSigma: "c"` retains it in the target format;
 - Unicode punctuation aliases become the canonical punctuation for the target;
 - equivalent combining-mark order and duplicate recognized marks converge;
 - Beta Code aliases, case placement, and mark order converge.
@@ -94,6 +96,11 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `diacritics.<class>: "remove"` | Removes only the selected semantic class during rendering | No when that class occurs; unselected classes remain recoverable |
 | `letterCase: "lowercase"`, `"uppercase"`, or `"title"` | Applies deterministic case to recognized Greek graphemes | No when source case changes; unknown literals are untouched |
 | `finalSigma: "medial"` | Uses `σ` instead of contextual `ς` in lowercase Greek output | Yes; both are the same canonical sigma letter |
+| `sigma: "standard"` (default) | Replaces a provenanced lunate sigma with the standard Greek or Beta Code glyph | No; `convertDetailed()` reports `removed-glyph-variant` |
+| `sigma: "lunate"` | Uses lunate glyphs for all non-numeral sigma in Greek or Beta Code output | Source letters remain recoverable; stylistically added lunate provenance is not a loss |
+| `sigma: "preserve"` | Uses lunate Greek or Beta Code glyphs only where lunate provenance is known | Yes |
+| `lunateSigma: "s"` (default) | Transliterates every sigma as `s` | No when the source sigma was known to be lunate |
+| `lunateSigma: "c"` | Transliterates only a provenanced lunate sigma as `c` and recognizes `c/C` on input | Yes; marked `c̄/ĉ` remains stigma |
 | `numerals: "decimal"` | Replaces a valid marked alphabetic numeral group with decimal digits | No |
 | `dentalSigma: "assimilate"` | Deletes `τ`, `δ`, or `θ` before sigma in Greek output | No |
 | `nasalGamma: "nasal"` (default) | Converges nasal gamma and nu-before-velar transliteration spellings | No |
@@ -107,7 +114,7 @@ nu; this changes the accepted spelling contract for transliteration input.
 | `composition: "decomposed"` | Emits Greek letters and marks as canonical decomposed sequences | Yes, unless combined with another lossy policy |
 | `acute: "tonos"` or `"oxia"` | Selects an eligible composed acute scalar | The accent is recoverable; its scalar preference is not |
 | Greek question-mark or ano-teleia scalar | Selects a canonically unstable punctuation scalar | The punctuation meaning is recoverable; its scalar preference is not |
-| `doubleRho`, `medialBeta`, `sigma`, `finalSigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
+| `doubleRho`, `medialBeta`, `finalSigma`, letter variants, `upsilon`, `longVowels` | Selects a canonical output spelling | The canonical letters normally remain recoverable, but `eta: "ī"` conflicts with long iota |
 
 `longVowels` chooses either a macron or a circumflex for structural eta and
 omega length. A separately encoded macron remains a philological diacritic: it

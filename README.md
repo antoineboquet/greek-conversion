@@ -240,6 +240,24 @@ systematic `rh`, double rho, medial beta, sigma style, contextual or uniform
 final sigma, coronis, and alphabetic numerals. The selected spellings are
 recognized on transliteration input when the same options are supplied.
 
+Lunate sigma has two independent controls. `sigma: "standard" | "lunate" |
+"preserve"` selects its Greek and Beta Code glyph; `"preserve"` is useful for
+mixed texts because the parsers remember whether each source sigma was lunate.
+`lunateSigma: "s" | "c"` selects the transliteration of only those provenanced
+lunate sigma graphemes:
+
+```ts
+const options = {
+  orthography: { sigma: "preserve", lunateSigma: "c" },
+} as const;
+
+convert("σϲς", "greek", "transliteration", options); // "scs"
+convert("scs", "transliteration", "greek", options); // "σϲς"
+```
+
+A global `sigma: "lunate"` policy remains stylistic: it does not make every
+transliterated `s` become `c`. The `bnf-core` preset does not select this option.
+
 `longVowels` accepts `"macron"` (the default) or `"circumflex"`. It controls
 only the structural representation of inherently long eta and omega. An
 explicit macron alongside a circumflex, such as in `ê̄`, is treated separately
@@ -285,10 +303,12 @@ result.losses;
 // [{ code: "removed-diacritic", ... }]
 ```
 
-Loss is evaluated on the canonical document. Unicode composition, tonos/oxia,
-and alternate glyphs are therefore not reported as destructive. Examples of
-actual loss include removing diacritics, decimalizing alphabetic numerals, and
-using context-dependent spellings that merge distinct source sequences.
+Loss is evaluated on the canonical document. Unicode composition and
+tonos/oxia are therefore not reported as destructive. Lunate-sigma provenance
+is the exception among glyph distinctions: removing a known lunate form
+reports `removed-glyph-variant`. Examples of other actual loss include removing
+diacritics, decimalizing alphabetic numerals, and using context-dependent
+spellings that merge distinct source sequences.
 
 See the [conversion-analysis contract](https://github.com/defense-humanites/greek-conversion/blob/main/docs/conversion-analysis.md) and the
 [information-loss matrix](https://github.com/defense-humanites/greek-conversion/blob/main/docs/information-loss.md).
