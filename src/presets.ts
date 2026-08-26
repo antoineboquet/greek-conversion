@@ -191,7 +191,7 @@ const PRESET_DEFINITIONS = {
       name: "Perseus Beta Code — Core subset",
       authority: "Perseus Digital Library",
       description:
-        "Lowercase-ASCII subset of TLG Beta Code used by Perseus tools and Morpheus.",
+        "Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library project.",
       scope: ["Polytonic Greek", "Perseus and Morpheus interchange"],
       coverage: "complete",
       outOfScopeBehavior: "engine-default",
