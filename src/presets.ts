@@ -56,35 +56,6 @@ const OMIT_NON_ROUGH_DIACRITICS = {
 } as const satisfies DiacriticOptions;
 
 const PRESET_DEFINITIONS = {
-  "iso-843-type-1": {
-    metadata: {
-      id: "iso-843-type-1",
-      name: "ISO 843:1997 — Type 1",
-      authority: "International Organization for Standardization",
-      description:
-        "Type 1 transliteration of Greek characters into Latin characters.",
-      scope: ["Ancient Greek", "Modern Greek"],
-      coverage: "partial",
-      references: [{
-        title: "ISO 843:1997",
-        url:
-          "https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf",
-      }],
-      limitations: [
-        "The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.",
-      ],
-    },
-    options: {
-      orthography: {
-        beta: "v",
-        coronis: "apostrophe",
-        eta: "ī",
-        nasalGamma: "literal",
-        phi: "f",
-        upsilon: "y",
-      },
-    },
-  },
   "ala-lc-ancient": {
     metadata: {
       id: "ala-lc-ancient",
@@ -138,6 +109,83 @@ const PRESET_DEFINITIONS = {
         numerals: "decimal",
         upsilon: "y-with-diphthong-u",
       },
+    },
+  },
+  "bnf-core": {
+    metadata: {
+      id: "bnf-core",
+      name: "BnF — Ancient Greek core",
+      authority: "Bibliothèque nationale de France",
+      description:
+        "Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.",
+      scope: ["Ancient Greek", "French library cataloguing"],
+      coverage: "extension-point",
+      references: [{
+        title: "Translittération du grec — Kitcat BnF",
+        url:
+          "https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec",
+      }],
+      limitations: [],
+    },
+    options: {
+      orthography: {
+        coronis: "greek",
+        lunateSigma: "c",
+        upsilon: "y",
+      },
+      unicode: {
+        questionMark: "greek",
+      },
+    },
+  },
+  "iso-843-type-1": {
+    metadata: {
+      id: "iso-843-type-1",
+      name: "ISO 843:1997 — Type 1",
+      authority: "International Organization for Standardization",
+      description:
+        "Type 1 transliteration of Greek characters into Latin characters.",
+      scope: ["Ancient Greek", "Modern Greek"],
+      coverage: "partial",
+      references: [{
+        title: "ISO 843:1997",
+        url:
+          "https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf",
+      }],
+      limitations: [
+        "The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.",
+      ],
+    },
+    options: {
+      orthography: {
+        beta: "v",
+        coronis: "apostrophe",
+        eta: "ī",
+        nasalGamma: "literal",
+        phi: "f",
+        upsilon: "y",
+      },
+    },
+  },
+  "perseus": {
+    metadata: {
+      id: "perseus",
+      name: "",
+      authority: "",
+      description:
+        "",
+      scope: [],
+      coverage: "",
+      references: [{
+        title: "",
+        url: "",
+      }],
+      limitations: [],
+    },
+    options: {
+      orthography: {
+        letterCase: "lowercase",
+      }
     },
   },
   "sbl-academic": {
@@ -212,27 +260,11 @@ const PRESET_DEFINITIONS = {
         "The TLG character inventory contains more than one thousand assignments; only the Greek alphabet and the documented additional characters and punctuation are implemented.",
       ],
     },
-    options: {},
-  },
-  "bnf-core": {
-    metadata: {
-      id: "bnf-core",
-      name: "BnF — Ancient Greek core",
-      authority: "Bibliothèque nationale de France",
-      description:
-        "Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.",
-      scope: ["Ancient Greek", "French library cataloguing"],
-      coverage: "extension-point",
-      references: [{
-        title: "Translittération du grec — Kitcat BnF",
-        url:
-          "https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec",
-      }],
-      limitations: [
-        "The preset currently contributes no options and deliberately does not anticipate the final BnF policy choices.",
-      ],
+    options: {
+      orthography: {
+        letterCase: "uppercase",
+      }
     },
-    options: {},
   },
 } as const satisfies Record<Preset, PresetDefinition>;
 

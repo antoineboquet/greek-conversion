@@ -96,13 +96,14 @@ export type DiacriticDisposition = "preserve" | "remove";
  * limitations, and `getPresetOptions()` for contributed option fields.
  */
 export type Preset =
-  | "iso-843-type-1"
   | "ala-lc-ancient"
   | "ala-lc-modern"
+  | "bnf-core"
+  | "iso-843-type-1"
+  | "perseus"
   | "sbl-academic"
   | "sbl-general"
-  | "tlg-core"
-  | "bnf-core";
+  | "tlg-core";
 
 /** Granular rendering policy for semantic diacritic classes. */
 export interface DiacriticOptions {
