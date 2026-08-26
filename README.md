@@ -128,16 +128,16 @@ convert("Βίος Μπάλα", "greek", "transliteration", {
 
 Available presets:
 
-| Preset | Intended use |
-| --- | --- |
-| `iso-843-type-1` | ISO 843:1997 Type 1 transliteration |
-| `ala-lc-ancient` | ALA-LC conventions for Ancient Greek |
-| `ala-lc-modern` | ALA-LC conventions and contextual rules for Modern Greek |
-| `sbl-academic` | SBL academic transliteration |
-| `sbl-general` | SBL general-purpose transliteration |
-| `perseus` | The lowercase-ASCII Perseus subset of Beta Code |
-| `tlg-core` | The currently supported core of common TLG Beta Code |
-| `bnf-core` | The mechanically supported core of the BnF rules |
+| Preset | Target format | Intended use |
+| --- | --- | --- |
+| `ala-lc-ancient` | `transliteration` | Library romanization of Ancient and pre-1454 Medieval Greek |
+| `ala-lc-modern` | `transliteration` | Library romanization of post-1453 Modern Greek, including supported contextual digraphs |
+| `bnf-core` | `transliteration` | BnF/ISO-based romanization core for Ancient Greek cataloguing |
+| `iso-843-type-1` | `transliteration` | ISO 843 Type 1 character transliteration for Ancient and Modern Greek |
+| `perseus` | `beta-code` | Lowercase-ASCII subset for Perseus and Morpheus interchange |
+| `sbl-academic` | `transliteration` | Scholarly Biblical-studies output retaining scientific diacritics |
+| `sbl-general` | `transliteration` | Reader-facing Biblical-studies output omitting most scholarly diacritics |
+| `tlg-core` | `beta-code` | Uppercase-ASCII TLG core for polytonic Greek interchange |
 
 Custom options override only the corresponding fields of a preset:
 
