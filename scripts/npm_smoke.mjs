@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { convert, convertDetailed, GreekText } from "../npm/esm/mod.js";
 import { encode, parse, validateDocument } from "../npm/esm/document.js";
+
+const packageJson = JSON.parse(
+  await readFile(new URL("../npm/package.json", import.meta.url), "utf8"),
+);
+assert.equal(packageJson.name, "@humanities/greek-conversion");
 
 assert.equal(convert("a)/nqrwpos", "beta-code", "greek"), "ἄνθρωπος");
 assert.equal(

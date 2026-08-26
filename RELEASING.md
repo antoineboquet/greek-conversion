@@ -10,7 +10,7 @@ For the canonical `defense-humanites/greek-conversion` repository:
 
 1. Create `@humanities/greek-conversion` on JSR and link it to the canonical
    GitHub repository and `.github/workflows/publish.yml`.
-2. Configure npm trusted publishing for the existing `greek-conversion`
+2. Configure npm trusted publishing for `@humanities/greek-conversion`
    package with repository `defense-humanites/greek-conversion`, workflow
    `publish.yml`, and environment `release`.
 3. Create the protected GitHub environment `release`, restrict deployment to
@@ -18,13 +18,12 @@ For the canonical `defense-humanites/greek-conversion` repository:
 4. Keep the repository variable `PUBLISH_ENABLED` absent or set to `false`
    until the first publication is explicitly approved.
 
-Both registries use the same version, but their package names intentionally
-differ:
+Both registries use the same package name and version:
 
 | Registry | Package |
 | --- | --- |
 | JSR | `@humanities/greek-conversion` |
-| npm | `greek-conversion` |
+| npm | `@humanities/greek-conversion` |
 
 ## Prerelease checklist
 
@@ -40,7 +39,8 @@ differ:
 6. Confirm both trusted-publisher configurations and explicitly set
    `PUBLISH_ENABLED` to `true` only when publication is authorized.
 7. Publish the GitHub release. The workflow publishes JSR first and npm second;
-   npm prereleases use the `beta` distribution tag.
+   npm prereleases use the `beta` distribution tag and the scoped package is
+   explicitly published with public access.
 8. Verify both registry pages, provenance, documentation, and installation
    commands, then reset `PUBLISH_ENABLED` to `false` if releases should require
    a fresh manual authorization.

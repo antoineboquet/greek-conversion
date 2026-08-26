@@ -46,4 +46,5 @@ jobs:
         run: >-
           npm publish ./npm
           --tag "${{ steps.release.outputs.npm_tag }}"
+          --access public
           --provenance

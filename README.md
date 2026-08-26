@@ -13,7 +13,7 @@ The `1.0.0-beta.1` prerelease is ESM-only and targets JSR and npm:
 
 ```sh
 deno add jsr:@humanities/greek-conversion@1.0.0-beta.1
-npm install greek-conversion@beta
+npm install @humanities/greek-conversion@beta
 ```
 
 Import the public module from JSR:
@@ -27,8 +27,7 @@ import {
 } from "@humanities/greek-conversion";
 ```
 
-The same named exports are available from `"greek-conversion"` in npm-based
-projects.
+The same package name and named exports are available from npm.
 
 ## Quick start
 

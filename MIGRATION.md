@@ -9,7 +9,7 @@ The prerelease will be available from JSR and npm after publication:
 
 ```sh
 deno add jsr:@humanities/greek-conversion@1.0.0-beta.1
-npm install greek-conversion@beta
+npm install @humanities/greek-conversion@beta
 ```
 
 The package is ESM-only.

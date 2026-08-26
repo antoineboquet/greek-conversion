@@ -11,7 +11,7 @@ const DOCUMENTS = [
 ] as const;
 
 if (denoConfig.name !== "@humanities/greek-conversion") {
-  throw new Error(`Unexpected JSR package name: ${denoConfig.name}`);
+  throw new Error(`Unexpected package name: ${denoConfig.name}`);
 }
 if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(denoConfig.version)) {
   throw new Error(`Invalid package version: ${denoConfig.version}`);
@@ -36,7 +36,7 @@ await build({
   },
   shims: {},
   package: {
-    name: "greek-conversion",
+    name: denoConfig.name,
     version: denoConfig.version,
     description:
       "A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.",
