@@ -119,7 +119,7 @@ const PRESET_DEFINITIONS = {
       description:
         "Extension point for the BnF adaptation of ISO 843 for Ancient Greek and its treatment of special cases.",
       scope: ["Ancient Greek", "French library cataloguing"],
-      coverage: "extension-point",
+      coverage: "partial",
       references: [{
         title: "Translittération du grec — Kitcat BnF",
         url:
