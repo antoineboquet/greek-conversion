@@ -41,7 +41,7 @@ await build({
     description:
       "A small, yet powerful, JavaScript library for converting both polytonic and monotonic Greek from/into many representations.",
     author: "Antoine Boquet",
-    license: "AGPL-3.0-or-later",
+    license: denoConfig.license,
     homepage: "https://github.com/defense-humanites/greek-conversion#readme",
     repository: {
       type: "git",

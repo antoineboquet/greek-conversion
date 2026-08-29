@@ -3,6 +3,13 @@
 All notable changes to `greek-conversion` are documented in this file. The
 project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- JSR receives the explicit `AGPL-3.0-or-later` SPDX identifier instead of
+  inferring `AGPL-3.0-only` from the license text.
+
 ## [1.0.0-beta.3] - 2026-08-26
 
 ### Added
