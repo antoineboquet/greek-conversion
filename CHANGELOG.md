@@ -5,6 +5,14 @@ project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `createConverter()` and immutable `Converter` instances for registering
+  built-in-letter aliases, opaque custom characters, exact character
+  allow-lists, and semantic exclusions.
+- Separate `out-of-scope-character` diagnostics for characters preserved by a
+  restricted converter repertoire.
+
 ### Fixed
 
 - JSR receives the explicit `AGPL-3.0-or-later` SPDX identifier instead of

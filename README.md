@@ -21,12 +21,13 @@ discarded.
    5. [Select transliteration spellings](#select-transliteration-spellings)
    6. [Control Greek Unicode output](#control-greek-unicode-output)
 6. [Detect information loss](#detect-information-loss)
-7. [Reuse one parsed text](#reuse-one-parsed-text)
-8. [Guarantees and scope](#guarantees-and-scope)
-9. [Advanced API](#advanced-api)
-10. [Documentation](#documentation)
-11. [Development](#development)
-12. [License](#license)
+7. [Extend or restrict the character inventory](#extend-or-restrict-the-character-inventory)
+8. [Reuse one parsed text](#reuse-one-parsed-text)
+9. [Guarantees and scope](#guarantees-and-scope)
+10. [Advanced API](#advanced-api)
+11. [Documentation](#documentation)
+12. [Development](#development)
+13. [License](#license)
 
 ## Installation
 
@@ -351,6 +352,33 @@ spellings that merge distinct source sequences.
 See the [conversion-analysis contract](https://github.com/defense-humanites/greek-conversion/blob/main/docs/conversion-analysis.md) and the
 [information-loss matrix](https://github.com/defense-humanites/greek-conversion/blob/main/docs/information-loss.md).
 
+## Extend or restrict the character inventory
+
+Create an isolated `Converter` when an application needs additional spellings,
+opaque custom characters, or a restricted repertoire:
+
+```ts
+import { createConverter } from "@humanities/greek-conversion";
+
+const converter = createConverter({
+  aliases: [{
+    letter: "theta",
+    format: "transliteration",
+    spellings: ["þ"],
+  }],
+  exclude: ["stigma", "koppa", "sampi"],
+});
+
+converter.convert("þeos", "transliteration", "greek"); // θεος
+```
+
+Aliases inherit every rule of their built-in letter. New character definitions
+only guarantee direct format mapping and case; they do not silently join Greek
+diphthong, contraction, numeral, or diacritic rules. Excluded characters become
+source-format literals, and `converter.convertDetailed()`
+reports them separately from information loss. See [character extensions and
+repertoires](https://github.com/defense-humanites/greek-conversion/blob/main/docs/character-extensions.md).
+
 ## Reuse one parsed text
 
 `GreekText` is useful when one source must be displayed or exported in several
@@ -419,6 +447,7 @@ during the `1.0.0` prerelease series. See [validation](https://github.com/defens
 | Loss by format pair | [Information loss](https://github.com/defense-humanites/greek-conversion/blob/main/docs/information-loss.md) |
 | Reusable immutable text objects | [`GreekText`](https://github.com/defense-humanites/greek-conversion/blob/main/docs/greek-text.md) |
 | Canonical document validation | [Validation](https://github.com/defense-humanites/greek-conversion/blob/main/docs/validation.md) |
+| Character extensions and repertoires | [Character extensions](https://github.com/defense-humanites/greek-conversion/blob/main/docs/character-extensions.md) |
 
 ## Development
 

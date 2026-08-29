@@ -11,6 +11,17 @@
  */
 
 import { encode, parse } from "./conversion.ts";
+export { Converter, createConverter } from "./converter.ts";
+export type {
+  CharacterAliasDefinition,
+  CharacterRepertoireDefinition,
+  CharacterScopeDiagnostic,
+  CharacterScopeDiagnosticCode,
+  ConverterConfiguration,
+  ConverterConversionResult,
+  CustomCharacterDefinition,
+  CustomCharacterForms,
+} from "./converter.ts";
 import { type ConversionResult, findConversionLosses } from "./losses.ts";
 import type { Document, Format } from "./model.ts";
 import type { ConversionOptions, GreekUnicodeOptions } from "./options.ts";
