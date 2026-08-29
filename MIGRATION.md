@@ -8,11 +8,28 @@ aliases for the `0.14.x` API.
 The prerelease will be available from JSR and npm after publication:
 
 ```sh
-deno add jsr:@humanities/greek-conversion@1.0.0-beta.3
+deno add jsr:@humanities/greek-conversion@1.0.0-beta.4
 npm install @humanities/greek-conversion@beta
 ```
 
 The package is ESM-only.
+
+## Updating from `1.0.0-beta.3`
+
+This release is additive: the ordinary conversion functions retain their
+`beta.3` behavior. Use `createConverter()` only when an application needs to
+extend or restrict the recognized character inventory.
+
+Aliases of built-in letters inherit the complete conversion behavior of the
+selected letter. Truly new characters are opaque and guarantee only the direct
+forms declared for Greek, Beta Code, and transliteration; they do not acquire
+vowel, diacritic, contextual, or numeral rules automatically.
+
+`repertoire` defines an exact character allow-list and `exclude` removes
+characters from it. Out-of-scope characters become source-format literals
+instead of being discarded. `converter.convertDetailed()` reports them through
+the separate `diagnostics` array without setting `lossy` solely because of
+literal preservation.
 
 ## Updating from `1.0.0-beta.2`
 
