@@ -1,0 +1,148 @@
+# Preset character repertoire audit
+
+This audit compares the semantic letters built into the engine with the
+character repertoire supported by each preset's cited references. It is about
+scope, not only recognition: a character may be named by a reference without
+that reference assigning a conversion for it.
+
+The engine contains the ordinary twenty-four-letter Greek alphabet plus six
+additional semantic letters:
+
+- `digamma` (`ϝ`);
+- `yot` (`ϳ`);
+- `stigma` (`ϛ`);
+- `koppa` (`ϟ`);
+- `archaic-koppa` (`ϙ`);
+- `sampi` (`ϡ`).
+
+Lunate sigma is represented as a glyph variant of semantic `sigma`, so it is
+discussed separately below.
+
+## Results
+
+Every preset covers the ordinary twenty-four-letter alphabet. The following
+matrix records only the six additional entries.
+
+| Preset | Digamma | Yot | Stigma | Koppa | Archaic koppa | Sampi |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ala-lc-ancient` | ? | ? | ? | ? | ? | ? |
+| `ala-lc-modern` | ? | ? | ? | ? | ? | ? |
+| `bnf-core` | Exact | Exact | Exact | Exact | Different | Exact |
+| `iso-843-type-1` | Exact | Exact | Undefined | Undefined | Unresolved | Undefined |
+| `perseus` | Outside | Outside | Outside | Outside | Outside | Outside |
+| `sbl-academic` | Outside | Outside | Outside | Outside | Outside | Outside |
+| `sbl-general` | Outside | Outside | Outside | Outside | Outside | Outside |
+| `tlg-core` | Exact | Different | Exact | Exact | Exact | Exact |
+
+The status terms mean:
+
+- **Exact**: the reference includes the character and the preset's current
+  direct mapping agrees;
+- **Different**: the reference includes the character, but the engine's mapping
+  does not agree;
+- **Undefined**: the reference includes the character in its source repertoire
+  but does not assign a conversion;
+- **Outside**: an enumerated profile or mapping omits the character;
+- **Unresolved**: the reference does not distinguish the engine's semantic
+  entry clearly enough;
+- **?**: the available evidence is insufficient for an exact boundary.
+
+These statuses do not measure complete preset conformance. Contextual rules,
+diacritics, punctuation, numeral treatment, and other limitations remain
+described in [Preset reference and coverage](presets.md).
+
+## Findings by authority
+
+### ALA-LC
+
+The cited Library of Congress PDFs define the ordinary ancient/medieval and
+modern romanization tables, but this audit has not established a reliable,
+machine-verifiable inventory for the six additional engine letters. Their
+status therefore remains unknown. Absence of evidence is not treated as an
+exclusion, and neither ALA-LC preset should yet activate an automatic
+allow-list.
+
+### BnF
+
+The BnF explicitly documents digamma, yod, Byzantine sigma, stigma, two koppa
+forms, and sampi. Its table assigns `q` to both koppa code points. The engine
+agrees for `koppa` (`ϟ`) but currently renders `archaic-koppa` (`ϙ`) as `k`
+with a dot below. The BnF repertoire is therefore known, but applying it
+automatically would still expose a non-conformant conversion for one entry.
+
+### ISO 843 Type 1
+
+ISO 843 identifies stigma, digamma, koppa, sampi, Byzantine/lunate sigma, and
+yot as part of the Greek source repertoire. Its archaic-character conversion
+table assigns Latin output only to digamma, yot, and Byzantine sigma. Stigma,
+koppa, and sampi are consequently in scope without ISO-defined Type 1 output.
+
+The standard predates Unicode's separate modern and archaic koppa pair used by
+the engine. The audit therefore does not equate its single named koppa with
+`archaic-koppa` automatically.
+
+### Perseus
+
+Morpheus describes Perseus Beta Code as a letters-and-diacritics subset of TLG.
+The cited executable Perseids mapping makes that subset concrete: it contains
+the ordinary alphabet and lunate sigma, but none of the engine's six additional
+letter entries. A Perseus-specific converter may therefore use the ordinary
+twenty-four letters as its exact semantic allow-list.
+
+### SBL
+
+The SBL handbook provides one general-purpose Greek transliteration table and
+explicitly leaves distinctions such as digamma to Greek type when they matter.
+The library's `sbl-academic` preset is an adapted scientific profile, not a
+second official SBL table. Both presets should therefore treat the six
+additional entries as outside their cited SBL scope, while retaining their
+existing `adapted` coverage label.
+
+### TLG
+
+The TLG quick reference assigns `V`, `#2`, `#1`, `#3`, and `#5` to digamma,
+stigma, koppa, archaic koppa, and sampi respectively; these agree with the
+engine apart from configurable ASCII case. TLG assigns `#401` to yot, while the
+engine currently emits `J`. The TLG core repertoire contains all six entries,
+but yot must be corrected before it can be described as conformant.
+
+## Lunate sigma
+
+Lunate sigma is not an independent `Letter`; the parser records it as
+`glyphVariant: "lunate-sigma"` on semantic sigma.
+
+- ISO 843 includes Byzantine/lunate sigma and transliterates it as `s`.
+- BnF deliberately distinguishes it as `c`; `bnf-core` selects that behavior.
+- The Perseids mapping and TLG quick reference both encode it as `S3` (subject
+  to the selected ASCII letter case).
+- The ALA-LC and SBL boundaries remain governed by their ordinary sigma rules
+  until a source establishes a distinct requirement.
+
+## Consequence for automatic enforcement
+
+No bundled preset currently changes `Converter.repertoire`; metadata therefore
+continues to report `outOfScopeBehavior: "engine-default"`.
+
+Automatic preset enforcement should proceed only after two independent
+changes:
+
+1. correct the BnF archaic-koppa and TLG yot mappings without changing the
+   engine-wide defaults required by other profiles;
+2. add a preset-aware converter factory or an explicit helper that turns a
+   documented preset repertoire into `createConverter({ repertoire })`.
+
+The second change should initially cover only presets with an exact boundary.
+ALA-LC should remain unrestricted until its additional-letter inventory is
+resolved. ISO 843 requires an explicit product decision for characters that
+are in its source repertoire but lack a prescribed Type 1 conversion.
+
+## Sources
+
+- [ALA-LC Ancient and Medieval Greek](https://www.loc.gov/catdir/cpso/romanization/greek.pdf)
+- [ALA-LC Modern Greek](https://www.loc.gov/catdir/cpso/romanization/greekm.pdf)
+- [BnF transliteration of Greek](https://kitcat.bnf.fr/consignes-catalogage/translitteration-du-grec)
+- [ISO 843:1997](https://cdn.standards.iteh.ai/samples/5215/ebfdc4425f834833a5fe07c44f2dca79/ISO-843-1997.pdf)
+- [Morpheus documentation](https://github.com/PerseusDL/morpheus/blob/master/doc/morpheus.html)
+- [Perseids Tools Beta Code JSON mappings](https://github.com/perseids-tools/beta-code-json)
+- [SBL Handbook of Style, second edition](https://archive.org/details/sblhandbookofsty0000unse_g7i4/)
+- [TLG Beta Code Quick Reference Guide](https://stephanus.tlg.uci.edu/encoding/quickbeta.pdf)

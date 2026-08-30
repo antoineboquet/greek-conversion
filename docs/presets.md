@@ -180,6 +180,7 @@ Core mechanically expressible profile for the BnF adaptation of ISO 843 for Anci
 - BnF-specific keraia transliteration, Cypriot syndyazomeno, and the Iliad/Odyssey numeral exception are not implemented.
 - Iota adscript cannot be distinguished mechanically from an ordinary iota.
 - The BnF circumflex scalar and omission of explicit macron and breve marks are not independently selectable.
+- The BnF assigns q to both documented koppa forms; the engine's archaic-koppa default remains k with dot below.
 
 ### `iso-843-type-1` — ISO 843:1997 — Type 1
 
@@ -212,6 +213,7 @@ Type 1 transliteration of Greek characters into Latin characters.
 **Known limitations:**
 
 - The preset implements the mechanically expressible Type 1 letter choices, not every contextual provision of the standard.
+- ISO 843 names stigma, koppa, and sampi in its Greek repertoire but does not assign them Type 1 conversions; engine defaults for those letters are not ISO-defined output.
 
 ### `perseus` — Perseus Beta Code — Core subset
 
@@ -241,7 +243,7 @@ Lowercase-ASCII subset of TLG Beta Code used by the Perseus Digital Library proj
 **Known limitations:**
 
 - The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.
-- Additional characters accepted by the engine are not thereby part of the Perseus subset.
+- The cited Perseids mapping contains the standard alphabet and lunate sigma, but none of the engine's six additional letter entries (digamma, yot, stigma, either koppa, or sampi).
 
 ### `sbl-academic` — SBL — Academic style
 
@@ -268,7 +270,8 @@ Academic transliteration retaining the engine's scientific diacritics.
 
 **Known limitations:**
 
-- The academic/general identifiers describe library profiles and should not be read as names of two separate official SBL tables.
+- The SBL handbook defines one general-purpose Greek transliteration style; this academic profile is an engine adaptation and not a separate official SBL table.
+- The cited Greek table does not provide conversions for the engine's additional archaic letters.
 
 ### `sbl-general` — SBL — General-purpose style
 
@@ -304,7 +307,8 @@ Readable transliteration omitting most scholarly diacritics while retaining roug
 
 **Known limitations:**
 
-- The academic/general identifiers describe library profiles and should not be read as names of two separate official SBL tables.
+- The SBL handbook defines one general-purpose Greek transliteration style; the academic/general preset pair should not be read as two official SBL tables.
+- The cited Greek table does not provide conversions for the engine's additional archaic letters.
 
 ### `tlg-core` — TLG Beta Code — Core subset
 
@@ -332,6 +336,7 @@ Canonical Beta Code together with the TLG characters implemented by the engine.
 **Known limitations:**
 
 - The TLG character inventory contains more than one thousand assignments; only the Greek alphabet and the documented additional characters and punctuation are implemented.
+- TLG assigns #401 to yot, whereas the engine currently uses J; yot output is therefore not TLG-conformant.
 
 <!-- END GENERATED PRESET REFERENCE -->
 

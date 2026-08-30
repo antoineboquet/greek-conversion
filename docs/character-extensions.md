@@ -113,8 +113,10 @@ that workflow without changing the permissive `convert()` contract.
 The registry mechanism deliberately does not assume one standard Greek
 allow-list for every preset. ISO 843 and BnF, for example, explicitly address
 several archaic characters, while the Perseus and TLG repertoires have
-different boundaries. Preset-specific allow-lists should be added only from a
-character-by-character reference audit.
+different boundaries. The current evidence and unresolved cases are recorded
+in the [preset repertoire audit](preset-repertoire-audit.md). Preset-specific
+allow-lists should be activated only where that audit establishes an exact
+boundary and a compatible conversion.
 
 Adding an alias or custom character never expands the documented scope of a
 preset. Applications combining a preset with a custom `Converter` are

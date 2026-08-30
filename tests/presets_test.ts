@@ -69,7 +69,7 @@ Deno.test("exposes descriptive metadata for every preset", () => {
     ],
     limitations: [
       "The Perseus subset covers letters, accents, breathings, diaeresis, and iota subscript; TLG markup escapes are outside its scope.",
-      "Additional characters accepted by the engine are not thereby part of the Perseus subset.",
+      "The cited Perseids mapping contains the standard alphabet and lunate sigma, but none of the engine's six additional letter entries (digamma, yot, stigma, either koppa, or sampi).",
     ],
   });
 });
@@ -87,7 +87,7 @@ Deno.test("returns detached preset metadata", () => {
     second.references[0].title,
     "TLG Beta Code Quick Reference Guide",
   );
-  assertEquals(second.limitations.length, 1);
+  assertEquals(second.limitations.length, 2);
 });
 
 Deno.test("resolves custom options after nested preset options", () => {

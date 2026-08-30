@@ -5,6 +5,12 @@ project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Audited the built-in character inventory against every preset reference and
+  documented exact matches, known mapping differences, undefined conversions,
+  and unresolved repertoire boundaries.
+
 ### Removed
 
 - The optional `GreekText` facade. Use the functional conversion API for
