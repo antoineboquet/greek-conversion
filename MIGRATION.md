@@ -14,6 +14,14 @@ npm install @humanities/greek-conversion@beta
 
 The package is ESM-only.
 
+## Updating from `1.0.0-beta.4`
+
+The optional `GreekText` facade has been removed. Use `convert()` or
+`convertDetailed()` for ordinary calls. To reuse one analysis across several
+representations, use `parse()` and `encode()` from the experimental
+`@humanities/greek-conversion/document` entry point, as shown under
+[reusable parsed documents](#reusable-parsed-documents).
+
 ## Updating from `1.0.0-beta.3`
 
 This release is additive: the ordinary conversion functions retain their
@@ -89,21 +97,19 @@ Custom fields override corresponding preset fields while unrelated preset
 fields remain active. See [docs/presets.md](docs/presets.md) for the exact
 configuration table.
 
-## Reusable text objects
+## Reusable parsed documents
 
-`GreekString` is replaced by immutable `GreekText`:
+`GreekString` has no stateful replacement. Use the functional API for ordinary
+conversions. When several representations must share one analysis, parse once
+through the advanced entry point and encode the resulting document:
 
 ```ts
-// 0.14.x
-const text = new GreekString(input, KeyType.GREEK, settings);
+import { encode, parse } from "@humanities/greek-conversion/document";
 
-// 1.0 prerelease
-const text = new GreekText(input, "greek", options);
+const document = parse(input, "greek", options);
+const betaCode = encode(document, "beta-code", options);
+const transliteration = encode(document, "transliteration", options);
 ```
-
-`source`, `greek`, `betaCode`, and `transliteration` remain conceptually
-similar. `GreekText` additionally exposes `to()`, `toDetailed()`, detached
-resolved options, and a detached canonical document.
 
 ## Canonical-document API
 

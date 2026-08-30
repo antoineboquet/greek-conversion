@@ -2,9 +2,8 @@
  * Bidirectional conversion between Greek, Beta Code, and scientific
  * transliteration.
  *
- * Use {@link convert} for ordinary conversions, {@link convertDetailed} when
- * information-loss diagnostics are required, and {@link GreekText} when the
- * same source is needed in several representations. Advanced access to the
+ * Use {@link convert} for ordinary conversions and {@link convertDetailed}
+ * when information-loss diagnostics are required. Advanced access to the
  * canonical document is available from the `./document` entry point.
  *
  * @module
@@ -92,7 +91,6 @@ export type {
   PresetOptions,
   PresetReference,
 } from "./presets.ts";
-export { GreekText } from "./greek_text.ts";
 export { toUnicodeCodePoints } from "./unicode.ts";
 
 /**

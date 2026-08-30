@@ -22,12 +22,11 @@ discarded.
    6. [Control Greek Unicode output](#control-greek-unicode-output)
 6. [Detect information loss](#detect-information-loss)
 7. [Extend or restrict the character inventory](#extend-or-restrict-the-character-inventory)
-8. [Reuse one parsed text](#reuse-one-parsed-text)
-9. [Guarantees and scope](#guarantees-and-scope)
-10. [Advanced API](#advanced-api)
-11. [Documentation](#documentation)
-12. [Development](#development)
-13. [License](#license)
+8. [Guarantees and scope](#guarantees-and-scope)
+9. [Advanced API](#advanced-api)
+10. [Documentation](#documentation)
+11. [Development](#development)
+12. [License](#license)
 
 ## Installation
 
@@ -45,7 +44,6 @@ import {
   betaCodeToGreek,
   convert,
   convertDetailed,
-  GreekText,
 } from "@humanities/greek-conversion";
 ```
 
@@ -100,8 +98,7 @@ preset use lowercase ASCII; `tlg-core` uses uppercase ASCII.
 | Convert one string | `convert()` or a directional helper |
 | Canonicalize or transform a string without changing its format | `reencode()` |
 | Display a warning when information is lost | `convertDetailed()` |
-| Reuse one parsed source in several formats | `GreekText` |
-| Work directly with the canonical document | `parse()` and `encode()` |
+| Reuse or inspect one parsed source | `parse()` and `encode()` |
 
 All of these APIs use the same parser, canonical Greek document, conversion
 options, and encoders.
@@ -379,25 +376,6 @@ source-format literals, and `converter.convertDetailed()`
 reports them separately from information loss. See [character extensions and
 repertoires](https://github.com/defense-humanites/greek-conversion/blob/main/docs/character-extensions.md).
 
-## Reuse one parsed text
-
-`GreekText` is useful when one source must be displayed or exported in several
-formats. It parses once and caches each representation:
-
-```ts
-const text = new GreekText("a)/nqrwpos", "beta-code", {
-  preset: "sbl-academic",
-});
-
-text.greek; // ἄνθρωπος
-text.betaCode; // a)/nqrwpos
-text.transliteration; // ánthrōpos
-text.toDetailed("transliteration");
-```
-
-Instances are immutable, and exposed documents and resolved options are
-detached copies. See the complete [`GreekText` contract](https://github.com/defense-humanites/greek-conversion/blob/main/docs/greek-text.md).
-
 ## Guarantees and scope
 
 - Every format pair is supported in both directions.
@@ -445,7 +423,6 @@ during the `1.0.0` prerelease series. See [validation](https://github.com/defens
 | Greek orthography and Unicode | [Greek Unicode](https://github.com/defense-humanites/greek-conversion/blob/main/docs/greek-unicode.md) |
 | Detailed conversion results | [Conversion analysis](https://github.com/defense-humanites/greek-conversion/blob/main/docs/conversion-analysis.md) |
 | Loss by format pair | [Information loss](https://github.com/defense-humanites/greek-conversion/blob/main/docs/information-loss.md) |
-| Reusable immutable text objects | [`GreekText`](https://github.com/defense-humanites/greek-conversion/blob/main/docs/greek-text.md) |
 | Canonical document validation | [Validation](https://github.com/defense-humanites/greek-conversion/blob/main/docs/validation.md) |
 | Character extensions and repertoires | [Character extensions](https://github.com/defense-humanites/greek-conversion/blob/main/docs/character-extensions.md) |
 

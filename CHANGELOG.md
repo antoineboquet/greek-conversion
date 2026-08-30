@@ -5,6 +5,11 @@ project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Removed
+
+- The optional `GreekText` facade. Use the functional conversion API for
+  ordinary calls or `parse()` and `encode()` to reuse one canonical document.
+
 ## [1.0.0-beta.4] - 2026-08-29
 
 ### Added

@@ -6,7 +6,6 @@ Deno.test("the main runtime API stays deliberately small", () => {
   assertEquals(Object.keys(mainApi).sort(), [
     "Converter",
     "DEFAULT_CONVERSION_OPTIONS",
-    "GreekText",
     "betaCodeToGreek",
     "betaCodeToTransliteration",
     "convert",

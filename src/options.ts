@@ -186,7 +186,7 @@ export interface GreekUnicodeOptions {
   anoTeleia?: GreekAnoTeleiaForm;
 }
 
-/** Options shared by conversion functions, helpers, and {@link GreekText}. */
+/** Options shared by conversion functions, helpers, and converters. */
 export interface ConversionOptions {
   /** Named configuration applied before custom fields. */
   preset?: Preset;
